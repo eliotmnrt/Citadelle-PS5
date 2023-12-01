@@ -12,7 +12,6 @@ public class Bot {
     ArrayList<Quartier> quartierMain;
     public Bot(){
         nbOr = 0;
-        // mettre role = roi
         quartierConstruit = new ArrayList<Quartier>();
         quartierMain = new ArrayList<Quartier>();
     }
@@ -30,5 +29,8 @@ public class Bot {
     }
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
+    }
+    public void setRole(Role[] roles){
+        setRole(roles[0]);
     }
 }
