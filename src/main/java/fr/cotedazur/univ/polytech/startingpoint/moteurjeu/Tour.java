@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private Bot bot;
-    Role[] roles = {new Roi()};
+    Role[] roles = {new Roi(bot)};
     public Tour(Bot bot){
         this.bot = bot;
         distributionRoles();
