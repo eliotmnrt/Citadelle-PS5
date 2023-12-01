@@ -4,6 +4,6 @@ public class Jeu {
 
     public Jeu() {
         Bot bot1 = new Bot();
-        Tour tour = new Tour();
+        Tour tour = new Tour(bot1);
     }
 }
