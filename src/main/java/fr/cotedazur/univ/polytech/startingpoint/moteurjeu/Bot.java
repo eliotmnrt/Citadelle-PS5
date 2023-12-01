@@ -31,4 +31,7 @@ public class Bot {
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
     }
+    public ArrayList<Quartier> getQuartierConstruit(){
+        return this.quartierConstruit;
+    }
 }
