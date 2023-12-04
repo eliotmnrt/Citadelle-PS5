@@ -45,9 +45,11 @@ public class BotAleatoire extends Bot{
                 quartiersPossible.add(quartier);
             }
         }
-        Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
-        ajoutQuartierConstruit(quartiersPossible.get(intAleatoire));
+        if(quartiersPossible.size()>0){
+            Random aleatoire= new Random();
+            int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
+            ajoutQuartierConstruit(quartiersPossible.get(intAleatoire));
+        }
     }
 
 }

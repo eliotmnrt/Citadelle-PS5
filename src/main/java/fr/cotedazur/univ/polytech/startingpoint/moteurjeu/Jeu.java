@@ -8,7 +8,9 @@ public class Jeu {
     public Jeu() {
         BotAleatoire bot1 = new BotAleatoire();
         Pioche pioche = new Pioche();
-        Tour tour = new Tour(bot1);
+        for(int i=0 ; i< 3 ; i++) {
+            Tour tour = new Tour(bot1);
+        }
     }
 
     public static void main (String... args){
