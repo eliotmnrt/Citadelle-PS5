@@ -10,12 +10,6 @@ public class Role {
         this.bot=bot;
     }
 
-    public Quartier piocheQuartier(){
-        // premièrement piocher simplement un quartier aléatoire
-        // éventuellement, il faudrait en piocher 2 et faire un choix sur le meilleur des deux
-        return Pioche.piocherQuartier();
-    }
-    public void prendreOr(){
-        bot.setOr(bot.getOr()+2);
-    }
+
+
 }

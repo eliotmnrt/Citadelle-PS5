@@ -18,7 +18,7 @@ public class BotAleatoire extends Bot{
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= aleatoire.nextInt(2);
         if(intAleatoire == 0){
-            ajoutQuartierMain(role.piocheQuartier());
+            ajoutQuartierMain(piocheQuartier());
         } else if (intAleatoire == 1){
             //setOr(getOr() + 2);
             prendreOr();
