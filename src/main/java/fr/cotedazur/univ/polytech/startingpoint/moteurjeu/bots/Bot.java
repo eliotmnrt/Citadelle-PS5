@@ -37,7 +37,11 @@ public class Bot {
         setRole(roles[0]);
     }
     public void ajoutQuartierConstruit(Quartier newQuartier){
-        quartierConstruit.add(newQuartier);
+        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()){
+            quartierConstruit.add(newQuartier);
+            quartierMain.remove(newQuartier);
+            changerOr(-newQuartier.getCout());
+        }
     }
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);

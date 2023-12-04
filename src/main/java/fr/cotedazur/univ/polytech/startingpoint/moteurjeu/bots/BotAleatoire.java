@@ -23,10 +23,31 @@ public class BotAleatoire extends Bot{
         } else if (intAleatoire == 1){
             changerOr(2);
         }
+
+        // construire un quartier parmis ceux qu'il peux construire
+        construireQuartierAleatoire();
     }
 
     @Override
     public void choisirRole(Role[] roles){
-        setRole(roles[0]);
+        Random aleatoire= new Random();
+        int intAleatoire= aleatoire.nextInt(1); //Pour l'instant y'a qu'un role
+        setRole(roles[intAleatoire]);
     }
+
+    /**
+     * Construi un quartier aléatoire parmis ceux qu'il peut construire
+     */
+    public void construireQuartierAleatoire(){
+        ArrayList<Quartier> quartiersPossible = new ArrayList<>();
+        for(Quartier quartier : quartierMain){
+            if(quartier.getCout()<=nbOr){
+                quartiersPossible.add(quartier);
+            }
+        }
+        Random aleatoire= new Random();
+        int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
+        ajoutQuartierConstruit(quartiersPossible.get(intAleatoire));
+    }
+
 }

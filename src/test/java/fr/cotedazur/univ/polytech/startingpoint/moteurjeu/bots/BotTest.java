@@ -28,12 +28,20 @@ class BotTest {
         // au départ on a aucun quartier
         assertTrue(bot.getQuartierMain().isEmpty());
         assertTrue(bot.getQuartiersConstruits().isEmpty());
+
         //ajout de 1 quartier dans notre main
         Pioche pioche = new Pioche();
-        bot.ajoutQuartierMain(Pioche.piocherQuartier());
+        bot.ajoutQuartierMain(Quartier.TAVERNE);
         assertFalse(bot.getQuartierMain().isEmpty());
         assertTrue(bot.getQuartiersConstruits().isEmpty());
+        assertEquals(bot.getQuartierMain().get(0),Quartier.TAVERNE);
+
         //ajout quartier construit verifier qu'il est dans la main et l'enlever de la main
+        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(0));
+        assertTrue(bot.getQuartierMain().isEmpty());
+        assertFalse(bot.getQuartiersConstruits().isEmpty());
+        assertEquals(bot.getOr(),1); // le batiment coute 1 à construire
+        assertEquals(bot.getQuartiersConstruits().get(0),Quartier.TAVERNE);
     }
 
 }
