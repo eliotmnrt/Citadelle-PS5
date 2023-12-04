@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
+import java.util.Collections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ public class Pioche {
     public Pioche(){
         pioche = new ArrayList<>();
         pioche.addAll(Arrays.asList(Quartier.values()));
+        Collections.shuffle(pioche);
     }
 
     /**
