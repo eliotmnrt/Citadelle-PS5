@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots;
 
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Role;
+import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.Pioche;
 
 import java.util.ArrayList;
 
@@ -49,5 +50,14 @@ public class Bot {
      */
     public void faireActionSpecialRole(){
         role.actionSpecial(this);
+    }
+    // fonctions de base pour tout les roles et toutes les stratégies:
+    public Quartier piocheQuartier(){
+        // premièrement piocher simplement un quartier aléatoire
+        // éventuellement, il faudrait en piocher 2 et faire un choix sur le meilleur des deux
+        return Pioche.piocherQuartier();
+    }
+    public void prendreOr(){
+        this.setOr(this.getOr()+2);
     }
 }
