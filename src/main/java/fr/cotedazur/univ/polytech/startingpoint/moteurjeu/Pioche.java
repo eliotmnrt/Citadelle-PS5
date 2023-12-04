@@ -1,10 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
+import java.util.Collections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Stack;
 
 import static java.util.Collections.shuffle;
