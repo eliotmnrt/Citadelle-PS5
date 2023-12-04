@@ -25,7 +25,7 @@ public enum Quartier {
         return cout;
     }
 
-    public String getCouleur() {
-        return typeQuartier.toString();
+    public TypeQuartier getCouleur() {
+        return typeQuartier;
     }
 }
