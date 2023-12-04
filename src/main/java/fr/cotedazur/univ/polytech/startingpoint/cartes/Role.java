@@ -18,4 +18,7 @@ public class Role {
     public void prendreOr(){
         bot.setOr(bot.getOr()+2);
     }
+    public void actionSpecial(Bot bot){
+        //Les actions dépendent du role
+    }
 }

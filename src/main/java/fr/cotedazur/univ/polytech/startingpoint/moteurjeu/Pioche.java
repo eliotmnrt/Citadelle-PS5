@@ -17,6 +17,9 @@ public class Pioche {
         pioche.addAll(Arrays.asList(Quartier.values()));
         shuffle(pioche);
     }
+    public static ArrayList<Quartier> getPioche() {
+        return pioche;
+    }
 
     /**
      * methode pour piocher 1 quartier

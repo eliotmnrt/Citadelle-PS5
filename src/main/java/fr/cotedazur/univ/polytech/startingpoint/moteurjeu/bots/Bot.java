@@ -21,11 +21,14 @@ public class Bot {
     public void setOr(int or){
         nbOr = or;
     }
+    public Role getRole() {
+        return role;
+    }
     public void setRole(Role role){
         this.role = role;
     }
     public void choisirRole(Role[] roles){
-        setRole(roles[1]);
+        setRole(roles[0]);
     }
     public void ajoutQuartierConstruit(Quartier newQuartier){
         quartierConstruit.add(newQuartier);
@@ -37,5 +40,14 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void faireActionDeBase(){}
+    public void faireActionDeBase(){
+
+    }
+
+    /**
+     * Fait les actions qui sont différentes en fonction de chaque roles
+     */
+    public void faireActionSpecialRole(){
+        role.actionSpecial(this);
+    }
 }
