@@ -15,7 +15,7 @@ class RoiTest {
         bot.setRole(new Roi(bot));
     }
     @Test
-    public void roiTest(){
+    public void roiSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour chateau)
         assertEquals(bot.getOr(),4);
 
@@ -28,11 +28,30 @@ class RoiTest {
         assertTrue(bot.getQuartierMain().isEmpty());
 
         //Chateau est un quartier jaune, il doit avoir 1 or en plus
+        assertEquals(bot.getOr(),0);
         bot.faireActionSpecialRole();
         assertEquals(bot.getOr(),1);
 
         bot.faireActionSpecialRole();
         assertEquals(bot.getOr(),2);
+    }
+
+    @Test
+    public void roiPasSpecialTest(){
+        bot.changerOr(2); // 4 d'or au total (assez pour chateau)
+        assertEquals(bot.getOr(),4);
+
+        bot.ajoutQuartierMain(Quartier.TAVERNE);
+        assertTrue(bot.getQuartierMain().get(0) == Quartier.TAVERNE );
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.TAVERNE);
+        assertTrue(bot.getQuartiersConstruits().get(0) == Quartier.TAVERNE );
+        assertTrue(bot.getQuartierMain().isEmpty());
+
+        assertEquals(bot.getOr(),3);
+        bot.faireActionSpecialRole();
+        assertEquals(bot.getOr(),3); // taverne n'est pas jaune
     }
 
 }
