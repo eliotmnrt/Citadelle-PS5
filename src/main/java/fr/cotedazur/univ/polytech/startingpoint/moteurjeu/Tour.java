@@ -12,8 +12,8 @@ public class Tour {
         this.bot1 = bot;
         distributionRoles();
         bot1.faireActionDeBase();
-        System.out.println(bot1.getQuartierMain());
-        System.out.println(bot1.getOr());
+        System.out.println("Quartier dans le main du BOT1: "+bot1.getQuartierMain());
+        System.out.println("Nombre d'or du BOT1: "+bot1.getOr());
     }
     private void distributionRoles(){
         bot1.choisirRole(roles);

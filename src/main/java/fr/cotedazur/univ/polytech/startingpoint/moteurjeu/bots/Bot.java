@@ -12,7 +12,7 @@ public class Bot {
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     public Bot(){
-        nbOr = 0;
+        nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
     }
