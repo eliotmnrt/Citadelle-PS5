@@ -13,11 +13,10 @@ public class Roi extends Role{
     public void orQuartierJaune(Bot bot){
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
-                bot.setOr(bot.getOr() + 1);
+                bot.changerOr(1);
             }
         }
     }
-    @Override
     public void actionSpecial(Bot bot){
         orQuartierJaune(bot);
     }

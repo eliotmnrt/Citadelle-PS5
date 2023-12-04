@@ -18,8 +18,10 @@ class BotTest {
     @Test
     void botOrTest() {
         assertEquals(bot.getOr(),2); //le bot commence avec 2 d'or
-        bot.setOr(bot.getOr()+2);
+        bot.changerOr(2);
         assertEquals(bot.getOr(),4);
+        bot.changerOr(-1);
+        assertEquals(bot.getOr(),3);
     }
     @Test
     void botQuartierTest() {

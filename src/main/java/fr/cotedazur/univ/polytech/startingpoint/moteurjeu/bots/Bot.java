@@ -19,8 +19,13 @@ public class Bot {
     public int getOr(){
         return nbOr;
     }
-    public void setOr(int or){
-        nbOr = or;
+
+    /**
+     * @param or a ajouter (positif) ou à soustraire (négatif)
+     * Ajoute ou soustrait x nombre d'or
+     */
+    public void changerOr(int or){
+        nbOr = nbOr+or;
     }
     public Role getRole() {
         return role;
@@ -50,14 +55,5 @@ public class Bot {
      */
     public void faireActionSpecialRole(){
         role.actionSpecial(this);
-    }
-    // fonctions de base pour tout les roles et toutes les stratégies:
-    public Quartier piocheQuartier(){
-        // premièrement piocher simplement un quartier aléatoire
-        // éventuellement, il faudrait en piocher 2 et faire un choix sur le meilleur des deux
-        return Pioche.piocherQuartier();
-    }
-    public void prendreOr(){
-        this.setOr(this.getOr()+2);
     }
 }
