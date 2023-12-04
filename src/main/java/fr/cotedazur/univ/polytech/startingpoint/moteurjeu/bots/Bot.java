@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
+package fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots;
 
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
 import fr.cotedazur.univ.polytech.startingpoint.cartes.Role;
@@ -6,14 +6,14 @@ import fr.cotedazur.univ.polytech.startingpoint.cartes.Role;
 import java.util.ArrayList;
 
 public class Bot {
-    int nbOr;
-    Role role;
-    ArrayList<Quartier> quartierConstruit;
-    ArrayList<Quartier> quartierMain;
+    protected int nbOr;
+    protected Role role;
+    protected ArrayList<Quartier> quartierConstruit;
+    protected ArrayList<Quartier> quartierMain;
     public Bot(){
         nbOr = 0;
-        quartierConstruit = new ArrayList<Quartier>();
-        quartierMain = new ArrayList<Quartier>();
+        quartierConstruit = new ArrayList<>();
+        quartierMain = new ArrayList<>();
     }
     public int getOr(){
         return nbOr;
@@ -24,16 +24,18 @@ public class Bot {
     public void setRole(Role role){
         this.role = role;
     }
+    public void choisirRole(Role[] roles){
+        setRole(roles[1]);
+    }
     public void ajoutQuartierConstruit(Quartier newQuartier){
         quartierConstruit.add(newQuartier);
     }
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
     }
-    public ArrayList<Quartier> getQuartierConstruit(){
+    public ArrayList<Quartier> getQuartierMain(){ return quartierMain;}
+    public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void setRole(Role[] roles){
-        setRole(roles[0]);
-    }
+    public void faireActionDeBase(){}
 }
