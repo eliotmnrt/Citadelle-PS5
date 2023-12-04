@@ -12,7 +12,7 @@ public class Roi extends Role{
     }
     public void orQuartierJaune(){
         for(Quartier quartier: bot.getQuartiersConstruits()){
-            if(quartier.getCouleur()){
+            if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
                 bot.setOr(bot.getOr() + 1);
             }
         }
