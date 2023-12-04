@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
+import static java.util.Collections.shuffle;
+
 public class Pioche {
     private static ArrayList<Quartier> pioche;
 
     public Pioche(){
         pioche = new ArrayList<>();
         pioche.addAll(Arrays.asList(Quartier.values()));
-        Collections.shuffle(pioche);
+        shuffle(pioche);
     }
 
     /**
