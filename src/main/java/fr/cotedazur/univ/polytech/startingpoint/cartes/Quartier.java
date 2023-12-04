@@ -4,7 +4,7 @@ import java.awt.*;
 
 public enum Quartier {
 
-    PRISON("prison", 2, null), TEMPLE("temple", 5, TypeQuartier.BLEUE), TERRAIN_DE_BATAILLE("terrain de bataille", 3,TypeQuartier.ROUGE),
+    PRISON("prison", 2, TypeQuartier.ROUGE), TEMPLE("temple", 5, TypeQuartier.BLEUE), TERRAIN_DE_BATAILLE("terrain de bataille", 3,TypeQuartier.ROUGE),
     TAVERNE("taverne", 1, TypeQuartier.VERT), CHATEAU("chateau",4,TypeQuartier.JAUNE);
 
     private final String nom;

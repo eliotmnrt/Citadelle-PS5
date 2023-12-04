@@ -38,7 +38,7 @@ class RoiTest {
 
     @Test
     public void roiPasSpecialTest(){
-        bot.changerOr(2); // 4 d'or au total (assez pour chateau)
+        bot.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(bot.getOr(),4);
 
         bot.ajoutQuartierMain(Quartier.TAVERNE);
