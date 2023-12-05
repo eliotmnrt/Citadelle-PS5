@@ -28,4 +28,9 @@ public enum Quartier {
     public TypeQuartier getCouleur() {
         return typeQuartier;
     }
+
+    @Override
+    public String toString(){
+        return this.nom;
+    }
 }

@@ -24,4 +24,5 @@ class BotAleatoireTest {
         assertTrue(bot.quartierConstruit.get(0) == Quartier.TAVERNE || bot.quartierConstruit.get(0) == Quartier.PRISON );
         assertEquals(bot.quartierConstruit.size(),1);
     }
+
 }
