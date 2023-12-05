@@ -37,7 +37,8 @@ public class Bot {
         setRole(roles[0]);
     }
     public void ajoutQuartierConstruit(Quartier newQuartier){
-        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()){
+        // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
+        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()&& !quartierConstruit.contains(newQuartier)) {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
