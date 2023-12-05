@@ -12,7 +12,7 @@ class RoiTest {
     @BeforeEach
     public void setBot(){
         bot = new BotAleatoire();
-        bot.setRole(new Roi(bot));
+        bot.setRole(new Roi());
     }
     @Test
     public void roiSpecialTest(){
