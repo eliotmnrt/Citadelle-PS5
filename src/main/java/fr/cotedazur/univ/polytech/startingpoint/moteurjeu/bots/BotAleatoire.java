@@ -55,7 +55,7 @@ public class BotAleatoire extends Bot{
     public void construireQuartierAleatoire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=nbOr){
+            if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
                 quartiersPossible.add(quartier);
             }
         }

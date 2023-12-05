@@ -8,7 +8,7 @@ public class Jeu {
     public Jeu() {
         BotAleatoire bot1 = new BotAleatoire();
         Pioche pioche = new Pioche();
-        for(int i=0 ; i< 3 ; i++) {
+        while(bot1.getQuartiersConstruits().size() < 8) {
             Tour tour = new Tour(bot1);
         }
     }
