@@ -7,8 +7,7 @@ import java.util.Objects;
 public class Roi extends Role{
 
 
-    public Roi(Bot bot) {
-        super(bot);
+    public Roi() {
     }
     public void orQuartierJaune(Bot bot){
         for(Quartier quartier: bot.getQuartiersConstruits()){

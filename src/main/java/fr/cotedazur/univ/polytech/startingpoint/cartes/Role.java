@@ -5,9 +5,8 @@ import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.BotAleatoire;
 
 import java.util.*;
 public class Role {
-    protected Bot bot;
-    public <T extends  Bot> Role(T bot){
-        this.bot=bot;
+    public Role(){
+
     }
 
     public void actionSpecial(Bot bot){

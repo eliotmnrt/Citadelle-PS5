@@ -8,8 +8,8 @@ public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private Bot bot1;
     private static int nbTour = 0;
-    Role[] roles = {new Roi(bot1)};
-    public <T extends Bot> Tour(T bot){
+    Role[] roles = {new Roi()};
+    public Tour(Bot bot){
         nbTour++;
         this.bot1 = bot;
 
