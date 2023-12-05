@@ -28,10 +28,12 @@ public class BotAleatoire extends Bot{
             int intAleatoire2= aleatoire.nextInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 ==0){
                 ajoutQuartierMain(quartier1);
+                Pioche.remettreDansPioche(quartier2);
 
             }
             else if (intAleatoire2==1){
                 ajoutQuartierMain(quartier2);
+                Pioche.remettreDansPioche(quartier1);
 
             }
         } else if (intAleatoire == 1){

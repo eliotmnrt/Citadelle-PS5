@@ -14,12 +14,17 @@ public class Pioche {
 
     public Pioche(){
         pioche = new ArrayList<>();
-        pioche.addAll(Arrays.asList(Quartier.values()));
+        for (Quartier quartier: Quartier.values()){
+            for (int i=0; i<quartier.getNbCartes(); i++){
+                pioche.add(quartier);
+            }
+        }
         shuffle(pioche);
     }
     public static ArrayList<Quartier> getPioche() {
         return pioche;
     }
+
 
     /**
      * methode pour piocher 1 quartier
@@ -27,5 +32,8 @@ public class Pioche {
      */
     public static Quartier piocherQuartier(){
         return pioche.remove(0);
+    }
+    public static void remettreDansPioche(Quartier quartier){
+        pioche.add(quartier);
     }
 }
