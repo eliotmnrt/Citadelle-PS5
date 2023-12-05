@@ -20,4 +20,9 @@ public class Roi extends Role{
     public void actionSpecial(Bot bot){
         orQuartierJaune(bot);
     }
+
+    @Override
+    public String toString() {
+        return "Roi";
+    }
 }
