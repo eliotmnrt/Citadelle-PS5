@@ -52,7 +52,7 @@ public class Bot {
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
     }
-    public void initQuartierMain(){ //une partie commence avec 4 cartes pour chaque joueur
+    public void initQuartierMain(){ //une partie commence avec 4  quartier pour chaque joueur
         for(int i=0; i<4;i++){
             ajoutQuartierMain(Pioche.piocherQuartier());
         }
