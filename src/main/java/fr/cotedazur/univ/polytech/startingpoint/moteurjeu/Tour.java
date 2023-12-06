@@ -21,7 +21,8 @@ public class Tour {
         System.out.println("Role du BOT aléatoire : "+bot1.getRole());
         System.out.println("Quartier dans le main du BOT aléatoire: "+bot1.getQuartierMain());
         System.out.println("Quartier construit du BOT aléatoire: "+bot1.getQuartiersConstruits());
-        System.out.println("Nombre d'or du BOT aléatoire: "+bot1.getOr()+"\n");
+        System.out.println("Nombre d'or du BOT aléatoire: "+bot1.getOr());
+        System.out.println("Points de victore du BOT aléatoire: "+bot.getScore()+"\n");
     }
     private void distributionRoles(){
         bot1.choisirRole(roles);
