@@ -15,6 +15,9 @@ public class Bot {
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
+        initQuartierMain();
+
+
     }
     public int getOr(){
         return nbOr;
@@ -44,8 +47,15 @@ public class Bot {
             changerOr(-newQuartier.getCout());
         }
     }
+
+
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
+    }
+    public void initQuartierMain(){ //une partie commence avec 4 cartes pour chaque joueur
+        for(int i=0; i<4;i++){
+            ajoutQuartierMain(Pioche.piocherQuartier());
+        }
     }
     public ArrayList<Quartier> getQuartierMain(){ return quartierMain;}
     public ArrayList<Quartier> getQuartiersConstruits(){

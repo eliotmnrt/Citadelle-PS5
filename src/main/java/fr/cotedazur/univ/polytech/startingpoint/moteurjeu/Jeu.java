@@ -6,8 +6,9 @@ import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.BotAleatoire;
 public class Jeu {
 
     public Jeu() {
-        BotAleatoire bot1 = new BotAleatoire();
         Pioche pioche = new Pioche();
+        BotAleatoire bot1 = new BotAleatoire();
+
         while(bot1.getQuartiersConstruits().size() < 8) {
             Tour tour = new Tour(bot1);
         }
