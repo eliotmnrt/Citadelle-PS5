@@ -60,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>Citadelle.teamU.Main</mainClass> <!-- CHANGE ME -->
+                    <mainClass>Citadelle.teamU.moteurjeu.Jeu</mainClass> <!-- CHANGE ME -->
                     <!--          <arguments>
                                 <argument>argument1</argument>
                               </arguments>
