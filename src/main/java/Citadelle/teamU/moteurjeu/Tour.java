@@ -1,8 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
+package Citadelle.teamU.moteurjeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Roi;
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Role;
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.Bot;
+import Citadelle.teamU.cartes.Roi;
+import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1

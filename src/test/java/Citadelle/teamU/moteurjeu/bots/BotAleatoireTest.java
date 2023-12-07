@@ -1,6 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ class BotAleatoireTest {
     private BotAleatoire bot;
     @BeforeEach
     public void setBot(){
+        Pioche pioche = new Pioche();
         bot = new BotAleatoire();
     }
 
@@ -18,11 +20,11 @@ class BotAleatoireTest {
         bot.ajoutQuartierMain(Quartier.TAVERNE);
         bot.ajoutQuartierMain(Quartier.PRISON);
         bot.ajoutQuartierMain(Quartier.TEMPLE); // il ne peut pas l'acheter
-        assertEquals(bot.quartierMain.size(),3);
+        assertEquals(7, bot.quartierMain.size()); //4 de base + 3 ajouts
         bot.construireQuartierAleatoire();
-        assertEquals(bot.quartierMain.size(),2);
-        assertTrue(bot.quartierConstruit.get(0) == Quartier.TAVERNE || bot.quartierConstruit.get(0) == Quartier.PRISON );
-        assertEquals(bot.quartierConstruit.size(),1);
+        assertEquals(6, bot.quartierMain.size());
+        assertTrue(bot.quartierConstruit.get(0) != Quartier.TEMPLE);
+        assertEquals(1, bot.quartierConstruit.size());
     }
 
 }

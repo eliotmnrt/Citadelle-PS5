@@ -1,6 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.cartes;
-
-import java.awt.*;
+package Citadelle.teamU.cartes;
 
 public enum Quartier {
 

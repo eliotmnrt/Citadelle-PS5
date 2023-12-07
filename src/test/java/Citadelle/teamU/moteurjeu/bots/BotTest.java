@@ -1,9 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Roi;
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.Pioche;
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.Tour;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +11,7 @@ class BotTest {
     public Bot bot;
     @BeforeEach
     void setBot(){
+        Pioche pioche = new Pioche();
         bot = new Bot();
     }
     @Test
@@ -26,22 +25,21 @@ class BotTest {
     @Test
     void botQuartierTest() {
         // au départ on a aucun quartier
-        assertTrue(bot.getQuartierMain().isEmpty());
+        assertEquals(4, bot.getQuartierMain().size());
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         //ajout de 1 quartier dans notre main
-        Pioche pioche = new Pioche();
         bot.ajoutQuartierMain(Quartier.TAVERNE);
-        assertFalse(bot.getQuartierMain().isEmpty());
+        assertEquals(5, bot.getQuartierMain().size());
         assertTrue(bot.getQuartiersConstruits().isEmpty());
-        assertEquals(bot.getQuartierMain().get(0),Quartier.TAVERNE);
+        assertEquals(Quartier.TAVERNE, bot.getQuartierMain().get(4));
 
         //ajout quartier construit verifier qu'il est dans la main et l'enlever de la main
-        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(0));
-        assertTrue(bot.getQuartierMain().isEmpty());
+        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(4));
+        assertEquals(4, bot.getQuartierMain().size());
         assertFalse(bot.getQuartiersConstruits().isEmpty());
-        assertEquals(bot.getOr(),1); // le batiment coute 1 à construire
-        assertEquals(bot.getQuartiersConstruits().get(0),Quartier.TAVERNE);
+        assertEquals(1, bot.getOr()); // le batiment coute 1 à construire
+        assertEquals(Quartier.TAVERNE, bot.getQuartiersConstruits().get(0));
     }
 
 }

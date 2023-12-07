@@ -1,7 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
+package Citadelle.teamU.moteurjeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.Bot;
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 
 public class Jeu {
 

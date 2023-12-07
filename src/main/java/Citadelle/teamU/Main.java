@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package Citadelle.teamU;
 
 public class Main {
 

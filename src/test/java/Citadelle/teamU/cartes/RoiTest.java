@@ -1,6 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint.cartes;
+package Citadelle.teamU.cartes;
 
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,47 +12,48 @@ class RoiTest {
     private BotAleatoire bot;
     @BeforeEach
     public void setBot(){
+        Pioche pioche = new Pioche();
         bot = new BotAleatoire();
         bot.setRole(new Roi());
     }
     @Test
     public void roiSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour chateau)
-        assertEquals(bot.getOr(),4);
+        assertEquals(4, bot.getOr());
 
         bot.ajoutQuartierMain(Quartier.CHATEAU);
-        assertTrue(bot.getQuartierMain().get(0) == Quartier.CHATEAU );
+        assertSame(bot.getQuartierMain().get(4), Quartier.CHATEAU);
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.CHATEAU);
-        assertTrue(bot.getQuartiersConstruits().get(0) == Quartier.CHATEAU );
-        assertTrue(bot.getQuartierMain().isEmpty());
+        assertSame(bot.getQuartiersConstruits().get(0), Quartier.CHATEAU);
+        assertEquals(4, bot.getQuartierMain().size());
 
         //Chateau est un quartier jaune, il doit avoir 1 or en plus
-        assertEquals(bot.getOr(),0);
+        assertEquals(0, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(bot.getOr(),1);
+        assertEquals(1, bot.getOr());
 
         bot.faireActionSpecialRole();
-        assertEquals(bot.getOr(),2);
+        assertEquals(2, bot.getOr());
     }
 
     @Test
     public void roiPasSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour taverne)
-        assertEquals(bot.getOr(),4);
+        assertEquals(4, bot.getOr());
 
         bot.ajoutQuartierMain(Quartier.TAVERNE);
-        assertTrue(bot.getQuartierMain().get(0) == Quartier.TAVERNE );
+        assertSame(Quartier.TAVERNE, bot.getQuartierMain().get(4));
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.TAVERNE);
-        assertTrue(bot.getQuartiersConstruits().get(0) == Quartier.TAVERNE );
-        assertTrue(bot.getQuartierMain().isEmpty());
+        assertSame(Quartier.TAVERNE, bot.getQuartiersConstruits().get(0));
+        assertEquals(4, bot.getQuartierMain().size());
 
-        assertEquals(bot.getOr(),3);
+        assertEquals(3, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(bot.getOr(),3); // taverne n'est pas jaune
+        assertEquals(3, bot.getOr()); // taverne n'est pas jaune
     }
 
 }

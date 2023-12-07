@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>TeamName</groupId> <!-- CHANGE ME -->
+    <groupId>Team U</groupId> <!-- CHANGE ME -->
     <artifactId>JarName</artifactId> <!-- CHANGE ME -->
     <version>1.0-SNAPSHOT</version> <!-- CHANGE ME -->
 
@@ -60,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>fr.cotedazur.univ.polytech.startingpoint.Main</mainClass> <!-- CHANGE ME -->
+                    <mainClass>Citadelle.teamU.Main</mainClass> <!-- CHANGE ME -->
                     <!--          <arguments>
                                 <argument>argument1</argument>
                               </arguments>
