@@ -1,8 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Role;
-import fr.cotedazur.univ.polytech.startingpoint.moteurjeu.Pioche;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
 

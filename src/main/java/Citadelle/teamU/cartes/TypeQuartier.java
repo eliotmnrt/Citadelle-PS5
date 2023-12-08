@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.cartes;
+package Citadelle.teamU.cartes;
 
 public enum TypeQuartier {
     JAUNE("noble"),BLEUE("religieux"),VERT("marchand"),ROUGE("militaire"),VIOLET("merveille");

@@ -1,11 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
+package Citadelle.teamU.moteurjeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
-import java.util.Collections;
+import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Stack;
 
 import static java.util.Collections.shuffle;
 
