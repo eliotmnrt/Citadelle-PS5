@@ -19,11 +19,11 @@ class BotAleatoireTest {
     public void quartierTest(){
         bot.ajoutQuartierMain(Quartier.TAVERNE);
         bot.ajoutQuartierMain(Quartier.PRISON);
-        bot.ajoutQuartierMain(Quartier.TEMPLE); // il ne peut pas l'acheter
+        bot.ajoutQuartierMain(Quartier.CATHEDRALE);
         assertEquals(7, bot.quartierMain.size()); //4 de base + 3 ajouts
         bot.construireQuartierAleatoire();
         assertEquals(6, bot.quartierMain.size());
-        assertTrue(bot.quartierConstruit.get(0) != Quartier.TEMPLE);
+        assertTrue(bot.quartierConstruit.get(0) != Quartier.CATHEDRALE);
         assertEquals(1, bot.quartierConstruit.size());
     }
 
