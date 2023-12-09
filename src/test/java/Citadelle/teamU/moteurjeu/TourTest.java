@@ -2,19 +2,46 @@ package Citadelle.teamU.moteurjeu;
 
 import Citadelle.teamU.cartes.Roi;
 import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TourTest {
+
+    ArrayList<Bot> botliste;
+
+    @BeforeEach
+    void setUp(){
+        Pioche pioche = new Pioche();
+        Bot bot1 = new BotAleatoire();
+        Bot bot2 = new BotAleatoire();
+        Bot bot3 = new BotAleatoire();
+        Bot bot4 = new BotAleatoire();
+        botliste = new ArrayList<>();
+        botliste.add(bot1);
+        botliste.add(bot2);
+        botliste.add(bot3);
+        botliste.add(bot4);
+        Tour tour = new Tour(botliste);
+    }
+
     @Test
     void tourAvecRoiTest() {
-        Pioche pioche = new Pioche();
-        Bot bot = new Bot();
-        Tour tour = new Tour(bot);
-        assertFalse(bot.getRole() == null); // on a bien attribué un role
+
+        assertNotNull(botliste.get(0).getRole()); // on a bien attribué un role
+        assertNotNull(botliste.get(1).getRole());
+        assertNotNull(botliste.get(2).getRole());
+        assertNotNull(botliste.get(3).getRole());
+
         // pour l'instant y'a que roi après mettre :
         //bot.setRole(new Roi(bot));
-        assertTrue(bot.getRole() instanceof Roi);
+        assertTrue(botliste.get(0).getRole() instanceof Roi);
+        assertTrue(botliste.get(1).getRole() instanceof Roi);
+        assertTrue(botliste.get(2).getRole() instanceof Roi);
+        assertTrue(botliste.get(3).getRole() instanceof Roi);
     }
 }
