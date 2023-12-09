@@ -1,8 +1,11 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.Roi;
 import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
+
+import java.util.ArrayList;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
@@ -14,10 +17,11 @@ public class Tour {
         this.bot1 = bot;
 
         distributionRoles();
-        bot1.faireActionDeBase();
+        ArrayList<Quartier> choixDeBase=bot1.faireActionDeBase();
         bot1.faireActionSpecialRole();
-        Affichage affiche=new Affichage(bot1,nbTour);
+        Affichage affiche=new Affichage(bot1,nbTour, choixDeBase);
         affiche.afficheBot();
+        affiche.afficheChoixDeBase();
         /*
 
         System.out.println("Tour "+nbTour);

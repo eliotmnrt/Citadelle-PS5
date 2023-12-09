@@ -65,8 +65,10 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void faireActionDeBase(){
-
+    public ArrayList<Quartier> faireActionDeBase(){
+        // return le quartier choisi si le bot a choisi de piocher un quartier
+        // si le bot a choisi de prendre des pieces ça return null
+        return null;
     }
     public int getScore(){
         return this.score;
