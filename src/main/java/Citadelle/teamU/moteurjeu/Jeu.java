@@ -4,26 +4,39 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Jeu {
 
-    private ArrayList<Bot> bot;
-    public Jeu() {
-        Pioche pioche = new Pioche();
-        bot = new ArrayList<>();
-        Bot bot1 = new BotAleatoire();
-        bot.add(bot1);
+    private ArrayList<Bot> botListe;
+    public Jeu(Bot...bots) {
+        if(bots.length == 0){
+            throw new IllegalArgumentException();
+        }
+        botListe = new ArrayList<>();
+        botListe.addAll(Arrays.asList(bots));
+        int maxQuartiersConstruits = 0;
 
-        while(bot.get(0).getQuartiersConstruits().size() < 8) {
-            Tour tour = new Tour(bot.get(0));
+        while(maxQuartiersConstruits < 8) {
+            Tour tour = new Tour(botListe);
+            for (Bot bot: botListe){
+                if(bot.getQuartiersConstruits().size() > maxQuartiersConstruits){
+                    maxQuartiersConstruits = bot.getQuartiersConstruits().size();
+                }
+            }
         }
     }
 
-    public ArrayList<Bot> getBot() {
-        return bot;
+    public ArrayList<Bot> getBotListe() {
+        return botListe;
     }
 
     public static void main (String... args){
-        Jeu jeu = new Jeu();
+        Pioche pioche = new Pioche();
+        Bot bot1 = new BotAleatoire();
+        Bot bot2 = new BotAleatoire();
+        Bot bot3 = new BotAleatoire();
+        Bot bot4 = new BotAleatoire();
+        Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
     }
 }

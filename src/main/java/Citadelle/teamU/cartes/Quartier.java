@@ -11,7 +11,7 @@ public enum Quartier {
     TOUR_DE_GUET("tour de guet",1,TypeQuartier.ROUGE, 3),PRISON("prison",2,TypeQuartier.ROUGE, 3),TERRAIN_DE_BATAILLE("terrain de bataille", 3,TypeQuartier.ROUGE, 3),FORTERESSE("forteresse",5,TypeQuartier.ROUGE, 2),
 
     COUR_DES_MIRACLES("cour des miracles",2,TypeQuartier.VIOLET, 1),DONJON("donjon",3,TypeQuartier.VIOLET,2),LABORATOIRE("laboratoire",5,TypeQuartier.VIOLET, 1),MANUFACTURE("manufacture",5,TypeQuartier.VIOLET, 1),OBSERVATOIRE("observatoire",5,TypeQuartier.VIOLET, 1),
-    CIMITIERE("cimitière",5,TypeQuartier.VIOLET, 1),BIBLIOTHEQUE("bibliothèque",6,TypeQuartier.VIOLET, 1),ECOLE_DE_MAGIE("école de magie",6,TypeQuartier.VIOLET, 1),UNIVERSITE("université",6,TypeQuartier.VIOLET, 1),DRAGOPORT("dragoport",6,TypeQuartier.VIOLET, 1);
+    CIMETIERE("cimitière",5,TypeQuartier.VIOLET, 1),BIBLIOTHEQUE("bibliothèque",6,TypeQuartier.VIOLET, 1),ECOLE_DE_MAGIE("école de magie",6,TypeQuartier.VIOLET, 1),UNIVERSITE("université",6,TypeQuartier.VIOLET, 1),DRAGOPORT("dragoport",6,TypeQuartier.VIOLET, 1);
 
 
     private final String nom;
