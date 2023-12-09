@@ -1,6 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint.moteurjeu;
+package Citadelle.teamU.moteurjeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.cartes.Quartier;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
