@@ -14,6 +14,7 @@ public class Tour {
     private static int nbTour = 0;
     Role[] roles = {new Roi()};
     public Tour(ArrayList<Bot> botListe){
+        boolean dernierTour=false;
         nbTour++;
         this.botListe = botListe;
         distributionRoles();
@@ -24,7 +25,16 @@ public class Tour {
             Affichage affiche=new Affichage(bot,choixDeBase);
             affiche.afficheBot();
             affiche.afficheChoixDeBase();
+            if(bot.getQuartiersConstruits().size()==8) dernierTour=true;
+
         }
+        if (dernierTour){
+            Affichage affichageFin=new Affichage(botListe);
+            affichageFin.afficheLeVainqueur();
+
+        }
+
+
     }
 
     private void distributionRoles(){

@@ -10,11 +10,15 @@ public class Affichage {
     // classe de gestion de tout les prints
     private Bot bot;
     private ArrayList<Quartier> choixDeBase;
+    private ArrayList<Bot> botList;
 
     public Affichage(Bot bot, ArrayList<Quartier> choixDeBase){
         this.bot=bot;
 
         this.choixDeBase=choixDeBase;
+    }
+    public Affichage(ArrayList<Bot> botList){
+        this.botList=botList;
     }
     public void afficheBot(){
 
@@ -41,5 +45,18 @@ public class Affichage {
 
         }
         System.out.println("\n");
+    }
+    public void afficheLeVainqueur(){
+        //affiche le vainqueur de la partie, celui qui a un score maximal
+        int max=0;
+        Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
+        for(Bot bot: botList){
+            if (bot.getScore()>max){
+             max= bot.getScore();
+             botVainqueur=bot;
+            }
+        }
+
+        System.out.println("Le vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
     }
 }
