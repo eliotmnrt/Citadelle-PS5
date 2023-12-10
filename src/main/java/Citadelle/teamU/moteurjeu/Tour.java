@@ -17,15 +17,13 @@ public class Tour {
         nbTour++;
         this.botListe = botListe;
         distributionRoles();
+        System.out.println("Tour "+ nbTour);
         for (Bot bot: botListe){
             ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
-            //bot.faireActionDeBase();
             bot.faireActionSpecialRole();
-            Affichage affiche=new Affichage(bot,nbTour,choixDeBase);
+            Affichage affiche=new Affichage(bot,choixDeBase);
             affiche.afficheBot();
             affiche.afficheChoixDeBase();
-            //System.out.println("Tour "+ nbTour);
-            //System.out.println(bot.toString());
         }
     }
 

@@ -97,11 +97,7 @@ public class BotAleatoire extends Bot{
 
     @Override
     public String toString(){
-        String str = "Nom du bot : " + name + "\n";
-        str += "Role du BOT aléatoire : " + getRole() + "\n";
-        str += "Quartier dans le main du BOT aléatoire: " + getQuartierMain() + "\n";
-        str += "Quartier construit du BOT aléatoire: " + getQuartiersConstruits() + "\n";
-        str += "Nombre d'or du BOT aléatoire: " + getOr() + "\n";
-        return str;
+
+        return name;
     }
 }
