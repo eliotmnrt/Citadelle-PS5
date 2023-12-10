@@ -1,5 +1,7 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Quartier;
+
 import Citadelle.teamU.cartes.Roi;
 import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
@@ -15,11 +17,13 @@ public class Tour {
         nbTour++;
         this.botListe = botListe;
         distributionRoles();
+        System.out.println("Tour "+ nbTour);
         for (Bot bot: botListe){
-            bot.faireActionDeBase();
+            ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
             bot.faireActionSpecialRole();
-            System.out.println("Tour "+ nbTour);
-            System.out.println(bot.toString());
+            Affichage affiche=new Affichage(bot,choixDeBase);
+            affiche.afficheBot();
+            affiche.afficheChoixDeBase();
         }
     }
 
@@ -28,5 +32,6 @@ public class Tour {
             bot.choisirRole(roles);
         }
     }
+
 
 }

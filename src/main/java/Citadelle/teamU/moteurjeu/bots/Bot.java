@@ -11,10 +11,13 @@ public class Bot {
     protected Role role;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
+
+    protected int score; // represente les points de victoire
     public Bot(){
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
+        score=0;
         initQuartierMain();
 
 
@@ -45,6 +48,7 @@ public class Bot {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
+            score+= newQuartier.getCout();
         }
     }
 
@@ -61,8 +65,14 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void faireActionDeBase(){
-
+    public ArrayList<Quartier> faireActionDeBase(){
+        // return le quartier choisi si le bot a choisi de piocher un quartier
+        // si le bot a choisi de prendre des pieces ça return null
+        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+        return choixDeBase;
+    }
+    public int getScore(){
+        return this.score;
     }
 
     /**
