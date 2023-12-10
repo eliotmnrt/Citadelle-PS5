@@ -9,6 +9,15 @@ import java.util.Random;
 
 public class BotAleatoire extends Bot{
 
+    private static int numDuBotAleatoire = 1;
+    private String name;
+
+    public BotAleatoire(){
+        super();
+        this.name = "BotAleatoire"+numDuBotAleatoire;
+        numDuBotAleatoire++;
+    }
+
     //rajouter ou override les methode qui définissent la manière de jouer d'un bot
 
 
@@ -86,4 +95,13 @@ public class BotAleatoire extends Bot{
         return null;
     }
 
+    @Override
+    public String toString(){
+        String str = "Nom du bot : " + name + "\n";
+        str += "Role du BOT aléatoire : " + getRole() + "\n";
+        str += "Quartier dans le main du BOT aléatoire: " + getQuartierMain() + "\n";
+        str += "Quartier construit du BOT aléatoire: " + getQuartiersConstruits() + "\n";
+        str += "Nombre d'or du BOT aléatoire: " + getOr() + "\n";
+        return str;
+    }
 }
