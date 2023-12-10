@@ -41,5 +41,13 @@ class BotTest {
         assertEquals(1, bot.getOr()); // le batiment coute 1 à construire
         assertEquals(Quartier.TAVERNE, bot.getQuartiersConstruits().get(0));
     }
+    @Test
+    void botScoreTest(){
+        bot.changerOr(100); //pour pouvoir tout acheter
+        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(0)); // construit le premier quartier de la main
+        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(1));
+        assertEquals(bot.getQuartiersConstruits().get(0).getCout()+bot.getQuartiersConstruits().get(1).getCout(), bot.getScore());
+        // s'assure que le score conrespond bien à la somme des couts des quartiers construits
+    }
 
 }
