@@ -1,7 +1,7 @@
 package Citadelle.teamU.cartes;
 
 
-public enum Quartier {
+public enum Quartier implements Comparable<Quartier> {
 
     TEMPLE("temple",1,TypeQuartier.BLEUE, 3),EGLISE("église",2,TypeQuartier.BLEUE, 4),MONASTERE("monastère",3,TypeQuartier.BLEUE, 3),CATHEDRALE("cathédrale",5,TypeQuartier.BLEUE, 2),
 
