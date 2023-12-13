@@ -1,7 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;

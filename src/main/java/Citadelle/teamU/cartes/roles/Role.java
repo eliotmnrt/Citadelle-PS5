@@ -1,12 +1,11 @@
-package Citadelle.teamU.cartes;
+package Citadelle.teamU.cartes.roles;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-public class Role {
-    public Role(){
+import java.util.ArrayList;
 
-    }
+public interface Role {
 
-    public void actionSpecial(Bot bot){
-        //Les actions dépendent du role
-    }
+
+    //Les actions dépendent du role
+    void actionSpecial(Bot bot);
 }

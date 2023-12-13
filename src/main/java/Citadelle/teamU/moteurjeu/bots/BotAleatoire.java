@@ -1,6 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
-import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -71,7 +71,8 @@ public class BotAleatoire extends Bot{
     @Override
     public void choisirRole(Role[] roles){
         Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(1); //Pour l'instant y'a qu'un role
+        int intAleatoire= aleatoire.nextInt(roles.length);
+        System.out.println("rang du role" + intAleatoire);
         setRole(roles[intAleatoire]);
     }
 
@@ -97,7 +98,6 @@ public class BotAleatoire extends Bot{
 
     @Override
     public String toString(){
-
         return name;
     }
 }
