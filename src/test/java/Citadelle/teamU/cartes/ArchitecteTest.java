@@ -23,7 +23,6 @@ class ArchitecteTest {
         assertEquals(4, bot.getOr());
 
         assertEquals(bot.getQuartierMain().size(),4);
-
         bot.ajoutQuartierMain(Quartier.TEMPLE);
         assertSame(bot.getQuartierMain().get(4), Quartier.TEMPLE);
         assertTrue(bot.getQuartiersConstruits().isEmpty());
