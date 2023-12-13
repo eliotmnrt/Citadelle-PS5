@@ -46,15 +46,11 @@ public class BotAleatoire extends Bot{
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
-                //quartierChoisi=quartier1;
-
             }
-            else if (intAleatoire2==1){
+            else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
-                //quartierChoisi=quartier2;
-
             }
         } else if (intAleatoire == 1){
             changerOr(2);
@@ -70,10 +66,10 @@ public class BotAleatoire extends Bot{
     }
 
     @Override
-    public void choisirRole(Role[] roles){
+    public void choisirRole(ArrayList<Role> roles){
         Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(1); //Pour l'instant y'a qu'un role
-        setRole(roles[intAleatoire]);
+        int intAleatoire= aleatoire.nextInt(roles.size());
+        setRole(roles.remove(intAleatoire));
     }
 
     /**
@@ -90,11 +86,13 @@ public class BotAleatoire extends Bot{
             Random aleatoire= new Random();
             int nbContruit= aleatoire.nextInt(role.getNbQuartierConstructible())+1; // Choisit le nombre de quartier qu'on construit (1 tout le temps ou entre 1 et 3 si architecte)
             ArrayList<Quartier> quartierConstruire = new ArrayList<>();
-            for(int i=0; i<nbContruit ; i++){
+            int i=0;
+            while(i<nbContruit&&!quartiersPossible.isEmpty()){
                 int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
                 Quartier quartierChoisit =quartiersPossible.remove(intAleatoire);
                 quartierConstruire.add(quartierChoisit);
                 ajoutQuartierConstruit(quartierChoisit);
+                i++;
             }
             return quartierConstruire;
         }

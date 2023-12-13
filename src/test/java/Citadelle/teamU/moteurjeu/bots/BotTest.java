@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ class BotTest {
     @Test
     void botScoreTest(){
         bot.changerOr(100); //pour pouvoir tout acheter
+        bot.setRole(new Architecte()); //pour en construire 2
         // On en ajoute nous meme au cas ou le 1er et le 2e soit le meme
         assertEquals(bot.getQuartierMain().size(), 4);
         bot.ajoutQuartierMain(Quartier.TEMPLE);

@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Quartier;
 
 import Citadelle.teamU.cartes.Roi;
@@ -7,13 +8,15 @@ import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private ArrayList<Bot> botListe;
     private static int nbTour = 0;
-    Role[] roles = {new Roi()};
+    ArrayList<Role> roles = new ArrayList<>(Arrays.asList(new Roi(),new Roi(), new Architecte(), new Architecte()));
     public Tour(ArrayList<Bot> botListe){
+        System.out.println(roles);
         boolean dernierTour=false;
         nbTour++;
         this.botListe = botListe;
