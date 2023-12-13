@@ -41,6 +41,7 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(aQuartierPasChere){
+            choixDeBase.add(null);
             changerOr(2);
         }
         else{
@@ -72,10 +73,10 @@ public class BotConstruitVite extends Bot {
     }
 
     @Override
-    public void choisirRole(Role[] roles){
+    public void choisirRole(ArrayList<Role> roles){
         Random aleatoire= new Random();
         int intAleatoire= aleatoire.nextInt(1); //Pour l'instant y'a qu'un role
-        setRole(roles[intAleatoire]);
+        setRole(roles.get(intAleatoire));
     }
 
     /**
