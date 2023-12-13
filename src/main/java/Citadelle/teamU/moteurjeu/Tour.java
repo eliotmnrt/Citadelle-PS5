@@ -9,6 +9,8 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
@@ -21,6 +23,7 @@ public class Tour {
         this.botListe = botListe;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
+        Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
             bot.faireActionSpecialRole();

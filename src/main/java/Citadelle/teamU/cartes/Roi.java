@@ -8,6 +8,7 @@ public class Roi extends Role{
 
 
     public Roi() {
+        super.ordre = 4;
     }
     public void orQuartierJaune(Bot bot){
         for(Quartier quartier: bot.getQuartiersConstruits()){

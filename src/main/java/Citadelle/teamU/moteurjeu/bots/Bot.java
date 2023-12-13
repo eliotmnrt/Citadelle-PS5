@@ -51,6 +51,9 @@ public class Bot {
             score+= newQuartier.getCout();
         }
     }
+    public int getOrdre(){
+        return role.getOrdre();
+    }
 
 
     public void ajoutQuartierMain(Quartier newQuartier){
