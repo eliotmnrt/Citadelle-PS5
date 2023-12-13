@@ -24,7 +24,7 @@ public class BotAleatoire extends Bot{
 
     @Override
     public ArrayList<Quartier> faireActionDeBase(){
-        //une arrayList qui contient rien si le bot prend 2 pieces d'or
+        //une arrayList qui en 0 contient null si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
         //en indice 3 le quartier construit si un quartier a été construit
@@ -53,6 +53,7 @@ public class BotAleatoire extends Bot{
                 choixDeBase.add(quartier2);
             }
         } else if (intAleatoire == 1){
+            choixDeBase.add(null);
             changerOr(2);
         }
 
@@ -61,7 +62,6 @@ public class BotAleatoire extends Bot{
         if (quartierConstruire!=null){
             choixDeBase.addAll(quartierConstruire);
         }
-
         return choixDeBase;
     }
 
@@ -88,7 +88,7 @@ public class BotAleatoire extends Bot{
             ArrayList<Quartier> quartierConstruire = new ArrayList<>();
             int i=0;
             while(i<nbContruit&&!quartiersPossible.isEmpty()){
-                int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
+                int intAleatoire= aleatoire.nextInt(quartiersPossible.size());
                 Quartier quartierChoisit =quartiersPossible.remove(intAleatoire);
                 quartierConstruire.add(quartierChoisit);
                 ajoutQuartierConstruit(quartierChoisit);

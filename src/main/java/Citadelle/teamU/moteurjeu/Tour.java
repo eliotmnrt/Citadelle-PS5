@@ -16,7 +16,6 @@ public class Tour {
     private static int nbTour = 0;
     ArrayList<Role> roles = new ArrayList<>(Arrays.asList(new Roi(),new Roi(), new Architecte(), new Architecte()));
     public Tour(ArrayList<Bot> botListe){
-        System.out.println(roles);
         boolean dernierTour=false;
         nbTour++;
         this.botListe = botListe;
