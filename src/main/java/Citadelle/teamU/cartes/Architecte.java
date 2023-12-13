@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Architecte extends Role{
     public Architecte(){
+        super.ordre = 7;
         super.nbQuartierConstructible = 3;
     }
     public void piocheDeuxCartes(Bot bot){

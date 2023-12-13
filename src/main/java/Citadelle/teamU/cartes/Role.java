@@ -3,6 +3,7 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 public class Role {
     protected int nbQuartierConstructible=1;
+    protected int ordre = 0;
     public Role(){
 
     }
@@ -11,5 +12,8 @@ public class Role {
     }
     public void actionSpecial(Bot bot){
         //Les actions dépendent du role
+    }
+    public int getOrdre() {
+        return ordre;
     }
 }

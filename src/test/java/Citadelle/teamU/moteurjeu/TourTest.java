@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Roi;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -39,9 +40,10 @@ class TourTest {
 
         // pour l'instant y'a que roi après mettre :
         //bot.setRole(new Roi(bot));
-        assertTrue(botliste.get(0).getRole() instanceof Roi);
-        assertTrue(botliste.get(1).getRole() instanceof Roi);
-        assertTrue(botliste.get(2).getRole() instanceof Roi);
-        assertTrue(botliste.get(3).getRole() instanceof Roi);
+        assertTrue(botliste.get(0).getRole() instanceof Roi || botliste.get(0).getRole() instanceof Architecte);
+        assertTrue(botliste.get(1).getRole() instanceof Roi || botliste.get(1).getRole() instanceof Architecte);
+        assertTrue(botliste.get(2).getRole() instanceof Roi || botliste.get(2).getRole() instanceof Architecte);
+        assertTrue(botliste.get(3).getRole() instanceof Roi || botliste.get(3).getRole() instanceof Architecte);
+
     }
 }

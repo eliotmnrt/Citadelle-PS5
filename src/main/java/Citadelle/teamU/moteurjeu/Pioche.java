@@ -28,6 +28,14 @@ public class Pioche {
      * @return Quartier
      */
     public static Quartier piocherQuartier(){
+        if(pioche.size()<=0){
+            for (Quartier quartier: Quartier.values()){
+                for (int i=0; i<quartier.getNbCartes(); i++){
+                    pioche.add(quartier);
+                }
+            }
+            shuffle(pioche);
+        }
         return pioche.remove(0);
     }
     public static void remettreDansPioche(Quartier quartier){

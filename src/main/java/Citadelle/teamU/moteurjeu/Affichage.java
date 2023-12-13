@@ -29,20 +29,18 @@ public class Affichage {
 
     }
     public void afficheChoixDeBase(){
-        if(choixDeBase.size()<2){
+        if(choixDeBase.get(0)==null){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
-            if (choixDeBase.size()==1){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(0));
+            for(int i=1 ; i<choixDeBase.size() ; i++){
+                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
             }
         }
         else{
             System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
             System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
-            if (choixDeBase.size()==4){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(3));
+            for(int i=3 ; i<choixDeBase.size() ; i++){
+                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
             }
-
-
         }
         System.out.println("\n");
     }

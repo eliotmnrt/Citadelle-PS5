@@ -39,8 +39,8 @@ public class Bot {
     public void setRole(Role role){
         this.role = role;
     }
-    public void choisirRole(Role[] roles){
-        setRole(roles[0]);
+    public void choisirRole(ArrayList<Role> roles){
+        setRole(roles.get(0));
     }
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
@@ -50,6 +50,9 @@ public class Bot {
             changerOr(-newQuartier.getCout());
             score+= newQuartier.getCout();
         }
+    }
+    public int getOrdre(){
+        return role.getOrdre();
     }
 
 
