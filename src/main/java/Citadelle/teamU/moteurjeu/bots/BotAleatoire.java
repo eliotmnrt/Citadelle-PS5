@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
@@ -60,9 +61,9 @@ public class BotAleatoire extends Bot{
         }
 
         // construire un quartier parmis ceux qu'il peux construire
-        Quartier quartierConstruire= construireQuartierAleatoire();
+        ArrayList<Quartier> quartierConstruire= construireQuartierAleatoire();
         if (quartierConstruire!=null){
-            choixDeBase.add(quartierConstruire);
+            choixDeBase.addAll(quartierConstruire);
         }
 
         return choixDeBase;
@@ -78,7 +79,7 @@ public class BotAleatoire extends Bot{
     /**
      * Construi un quartier aléatoire parmis ceux qu'il peut construire
      */
-    public Quartier construireQuartierAleatoire(){
+    public ArrayList<Quartier> construireQuartierAleatoire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
@@ -87,9 +88,14 @@ public class BotAleatoire extends Bot{
         }
         if(quartiersPossible.size()>0){
             Random aleatoire= new Random();
-            int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
-            Quartier quartierConstruire=quartiersPossible.get(intAleatoire);
-            ajoutQuartierConstruit(quartierConstruire);
+            int nbContruit= aleatoire.nextInt(role.getNbQuartierConstructible())+1; // Choisit le nombre de quartier qu'on construit (1 tout le temps ou entre 1 et 3 si architecte)
+            ArrayList<Quartier> quartierConstruire = new ArrayList<>();
+            for(int i=0; i<nbContruit ; i++){
+                int intAleatoire= aleatoire.nextInt(quartiersPossible.size()); //Pour l'instant y'a qu'un role
+                Quartier quartierChoisit =quartiersPossible.remove(intAleatoire);
+                quartierConstruire.add(quartierChoisit);
+                ajoutQuartierConstruit(quartierChoisit);
+            }
             return quartierConstruire;
         }
         return null;
