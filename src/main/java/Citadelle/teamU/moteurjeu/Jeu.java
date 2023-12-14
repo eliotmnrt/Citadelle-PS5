@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurjeu.bots.BotConstruitChere;
 import Citadelle.teamU.moteurjeu.bots.BotConstruitVite;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Jeu {
         Pioche pioche = new Pioche();
         Bot bot1 = new BotAleatoire();
         Bot bot2 = new BotAleatoire();
-        Bot bot3 = new BotAleatoire();
+        Bot bot3 = new BotConstruitChere();
         Bot bot4 = new BotConstruitVite();
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
     }

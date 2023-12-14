@@ -36,6 +36,7 @@ public class Affichage {
             }
         }
         else{
+
             System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
             System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
             for(int i=3 ; i<choixDeBase.size() ; i++){
