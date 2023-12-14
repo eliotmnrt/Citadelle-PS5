@@ -14,22 +14,23 @@ public class BotConstruitChere extends Bot{
     }
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
-        Quartier quartierConstruire=construireQuartierChere();
-        if(quartierConstruire!=null){
+    public ArrayList<Quartier> faireActionDeBase() {
+        // A REFACTORER
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        Quartier quartierConstruire = construireQuartierChere();
+        if (quartierConstruire != null) {
             quartierConstruit.add(quartierConstruire);
-            nbOr-= quartierConstruire.getCout();
-            Quartier quartier1= Pioche.piocherQuartier();
-            Quartier quartier2=Pioche.piocherQuartier();
+            quartierMain.remove(quartierConstruire);
+            nbOr -= quartierConstruire.getCout();
+            Quartier quartier1 = Pioche.piocherQuartier();
+            Quartier quartier2 = Pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
-            if(quartier1.getCout()>quartier2.getCout()){
+            if (quartier1.getCout() > quartier2.getCout()) {
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
-            }
-            else{
+            } else {
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
@@ -38,11 +39,18 @@ public class BotConstruitChere extends Bot{
             choixDeBase.add(quartierConstruire);
 
 
-        }
-
-        else{
+        } else {
             choixDeBase.add(null);
             changerOr(2);
+            Quartier quartierConstruire2 = construireQuartierChere();
+            if (quartierConstruire2 != null) {
+                quartierConstruit.add(quartierConstruire2);
+                quartierMain.remove(quartierConstruire2);
+                nbOr -= quartierConstruire2.getCout();
+                choixDeBase.add(quartierConstruire2);
+            }
+
+
         }
         return choixDeBase;
     }
