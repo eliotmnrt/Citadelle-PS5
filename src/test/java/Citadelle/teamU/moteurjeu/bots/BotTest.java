@@ -45,13 +45,13 @@ class BotTest {
     @Test
     void botScoreTest(){
         bot.changerOr(100); //pour pouvoir tout acheter
-        bot.setRole(new Architecte()); //pour en construire 2
+        //bot.setRole(new Architecte()); //pour en construire 2
         // On en ajoute nous meme au cas ou le 1er et le 2e soit le meme
         assertEquals(bot.getQuartierMain().size(), 4);
         bot.ajoutQuartierMain(Quartier.TEMPLE);
         bot.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
         assertEquals(bot.getQuartierMain().size(), 6);
-        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(5));
+        bot.ajoutQuartierConstruit(bot.getQuartierMain().get(4));
         bot.ajoutQuartierConstruit(bot.getQuartierMain().get(4));
         assertEquals(bot.getQuartiersConstruits().get(0).getCout()+bot.getQuartiersConstruits().get(1).getCout(), bot.getScore());
         // s'assure que le score conrespond bien à la somme des couts des quartiers construits

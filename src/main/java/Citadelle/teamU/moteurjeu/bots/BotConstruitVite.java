@@ -36,7 +36,7 @@ public class BotConstruitVite extends Bot {
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=3&&!quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<4&&!quartierConstruit.contains(quartier)){
                 aQuartierPasChere = true;
             }
         }
