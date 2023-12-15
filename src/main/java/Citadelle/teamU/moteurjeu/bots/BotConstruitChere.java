@@ -1,9 +1,11 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BotConstruitChere extends Bot{
     private String name;
@@ -90,4 +92,10 @@ public class BotConstruitChere extends Bot{
         return name;
     }
 
+    @Override
+    public void choisirRole(ArrayList<Role> roles){
+        Random aleatoire= new Random();
+        int intAleatoire= aleatoire.nextInt(roles.size());
+        setRole(roles.remove(intAleatoire));
+    }
 }

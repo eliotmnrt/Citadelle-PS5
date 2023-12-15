@@ -70,8 +70,8 @@ public class BotConstruitVite extends Bot {
     @Override
     public void choisirRole(ArrayList<Role> roles){
         Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(1); //Pour l'instant y'a qu'un role
-        setRole(roles.get(intAleatoire));
+        int intAleatoire= aleatoire.nextInt(roles.size());
+        setRole(roles.remove(intAleatoire));
     }
 
     /**

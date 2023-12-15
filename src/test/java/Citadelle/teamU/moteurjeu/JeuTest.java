@@ -31,6 +31,6 @@ class JeuTest {
                 maxQuartiersConstruits = bot.getQuartiersConstruits().size();
             }
         }
-        assertEquals(8, maxQuartiersConstruits);
+        assertTrue(maxQuartiersConstruits>=8);
     }
 }

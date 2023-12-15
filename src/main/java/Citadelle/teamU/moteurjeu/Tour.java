@@ -20,7 +20,7 @@ public class Tour {
     public Tour(ArrayList<Bot> botListe){
         roles.add(new Roi());
         roles.add(new Roi());
-        roles.add(new Architecte());
+        roles.add(new Roi());
         roles.add(new Architecte());
 
         boolean dernierTour=false;
@@ -28,6 +28,7 @@ public class Tour {
         this.botListe = botListe;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
+        System.out.println(botListe);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
