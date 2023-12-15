@@ -16,13 +16,19 @@ public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private ArrayList<Bot> botListe;
     private static int nbTour = 0;
-    ArrayList<Role> roles = new ArrayList<>(Arrays.asList(new Roi(),new Roi(), new Architecte(), new Architecte()));
+    ArrayList<Role> roles = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
+        roles.add(new Roi());
+        roles.add(new Roi());
+        roles.add(new Roi());
+        roles.add(new Architecte());
+
         boolean dernierTour=false;
         nbTour++;
         this.botListe = botListe;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
+        System.out.println(botListe);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();

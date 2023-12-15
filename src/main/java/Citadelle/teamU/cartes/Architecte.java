@@ -16,6 +16,8 @@ public class Architecte extends Role{
     }
     public void actionSpecial(Bot bot){
         piocheDeuxCartes(bot);
+        bot.construire();
+        bot.construire();
     }
     @Override
     public String toString() {

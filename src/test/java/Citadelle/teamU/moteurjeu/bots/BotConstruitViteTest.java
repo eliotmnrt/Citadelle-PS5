@@ -25,7 +25,7 @@ class BotConstruitViteTest {
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
         assertEquals(7, bot.quartierMain.size()); //4 de base + 3 ajouts
         bot.setRole(new Roi());
-        bot.construireQuartierMoinsChere();
+        bot.construire();
         assertEquals(1, bot.quartierConstruit.get(0).getCout());
         assertEquals(1, bot.quartierConstruit.size());
         assertEquals(6, bot.quartierMain.size());

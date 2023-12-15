@@ -1,12 +1,15 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BotConstruitChere extends Bot{
     private String name;
+    private final int COUT_MINIMAL=4;
 
     public BotConstruitChere(){
         super();
@@ -17,11 +20,14 @@ public class BotConstruitChere extends Bot{
     public ArrayList<Quartier> faireActionDeBase() {
         // A REFACTORER
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
-        Quartier quartierConstruire = construireQuartierChere();
-        if (quartierConstruire != null) {
-            quartierConstruit.add(quartierConstruire);
-            quartierMain.remove(quartierConstruire);
-            nbOr -= quartierConstruire.getCout();
+
+        boolean piocher=true;
+        for(Quartier quartier: quartierMain){
+            if (quartier.getCout()>=4){
+                piocher=false;
+            }
+        }
+        if (piocher){
             Quartier quartier1 = Pioche.piocherQuartier();
             Quartier quartier2 = Pioche.piocherQuartier();
             choixDeBase.add(quartier1);
@@ -34,27 +40,21 @@ public class BotConstruitChere extends Bot{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
-
             }
-            choixDeBase.add(quartierConstruire);
-
-
-        } else {
-            choixDeBase.add(null);
-            changerOr(2);
-            Quartier quartierConstruire2 = construireQuartierChere();
-            if (quartierConstruire2 != null) {
-                quartierConstruit.add(quartierConstruire2);
-                quartierMain.remove(quartierConstruire2);
-                nbOr -= quartierConstruire2.getCout();
-                choixDeBase.add(quartierConstruire2);
-            }
-
 
         }
+        else{
+            choixDeBase.add(null);
+            changerOr(2);
+        }
+        Quartier quartierConstruire=construire();
+        if(quartierConstruire!=null){
+            choixDeBase.add(quartierConstruire);
+        }
+
         return choixDeBase;
     }
-    public Quartier construireQuartierChere(){
+    public Quartier construire(){
 
         int max=0;
         Quartier quartierChoisi=null;
@@ -77,7 +77,10 @@ public class BotConstruitChere extends Bot{
         }
         // répétitions de code BotAleatoire, a refactorer plus tard
         if (quartierChoisi!=null) {
-            if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi)) {
+            if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
+                quartierConstruit.add(quartierChoisi);
+                quartierMain.remove(quartierChoisi);
+                nbOr -= quartierChoisi.getCout();
                 return quartierChoisi;
             }
         }
@@ -89,4 +92,10 @@ public class BotConstruitChere extends Bot{
         return name;
     }
 
+    @Override
+    public void choisirRole(ArrayList<Role> roles){
+        Random aleatoire= new Random();
+        int intAleatoire= aleatoire.nextInt(roles.size());
+        setRole(roles.remove(intAleatoire));
+    }
 }

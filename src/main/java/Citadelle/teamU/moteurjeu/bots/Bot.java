@@ -84,4 +84,7 @@ public class Bot {
     public void faireActionSpecialRole(){
         role.actionSpecial(this);
     }
+    public Quartier construire(){
+        return null;
+    }
 }

@@ -45,6 +45,7 @@ public class Affichage {
         }
         System.out.println("\n");
     }
+    
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
