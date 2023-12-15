@@ -33,6 +33,8 @@ public class Tour {
             Affichage affiche=new Affichage(bot,choixDeBase);
             affiche.afficheBot();
             affiche.afficheChoixDeBase();
+            affiche.afficheConstruction();
+            affiche.finAffichage();
             if(bot.getQuartiersConstruits().size()==8) dernierTour=true;
 
         }

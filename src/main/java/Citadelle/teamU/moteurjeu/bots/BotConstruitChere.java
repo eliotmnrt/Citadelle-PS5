@@ -44,13 +44,17 @@ public class BotConstruitChere extends Bot{
 
         }
         else{
-            choixDeBase.add(null);
+
+            //choixDeBase.add(null);
+            choixDeBase=null;
             changerOr(2);
         }
+        /*
         Quartier quartierConstruire=construire();
         if(quartierConstruire!=null){
             choixDeBase.add(quartierConstruire);
         }
+         */
 
         return choixDeBase;
     }
@@ -81,6 +85,7 @@ public class BotConstruitChere extends Bot{
                 quartierConstruit.add(quartierChoisi);
                 quartierMain.remove(quartierChoisi);
                 nbOr -= quartierChoisi.getCout();
+                score += quartierChoisi.getCout();
                 return quartierChoisi;
             }
         }
