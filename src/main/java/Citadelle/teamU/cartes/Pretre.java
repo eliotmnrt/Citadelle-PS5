@@ -4,8 +4,8 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.Objects;
 
-public class Prêtre extends Role{
-    public Prêtre(){
+public class Pretre extends Role{
+    public Pretre(){
         super.ordre=5;
     }
     public void OrQuartierBleue(Bot bot){

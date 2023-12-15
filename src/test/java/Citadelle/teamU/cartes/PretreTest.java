@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PrêtreTest {
+class PretreTest {
 
     private BotAleatoire bot;
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
         bot = new BotAleatoire();
-        bot.setRole(new Prêtre());
+        bot.setRole(new Pretre());
     }
     @Test
     public void PrêtreSpecialTest(){
