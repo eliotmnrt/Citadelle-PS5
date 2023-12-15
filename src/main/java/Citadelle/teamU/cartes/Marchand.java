@@ -20,6 +20,7 @@ public class Marchand extends Role {
         bot.changerOr(1);
         OrQuartierVert(bot);
     }
+    @Override
     public String toString() {
         return "Marchand";
     }
