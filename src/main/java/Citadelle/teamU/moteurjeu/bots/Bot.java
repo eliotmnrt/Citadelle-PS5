@@ -79,6 +79,6 @@ public class Bot {
      * Fait les actions qui sont différentes en fonction de chaque roles
      */
     public void faireActionSpecialRole(){
-        role.actionSpecial(this);
+        role.actionSpeciale(this);
     }
 }

@@ -25,7 +25,9 @@ public class Tour {
             Affichage affiche=new Affichage(bot);
             affiche.afficheBot();
             bot.faireActionSpecialRole();
-            ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
+            affiche.afficheActionSpeciale(bot);
+            ArrayList<Quartier> choixDeBase = bot.faireActionDeBase();
+            affiche.setChoixDeBase(choixDeBase);
             affiche.afficheChoixDeBase(choixDeBase.size() >= 2 ? "piocher" : "prendreOr");
 
             if(bot.getQuartiersConstruits().size()==8) dernierTour=true;

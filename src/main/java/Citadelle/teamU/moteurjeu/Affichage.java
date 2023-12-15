@@ -24,27 +24,34 @@ public class Affichage {
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
-
     }
     public void afficheChoixDeBase(String choix){
-        if(choix.equals("piocher")){
+        if(choix.equals("prendreOr")){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
             if (choixDeBase.size()==1){
                 System.out.println(bot.toString()+" a construit "+choixDeBase.get(0));
             }
         }
-        else if(choix.equals("prendreOr")){
+        else if(choix.equals("piocher")){
             System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
-            System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
+            System.out.println(bot.toString()+" a choisi le quartier "+choixDeBase.get(2));
             if (choixDeBase.size()==4){
                 System.out.println(bot.toString()+" a construit "+choixDeBase.get(3));
             }
+        }
         else {
             throw new IllegalArgumentException();
-            }
         }
         System.out.println("\n");
     }
+
+    public void afficheActionSpeciale(Bot bot){
+        System.out.println(bot.getRole().actionToString(bot));
+    }
+    public void setChoixDeBase(ArrayList<Quartier> choixDeBase){
+        this.choixDeBase = choixDeBase;
+    }
+
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
