@@ -18,6 +18,7 @@ public class Pretre extends Role{
     public void actionSpecial(Bot bot){
         OrQuartierBleue(bot);
     }
+    @Override
     public String toString() {
         return "Prêtre";
     }
