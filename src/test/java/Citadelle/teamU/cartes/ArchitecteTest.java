@@ -28,7 +28,6 @@ class ArchitecteTest {
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         // Le bot peut construire entre 1 et 3 quartiers
-        ArrayList<Quartier> quartiersConstruit = bot.construireQuartierAleatoire();
-        assertTrue(quartiersConstruit.size()==1||quartiersConstruit.size()==2||quartiersConstruit.size()==3);
+        //A re faire
     }
 }

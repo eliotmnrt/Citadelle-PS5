@@ -63,12 +63,7 @@ public class BotConstruitVite extends Bot {
             }
         }
 
-        // construire un quartier parmis ceux qu'il peux construire
-        ArrayList<Quartier> quartierConstruire= construireQuartierMoinsChere();
-        if (quartierConstruire!=null){
-            choixDeBase.addAll(quartierConstruire);
-        }
-
+        choixDeBase.add(construire());
         return choixDeBase;
     }
 
@@ -80,17 +75,18 @@ public class BotConstruitVite extends Bot {
     }
 
     /**
-     * Construi un quartier aléatoire parmis ceux qu'il peut construire
+     * Construi un quartier
      */
-    public ArrayList<Quartier> construireQuartierMoinsChere(){
+    @Override
+    public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        ArrayList<Quartier> quartierConstruit = new ArrayList<>();
-        for(int i=0; i<role.getNbQuartierConstructible() ; i++){
-            quartierConstruit.add(quartiersTrie.get(i));
-            ajoutQuartierConstruit(quartiersTrie.get(i));
+        if(quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+            Quartier quartierConstruit = quartiersTrie.get(0);
+            ajoutQuartierConstruit(quartierConstruit);
+            return quartierConstruit;
         }
-        return quartiersTrie;
+        return null;
     }
 
     @Override

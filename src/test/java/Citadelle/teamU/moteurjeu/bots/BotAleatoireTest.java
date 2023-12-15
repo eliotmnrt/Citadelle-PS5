@@ -23,10 +23,9 @@ class BotAleatoireTest {
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
         assertEquals(7, bot.quartierMain.size()); //4 de base + 3 ajouts
         bot.setRole(new Roi());
-        bot.construireQuartierAleatoire();
-        assertEquals(6, bot.quartierMain.size());
-        assertNotSame(Quartier.CATHEDRALE, bot.quartierConstruit.get(0));
-        assertEquals(1, bot.quartierConstruit.size());
+        bot.construire();
+        assertTrue(bot.quartierMain.size()==6||bot.quartierMain.size()==7);
+        assertTrue(bot.quartierConstruit.size()==0||bot.quartierConstruit.size()==1);
     }
 
 }

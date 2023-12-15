@@ -1,6 +1,5 @@
 package Citadelle.teamU.moteurjeu.bots;
 
-import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
@@ -56,12 +55,7 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(null);
             changerOr(2);
         }
-
-        // construire un quartier parmis ceux qu'il peux construire
-        ArrayList<Quartier> quartierConstruire= construireQuartierAleatoire();
-        if (quartierConstruire!=null){
-            choixDeBase.addAll(quartierConstruire);
-        }
+        choixDeBase.add(construire());
         return choixDeBase;
     }
 
@@ -75,26 +69,23 @@ public class BotAleatoire extends Bot{
     /**
      * Construi un quartier aléatoire parmis ceux qu'il peut construire
      */
-    public ArrayList<Quartier> construireQuartierAleatoire(){
+    @Override
+    public Quartier construire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
                 quartiersPossible.add(quartier);
             }
         }
+        //a suffle
         if(quartiersPossible.size()>0){
             Random aleatoire= new Random();
-            int nbContruit= aleatoire.nextInt(role.getNbQuartierConstructible())+1; // Choisit le nombre de quartier qu'on construit (1 tout le temps ou entre 1 et 3 si architecte)
-            ArrayList<Quartier> quartierConstruire = new ArrayList<>();
-            int i=0;
-            while(i<nbContruit&&!quartiersPossible.isEmpty()){
-                int intAleatoire= aleatoire.nextInt(quartiersPossible.size());
-                Quartier quartierChoisit =quartiersPossible.remove(intAleatoire);
-                quartierConstruire.add(quartierChoisit);
-                ajoutQuartierConstruit(quartierChoisit);
-                i++;
+            int nbContruit= aleatoire.nextInt(2);
+            if(nbContruit==1){
+                Quartier quartierConstruit = quartiersPossible.get(0);
+                ajoutQuartierConstruit(quartierConstruit);
+                return quartierConstruit;
             }
-            return quartierConstruire;
         }
         return null;
     }
@@ -104,4 +95,5 @@ public class BotAleatoire extends Bot{
 
         return name;
     }
+
 }

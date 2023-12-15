@@ -17,7 +17,7 @@ public class BotConstruitChere extends Bot{
     public ArrayList<Quartier> faireActionDeBase() {
         // A REFACTORER
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
-        Quartier quartierConstruire = construireQuartierChere();
+        Quartier quartierConstruire = construire();
         if (quartierConstruire != null) {
             quartierConstruit.add(quartierConstruire);
             quartierMain.remove(quartierConstruire);
@@ -42,7 +42,7 @@ public class BotConstruitChere extends Bot{
         } else {
             choixDeBase.add(null);
             changerOr(2);
-            Quartier quartierConstruire2 = construireQuartierChere();
+            Quartier quartierConstruire2 = construire();
             if (quartierConstruire2 != null) {
                 quartierConstruit.add(quartierConstruire2);
                 quartierMain.remove(quartierConstruire2);
@@ -54,7 +54,7 @@ public class BotConstruitChere extends Bot{
         }
         return choixDeBase;
     }
-    public Quartier construireQuartierChere(){
+    public Quartier construire(){
 
         int max=0;
         Quartier quartierChoisi=null;
