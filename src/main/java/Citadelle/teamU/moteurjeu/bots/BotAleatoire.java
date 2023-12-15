@@ -26,7 +26,6 @@ public class BotAleatoire extends Bot{
         //une arrayList qui en 0 contient null si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
-        //en indice 3 le quartier construit si un quartier a été construit
         ArrayList<Quartier> choixDeBase=new ArrayList<>();
         Random aleatoire= new Random();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
@@ -52,10 +51,11 @@ public class BotAleatoire extends Bot{
                 choixDeBase.add(quartier2);
             }
         } else if (intAleatoire == 1){
-            choixDeBase.add(null);
+            //choixDeBase.add(null);
+            choixDeBase=null;
             changerOr(2);
         }
-        choixDeBase.add(construire());
+        //choixDeBase.add(construire());
         return choixDeBase;
     }
 
