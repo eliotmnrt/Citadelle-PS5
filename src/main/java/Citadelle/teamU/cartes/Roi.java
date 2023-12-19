@@ -1,5 +1,6 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.Objects;
@@ -14,11 +15,14 @@ public class Roi extends Role{
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
                 bot.changerOr(1);
+                Affichage.afficheAvantageQuartierNoble(bot, quartier);
             }
         }
     }
     public void actionSpecial(Bot bot){
+
         orQuartierJaune(bot);
+
     }
 
     @Override

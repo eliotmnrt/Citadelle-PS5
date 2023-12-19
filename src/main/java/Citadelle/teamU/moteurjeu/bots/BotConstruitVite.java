@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -22,17 +23,13 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super();
-        this.name = "Bot qui construit vite "+numDuBotAleatoire;
+        this.name = "BotConstruitVite"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
-        //une arrayList qui contient rien si le bot prend 2 pieces d'or
-        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
-        //en indice 2 le quartier choisi parmis les deux
-        //en indice 3 le quartier construit si un quartier a été construit
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+    public void faireActionDeBase(){
+
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
@@ -41,30 +38,29 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(aQuartierPasChere){
-            choixDeBase.add(null);
             changerOr(2);
+            Affichage.afficheChoixOr(this);
         }
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
             Quartier quartier1= Pioche.piocherQuartier();
             Quartier quartier2=Pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
+            Affichage.afficheQuartiersPioches(this, quartier1,quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
+                Affichage.afficheQuartierChoisi(this,quartier1);
+
             }
             else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
+                Affichage.afficheQuartierChoisi(this,quartier2);
+
             }
         }
 
-        choixDeBase.add(construire());
-        return choixDeBase;
     }
 
     @Override
@@ -72,21 +68,23 @@ public class BotConstruitVite extends Bot {
         Random aleatoire= new Random();
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
+
     }
 
     /**
-     * Construi un quartier
+     * Construit un quartier
      */
     @Override
-    public Quartier construire(){
+    public void construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(quartiersTrie.size()>0 && quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
-            return quartierConstruit;
+            Affichage.afficheQuartierConstruit(this,quartierConstruit);
+
         }
-        return null;
+
     }
 
     @Override

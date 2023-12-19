@@ -8,19 +8,16 @@ import java.util.ArrayList;
 
 public class Affichage {
     // classe de gestion de tout les prints
-    private Bot bot;
-    private ArrayList<Quartier> choixDeBase;
-    private ArrayList<Bot> botList;
 
-    public Affichage(Bot bot, ArrayList<Quartier> choixDeBase){
-        this.bot=bot;
 
-        this.choixDeBase=choixDeBase;
+    public static void separation(){
+        System.out.println("\n");
     }
-    public Affichage(ArrayList<Bot> botList){
-        this.botList=botList;
+
+    public static void afficheTour(int nbTour){
+        System.out.println("Tour "+ nbTour);
     }
-    public void afficheBot(){
+    public static void afficheBot(Bot bot){
 
         System.out.println("--------------"+bot.toString()+"------------------");
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
@@ -28,35 +25,34 @@ public class Affichage {
         System.out.println("Quartier construits "+bot.getQuartiersConstruits());
 
     }
-    public void afficheChoixDeBase(){
-        if(choixDeBase.get(0)==null){
-            System.out.println(bot.toString()+" a pris 2 pièces d'or");
-            for(int i=1 ; i<choixDeBase.size() ; i++){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
-            }
-        }
-        else{
-
-            System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
-            System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
-            for(int i=3 ; i<choixDeBase.size() ; i++){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
-            }
-        }
-        System.out.println("\n");
+    public static void afficheChoixOr(Bot bot){
+        System.out.println(bot.toString()+" a pris 2 pièces d'or");
     }
-    
-    public void afficheLeVainqueur(){
-        //affiche le vainqueur de la partie, celui qui a un score maximal
-        int max=0;
-        Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot: botList){
-            if (bot.getScore()>max){
-             max= bot.getScore();
-             botVainqueur=bot;
-            }
+    public static void afficheQuartiersPioches(Bot bot,Quartier quartier1, Quartier quartier2){
+        System.out.println(bot.toString()+" a pioché les quartiers "+quartier1+" et "+quartier2);
+    }
+    public static void afficheQuartierChoisi(Bot bot, Quartier quartierChoisi) {
+        System.out.println(bot.toString()+" a choisis le quartier "+ quartierChoisi);
+    }
+    public static void afficheQuartierConstruit(Bot bot,Quartier... quartiersConstruit){
+        for(Quartier quartier: quartiersConstruit){
+            System.out.println(bot.toString()+" a construit: "+quartier);
         }
 
-        System.out.println("Le vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
+    }
+    public static void afficheActionSpecialArchitecte(Bot bot, Quartier quartier1, Quartier quartier2){
+        System.out.println(bot.toString() +" pioche deux quartiers supplémentaires "+quartier1+" et "+quartier2);
+    }
+    public static void afficheVainqueur(Bot bot, int max){
+        System.out.println("Le vainqueur de la partie est "+bot.toString()+" avec un score de "+max+" points");
+    }
+    public static void afficheAvantageQuartierNoble(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Noble "+quartier);
+    }
+    public static void afficheAvantageQuartierMarchand(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Marchand "+quartier);
+    }
+    public static void afficheAvantageQuartierReligieux(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Religieux "+quartier);
     }
 }

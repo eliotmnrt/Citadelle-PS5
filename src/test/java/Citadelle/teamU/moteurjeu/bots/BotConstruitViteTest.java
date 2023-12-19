@@ -35,6 +35,7 @@ class BotConstruitViteTest {
     public void piocheTest(){
         bot.setRole(new Roi());
         bot.faireActionDeBase();
+        bot.construire();
         //Il prend de l'or
         System.out.println(bot.quartierMain);
         System.out.println(bot.quartierConstruit);
@@ -51,6 +52,7 @@ class BotConstruitViteTest {
         else if(bot.quartierMain.size() == 4){
             //il a pioche pcq il a que des trucs chère, pioche un truc pas chère et le construit
             //Les 4 dans sa mains sont donc chère
+            System.out.println(bot.quartierMain.toString());
             assertTrue(bot.quartierMain.get(0).getCout()>3);
             assertTrue(bot.quartierMain.get(1).getCout()>3);
             assertTrue(bot.quartierMain.get(2).getCout()>3);

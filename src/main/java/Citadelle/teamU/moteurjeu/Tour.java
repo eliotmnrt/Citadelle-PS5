@@ -16,29 +16,28 @@ public class Tour {
     ArrayList<Role> roles = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
         roles.add(new Roi());
-        roles.add(new Pretre());
-        roles.add(new Marchand());
         roles.add(new Architecte());
+        roles.add(new Marchand());
+        roles.add(new Pretre());
 
         boolean dernierTour=false;
         nbTour++;
         this.botListe = botListe;
         distributionRoles();
-        System.out.println("Tour "+ nbTour);
-        System.out.println(botListe);
+        Affichage.afficheTour(nbTour);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
-            ArrayList<Quartier> choixDeBase=bot.faireActionDeBase();
+            Affichage.afficheBot(bot);
+            bot.faireActionDeBase();
             bot.faireActionSpecialRole();
-            Affichage affiche=new Affichage(bot,choixDeBase);
-            affiche.afficheBot();
-            affiche.afficheChoixDeBase();
-            if(bot.getQuartiersConstruits().size()==8) dernierTour=true;
+            bot.construire();
+            if(bot.getQuartiersConstruits().size()>=8) dernierTour=true;
+            Affichage.separation();
 
         }
         if (dernierTour){
-            Affichage affichageFin=new Affichage(botListe);
-            affichageFin.afficheLeVainqueur();
+            Bot botVainqueur=CalculLeVainqueur();
+            Affichage.afficheVainqueur(botVainqueur,botVainqueur.getScore());
 
         }
 
@@ -50,6 +49,17 @@ public class Tour {
             bot.choisirRole(roles);
         }
     }
-
+    private Bot CalculLeVainqueur() {
+        //affiche le vainqueur de la partie, celui qui a un score maximal
+        int max = 0;
+        Bot botVainqueur = botListe.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
+        for (Bot bot : botListe) {
+            if (bot.getScore() > max) {
+                max = bot.getScore();
+                botVainqueur = bot;
+            }
+        }
+        return botVainqueur;
+    }
 
 }

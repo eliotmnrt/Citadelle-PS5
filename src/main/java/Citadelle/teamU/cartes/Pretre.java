@@ -1,5 +1,6 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.Objects;
@@ -12,6 +13,7 @@ public class Pretre extends Role{
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.BLEUE)){
                 bot.changerOr(1);
+                Affichage.afficheAvantageQuartierReligieux(bot,quartier);
             }
         }
     }

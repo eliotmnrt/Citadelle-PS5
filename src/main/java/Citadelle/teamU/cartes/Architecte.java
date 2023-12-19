@@ -1,5 +1,6 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
@@ -11,9 +12,13 @@ public class Architecte extends Role{
         super.nbQuartierConstructible = 3;
     }
     public void piocheDeuxCartes(Bot bot){
-        bot.ajoutQuartierMain(Pioche.piocherQuartier());
-        bot.ajoutQuartierMain(Pioche.piocherQuartier());
+        Quartier quartier1=Pioche.piocherQuartier();
+        Quartier quartier2=Pioche.piocherQuartier();
+        bot.ajoutQuartierMain(quartier1);
+        bot.ajoutQuartierMain(quartier2);
+        Affichage.afficheActionSpecialArchitecte(bot,quartier1,quartier2);
     }
+    @Override
     public void actionSpecial(Bot bot){
         piocheDeuxCartes(bot);
         bot.construire();
