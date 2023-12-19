@@ -10,6 +10,9 @@ public class Affichage {
     // classe de gestion de tout les prints
 
 
+    public static void separation(){
+        System.out.println("\n");
+    }
 
     public static void afficheTour(int nbTour){
         System.out.println("Tour "+ nbTour);
@@ -41,6 +44,6 @@ public class Affichage {
         System.out.println("Le vainqueur de la partie est "+bot.toString()+" avec un score de "+max+" points");
     }
     public static void afficheActionSpecialRoi(Bot bot, Quartier quartier){
-        System.out.println(bot.toString()+ "obtient 1 pièce d'or supplémentaire pour son quartier noble "+quartier);
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier noble "+quartier);
     }
 }

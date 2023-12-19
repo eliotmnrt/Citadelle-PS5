@@ -29,9 +29,10 @@ public class Tour {
         for (Bot bot: botListe){
             Affichage.afficheBot(bot);
             bot.faireActionDeBase();
-            bot.construire();
             bot.faireActionSpecialRole();
+            bot.construire();
             if(bot.getQuartiersConstruits().size()>=8) dernierTour=true;
+            Affichage.separation();
 
         }
         if (dernierTour){
