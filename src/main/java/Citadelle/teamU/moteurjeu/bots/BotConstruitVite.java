@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super();
-        this.name = "Bot qui construit vite "+numDuBotAleatoire;
+        this.name = "BotConstruitVite"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -38,21 +39,24 @@ public class BotConstruitVite extends Bot {
         }
         if(aQuartierPasChere){
             changerOr(2);
+            Affichage.afficheChoixOr(this);
         }
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
             Quartier quartier1= Pioche.piocherQuartier();
             Quartier quartier2=Pioche.piocherQuartier();
-
+            Affichage.afficheQuartiersPioches(this, quartier1,quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
+                Affichage.afficheQuartierChoisi(this,quartier1);
 
             }
             else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
+                Affichage.afficheQuartierChoisi(this,quartier2);
 
             }
         }
@@ -64,6 +68,7 @@ public class BotConstruitVite extends Bot {
         Random aleatoire= new Random();
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
+
     }
 
     /**
@@ -76,6 +81,8 @@ public class BotConstruitVite extends Bot {
         if(quartiersTrie.size()>0 && quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
+            Affichage.afficheQuartierConstruit(this,quartierConstruit);
+
         }
 
     }

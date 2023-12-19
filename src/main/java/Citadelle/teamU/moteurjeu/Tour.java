@@ -16,9 +16,9 @@ public class Tour {
     ArrayList<Role> roles = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
         roles.add(new Roi());
-        roles.add(new Roi());
-        roles.add(new Roi());
-        roles.add(new Roi());
+        roles.add(new Architecte());
+        roles.add(new Marchand());
+        roles.add(new Pretre());
 
         boolean dernierTour=false;
         nbTour++;

@@ -40,10 +40,19 @@ public class Affichage {
         }
 
     }
+    public static void afficheActionSpecialArchitecte(Bot bot, Quartier quartier1, Quartier quartier2){
+        System.out.println(bot.toString() +" pioche deux quartiers supplémentaires "+quartier1+" et "+quartier2);
+    }
     public static void afficheVainqueur(Bot bot, int max){
         System.out.println("Le vainqueur de la partie est "+bot.toString()+" avec un score de "+max+" points");
     }
-    public static void afficheActionSpecialRoi(Bot bot, Quartier quartier){
-        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier noble "+quartier);
+    public static void afficheAvantageQuartierNoble(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Noble "+quartier);
+    }
+    public static void afficheAvantageQuartierMarchand(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Marchand "+quartier);
+    }
+    public static void afficheAvantageQuartierReligieux(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ " obtient 1 pièce d'or supplémentaire pour son quartier Religieux "+quartier);
     }
 }

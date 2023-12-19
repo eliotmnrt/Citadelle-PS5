@@ -15,7 +15,7 @@ public class Roi extends Role{
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
                 bot.changerOr(1);
-                Affichage.afficheActionSpecialRoi(bot, quartier);
+                Affichage.afficheAvantageQuartierNoble(bot, quartier);
             }
         }
     }
