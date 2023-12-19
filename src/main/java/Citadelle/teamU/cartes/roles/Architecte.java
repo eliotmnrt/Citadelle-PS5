@@ -1,14 +1,24 @@
-package Citadelle.teamU.cartes;
+package Citadelle.teamU.cartes.roles;
 
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Architecte extends Role{
-    public Architecte(){
-        super.ordre = 7;
-        super.nbQuartierConstructible = 3;
+public class Architecte implements Role {
+
+    private int ordre;
+    private ArrayList<Bot> botListe;
+    private int nbQuartierConstructible;
+
+
+
+    public Architecte(ArrayList<Bot> botListe){
+        this.botListe = botListe;
+        this.ordre = 7;
+        this.nbQuartierConstructible = 3;
     }
     public void piocheDeuxCartes(Bot bot){
         bot.ajoutQuartierMain(Pioche.piocherQuartier());
@@ -19,6 +29,12 @@ public class Architecte extends Role{
         bot.construire();
         bot.construire();
     }
+
+    @Override
+    public int getOrdre() {
+        return ordre;
+    }
+
     @Override
     public String toString() {
         return "Architecte";

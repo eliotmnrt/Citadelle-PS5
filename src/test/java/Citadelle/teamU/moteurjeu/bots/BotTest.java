@@ -1,6 +1,5 @@
 package Citadelle.teamU.moteurjeu.bots;
 
-import Citadelle.teamU.cartes.Architecte;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;

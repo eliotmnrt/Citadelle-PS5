@@ -73,26 +73,23 @@ public class BotAleatoire extends Bot{
     public Quartier construire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<=nbOr  &&  !quartierConstruit.contains(quartier)){
                 quartiersPossible.add(quartier);
             }
         }
-        //a suffle
         if(quartiersPossible.size()>0){
             Random aleatoire= new Random();
-            int nbContruit= aleatoire.nextInt(2);
-            if(nbContruit==1){
-                Quartier quartierConstruit = quartiersPossible.get(0);
-                ajoutQuartierConstruit(quartierConstruit);
-                return quartierConstruit;
-            }
+            int intAleatoire= aleatoire.nextInt(quartiersPossible.size());
+            Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
+            ajoutQuartierConstruit(quartierConstruire);
+            return quartierConstruire;
         }
         return null;
     }
 
     @Override
     public String toString(){
+
         return name;
     }
-
 }

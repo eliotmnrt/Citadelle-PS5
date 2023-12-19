@@ -1,6 +1,9 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.cartes.roles.Architecte;
+import Citadelle.teamU.cartes.roles.Roi;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoleTest {
     private BotAleatoire bot;
+    ArrayList<Bot> botliste;
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
         bot = new BotAleatoire();
+        botliste = new ArrayList<>();
+        botliste.add(bot);
 
     }
     @Test
     public void archiTest(){
-        bot.setRole(new Architecte());
+        bot.setRole(new Architecte(botliste));
         bot.changerOr(20); // 22 d'or au total pour pouvoir construire bcp potentiellement
         assertEquals(22, bot.getOr());
         assertTrue(bot.getQuartiersConstruits().isEmpty());
@@ -28,7 +34,7 @@ class RoleTest {
         }
     @Test
     public void RoiTest(){
-        bot.setRole(new Roi());
+        bot.setRole(new Roi(botliste));
         bot.changerOr(20); // 22 d'or au total pour pouvoir construire n'importe quelle quartier
         assertEquals(22, bot.getOr());
         assertTrue(bot.getQuartiersConstruits().isEmpty());

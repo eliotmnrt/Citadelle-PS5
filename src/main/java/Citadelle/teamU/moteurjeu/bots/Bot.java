@@ -71,7 +71,7 @@ public class Bot {
     public ArrayList<Quartier> faireActionDeBase(){
         // return le quartier choisi si le bot a choisi de piocher un quartier
         // si le bot a choisi de prendre des pieces ça return null
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
         return choixDeBase;
     }
     public int getScore(){
@@ -82,7 +82,7 @@ public class Bot {
      * Fait les actions qui sont différentes en fonction de chaque roles
      */
     public void faireActionSpecialRole(){
-        role.actionSpecial(this);
+        role.actionSpeciale(this);
     }
     public Quartier construire(){
         return null;

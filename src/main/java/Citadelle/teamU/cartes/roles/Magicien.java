@@ -11,6 +11,9 @@ public class Magicien implements Role {
     // on part du principe que si on choisit le magicien, on VEUT changer ses cartes
 
     private ArrayList<Bot> botListe;
+    private final int ordre = 3;
+
+    private String choix;
 
     public Magicien(ArrayList<Bot> botListe){
         this.botListe = botListe;
@@ -25,15 +28,12 @@ public class Magicien implements Role {
             }
         }
         if(botAvecQuiEchanger != null){
-            System.out.println("echange avec " + botAvecQuiEchanger.toString());
-            System.out.println("nouvelle main: "+bot.getQuartierMain());
+            choix = "le " + botAvecQuiEchanger.toString();
             changeAvecBot(bot, botAvecQuiEchanger);
 
         } else {
-            System.out.println("echange avec pioche");
-            System.out.println("nouvelle main: "+bot.getQuartierMain());
+            choix = "la pioche";
             changeAvecPioche(bot);
-
         }
     }
 
@@ -61,8 +61,23 @@ public class Magicien implements Role {
     }
 
     @Override
+    public int getOrdre() {
+        return ordre;
+    }
+
+    @Override
+    public void actionSpeciale(Bot bot) {
+        System.out.println("magicien a faire");
+    }
+
+    @Override
     public String toString() {
         return "Magicien";
     }
+
+    public String actionToString(Bot bot){
+        return "Le " + bot.toString() +" a échangé ses carte avec " + choix + ".\nMain actuelle : " + bot.getQuartierMain();
+    }
+
 
 }

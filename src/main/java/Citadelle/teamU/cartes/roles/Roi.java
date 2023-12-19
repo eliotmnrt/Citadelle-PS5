@@ -10,25 +10,38 @@ import java.util.Objects;
 
 public class Roi implements Role {
 
-    private int ordre;
     private ArrayList<Bot> botListe;
+    private int orGagneCapacite = 0;
+    private final int ordre = 4;
+
     public Roi(ArrayList<Bot> botListe){
         this.botListe = botListe;
-        this.ordre = 4;
     }
     public void orQuartierJaune(Bot bot){
+        int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
                 bot.changerOr(1);
+                comp++;
             }
         }
+        orGagneCapacite = comp;
     }
-    public void actionSpecial(Bot bot){
+    public void actionSpeciale(Bot bot){
         orQuartierJaune(bot);
+    }
+
+    @Override
+    public int getOrdre() {
+        return ordre;
     }
 
     @Override
     public String toString() {
         return "Roi";
+    }
+
+    public String actionToString(Bot bot){
+        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité";
     }
 }

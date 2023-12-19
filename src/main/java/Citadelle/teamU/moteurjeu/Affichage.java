@@ -24,36 +24,45 @@ public class Affichage {
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
-
     }
-    public void afficheChoixDeBase(String choix){
-        if(choix.equals("piocher")){
+
+    public void setChoixDeBase(ArrayList<Quartier> choixDeBase) {
+        this.choixDeBase = choixDeBase;
+    }
+
+    public void afficheChoixDeBase(ArrayList<Quartier> choix){
+        if(choix.get(0) == null){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
-            if (choixDeBase.size()==1){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(0));
+            if (choixDeBase.size()==2){
+                System.out.println(bot.toString()+" a construit "+choixDeBase.get(1));
             }
         }
-        else if(choix.equals("prendreOr")){
-            System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
-            System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
-            if (choixDeBase.size()==4){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(3));
+        else if(choix.get(0) != null) {
+            System.out.println(bot.toString() + " a pioché les quartiers " + choixDeBase.get(0) + " et " + choixDeBase.get(1));
+            System.out.println(bot.toString() + " a choisis le quartier " + choixDeBase.get(2));
+            if (choixDeBase.size() == 4 && choixDeBase.get(3) != null) {
+                System.out.println(bot.toString() + " a construit " + choixDeBase.get(3));
             }
+        }
         else {
-            throw new IllegalArgumentException();
-            }
+            throw new IllegalArgumentException(); // a l'aide
         }
         System.out.println("\n");
+    }
+
+
+    public void afficheActionSpeciale(Bot bot){
+        System.out.println(bot.getRole().actionToString(bot));
     }
 
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
         Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot: botList){
-            if (bot.getScore()>max){
-             max= bot.getScore();
-             botVainqueur=bot;
+        for(Bot bot1: botList){
+            if (bot1.getScore()>max){
+             max= bot1.getScore();
+             botVainqueur=bot1;
             }
         }
 

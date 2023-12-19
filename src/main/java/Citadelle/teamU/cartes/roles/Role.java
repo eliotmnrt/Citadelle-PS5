@@ -8,7 +8,8 @@ public interface Role {
     int ordre = 0;
 
     //Les actions dépendent du role
-    void actionSpecial(Bot bot);
-
+    void actionSpeciale(Bot bot);
+    String toString();
+    String actionToString(Bot bot);
     int getOrdre();
 }
