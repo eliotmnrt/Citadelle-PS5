@@ -22,8 +22,8 @@ public class Affichage {
         System.out.println("Quartier construits "+bot.getQuartiersConstruits());
 
     }
-    public static void afficheChoixOr(Bot bot, int pieces){
-        System.out.println(bot.toString()+" a pris "+pieces+" pièces d'or");
+    public static void afficheChoixOr(Bot bot){
+        System.out.println(bot.toString()+" a pris 2 pièces d'or");
     }
     public static void afficheQuartiersPioches(Bot bot,Quartier quartier1, Quartier quartier2){
         System.out.println(bot.toString()+" a pioché les quartiers "+quartier1+" et "+quartier2);
@@ -40,7 +40,7 @@ public class Affichage {
     public static void afficheVainqueur(Bot bot, int max){
         System.out.println("Le vainqueur de la partie est "+bot.toString()+" avec un score de "+max+" points");
     }
-    public static void afficheActionSpecialRoi(Bot bot){
-        System.out.println(bot.toString()+ "obtient son bonus de Roi pour son quartier noble");
+    public static void afficheActionSpecialRoi(Bot bot, Quartier quartier){
+        System.out.println(bot.toString()+ "obtient 1 pièce d'or supplémentaire pour son quartier noble "+quartier);
     }
 }

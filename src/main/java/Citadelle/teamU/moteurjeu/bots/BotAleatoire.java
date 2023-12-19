@@ -49,9 +49,8 @@ public class BotAleatoire extends Bot{
 
             }
         } else if (intAleatoire == 1){
-            int pieces=2;
-            changerOr(pieces);
-            Affichage.afficheChoixOr(this,pieces);
+            changerOr(2);
+            Affichage.afficheChoixOr(this);
         }
     }
 
