@@ -12,10 +12,8 @@ public class Affichage {
     private ArrayList<Quartier> choixDeBase;
     private ArrayList<Bot> botList;
 
-    public Affichage(Bot bot, ArrayList<Quartier> choixDeBase){
+    public Affichage(Bot bot){
         this.bot=bot;
-
-        this.choixDeBase=choixDeBase;
     }
     public Affichage(ArrayList<Bot> botList){
         this.botList=botList;
@@ -25,27 +23,29 @@ public class Affichage {
         System.out.println("--------------"+bot.toString()+"------------------");
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
-        System.out.println("Quartier construits "+bot.getQuartiersConstruits());
+        System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
 
     }
-    public void afficheChoixDeBase(){
-        if(choixDeBase.get(0)==null){
+    public void afficheChoixDeBase(String choix){
+        if(choix.equals("piocher")){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
-            for(int i=1 ; i<choixDeBase.size() ; i++){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
+            if (choixDeBase.size()==1){
+                System.out.println(bot.toString()+" a construit "+choixDeBase.get(0));
             }
         }
-        else{
-
+        else if(choix.equals("prendreOr")){
             System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
             System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
-            for(int i=3 ; i<choixDeBase.size() ; i++){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(i));
+            if (choixDeBase.size()==4){
+                System.out.println(bot.toString()+" a construit "+choixDeBase.get(3));
+            }
+        else {
+            throw new IllegalArgumentException();
             }
         }
         System.out.println("\n");
     }
-    
+
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;

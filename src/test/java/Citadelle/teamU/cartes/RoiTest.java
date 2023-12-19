@@ -1,9 +1,14 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.cartes.roles.Roi;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +19,9 @@ class RoiTest {
     public void setBot(){
         Pioche pioche = new Pioche();
         bot = new BotAleatoire();
-        bot.setRole(new Roi());
+        ArrayList<Bot> botliste = new ArrayList<>();
+        botliste.add(bot);
+        bot.setRole(new Roi(botliste));
     }
     @Test
     public void roiSpecialTest(){

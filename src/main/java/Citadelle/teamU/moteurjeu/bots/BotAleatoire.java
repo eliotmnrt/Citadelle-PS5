@@ -1,6 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
-import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -92,7 +92,6 @@ public class BotAleatoire extends Bot{
 
     @Override
     public String toString(){
-
         return name;
     }
 

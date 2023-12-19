@@ -1,19 +1,14 @@
-package Citadelle.teamU.cartes;
+package Citadelle.teamU.cartes.roles;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-public class Role {
-    protected int nbQuartierConstructible=1;
-    protected int ordre = 0;
-    public Role(){
+import java.util.ArrayList;
 
-    }
-    public int getNbQuartierConstructible() {
-        return nbQuartierConstructible;
-    }
-    public void actionSpecial(Bot bot){
-        //Les actions dépendent du role
-    }
-    public int getOrdre() {
-        return ordre;
-    }
+public interface Role {
+
+    int ordre = 0;
+
+    //Les actions dépendent du role
+    void actionSpecial(Bot bot);
+
+    int getOrdre();
 }
