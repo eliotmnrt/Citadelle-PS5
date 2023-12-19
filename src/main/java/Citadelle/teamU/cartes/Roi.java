@@ -1,5 +1,6 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.Objects;
@@ -18,7 +19,9 @@ public class Roi extends Role{
         }
     }
     public void actionSpecial(Bot bot){
+
         orQuartierJaune(bot);
+        Affichage.afficheActionSpecialRoi(bot);
     }
 
     @Override

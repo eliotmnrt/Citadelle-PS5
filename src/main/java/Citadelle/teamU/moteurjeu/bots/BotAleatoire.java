@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -22,41 +23,36 @@ public class BotAleatoire extends Bot{
 
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
-        //une arrayList qui en 0 contient null si le bot prend 2 pieces d'or
-        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
-        //en indice 2 le quartier choisi parmis les deux
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+    public void faireActionDeBase(){
         Random aleatoire= new Random();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= aleatoire.nextInt(2);
-        //Quartier quartierChoisi=null;
+
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
             Quartier quartier1= Pioche.piocherQuartier();
             Quartier quartier2=Pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-
+            Affichage.afficheQuartiersPioches(this,quartier1,quartier2);
             int intAleatoire2= aleatoire.nextInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 ==0){
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
+                Affichage.afficheQuartierChoisi(this,quartier1);
+
             }
             else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
+                Affichage.afficheQuartierChoisi(this,quartier2);
+
+
             }
         } else if (intAleatoire == 1){
-            //choixDeBase.add(null);
-            choixDeBase=null;
-            changerOr(2);
+            int pieces=2;
+            changerOr(pieces);
+            Affichage.afficheChoixOr(this,pieces);
         }
-        //choixDeBase.add(construire());
-        return choixDeBase;
     }
 
     @Override
@@ -70,7 +66,7 @@ public class BotAleatoire extends Bot{
      * Construi un quartier aléatoire parmis ceux qu'il peut construire
      */
     @Override
-    public Quartier construire(){
+    public void construire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
@@ -84,10 +80,11 @@ public class BotAleatoire extends Bot{
             if(nbContruit==1){
                 Quartier quartierConstruit = quartiersPossible.get(0);
                 ajoutQuartierConstruit(quartierConstruit);
-                return quartierConstruit;
+                Affichage.afficheQuartierConstruit(this,quartierConstruit);
+
             }
         }
-        return null;
+
     }
 
     @Override

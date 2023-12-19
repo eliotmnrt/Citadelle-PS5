@@ -27,12 +27,8 @@ public class BotConstruitVite extends Bot {
     }
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
-        //une arrayList qui contient rien si le bot prend 2 pieces d'or
-        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
-        //en indice 2 le quartier choisi parmis les deux
-        //en indice 3 le quartier construit si un quartier a été construit
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+    public void faireActionDeBase(){
+
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
@@ -41,8 +37,6 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(aQuartierPasChere){
-            //choixDeBase.add(null);
-            choixDeBase=null;
             changerOr(2);
         }
         else{
@@ -50,22 +44,19 @@ public class BotConstruitVite extends Bot {
             // piocher deux quartiers, quartier1 et quartier 2
             Quartier quartier1= Pioche.piocherQuartier();
             Quartier quartier2=Pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
+
             if (quartier1.getCout()<quartier2.getCout()){
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
+
             }
             else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
+
             }
         }
 
-        //choixDeBase.add(construire());
-        return choixDeBase;
     }
 
     @Override
@@ -76,18 +67,17 @@ public class BotConstruitVite extends Bot {
     }
 
     /**
-     * Construi un quartier
+     * Construit un quartier
      */
     @Override
-    public Quartier construire(){
+    public void construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
         if(quartiersTrie.size()>0 && quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
-            return quartierConstruit;
         }
-        return null;
+
     }
 
     @Override

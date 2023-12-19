@@ -37,8 +37,8 @@ public class Jeu {
         Pioche pioche = new Pioche();
         Bot bot1 = new BotAleatoire();
         Bot bot2 = new BotAleatoire();
-        Bot bot3 = new BotConstruitChere();
-        Bot bot4 = new BotConstruitVite();
+        Bot bot3 = new BotAleatoire();
+        Bot bot4 = new BotAleatoire();
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
     }
 }

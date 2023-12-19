@@ -8,19 +8,13 @@ import java.util.ArrayList;
 
 public class Affichage {
     // classe de gestion de tout les prints
-    private Bot bot;
-    private ArrayList<Quartier> choixDeBase;
-    private ArrayList<Bot> botList;
 
-    public Affichage(Bot bot, ArrayList<Quartier> choixDeBase){
-        this.bot=bot;
 
-        this.choixDeBase=choixDeBase;
+
+    public static void afficheTour(int nbTour){
+        System.out.println("Tour "+ nbTour);
     }
-    public Affichage(ArrayList<Bot> botList){
-        this.botList=botList;
-    }
-    public void afficheBot(){
+    public static void afficheBot(Bot bot){
 
         System.out.println("--------------"+bot.toString()+"------------------");
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
@@ -28,44 +22,25 @@ public class Affichage {
         System.out.println("Quartier construits "+bot.getQuartiersConstruits());
 
     }
-    public void afficheChoixDeBase(){
-
-        if (choixDeBase==null){ // cas ou il a choisis de prendre des pieces
-            System.out.println(bot.toString()+" a pris 2 pièces d'or");
-
-        }
-        else{
-
-            System.out.println(bot.toString()+" a pioché les quartiers "+choixDeBase.get(0)+" et "+choixDeBase.get(1));
-            System.out.println(bot.toString()+" a choisis le quartier "+choixDeBase.get(2));
-        }
-
-
+    public static void afficheChoixOr(Bot bot, int pieces){
+        System.out.println(bot.toString()+" a pris "+pieces+" pièces d'or");
     }
-    public void afficheActionSpecial(){
-
+    public static void afficheQuartiersPioches(Bot bot,Quartier quartier1, Quartier quartier2){
+        System.out.println(bot.toString()+" a pioché les quartiers "+quartier1+" et "+quartier2);
     }
-    public void afficheConstruction(){
-        Quartier quartierAConstruire=bot.construire();
-        if (bot.construire()!=null){
-            System.out.println("le bot a construit: "+quartierAConstruire);
-        }
+    public static void afficheQuartierChoisi(Bot bot, Quartier quartierChoisi) {
+        System.out.println(bot.toString()+" a choisis le quartier "+ quartierChoisi);
     }
-
-    public void afficheLeVainqueur(){
-        //affiche le vainqueur de la partie, celui qui a un score maximal
-        int max=0;
-        Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot: botList){
-            if (bot.getScore()>max){
-             max= bot.getScore();
-             botVainqueur=bot;
-            }
+    public static void afficheQuartierConstruit(Bot bot,Quartier... quartiersConstruit){
+        for(Quartier quartier: quartiersConstruit){
+            System.out.println(bot.toString()+" a construit: "+quartier);
         }
 
-        System.out.println("Le vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
     }
-    public void finAffichage(){
-        System.out.println("\n");
+    public static void afficheVainqueur(Bot bot, int max){
+        System.out.println("Le vainqueur de la partie est "+bot.toString()+" avec un score de "+max+" points");
+    }
+    public static void afficheActionSpecialRoi(Bot bot){
+        System.out.println(bot.toString()+ "obtient son bonus de Roi pour son quartier noble");
     }
 }
