@@ -56,18 +56,13 @@ public class Magicien implements Role {
     }
 
 
-    public void actionSpecial(Bot bot){
+    public void actionSpeciale(Bot bot){
         echangeDeCartes(bot);
     }
 
     @Override
     public int getOrdre() {
         return ordre;
-    }
-
-    @Override
-    public void actionSpeciale(Bot bot) {
-        System.out.println("magicien a faire");
     }
 
     @Override

@@ -10,20 +10,23 @@ import java.util.Objects;
 
 public class Pretre implements Role {
 
-    private int ordre;
+    private final int ordre = 5;
     private ArrayList<Bot> botliste;
+    private int orGagneCapacite = 0;
     public Pretre(ArrayList<Bot> botliste){
         this.botliste = botliste;
-        this.ordre=5;
     }
     public void OrQuartierBleue(Bot bot){
+        int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.BLEUE)){
                 bot.changerOr(1);
+                comp++;
             }
         }
+        orGagneCapacite = comp;
     }
-    public void actionSpecial(Bot bot){
+    public void actionSpeciale(Bot bot){
         OrQuartierBleue(bot);
     }
 
@@ -32,9 +35,15 @@ public class Pretre implements Role {
         return ordre;
     }
 
+
     @Override
     public String toString() {
         return "Prêtre";
+    }
+
+    @Override
+    public String actionToString(Bot bot) {
+        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité de prêtre";
     }
 
 

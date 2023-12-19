@@ -42,6 +42,6 @@ public class Roi implements Role {
     }
 
     public String actionToString(Bot bot){
-        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité";
+        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité de roi";
     }
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Architecte implements Role {
 
-    private int ordre;
+    private final int ordre = 7;
     private ArrayList<Bot> botListe;
     private int nbQuartierConstructible;
 
@@ -17,14 +17,13 @@ public class Architecte implements Role {
 
     public Architecte(ArrayList<Bot> botListe){
         this.botListe = botListe;
-        this.ordre = 7;
         this.nbQuartierConstructible = 3;
     }
     public void piocheDeuxCartes(Bot bot){
         bot.ajoutQuartierMain(Pioche.piocherQuartier());
         bot.ajoutQuartierMain(Pioche.piocherQuartier());
     }
-    public void actionSpecial(Bot bot){
+    public void actionSpeciale(Bot bot){
         piocheDeuxCartes(bot);
         bot.construire();
         bot.construire();
@@ -35,8 +34,14 @@ public class Architecte implements Role {
         return ordre;
     }
 
+
     @Override
     public String toString() {
         return "Architecte";
+    }
+
+    @Override
+    public String actionToString(Bot bot) {
+        return "print de l'archi a faire";
     }
 }
