@@ -19,25 +19,35 @@ public class Magicien implements Role {
         this.botListe = botListe;
     }
 
+    public ArrayList<Bot> getBotListe() {
+        return botListe;
+    }
+
     public void echangeDeCartes(Bot bot){
         int nbQuartierMain = bot.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: botListe){
+        for (Bot botAdverse: botListe){  //on regarde qui a le plus de cartes dans sa main
             if(botAdverse.getQuartierMain().size() > nbQuartierMain){
                 botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
             }
         }
-        if(botAvecQuiEchanger != null){
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
             choix = "le " + botAvecQuiEchanger.toString();
             changeAvecBot(bot, botAvecQuiEchanger);
 
-        } else {
+        } else {    // sinon on échange avec la pioche
             choix = "la pioche";
             changeAvecPioche(bot);
         }
     }
 
-    private void changeAvecPioche(Bot bot){
+    /**
+     * permet au bot d'echanger sa main avec la pioche
+     * @param bot Bot
+     */
+
+    public void changeAvecPioche(Bot bot){
         int nbQuartierMain = bot.getQuartierMain().size();
         for(int i=0; i<nbQuartierMain; i++){
             Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
@@ -47,7 +57,12 @@ public class Magicien implements Role {
         }
     }
 
-    private void changeAvecBot(Bot bot, Bot botEchange){
+    /**
+     * permet d'echanger les mains de 2 bots
+     * @param bot Bot a l'initiative de l'échange
+     * @param botEchange bot qui subit l'échange
+     */
+    public void changeAvecBot(Bot bot, Bot botEchange){
         ArrayList<Quartier> tmpList = new ArrayList<>(bot.getQuartierMain());
         bot.getQuartierMain().clear();
         bot.getQuartierMain().addAll(botEchange.getQuartierMain());
@@ -57,7 +72,7 @@ public class Magicien implements Role {
 
 
     public void actionSpeciale(Bot bot){
-        echangeDeCartes(bot);
+        bot.actionSpecialeMagicien(this);
     }
 
     @Override

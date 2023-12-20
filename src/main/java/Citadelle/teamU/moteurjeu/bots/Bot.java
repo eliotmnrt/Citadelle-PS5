@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
@@ -87,4 +88,5 @@ public class Bot {
     public Quartier construire(){
         return null;
     }
+    public void actionSpecialeMagicien(Magicien magicien){return;}
 }

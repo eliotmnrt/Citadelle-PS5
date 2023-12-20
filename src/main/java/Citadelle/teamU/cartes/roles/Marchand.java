@@ -45,7 +45,7 @@ public class Marchand implements Role {
 
     @Override
     public String actionToString(Bot bot) {
-        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité de marchand";
+        return "Le " + bot.toString() + " a gagné " + (orGagneCapacite+1) + " or(s) grâce à sa capacité de marchand";
     }
 }
    

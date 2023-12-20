@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
@@ -67,7 +68,7 @@ public class BotAleatoire extends Bot{
     }
 
     /**
-     * Construi un quartier aléatoire parmis ceux qu'il peut construire
+     * Construit un quartier aléatoire parmis ceux qu'il peut construire
      */
     @Override
     public Quartier construire(){
@@ -89,7 +90,17 @@ public class BotAleatoire extends Bot{
 
     @Override
     public String toString(){
-
         return name;
+    }
+
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        Random rand = new Random();
+        int aleat = rand.nextInt(magicien.getBotListe().size());        // tire un chiffre aleatoire pour 4 bots et la pioche
+        if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
+            magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
+        } else {                                                        //aleatoire correspondant à la pioche
+            magicien.changeAvecPioche(this);
+        }
     }
 }
