@@ -33,11 +33,9 @@ public class Magicien implements Role {
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            choix = "le " + botAvecQuiEchanger.toString();
             changeAvecBot(bot, botAvecQuiEchanger);
 
         } else {    // sinon on échange avec la pioche
-            choix = "la pioche";
             changeAvecPioche(bot);
         }
     }
@@ -48,6 +46,7 @@ public class Magicien implements Role {
      */
 
     public void changeAvecPioche(Bot bot){
+        choix = "la pioche";
         int nbQuartierMain = bot.getQuartierMain().size();
         for(int i=0; i<nbQuartierMain; i++){
             Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
@@ -63,6 +62,7 @@ public class Magicien implements Role {
      * @param botEchange bot qui subit l'échange
      */
     public void changeAvecBot(Bot bot, Bot botEchange){
+        choix = "le " + botEchange.toString();
         ArrayList<Quartier> tmpList = new ArrayList<>(bot.getQuartierMain());
         bot.getQuartierMain().clear();
         bot.getQuartierMain().addAll(botEchange.getQuartierMain());
