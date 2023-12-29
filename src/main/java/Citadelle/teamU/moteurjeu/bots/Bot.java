@@ -88,5 +88,5 @@ public class Bot {
     public Quartier construire(){
         return null;
     }
-    public void actionSpecialeMagicien(Magicien magicien){return;}
+    public void actionSpecialeMagicien(Magicien magicien){}
 }

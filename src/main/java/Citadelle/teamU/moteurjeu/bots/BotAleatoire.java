@@ -97,10 +97,13 @@ public class BotAleatoire extends Bot{
     public void actionSpecialeMagicien(Magicien magicien){
         Random rand = new Random();
         int aleat = rand.nextInt(magicien.getBotListe().size());        // tire un chiffre aleatoire pour 4 bots et la pioche
+        while (aleat == magicien.getBotListe().indexOf(this)){          //on l'empêche d'échanger avec lui meme
+            aleat = rand.nextInt(magicien.getBotListe().size());
+        }
         if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
             magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
         } else {                                                        //aleatoire correspondant à la pioche
-            magicien.changeAvecPioche(this);
+            magicien.changeAvecPioche(this, this.getQuartierMain());
         }
     }
 }

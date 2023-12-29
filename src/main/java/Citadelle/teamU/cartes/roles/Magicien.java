@@ -23,35 +23,19 @@ public class Magicien implements Role {
         return botListe;
     }
 
-    public void echangeDeCartes(Bot bot){
-        int nbQuartierMain = bot.getQuartierMain().size();
-        Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: botListe){  //on regarde qui a le plus de cartes dans sa main
-            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
-                botAvecQuiEchanger = botAdverse;
-                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
-            }
-        }
-        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            changeAvecBot(bot, botAvecQuiEchanger);
-
-        } else {    // sinon on échange avec la pioche
-            changeAvecPioche(bot);
-        }
-    }
-
     /**
-     * permet au bot d'echanger sa main avec la pioche
-     * @param bot Bot
+     *  permet au bot d'echanger sa main avec la pioche
+     * @param bot
+     * @param carteEchangees quartiers à échanger
      */
-
-    public void changeAvecPioche(Bot bot){
+    public void changeAvecPioche(Bot bot, ArrayList<Quartier> carteEchangees){
         choix = "la pioche";
-        int nbQuartierMain = bot.getQuartierMain().size();
-        for(int i=0; i<nbQuartierMain; i++){
-            Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
+        int nbQuartierEchanges = carteEchangees.size();
+        for (int i=nbQuartierEchanges-1; i>0; i--){
+            int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
+            Pioche.remettreDansPioche(bot.getQuartierMain().remove(rang));
         }
-        for(int i=0; i<nbQuartierMain; i++){
+        for(int i=0; i<nbQuartierEchanges; i++){
             bot.ajoutQuartierMain(Pioche.piocherQuartier());
         }
     }

@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
@@ -75,7 +76,7 @@ public class BotConstruitVite extends Bot {
     }
 
     /**
-     * Construi un quartier
+     * Construit un quartier
      */
     @Override
     public Quartier construire(){
@@ -88,6 +89,25 @@ public class BotConstruitVite extends Bot {
         }
         return null;
     }
+
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        int nbQuartierMain = this.getQuartierMain().size();
+        Bot botAvecQuiEchanger = null;
+        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
+                botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
+            }
+        }
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            magicien.changeAvecBot(this, botAvecQuiEchanger);
+
+        } else {    // sinon on échange toutes ses cartes avec la pioche
+            magicien.changeAvecPioche(this, this.getQuartierMain());
+        }
+    }
+
 
     @Override
     public String toString(){
