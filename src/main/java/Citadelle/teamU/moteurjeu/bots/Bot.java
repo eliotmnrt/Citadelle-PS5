@@ -85,8 +85,8 @@ public class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
-    public Quartier construire(){
-        return null;
+    public void construire(){
+
     }
     public void actionSpecialeMagicien(Magicien magicien){}
 }

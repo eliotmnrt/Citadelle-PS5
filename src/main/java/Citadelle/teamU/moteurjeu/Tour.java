@@ -6,6 +6,7 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -41,7 +42,7 @@ public class Tour {
 
         }
         if (dernierTour){
-            Affichage affichageFin=new Affichage(botListe);
+            Affichage affichageFin = new Affichage(botListe);
             affichageFin.afficheLeVainqueur();
 
         }

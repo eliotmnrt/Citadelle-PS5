@@ -11,10 +11,11 @@ import java.util.Random;
 public class BotConstruitChere extends Bot{
     private String name;
     private final int COUT_MINIMAL=4;
-
+    private static int numDuBotConstruitChere=1;
     public BotConstruitChere(){
         super();
-        this.name="BotConstruitChere";
+        this.name="BotConstruitChere"+numDuBotConstruitChere;
+        numDuBotConstruitChere++;
     }
 
     @Override
@@ -59,16 +60,6 @@ public class BotConstruitChere extends Bot{
 
         int max=0;
         Quartier quartierChoisi=null;
-        /*
-        ArrayList<Quartier> quartiersPossible = new ArrayList<>();
-        for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=nbOr&&!quartierConstruit.contains(quartier)){
-                quartiersPossible.add(quartier);
-            }
-        }
-        if(quartiersPossible.size()==0){
-            return null;
-        }*/
         for(Quartier quartier :quartierMain){
             if(quartier.getCout()>max){
                 max=quartier.getCout();
@@ -89,7 +80,6 @@ public class BotConstruitChere extends Bot{
     }
     @Override
     public String toString(){
-
         return name;
     }
 
