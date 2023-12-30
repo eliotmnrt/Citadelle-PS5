@@ -1,6 +1,8 @@
 package Citadelle.teamU.cartes;
 
+import Citadelle.teamU.cartes.roles.Architecte;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArchitecteTest {
     private BotAleatoire bot;
+    ArrayList<Bot> botliste;
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
         bot = new BotAleatoire();
-        bot.setRole(new Architecte());
+        botliste = new ArrayList<>();
+        botliste.add(bot);
+        bot.setRole(new Architecte(botliste));
     }
     @Test
     public void archiSpecialTest(){

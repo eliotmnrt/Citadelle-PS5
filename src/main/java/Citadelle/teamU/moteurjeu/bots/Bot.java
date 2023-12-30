@@ -1,7 +1,8 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.Role;
+import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -68,8 +69,11 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void faireActionDeBase(){
-        //effectue un choix entre prendre 2 pieces et piocher un quartuer
+    public ArrayList<Quartier> faireActionDeBase(){
+        // return le quartier choisi si le bot a choisi de piocher un quartier
+        // si le bot a choisi de prendre des pieces ça return null
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        return choixDeBase;
     }
     public int getScore(){
         return this.score;
@@ -79,9 +83,10 @@ public class Bot {
      * Fait les actions qui sont différentes en fonction de chaque roles
      */
     public void faireActionSpecialRole(){
-        role.actionSpecial(this);
+        role.actionSpeciale(this);
     }
-    public void construire(){
-
+    public Quartier construire(){
+        return null;
     }
+    public void actionSpecialeMagicien(Magicien magicien){}
 }

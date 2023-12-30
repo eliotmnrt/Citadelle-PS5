@@ -1,7 +1,8 @@
 package Citadelle.teamU.moteurjeu;
 
-import Citadelle.teamU.cartes.Architecte;
-import Citadelle.teamU.cartes.Roi;
+import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Roi;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,11 +41,9 @@ class TourTest {
 
         // pour l'instant y'a que roi après mettre :
         //bot.setRole(new Roi(bot));
-        /*
-        assertEquals(1,botliste.get(0).getRole().getClass().getInterfaces().length);
-        assertEquals(1,botliste.get(1).getRole().getClass().getInterfaces().length);
-        assertEquals(1,botliste.get(2).getRole().getClass().getInterfaces().length);
-        assertEquals(1,botliste.get(3).getRole().getClass().getInterfaces().length);
-        */
+        assertEquals(1, botliste.get(0).getRole().getClass().getInterfaces().length);
+        assertEquals(1, botliste.get(1).getRole().getClass().getInterfaces().length);
+        assertEquals(1, botliste.get(2).getRole().getClass().getInterfaces().length);
+        assertEquals(1, botliste.get(3).getRole().getClass().getInterfaces().length);
     }
 }

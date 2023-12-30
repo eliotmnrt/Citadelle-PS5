@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>Team_U</groupId> <!-- CHANGE ME -->
-    <artifactId>JarName</artifactId> <!-- CHANGE ME -->
-    <version>1.0-SNAPSHOT</version> <!-- CHANGE ME -->
+    <artifactId>citadelle</artifactId> <!-- CHANGE ME -->
+    <version>1.3-SNAPSHOT</version> <!-- CHANGE ME -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8
@@ -33,7 +33,16 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>

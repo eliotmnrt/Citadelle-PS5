@@ -1,8 +1,8 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.Role;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -23,13 +23,17 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super();
-        this.name = "BotConstruitVite"+numDuBotAleatoire;
+        this.name = "Bot_qui_construit_vite"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
     @Override
-    public void faireActionDeBase(){
-
+    public ArrayList<Quartier> faireActionDeBase(){
+        //une arrayList qui contient rien si le bot prend 2 pieces d'or
+        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
+        //en indice 2 le quartier choisi parmis les deux
+        //en indice 3 le quartier construit si un quartier a été construit
+        ArrayList<Quartier> choixDeBase=new ArrayList<>();
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
@@ -38,29 +42,30 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(aQuartierPasChere){
+            choixDeBase.add(null);
             changerOr(2);
-            Affichage.afficheChoixOr(this);
         }
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
             Quartier quartier1= Pioche.piocherQuartier();
             Quartier quartier2=Pioche.piocherQuartier();
-            Affichage.afficheQuartiersPioches(this, quartier1,quartier2);
+            choixDeBase.add(quartier1);
+            choixDeBase.add(quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
-                Affichage.afficheQuartierChoisi(this,quartier1);
-
+                choixDeBase.add(quartier1);
             }
             else{
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
-                Affichage.afficheQuartierChoisi(this,quartier2);
-
+                choixDeBase.add(quartier2);
             }
         }
 
+        choixDeBase.add(construire());
+        return choixDeBase;
     }
 
     @Override
@@ -68,24 +73,41 @@ public class BotConstruitVite extends Bot {
         Random aleatoire= new Random();
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
-
     }
 
     /**
      * Construit un quartier
      */
     @Override
-    public void construire(){
+    public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.size()>0 && quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
-            Affichage.afficheQuartierConstruit(this,quartierConstruit);
-
+            return quartierConstruit;
         }
-
+        return null;
     }
+
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        int nbQuartierMain = this.getQuartierMain().size();
+        Bot botAvecQuiEchanger = null;
+        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
+                botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
+            }
+        }
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            magicien.changeAvecBot(this, botAvecQuiEchanger);
+
+        } else {    // sinon on échange toutes ses cartes avec la pioche
+            magicien.changeAvecPioche(this, this.getQuartierMain());
+        }
+    }
+
 
     @Override
     public String toString(){

@@ -1,8 +1,8 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.Role;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -19,8 +19,9 @@ public class BotConstruitChere extends Bot{
     }
 
     @Override
-    public void faireActionDeBase() {
-
+    public ArrayList<Quartier> faireActionDeBase() {
+        // A REFACTORER
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
 
         boolean piocher=true;
         for(Quartier quartier: quartierMain){
@@ -31,27 +32,31 @@ public class BotConstruitChere extends Bot{
         if (piocher){
             Quartier quartier1 = Pioche.piocherQuartier();
             Quartier quartier2 = Pioche.piocherQuartier();
-            Affichage.afficheQuartiersPioches(this,quartier1,quartier2);
+            choixDeBase.add(quartier1);
+            choixDeBase.add(quartier2);
             if (quartier1.getCout() > quartier2.getCout()) {
                 ajoutQuartierMain(quartier1);
                 Pioche.remettreDansPioche(quartier2);
-                Affichage.afficheQuartierChoisi(this,quartier1);
-
+                choixDeBase.add(quartier1);
             } else {
                 ajoutQuartierMain(quartier2);
                 Pioche.remettreDansPioche(quartier1);
-                Affichage.afficheQuartierChoisi(this,quartier2);
-
+                choixDeBase.add(quartier2);
             }
 
         }
         else{
+            choixDeBase.add(null);
             changerOr(2);
-            Affichage.afficheChoixOr(this);
+        }
+        Quartier quartierConstruire=construire();
+        if(quartierConstruire!=null){
+            choixDeBase.add(quartierConstruire);
         }
 
+        return choixDeBase;
     }
-    public void construire(){
+    public Quartier construire(){
 
         int max=0;
         Quartier quartierChoisi=null;
@@ -62,17 +67,16 @@ public class BotConstruitChere extends Bot{
             }
 
         }
+        // répétitions de code BotAleatoire, a refactorer plus tard
         if (quartierChoisi!=null) {
             if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
                 quartierConstruit.add(quartierChoisi);
                 quartierMain.remove(quartierChoisi);
                 nbOr -= quartierChoisi.getCout();
-                score += quartierChoisi.getCout();
-
-                Affichage.afficheQuartierConstruit(this,quartierChoisi);
+                return quartierChoisi;
             }
         }
-
+        return null;
     }
     @Override
     public String toString(){
@@ -84,5 +88,23 @@ public class BotConstruitChere extends Bot{
         Random aleatoire= new Random();
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
+    }
+
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        int nbQuartierMain = this.getQuartierMain().size();
+        Bot botAvecQuiEchanger = null;
+        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
+                botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
+            }
+        }
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            magicien.changeAvecBot(this, botAvecQuiEchanger);
+
+        } else {    // sinon on échange toutes ses cartes avec la pioche
+            magicien.changeAvecPioche(this, this.getQuartierMain());
+        }
     }
 }
