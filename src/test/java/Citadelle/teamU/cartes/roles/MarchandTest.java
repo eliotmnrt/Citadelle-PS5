@@ -1,6 +1,7 @@
-package Citadelle.teamU.cartes;
+package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.cartes.roles.Pretre;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Marchand;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PretreTest {
+class MarchandTest {
 
     private BotAleatoire bot;
     @BeforeEach
@@ -20,46 +21,47 @@ class PretreTest {
         bot = new BotAleatoire();
         ArrayList<Bot> botliste = new ArrayList<>();
         botliste.add(bot);
-        bot.setRole(new Pretre(botliste));
+        bot.setRole(new Marchand(botliste));
     }
     @Test
-    public void PrêtreSpecialTest(){
+    public void MarchandSpecialTest(){
         bot.changerOr(2);
         assertEquals(4, bot.getOr());
 
-        bot.ajoutQuartierMain(Quartier.EGLISE);
-        assertSame(bot.getQuartierMain().get(4), Quartier.EGLISE);
-        assertTrue(bot.getQuartiersConstruits().isEmpty());
-
-        bot.ajoutQuartierConstruit(Quartier.EGLISE);
-        assertSame(bot.getQuartiersConstruits().get(0), Quartier.EGLISE);
-        assertEquals(4, bot.getQuartierMain().size());
-
-        //église est un quartier bleue, il doit avoir 1 or en plus
-        assertEquals(2, bot.getOr());
-        bot.faireActionSpecialRole();
-        assertEquals(3, bot.getOr());
-
-        bot.faireActionSpecialRole();
-        assertEquals(4, bot.getOr());
-    }
-
-    @Test
-    public void PrêtrePasSpecialTest(){
-        bot.changerOr(2); // 4 d'or au total (assez pour taverne)
-        assertEquals(4, bot.getOr());
-
         bot.ajoutQuartierMain(Quartier.TAVERNE);
-        assertSame(Quartier.TAVERNE, bot.getQuartierMain().get(4));
+        assertSame(bot.getQuartierMain().get(4), Quartier.TAVERNE);
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.TAVERNE);
-        assertSame(Quartier.TAVERNE, bot.getQuartiersConstruits().get(0));
+        assertSame(bot.getQuartiersConstruits().get(0), Quartier.TAVERNE);
+        assertEquals(4, bot.getQuartierMain().size());
+
+        /*taverne est un quartier vert, il doit avoir 1 or en plus
+        gagne une piece supplémentaire car il est marchand*/
+        assertEquals(3, bot.getOr());
+        bot.faireActionSpecialRole();
+        assertEquals(5, bot.getOr());
+
+        bot.faireActionSpecialRole();
+        assertEquals(7, bot.getOr());
+    }
+
+    @Test
+    public void MarchandPasSpecialTest(){
+        bot.changerOr(2); // 4 d'or au total (assez pour taverne)
+        assertEquals(4, bot.getOr());
+
+        bot.ajoutQuartierMain(Quartier.TEMPLE);
+        assertSame(Quartier.TEMPLE, bot.getQuartierMain().get(4));
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.TEMPLE);
+        assertSame(Quartier.TEMPLE, bot.getQuartiersConstruits().get(0));
         assertEquals(4, bot.getQuartierMain().size());
 
         assertEquals(3, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(3, bot.getOr()); // taverne n'est pas bleue
+        assertEquals(4, bot.getOr()); // temple n'est pas vert,marchand gagne pièce supp
     }
 
 }

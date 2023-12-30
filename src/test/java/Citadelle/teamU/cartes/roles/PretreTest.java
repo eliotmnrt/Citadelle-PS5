@@ -1,6 +1,7 @@
-package Citadelle.teamU.cartes;
+package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.cartes.roles.Roi;
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Pretre;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -8,11 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoiTest {
+class PretreTest {
 
     private BotAleatoire bot;
     @BeforeEach
@@ -21,32 +21,32 @@ class RoiTest {
         bot = new BotAleatoire();
         ArrayList<Bot> botliste = new ArrayList<>();
         botliste.add(bot);
-        bot.setRole(new Roi(botliste));
+        bot.setRole(new Pretre(botliste));
     }
     @Test
-    public void roiSpecialTest(){
-        bot.changerOr(2); // 4 d'or au total (assez pour chateau)
+    public void PrêtreSpecialTest(){
+        bot.changerOr(2);
         assertEquals(4, bot.getOr());
 
-        bot.ajoutQuartierMain(Quartier.CHATEAU);
-        assertSame(bot.getQuartierMain().get(4), Quartier.CHATEAU);
+        bot.ajoutQuartierMain(Quartier.EGLISE);
+        assertSame(bot.getQuartierMain().get(4), Quartier.EGLISE);
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
-        bot.ajoutQuartierConstruit(Quartier.CHATEAU);
-        assertSame(bot.getQuartiersConstruits().get(0), Quartier.CHATEAU);
+        bot.ajoutQuartierConstruit(Quartier.EGLISE);
+        assertSame(bot.getQuartiersConstruits().get(0), Quartier.EGLISE);
         assertEquals(4, bot.getQuartierMain().size());
 
-        //Chateau est un quartier jaune, il doit avoir 1 or en plus
-        assertEquals(0, bot.getOr());
+        //église est un quartier bleue, il doit avoir 1 or en plus
+        assertEquals(2, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(1, bot.getOr());
+        assertEquals(3, bot.getOr());
 
         bot.faireActionSpecialRole();
-        assertEquals(2, bot.getOr());
+        assertEquals(4, bot.getOr());
     }
 
     @Test
-    public void roiPasSpecialTest(){
+    public void PrêtrePasSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, bot.getOr());
 
@@ -60,7 +60,7 @@ class RoiTest {
 
         assertEquals(3, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(3, bot.getOr()); // taverne n'est pas jaune
+        assertEquals(3, bot.getOr()); // taverne n'est pas bleue
     }
 
 }
