@@ -3,12 +3,14 @@ package Citadelle.teamU.moteurjeu.bots;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
 
 public class Bot {
     protected int nbOr;
+
     protected Role role;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
@@ -20,9 +22,8 @@ public class Bot {
         quartierMain = new ArrayList<>();
         score=0;
         initQuartierMain();
-
-
     }
+
     public int getOr(){
         return nbOr;
     }
@@ -34,6 +35,7 @@ public class Bot {
     public void changerOr(int or){
         nbOr = nbOr+or;
     }
+    public void voleDOrParVoleur(){nbOr = 0;}
     public Role getRole() {
         return role;
     }
@@ -89,4 +91,5 @@ public class Bot {
         return null;
     }
     public void actionSpecialeMagicien(Magicien magicien){}
+    public void actionSpecialeVoleur(Voleur voleur){}
 }

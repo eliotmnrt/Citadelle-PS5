@@ -14,16 +14,24 @@ public class Tour {
     private ArrayList<Bot> botListe;
     private static int nbTour = 0;
     ArrayList<Role> roles = new ArrayList<>();
+
+    ArrayList<Role> rolesTemp = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
+        roles.add(new Voleur(botListe, roles));
+        roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
         roles.add(new Pretre(botListe));
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
-        roles.add(new Magicien(botListe));
+        this.botListe = botListe;
+    }
 
+
+    public void prochainTour(){
+
+        rolesTemp = new ArrayList<>(roles);
         boolean dernierTour=false;
         nbTour++;
-        this.botListe = botListe;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
         System.out.println(botListe);
@@ -37,7 +45,7 @@ public class Tour {
             affiche.setChoixDeBase(choixDeBase);
             affiche.afficheChoixDeBase(choixDeBase);
 
-            if(bot.getQuartiersConstruits().size()==8) dernierTour=true;
+            if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
 
         }
         if (dernierTour){
@@ -46,12 +54,12 @@ public class Tour {
 
         }
 
-
     }
+
 
     private void distributionRoles(){
         for (Bot bot: botListe){
-            bot.choisirRole(roles);
+            bot.choisirRole(rolesTemp);
         }
     }
 

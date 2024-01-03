@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -63,6 +64,7 @@ public class BotAleatoire extends Bot{
     @Override
     public void choisirRole(ArrayList<Role> roles){
         Random aleatoire= new Random();
+        System.out.println(this.name + roles);
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
     }
@@ -105,5 +107,12 @@ public class BotAleatoire extends Bot{
         } else {                                                        //aleatoire correspondant à la pioche
             magicien.changeAvecPioche(this, this.getQuartierMain());
         }
+    }
+
+
+    @Override           // UPDATE QUAND AJOUT DE CLASSES
+    public void actionSpecialeVoleur(Voleur voleur){
+        int rang = new Random().nextInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+        voleur.voler(this, voleur.getRoles().get(rang) );
     }
 }

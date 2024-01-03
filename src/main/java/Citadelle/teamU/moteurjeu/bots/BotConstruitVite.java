@@ -3,16 +3,15 @@ package Citadelle.teamU.moteurjeu.bots;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
 public class BotConstruitVite extends Bot {
     private static int numDuBotAleatoire = 1;
     private String name;
+    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     public BotConstruitVite(){
         //Bot qui construit le plus vite possible
@@ -71,8 +70,10 @@ public class BotConstruitVite extends Bot {
     @Override
     public void choisirRole(ArrayList<Role> roles){
         Random aleatoire= new Random();
+        System.out.println(this.name + roles);
         int intAleatoire= aleatoire.nextInt(roles.size());
         setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
     }
 
     /**
@@ -108,9 +109,30 @@ public class BotConstruitVite extends Bot {
         }
     }
 
+    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    public void actionSpecialeVoleur(Voleur voleur){
+        if (rolesRestants.size() > 1){
+            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
+            // c.a.d au moins 1 chance sur 2 de voler qq
+            int rang = new Random().nextInt(rolesRestants.size());
+
+            /*while (rang == rolesRestants.indexOf(Assassin))
+            */
+
+            voleur.voler(this, rolesRestants.get(rang));
+        }
+        else {
+            //sinon on fait aleatoire et on croise les doigts
+            int rang = new Random().nextInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+            voleur.voler(this, voleur.getRoles().get(rang) );
+        }
+    }
+
 
     @Override
     public String toString(){
         return name;
     }
+
+
 }
