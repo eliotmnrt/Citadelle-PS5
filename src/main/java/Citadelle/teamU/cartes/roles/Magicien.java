@@ -30,8 +30,8 @@ public class Magicien implements Role {
      */
     public void changeAvecPioche(Bot bot, ArrayList<Quartier> carteEchangees){
         choix = "la pioche";
-        int nbQuartierEchanges = carteEchangees.size();
-        for (int i=nbQuartierEchanges-1; i>0; i--){
+        int nbQuartierEchanges = carteEchangees.size() - 1;
+        for (int i=nbQuartierEchanges; i>0; i--){
             int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
             Pioche.remettreDansPioche(bot.getQuartierMain().remove(rang));
         }

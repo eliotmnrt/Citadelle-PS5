@@ -1,18 +1,26 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Roi;
+import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class BotConstruitViteTest {
     private BotConstruitVite bot;
     ArrayList<Bot> botliste;
+    MockedStatic<Pioche> piocheMock;
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
@@ -20,7 +28,29 @@ class BotConstruitViteTest {
         botliste = new ArrayList<>();
         botliste.add(bot);
     }
-
+    @Test
+    public void prendreOr(){
+        piocheMock = mockStatic(Pioche.class);
+        when(Pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
+        while(bot.getQuartierMain().size()!=0){
+            Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
+        } // main vide
+        bot.ajoutQuartierMain(Pioche.piocherQuartier());
+        bot.faireActionDeBase();
+        assertEquals(4,bot.getOr());
+    }
+    @Test
+    public void prendreQuartier(){
+        //piocheMock = mockStatic(Pioche.class);
+        when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
+        while(bot.getQuartierMain().size()!=0){
+            Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
+        } // main vide
+        bot.ajoutQuartierMain(Pioche.piocherQuartier());
+        bot.faireActionDeBase();
+        assertEquals(2,bot.getOr());
+        assertEquals(2,bot.getQuartierMain().size()); //Cimetiere et celui qu'il a piocher
+    }
     @Test
     public void quartierMoinsChereTest(){
         bot.ajoutQuartierMain(Quartier.TEMPLE);
@@ -33,39 +63,101 @@ class BotConstruitViteTest {
         assertEquals(1, bot.quartierConstruit.size());
         assertEquals(6, bot.quartierMain.size());
     }
-
     @Test
-    public void piocheTest(){
-        bot.setRole(new Roi(botliste));
-        bot.faireActionDeBase();
-        //Il prend de l'or
-        System.out.println(bot.quartierMain);
-        System.out.println(bot.quartierConstruit);
-        System.out.println(bot.getOr());
-        if(bot.quartierMain.size() == 3){
-            //Il a pris de l'or pcq il peut construire et construit 1 quartier qui coute moins que 3
-            assertTrue(bot.getOr()==4-bot.quartierConstruit.get(0).getCout() );
-            assertTrue(bot.quartierConstruit.size()==1);
-            assertTrue(bot.quartierConstruit.get(0).getCout()<=3);
-        } // Il pioche
-        else if(bot.quartierMain.size() == 4){
-            //il a pioche pcq il a que des trucs chère, pioche un truc pas chère et le construit
-            //Les 4 dans sa mains sont donc chère
-            System.out.println(bot.quartierMain.toString());
-            assertTrue(bot.quartierMain.get(0).getCout()>3);
-            assertTrue(bot.quartierMain.get(1).getCout()>3);
-            assertTrue(bot.quartierMain.get(2).getCout()>3);
-            assertTrue(bot.quartierMain.get(3).getCout()>3);
-            assertTrue(bot.quartierConstruit.get(0).getCout()<=3);
-            assertTrue(bot.quartierConstruit.size()==1);
-        }
-        else{
-            //Il prend pioche et ne peut pas construire car tout est trop chère ou pas assez de piece
-            assertTrue(bot.quartierConstruit.isEmpty());
-            assertTrue(bot.quartierMain.size()==5);
-            assertTrue(bot.quartierMain.get(0).getCout()>2  &&  bot.quartierMain.get(1).getCout()>3  &&  bot.quartierMain.get(2).getCout()>3  &&  bot.quartierMain.get(3).getCout()>3  &&  bot.quartierMain.get(4).getCout()>3);
-            assertTrue(bot.quartierConstruit.isEmpty()  ||  bot.quartierMain.get(0).getCout()>3);
-        }
-    }
+    public void actionMagicienAvecBotTest(){
+        //notre bot à 0 carte dans sa main
+        //L'autre bot à 1 carte (une église)
 
+        while(bot.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        BotAleatoire bot1 = new BotAleatoire();
+
+        while(bot1.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
+
+        bot1.ajoutQuartierMain(Quartier.EGLISE);
+
+        arrayBot.add(bot1);
+
+        bot.actionSpecialeMagicien(new Magicien(arrayBot));
+        assertEquals(1, bot.quartierMain.size());
+        assertTrue(bot.getQuartierMain().contains(Quartier.EGLISE));
+    }
+    @Test
+    public void actionMagicienAvecPiocheTest(){
+        //notre bot à 2 carte dans sa main
+        //L'autre bot à 1 carte (une église)
+        //Il échange 2 cartes avec la pioche (qui ne renvoie que des monastere)
+        //piocheMock = mockStatic(Pioche.class);
+        when(Pioche.piocherQuartier()).thenReturn(Quartier.MONASTERE);
+
+        while(bot.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
+        bot.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
+        bot.ajoutQuartierMain(Quartier.COMPTOIR);
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        BotAleatoire bot1 = new BotAleatoire();
+
+        while(bot1.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
+        bot1.ajoutQuartierMain(Quartier.EGLISE);
+
+        arrayBot.add(bot1);
+
+        assertEquals(2, bot.quartierMain.size());
+        bot.actionSpecialeMagicien(new Magicien(arrayBot));
+        assertEquals(2, bot.quartierMain.size());
+        assertTrue(bot.getQuartierMain().contains(Quartier.MONASTERE));
+    }
+    @Test
+    public void voleurTest(){
+        //On est pas le dernier
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        ArrayList<Role> arrayRole = new ArrayList<>();
+        BotAleatoire bot1 = new BotAleatoire();
+        arrayBot.add(bot1);
+        bot1.changerOr(4); //Bot 1 à 6 or
+        Roi roi = new Roi(arrayBot);
+        arrayRole.add(roi);
+        arrayRole.add(roi);
+        //2 roles pour qu'il ne fasse pas au hasard avec tout le monde (pas condition reel il va forcement tomber sur le bot1)
+        bot1.setRole(roi);
+        bot.setRolesRestants(arrayRole);
+        bot.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
+        assertEquals(2, bot.getOr());
+        assertEquals(6, bot.orProchainTour);
+        bot.choisirRole(arrayRole); //Le tour d'après
+        assertEquals(8, bot.getOr());
+    }
+    @Test
+    public void voleurDernierValideTest(){
+        //On est dernier et on choisit un role que qq a
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        ArrayList<Role> arrayRole = new ArrayList<>();
+        BotAleatoire bot1 = new BotAleatoire();
+        arrayBot.add(bot1);
+        bot1.changerOr(4); //Bot 1 à 6 or
+        Roi roi = new Roi(arrayBot);
+        arrayRole.add(roi);
+        bot1.setRole(roi);
+
+
+        BotConstruitVite botSpy = spy(bot);
+        botSpy.setRolesRestants(arrayRole);
+        //when(voleurSpy.getRoles()).thenReturn(arrayRole);
+        //when(botSpy.randInt(anyInt())).thenReturn(0);
+        doReturn(0).when(botSpy).randInt(anyInt());
+        //Il choisit de voler le dernier
+
+        botSpy.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
+        assertEquals(2, botSpy.getOr());
+        assertEquals(6, botSpy.orProchainTour);
+        botSpy.choisirRole(arrayRole); //Le tour d'après
+        assertEquals(8, botSpy.getOr());
+    }
+    @Test
+    public void pasConstruireTest(){
+        while(bot.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide pour le bot1
+        assertNull(bot.construire());
+        //rien dans la main il ne peut pas construire
+    }
 }

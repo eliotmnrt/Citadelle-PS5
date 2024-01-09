@@ -88,7 +88,7 @@ public class BotConstruitVite extends Bot {
     public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(quartiersTrie.size()>0&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
@@ -128,7 +128,7 @@ public class BotConstruitVite extends Bot {
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+            int rang = randInt(5) ;       // pour un nb aleatoire hors assassin et voleur
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
