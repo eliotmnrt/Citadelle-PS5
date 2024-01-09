@@ -9,29 +9,29 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
 
-class BotConstruitViteTest {
-    private BotConstruitVite bot;
+class BotConstruitChereTest {
+    private BotConstruitChere bot;
     ArrayList<Bot> botliste;
     MockedStatic<Pioche> piocheMock;
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
-        bot = new BotConstruitVite();
+        bot = new BotConstruitChere();
         botliste = new ArrayList<>();
         botliste.add(bot);
     }
     @Test
     public void prendreOr(){
-        //piocheMock = mockStatic(Pioche.class);
-        when(Pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
+        piocheMock = mockStatic(Pioche.class);
+        when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
         while(bot.getQuartierMain().size()!=0){
             Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
         } // main vide
@@ -42,7 +42,7 @@ class BotConstruitViteTest {
     @Test
     public void prendreQuartier(){
         //piocheMock = mockStatic(Pioche.class);
-        when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
+        when(Pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
         while(bot.getQuartierMain().size()!=0){
             Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
         } // main vide
@@ -52,16 +52,20 @@ class BotConstruitViteTest {
         assertEquals(2,bot.getQuartierMain().size()); //Cimetiere et celui qu'il a piocher
     }
     @Test
-    public void quartierMoinsChereTest(){
+    public void quartierPlusChereTest(){
+        while(bot.getQuartierMain().size()!=0){Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide pour le bot1
         bot.ajoutQuartierMain(Quartier.TEMPLE);
         bot.ajoutQuartierMain(Quartier.PRISON);
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
-        assertEquals(7, bot.quartierMain.size()); //4 de base + 3 ajouts
-        bot.setRole(new Roi(botliste));
-        bot.construire();
-        assertEquals(1, bot.quartierConstruit.get(0).getCout());
+        assertEquals(3, bot.quartierMain.size()); //4 de base + 3 ajouts
+        //bot.setRole(new Roi(botliste));
+        bot.changerOr(10);
+
+        assertEquals(Quartier.CATHEDRALE, bot.construire());
+        assertEquals(5, bot.quartierConstruit.get(0).getCout());
         assertEquals(1, bot.quartierConstruit.size());
-        assertEquals(6, bot.quartierMain.size());
+        assertEquals(2, bot.quartierMain.size());
+
     }
     @Test
     public void actionMagicienAvecBotTest(){
@@ -141,7 +145,7 @@ class BotConstruitViteTest {
         bot1.setRole(roi);
 
 
-        BotConstruitVite botSpy = spy(bot);
+        BotConstruitChere botSpy = spy(bot);
         botSpy.setRolesRestants(arrayRole);
         //when(voleurSpy.getRoles()).thenReturn(arrayRole);
         //when(botSpy.randInt(anyInt())).thenReturn(0);

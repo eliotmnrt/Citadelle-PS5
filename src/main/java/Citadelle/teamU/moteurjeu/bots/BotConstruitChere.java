@@ -128,7 +128,7 @@ public class BotConstruitChere extends Bot{
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang =randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+            int rang =randInt(5) ;       // pour un nb aleatoire hors assassin et voleur
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
