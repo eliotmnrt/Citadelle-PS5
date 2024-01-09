@@ -53,11 +53,9 @@ public class Bot {
     public int getOrdre(){
         return role.getOrdre();
     }
-    //utile pour les tests uniquememnt
-    public int getOrProchainTour(){return orProchainTour;}
-    public int randInt(int nb){
-        return new Random().nextInt(nb);
-    }
+    public int randInt(int nb){return new Random().nextInt(nb);}
+
+    public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom

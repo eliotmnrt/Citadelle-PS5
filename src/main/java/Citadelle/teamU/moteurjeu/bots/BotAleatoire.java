@@ -94,9 +94,9 @@ public class BotAleatoire extends Bot{
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
-        int aleat = randInt(magicien.getBotListe().size());        // tire un chiffre aleatoire pour 4 bots et la pioche
+        int aleat = randInt(magicien.getBotListe().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
         while (aleat == magicien.getBotListe().indexOf(this)){          //on l'empêche d'échanger avec lui meme
-            aleat = randInt(magicien.getBotListe().size());
+            aleat = randInt(magicien.getBotListe().size() + 1);
         }
         if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
             magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
