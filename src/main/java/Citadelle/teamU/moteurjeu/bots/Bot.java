@@ -7,6 +7,7 @@ import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Bot {
     protected int nbOr;
@@ -52,6 +53,7 @@ public class Bot {
     public int getOrdre(){
         return role.getOrdre();
     }
+    public int randInt(int nb){return new Random().nextInt(nb);}
 
     public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
 
