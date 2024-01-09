@@ -21,6 +21,12 @@ public class BotConstruitChere extends Bot{
         numDuBotConstruitChere++;
     }
 
+    // utile pour les tests uniquement
+    public void setRolesRestants(ArrayList<Role> rolesRestants){
+        this.rolesRestants = rolesRestants;
+    }
+
+
     @Override
     public ArrayList<Quartier> faireActionDeBase() {
         // A REFACTORER
@@ -46,17 +52,11 @@ public class BotConstruitChere extends Bot{
                 Pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
             }
-
         }
         else{
             choixDeBase.add(null);
             changerOr(2);
         }
-        Quartier quartierConstruire=construire();
-        if(quartierConstruire!=null){
-            choixDeBase.add(quartierConstruire);
-        }
-
         return choixDeBase;
     }
     public Quartier construire(){
@@ -88,9 +88,10 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        Random aleatoire= new Random();
-        System.out.println(this.name + roles);
-        int intAleatoire= aleatoire.nextInt(roles.size());
+        nbOr += orProchainTour;         //on recupere l'or du vol
+        orProchainTour = 0;
+
+        int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
@@ -118,7 +119,7 @@ public class BotConstruitChere extends Bot{
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
             // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang = new Random().nextInt(rolesRestants.size());
+            int rang = randInt(rolesRestants.size());
 
             /*while (rang == rolesRestants.indexOf(Assassin))
              */
@@ -127,7 +128,7 @@ public class BotConstruitChere extends Bot{
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang = new Random().nextInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+            int rang =randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }

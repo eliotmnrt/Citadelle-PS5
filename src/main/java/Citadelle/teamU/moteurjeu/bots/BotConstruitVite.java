@@ -26,17 +26,23 @@ public class BotConstruitVite extends Bot {
         numDuBotAleatoire++;
     }
 
+    // utile pour les tests uniquement
+    public void setRolesRestants(ArrayList<Role> rolesRestants){
+        this.rolesRestants = rolesRestants;
+    }
+
+
     @Override
     public ArrayList<Quartier> faireActionDeBase(){
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
         //en indice 3 le quartier construit si un quartier a été construit
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<4&&!quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
                 aQuartierPasChere = true;
             }
         }
@@ -47,8 +53,8 @@ public class BotConstruitVite extends Bot {
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1= Pioche.piocherQuartier();
-            Quartier quartier2=Pioche.piocherQuartier();
+            Quartier quartier1 = Pioche.piocherQuartier();
+            Quartier quartier2 = Pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
@@ -62,16 +68,15 @@ public class BotConstruitVite extends Bot {
                 choixDeBase.add(quartier2);
             }
         }
-
-        choixDeBase.add(construire());
         return choixDeBase;
     }
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        Random aleatoire= new Random();
+        nbOr += orProchainTour;         //on recupere l'or du vol
+        orProchainTour = 0;
         System.out.println(this.name + roles);
-        int intAleatoire= aleatoire.nextInt(roles.size());
+        int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
@@ -114,7 +119,7 @@ public class BotConstruitVite extends Bot {
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
             // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang = new Random().nextInt(rolesRestants.size());
+            int rang = randInt(rolesRestants.size());
 
             /*while (rang == rolesRestants.indexOf(Assassin))
             */
@@ -123,7 +128,7 @@ public class BotConstruitVite extends Bot {
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang = new Random().nextInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+            int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }

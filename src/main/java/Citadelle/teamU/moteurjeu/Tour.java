@@ -41,9 +41,8 @@ public class Tour {
             affiche.afficheBot();
             bot.faireActionSpecialRole();
             affiche.afficheActionSpeciale(bot);
-            ArrayList<Quartier> choixDeBase = bot.faireActionDeBase();
-            affiche.setChoixDeBase(choixDeBase);
-            affiche.afficheChoixDeBase(choixDeBase);
+            affiche.setChoixDeBase(bot.faireActionDeBase());
+            affiche.afficheConstruction(bot.construire());
 
             if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
 

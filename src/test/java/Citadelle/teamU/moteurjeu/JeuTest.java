@@ -25,12 +25,13 @@ class JeuTest {
     @Test
     void TestConditionsFinDePartie(){
         Jeu game = new Jeu(bot1, bot2, bot3, bot4);
+        game.start();
         int maxQuartiersConstruits = 0;
         for (Bot bot: game.getBotListe()){
             if(bot.getQuartiersConstruits().size() > maxQuartiersConstruits){
                 maxQuartiersConstruits = bot.getQuartiersConstruits().size();
             }
         }
-        assertTrue(maxQuartiersConstruits>=8);
+        assertTrue(maxQuartiersConstruits>=7);
     }
 }

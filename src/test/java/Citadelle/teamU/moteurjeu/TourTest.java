@@ -29,6 +29,7 @@ class TourTest {
         botliste.add(bot3);
         botliste.add(bot4);
         Tour tour = new Tour(botliste);
+        tour.prochainTour();
     }
 
     @Test
