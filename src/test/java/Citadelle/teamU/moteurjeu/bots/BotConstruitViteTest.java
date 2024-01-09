@@ -38,6 +38,7 @@ class BotConstruitViteTest {
     public void piocheTest(){
         bot.setRole(new Roi(botliste));
         bot.faireActionDeBase();
+        bot.construire();
         //Il prend de l'or
         System.out.println(bot.quartierMain);
         System.out.println(bot.quartierConstruit);
