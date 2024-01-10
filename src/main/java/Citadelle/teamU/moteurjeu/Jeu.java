@@ -11,16 +11,20 @@ import java.util.Arrays;
 public class Jeu {
 
     private ArrayList<Bot> botListe;
+    private Tour tour;
     public Jeu(Bot...bots) {
         if(bots.length == 0){
             throw new IllegalArgumentException();
         }
         botListe = new ArrayList<>();
         botListe.addAll(Arrays.asList(bots));
-        int maxQuartiersConstruits = 0;
+        this.tour = new Tour(botListe);
+    }
 
-        while(maxQuartiersConstruits < 8) {
-            Tour tour = new Tour(botListe);
+    public void start(){
+        int maxQuartiersConstruits = 0;
+        while(maxQuartiersConstruits < 7) {
+            tour.prochainTour();
             for (Bot bot: botListe){
                 if(bot.getQuartiersConstruits().size() > maxQuartiersConstruits){
                     maxQuartiersConstruits = bot.getQuartiersConstruits().size();
@@ -28,10 +32,10 @@ public class Jeu {
             }
         }
     }
-
     public ArrayList<Bot> getBotListe() {
         return botListe;
     }
+
 
     public static void main (String... args){
         Pioche pioche = new Pioche();
@@ -40,5 +44,6 @@ public class Jeu {
         Bot bot3 = new BotConstruitVite();
         Bot bot4 = new BotAleatoire();
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
+        jeu.start();
     }
 }

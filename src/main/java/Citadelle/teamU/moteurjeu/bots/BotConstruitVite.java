@@ -3,16 +3,15 @@ package Citadelle.teamU.moteurjeu.bots;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
 public class BotConstruitVite extends Bot {
     private static int numDuBotAleatoire = 1;
     private String name;
+    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     public BotConstruitVite(){
         //Bot qui construit le plus vite possible
@@ -27,17 +26,23 @@ public class BotConstruitVite extends Bot {
         numDuBotAleatoire++;
     }
 
+    // utile pour les tests uniquement
+    public void setRolesRestants(ArrayList<Role> rolesRestants){
+        this.rolesRestants = rolesRestants;
+    }
+
+
     @Override
     public ArrayList<Quartier> faireActionDeBase(){
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
         //en indice 3 le quartier construit si un quartier a été construit
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+        ArrayList<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<4&&!quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
                 aQuartierPasChere = true;
             }
         }
@@ -48,8 +53,8 @@ public class BotConstruitVite extends Bot {
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1= Pioche.piocherQuartier();
-            Quartier quartier2=Pioche.piocherQuartier();
+            Quartier quartier1 = Pioche.piocherQuartier();
+            Quartier quartier2 = Pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
@@ -63,16 +68,17 @@ public class BotConstruitVite extends Bot {
                 choixDeBase.add(quartier2);
             }
         }
-
-        choixDeBase.add(construire());
         return choixDeBase;
     }
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(roles.size());
+        nbOr += orProchainTour;         //on recupere l'or du vol
+        orProchainTour = 0;
+        System.out.println(this.name + roles);
+        int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
     }
 
     /**
@@ -82,7 +88,7 @@ public class BotConstruitVite extends Bot {
     public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(quartiersTrie.size()>0&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
@@ -108,9 +114,31 @@ public class BotConstruitVite extends Bot {
         }
     }
 
+    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    public void actionSpecialeVoleur(Voleur voleur){
+        if (rolesRestants.size() > 1){
+            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
+            // c.a.d au moins 1 chance sur 2 de voler qq
+            int rang = randInt(rolesRestants.size());
+
+            /*while (rang == rolesRestants.indexOf(Assassin))
+            */
+
+            voleur.voler(this, rolesRestants.get(rang));
+        }
+        else {
+            //sinon on fait aleatoire et on croise les doigts
+            int rang = randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
+            //+1 pcq le premier c'est voleur et on veut pas le prendre
+            voleur.voler(this, voleur.getRoles().get(rang) );
+        }
+    }
+
 
     @Override
     public String toString(){
         return name;
     }
+
+
 }

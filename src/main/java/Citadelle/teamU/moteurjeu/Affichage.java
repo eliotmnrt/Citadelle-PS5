@@ -10,6 +10,7 @@ public class Affichage {
     // classe de gestion de tout les prints
     private Bot bot;
     private ArrayList<Quartier> choixDeBase;
+    private Quartier construction;
     private ArrayList<Bot> botList;
 
     public Affichage(Bot bot){
@@ -28,26 +29,34 @@ public class Affichage {
 
     public void setChoixDeBase(ArrayList<Quartier> choixDeBase) {
         this.choixDeBase = choixDeBase;
+        afficheChoixDeBase(choixDeBase);
+    }
+
+    public void setConstruction(Quartier construction) {
+        this.construction = construction;
+        afficheConstruction(construction);
     }
 
     public void afficheChoixDeBase(ArrayList<Quartier> choix){
         if(choix.get(0) == null){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
-            if (choixDeBase.size()==2){
-                System.out.println(bot.toString()+" a construit "+choixDeBase.get(1));
-            }
+
         }
-        else if(choix.get(0) != null) {
+        else if(choix.get(0) != null && choix.size() == 3) {
             System.out.println(bot.toString() + " a pioché les quartiers " + choixDeBase.get(0) + " et " + choixDeBase.get(1));
             System.out.println(bot.toString() + " a choisis le quartier " + choixDeBase.get(2));
-            if (choixDeBase.size() == 4 && choixDeBase.get(3) != null) {
-                System.out.println(bot.toString() + " a construit " + choixDeBase.get(3));
-            }
         }
         else {
+            System.out.println(choix);
             throw new IllegalArgumentException(); // a l'aide
         }
         System.out.println("\n");
+    }
+
+    public void afficheConstruction(Quartier construction){
+        if (construction != null){
+            System.out.println(bot.toString() + " a construit " + construction);
+        }
     }
 
 

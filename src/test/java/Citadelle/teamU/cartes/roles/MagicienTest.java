@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
-import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,7 @@ class MagicienTest {
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(new Marchand(botliste));
         botConstruitVite.setRole(new Pretre(botliste));
-        ArrayList<Quartier> mainAvant = (ArrayList<Quartier>) botAleatoire.getQuartierMain().clone();
+        ArrayList<Quartier> mainAvant = new ArrayList<>(botAleatoire.getQuartierMain());
         botAleatoire.faireActionSpecialRole();
         verify(botAleatoire).actionSpecialeMagicien(track);
         assertNotEquals(mainAvant, botAleatoire.getQuartierMain());

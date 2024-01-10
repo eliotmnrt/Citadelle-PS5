@@ -3,6 +3,7 @@ package Citadelle.teamU.moteurjeu.bots;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -12,11 +13,19 @@ public class BotConstruitChere extends Bot{
     private String name;
     private final int COUT_MINIMAL=4;
     private static int numDuBotConstruitChere=1;
+    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+
     public BotConstruitChere(){
         super();
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
+
+    // utile pour les tests uniquement
+    public void setRolesRestants(ArrayList<Role> rolesRestants){
+        this.rolesRestants = rolesRestants;
+    }
+
 
     @Override
     public ArrayList<Quartier> faireActionDeBase() {
@@ -43,17 +52,11 @@ public class BotConstruitChere extends Bot{
                 Pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
             }
-
         }
         else{
             choixDeBase.add(null);
             changerOr(2);
         }
-        Quartier quartierConstruire=construire();
-        if(quartierConstruire!=null){
-            choixDeBase.add(quartierConstruire);
-        }
-
         return choixDeBase;
     }
     public Quartier construire(){
@@ -85,9 +88,12 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        Random aleatoire= new Random();
-        int intAleatoire= aleatoire.nextInt(roles.size());
+        nbOr += orProchainTour;         //on recupere l'or du vol
+        orProchainTour = 0;
+
+        int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
     }
 
     @Override
@@ -105,6 +111,25 @@ public class BotConstruitChere extends Bot{
 
         } else {    // sinon on échange toutes ses cartes avec la pioche
             magicien.changeAvecPioche(this, this.getQuartierMain());
+        }
+    }
+
+    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    public void actionSpecialeVoleur(Voleur voleur){
+        if (rolesRestants.size() > 1){
+            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
+            // c.a.d au moins 1 chance sur 2 de voler qq
+            int rang = randInt(rolesRestants.size());
+
+            /*while (rang == rolesRestants.indexOf(Assassin))
+             */
+
+            voleur.voler(this, rolesRestants.get(rang));
+        }
+        else {
+            //sinon on fait aleatoire et on croise les doigts
+            int rang =randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
+            voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
 }
