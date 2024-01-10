@@ -19,10 +19,10 @@ class TourTest {
     @BeforeEach
     void setUp(){
         Pioche pioche = new Pioche();
-        Bot bot1 = new BotAleatoire();
-        Bot bot2 = new BotAleatoire();
-        Bot bot3 = new BotAleatoire();
-        Bot bot4 = new BotAleatoire();
+        Bot bot1 = new BotAleatoire(pioche);
+        Bot bot2 = new BotAleatoire(pioche);
+        Bot bot3 = new BotAleatoire(pioche);
+        Bot bot4 = new BotAleatoire(pioche);
         botliste = new ArrayList<>();
         botliste.add(bot1);
         botliste.add(bot2);

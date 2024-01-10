@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ class JeuTest {
     @BeforeEach
     void setUp(){
         Pioche pioche = new Pioche();
-        bot1 = new BotAleatoire();
-        bot2 = new BotAleatoire();
-        bot3 = new BotAleatoire();
-        bot4 = new BotAleatoire();
+        bot1 = new BotAleatoire(pioche);
+        bot2 = new BotAleatoire(pioche);
+        bot3 = new BotAleatoire(pioche);
+        bot4 = new BotAleatoire(pioche);
     }
     @Test
     void TestConditionsFinDePartie(){

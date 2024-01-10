@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static java.util.Collections.shuffle;
 
 public class Pioche {
-    private static ArrayList<Quartier> pioche;
+    private ArrayList<Quartier> pioche;
 
     public Pioche(){
         pioche = new ArrayList<>();
@@ -18,7 +18,7 @@ public class Pioche {
         }
         shuffle(pioche);
     }
-    public static ArrayList<Quartier> getPioche() {
+    public ArrayList<Quartier> getPioche() {
         return pioche;
     }
 
@@ -27,7 +27,7 @@ public class Pioche {
      * methode pour piocher 1 quartier
      * @return Quartier
      */
-    public static Quartier piocherQuartier(){
+    public Quartier piocherQuartier(){
         if(pioche.size()<=0){
             for (Quartier quartier: Quartier.values()){
                 for (int i=0; i<quartier.getNbCartes(); i++){
@@ -38,7 +38,7 @@ public class Pioche {
         }
         return pioche.remove(0);
     }
-    public static void remettreDansPioche(Quartier quartier){
+    public void remettreDansPioche(Quartier quartier){
         pioche.add(quartier);
     }
 }

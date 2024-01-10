@@ -33,10 +33,10 @@ public class Magicien implements Role {
         int nbQuartierEchanges = carteEchangees.size() - 1;
         for (int i=nbQuartierEchanges; i>0; i--){
             int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
-            Pioche.remettreDansPioche(bot.getQuartierMain().remove(rang));
+            bot.getPioche().remettreDansPioche(bot.getQuartierMain().remove(rang));
         }
         for(int i=0; i<nbQuartierEchanges; i++){
-            bot.ajoutQuartierMain(Pioche.piocherQuartier());
+            bot.ajoutQuartierMain(bot.getPioche().piocherQuartier());
         }
     }
 

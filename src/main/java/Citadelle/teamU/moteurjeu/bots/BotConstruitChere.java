@@ -15,8 +15,8 @@ public class BotConstruitChere extends Bot{
     private static int numDuBotConstruitChere=1;
     private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
-    public BotConstruitChere(){
-        super();
+    public BotConstruitChere(Pioche pioche){
+        super(pioche);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
@@ -39,17 +39,17 @@ public class BotConstruitChere extends Bot{
             }
         }
         if (piocher){
-            Quartier quartier1 = Pioche.piocherQuartier();
-            Quartier quartier2 = Pioche.piocherQuartier();
+            Quartier quartier1 = pioche.piocherQuartier();
+            Quartier quartier2 = pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
             if (quartier1.getCout() > quartier2.getCout()) {
                 ajoutQuartierMain(quartier1);
-                Pioche.remettreDansPioche(quartier2);
+                pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
             } else {
                 ajoutQuartierMain(quartier2);
-                Pioche.remettreDansPioche(quartier1);
+                pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
             }
         }

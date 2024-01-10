@@ -39,10 +39,10 @@ public class Jeu {
 
     public static void main (String... args){
         Pioche pioche = new Pioche();
-        Bot bot1 = new BotAleatoire();
-        Bot bot2 = new BotConstruitChere();
-        Bot bot3 = new BotConstruitVite();
-        Bot bot4 = new BotAleatoire();
+        Bot bot1 = new BotAleatoire(pioche);
+        Bot bot2 = new BotConstruitChere(pioche);
+        Bot bot3 = new BotConstruitVite(pioche);
+        Bot bot4 = new BotAleatoire(pioche);
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
         jeu.start();
     }

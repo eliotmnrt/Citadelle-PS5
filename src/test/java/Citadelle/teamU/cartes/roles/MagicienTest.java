@@ -29,10 +29,10 @@ class MagicienTest {
     @BeforeEach
     void setUp(){
         Pioche pioche = new Pioche();
-        botAleatoire = Mockito.spy(new BotAleatoire());
-        botAleatoire2 = Mockito.spy(new BotAleatoire());
-        botConstruitVite = Mockito.spy(new BotConstruitVite());
-        botConstruitChere =Mockito.spy(new BotConstruitChere());
+        botAleatoire = Mockito.spy(new BotAleatoire(pioche));
+        botAleatoire2 = Mockito.spy(new BotAleatoire(pioche));
+        botConstruitVite = Mockito.spy(new BotConstruitVite(pioche));
+        botConstruitChere =Mockito.spy(new BotConstruitChere(pioche));
         botliste = new ArrayList<>();
         botliste.add(botAleatoire);
         botliste.add(botAleatoire2);
@@ -76,7 +76,7 @@ class MagicienTest {
         botConstruitChere.setRole(track);               //botConstruitChere est le magicien
         botConstruitVite.setRole(new Pretre(botliste));
         //on ajoute une carte a un adversaire pour le forcer à échanger avec lui
-        botAleatoire.getQuartierMain().add(Pioche.piocherQuartier());
+        botAleatoire.getQuartierMain().add(botAleatoire.getPioche().piocherQuartier());
 
         botConstruitChere.faireActionSpecialRole();
         verify(botConstruitChere).actionSpecialeMagicien(track);

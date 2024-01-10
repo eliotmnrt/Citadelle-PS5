@@ -30,10 +30,10 @@ class VoleurTest {
     @BeforeEach
     void setUp(){
         Pioche pioche = new Pioche();
-        botAleatoire = Mockito.spy(new BotAleatoire());
-        botAleatoire2 = Mockito.spy(new BotAleatoire());
-        botConstruitVite = Mockito.spy(new BotConstruitVite());
-        botConstruitChere =Mockito.spy(new BotConstruitChere());
+        botAleatoire = Mockito.spy(new BotAleatoire(pioche));
+        botAleatoire2 = Mockito.spy(new BotAleatoire(pioche));
+        botConstruitVite = Mockito.spy(new BotConstruitVite(pioche));
+        botConstruitChere =Mockito.spy(new BotConstruitChere(pioche));
         botliste = new ArrayList<>();
         botliste.add(botAleatoire);
         botliste.add(botAleatoire2);

@@ -16,7 +16,7 @@ class BotAleatoireTest {
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
-        bot = new BotAleatoire();
+        bot = new BotAleatoire(pioche);
         botliste = new ArrayList<>();
         botliste.add(bot);
     }

@@ -13,12 +13,14 @@ public class Bot {
     protected int nbOr;
 
     protected Role role;
+    protected Pioche pioche;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
 
     protected int score; // represente les points de victoire
-    public Bot(){
+    public Bot(Pioche pioche){
+        this.pioche = pioche;
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
@@ -38,6 +40,8 @@ public class Bot {
         nbOr = nbOr+or;
     }
     public void voleDOrParVoleur(){nbOr = 0;}
+
+    public Pioche getPioche() {return pioche;}
 
     public void setOrProchainTour(int orProchainTour) {this.orProchainTour = orProchainTour;}
 
@@ -73,7 +77,7 @@ public class Bot {
     }
     public void initQuartierMain(){ //une partie commence avec 4  quartier pour chaque joueur
         for(int i=0; i<4;i++){
-            ajoutQuartierMain(Pioche.piocherQuartier());
+            ajoutQuartierMain(pioche.piocherQuartier());
         }
     }
     public ArrayList<Quartier> getQuartierMain(){ return quartierMain;}

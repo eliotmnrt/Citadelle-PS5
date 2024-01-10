@@ -24,8 +24,8 @@ public class Architecte implements Role {
     }
     public void piocheDeuxCartes(Bot bot){
         quartierSupplementaire.clear();
-        Quartier quartier1 = Pioche.piocherQuartier();
-        Quartier quartier2 = Pioche.piocherQuartier();
+        Quartier quartier1 = bot.getPioche().piocherQuartier();
+        Quartier quartier2 = bot.getPioche().piocherQuartier();
         bot.ajoutQuartierMain(quartier1);
         bot.ajoutQuartierMain(quartier2);
         quartierSupplementaire.add(quartier1);

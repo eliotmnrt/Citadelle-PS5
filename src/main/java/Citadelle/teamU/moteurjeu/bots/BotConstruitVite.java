@@ -13,7 +13,7 @@ public class BotConstruitVite extends Bot {
     private String name;
     private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
-    public BotConstruitVite(){
+    public BotConstruitVite(Pioche pioche){
         //Bot qui construit le plus vite possible
         //Il construit des qu'il peut (le moins chere)
         //prend des piece si : il a des quartier qui coute moins de 3
@@ -21,7 +21,7 @@ public class BotConstruitVite extends Bot {
         //Si il ne peut pas construire : il pioche jusqu'à avoir des carte qui coute moins de 3
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
-        super();
+        super(pioche);
         this.name = "Bot_qui_construit_vite"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
@@ -53,18 +53,18 @@ public class BotConstruitVite extends Bot {
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1 = Pioche.piocherQuartier();
-            Quartier quartier2 = Pioche.piocherQuartier();
+            Quartier quartier1 = pioche.piocherQuartier();
+            Quartier quartier2 = pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
             if (quartier1.getCout()<quartier2.getCout()){
                 ajoutQuartierMain(quartier1);
-                Pioche.remettreDansPioche(quartier2);
+                pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
             }
             else{
                 ajoutQuartierMain(quartier2);
-                Pioche.remettreDansPioche(quartier1);
+                pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
             }
         }

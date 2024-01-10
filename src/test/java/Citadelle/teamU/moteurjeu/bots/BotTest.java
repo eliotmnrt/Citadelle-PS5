@@ -12,7 +12,7 @@ class BotTest {
     @BeforeEach
     void setBot(){
         Pioche pioche = new Pioche();
-        bot = new Bot();
+        bot = new Bot(pioche);
     }
     @Test
     void botOrTest() {

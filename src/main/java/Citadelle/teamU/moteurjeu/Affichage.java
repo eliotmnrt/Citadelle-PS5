@@ -50,13 +50,13 @@ public class Affichage {
             System.out.println(choix);
             throw new IllegalArgumentException(); // a l'aide
         }
-        System.out.println("\n");
     }
 
     public void afficheConstruction(Quartier construction){
         if (construction != null){
             System.out.println(bot.toString() + " a construit " + construction);
         }
+        System.out.println("\n");
     }
 
 

@@ -19,7 +19,7 @@ class RoiTest {
     @BeforeEach
     public void setBot(){
         Pioche pioche = new Pioche();
-        bot = new BotAleatoire();
+        bot = new BotAleatoire(pioche);
         ArrayList<Bot> botliste = new ArrayList<>();
         botliste.add(bot);
         bot.setRole(new Roi(botliste));

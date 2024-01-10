@@ -14,8 +14,8 @@ public class BotAleatoire extends Bot{
     private static int numDuBotAleatoire = 1;
     private String name;
 
-    public BotAleatoire(){
-        super();
+    public BotAleatoire(Pioche pioche){
+        super(pioche);
         this.name = "BotAleatoire"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
@@ -35,20 +35,20 @@ public class BotAleatoire extends Bot{
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1= Pioche.piocherQuartier();
-            Quartier quartier2=Pioche.piocherQuartier();
+            Quartier quartier1 = pioche.piocherQuartier();
+            Quartier quartier2 = pioche.piocherQuartier();
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
 
             int intAleatoire2= randInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 ==0){
                 ajoutQuartierMain(quartier1);
-                Pioche.remettreDansPioche(quartier2);
+                pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
             }
             else{
                 ajoutQuartierMain(quartier2);
-                Pioche.remettreDansPioche(quartier1);
+                pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
             }
         } else {
