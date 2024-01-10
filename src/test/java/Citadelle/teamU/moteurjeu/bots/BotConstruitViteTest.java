@@ -143,8 +143,7 @@ class BotConstruitViteTest {
 
         BotConstruitVite botSpy = spy(bot);
         botSpy.setRolesRestants(arrayRole);
-        //when(voleurSpy.getRoles()).thenReturn(arrayRole);
-        //when(botSpy.randInt(anyInt())).thenReturn(0);
+        arrayRole.add(roi);
         doReturn(0).when(botSpy).randInt(anyInt());
         //Il choisit de voler le dernier
 

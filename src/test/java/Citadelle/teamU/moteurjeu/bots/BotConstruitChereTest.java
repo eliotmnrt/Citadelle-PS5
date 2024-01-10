@@ -147,9 +147,8 @@ class BotConstruitChereTest {
 
         BotConstruitChere botSpy = spy(bot);
         botSpy.setRolesRestants(arrayRole);
-        //when(voleurSpy.getRoles()).thenReturn(arrayRole);
-        //when(botSpy.randInt(anyInt())).thenReturn(0);
         doReturn(0).when(botSpy).randInt(anyInt());
+        arrayRole.add(roi);
         //Il choisit de voler le dernier
 
         botSpy.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
