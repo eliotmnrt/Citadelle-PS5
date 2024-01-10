@@ -47,6 +47,9 @@ public class Tour {
             bot.choisirRole(roles);
         }
     }
+    public ArrayList<Bot> getBotListe(){
+        return botListe;
+    }
 
 
 }

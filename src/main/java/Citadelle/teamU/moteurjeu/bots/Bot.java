@@ -55,6 +55,9 @@ public class Bot {
         return role.getOrdre();
     }
 
+    public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit){
+        this.quartierConstruit=quartierConstruit;
+    }
 
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);

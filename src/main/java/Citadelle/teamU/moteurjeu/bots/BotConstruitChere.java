@@ -88,5 +88,4 @@ public class BotConstruitChere extends Bot{
 
         return name;
     }
-
 }
