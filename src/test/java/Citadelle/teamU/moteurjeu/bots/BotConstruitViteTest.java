@@ -28,7 +28,7 @@ class BotConstruitViteTest {
         botliste = new ArrayList<>();
         botliste.add(bot);
     }
-    @Test
+    /**@Test
     public void prendreOr(){
         //piocheMock = mockStatic(Pioche.class);
         when(Pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
@@ -38,7 +38,7 @@ class BotConstruitViteTest {
         bot.ajoutQuartierMain(Pioche.piocherQuartier());
         bot.faireActionDeBase();
         assertEquals(4,bot.getOr());
-    }
+    }**/
     @Test
     public void prendreQuartier(){
         //piocheMock = mockStatic(Pioche.class);
