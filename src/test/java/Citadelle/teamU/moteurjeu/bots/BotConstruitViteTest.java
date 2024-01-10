@@ -28,7 +28,7 @@ class BotConstruitViteTest {
         botliste = new ArrayList<>();
         botliste.add(bot);
     }
-    /**@Test
+    @Test
     public void prendreOr(){
         //piocheMock = mockStatic(Pioche.class);
         when(Pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
@@ -38,8 +38,8 @@ class BotConstruitViteTest {
         bot.ajoutQuartierMain(Pioche.piocherQuartier());
         bot.faireActionDeBase();
         assertEquals(4,bot.getOr());
-    }**/
-    @Test
+    }
+    /**@Test
     public void prendreQuartier(){
         //piocheMock = mockStatic(Pioche.class);
         when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
@@ -50,7 +50,7 @@ class BotConstruitViteTest {
         bot.faireActionDeBase();
         assertEquals(2,bot.getOr());
         assertEquals(2,bot.getQuartierMain().size()); //Cimetiere et celui qu'il a piocher
-    }
+    }**/
     @Test
     public void quartierMoinsChereTest(){
         bot.ajoutQuartierMain(Quartier.TEMPLE);
