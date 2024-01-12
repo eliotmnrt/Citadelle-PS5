@@ -54,7 +54,7 @@ class MagicienTest {
     }
 
     @Test
-    void botPasConChangeAvecPioche() {
+    void  botPasConChangeAvecPioche() {
         botAleatoire.setRole(new Marchand(botliste));
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(track);               //botConstruitChere est le magicien
