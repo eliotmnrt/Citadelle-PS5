@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -140,5 +141,24 @@ public class BotConstruitVite extends Bot {
         return name;
     }
 
+    @Override
+    public void actionSpecialeCondottiere(Condottiere condottiere){
+        // detruit que le quartier le moins chère du bot qui a le plus de quartier construit
+        ArrayList<Bot> botList=condottiere.getBotListe();
+        botList.remove(this);
+        Bot botMax = botList.get(0);
+        for(Bot bot:botList){
+            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size()){
+                botMax=bot;
+            }
+        }
+        Quartier minPrixQuartier=botMax.getQuartiersConstruits().get(0);
+        for(Quartier quartier: botMax.getQuartiersConstruits()){
+            if(quartier.getCout() < minPrixQuartier.getCout()){
+                minPrixQuartier = quartier;
+            }
+        }
+        condottiere.destructionQuartier(this,botMax,minPrixQuartier);
+    }
 
 }
