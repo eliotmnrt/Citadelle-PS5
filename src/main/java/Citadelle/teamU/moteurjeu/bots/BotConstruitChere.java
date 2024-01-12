@@ -17,7 +17,7 @@ public class BotConstruitChere extends Bot{
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.name="BotConstruitChere"+numDuBotConstruitChere;
+        this.name="Bot_qui_Construit_Chere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
 
@@ -60,7 +60,6 @@ public class BotConstruitChere extends Bot{
         return choixDeBase;
     }
     public Quartier construire(){
-
         int max=0;
         Quartier quartierChoisi=null;
         for(Quartier quartier :quartierMain){
@@ -73,9 +72,7 @@ public class BotConstruitChere extends Bot{
         // répétitions de code BotAleatoire, a refactorer plus tard
         if (quartierChoisi!=null) {
             if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
-                quartierConstruit.add(quartierChoisi);
-                quartierMain.remove(quartierChoisi);
-                nbOr -= quartierChoisi.getCout();
+                ajoutQuartierConstruit(quartierChoisi);
                 return quartierChoisi;
             }
         }

@@ -14,6 +14,7 @@ public class Magicien implements Role {
     private final int ordre = 3;
 
     private String choix;
+    private ArrayList<Quartier> cartesAEchangees;
 
     public Magicien(ArrayList<Bot> botListe){
         this.botListe = botListe;
@@ -30,14 +31,20 @@ public class Magicien implements Role {
      */
     public void changeAvecPioche(Bot bot, ArrayList<Quartier> carteEchangees){
         choix = "la pioche";
-        int nbQuartierEchanges = carteEchangees.size() - 1;
-        for (int i=nbQuartierEchanges; i>0; i--){
-            int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
-            bot.getPioche().remettreDansPioche(bot.getQuartierMain().remove(rang));
+        this.cartesAEchangees = new ArrayList<>(carteEchangees);
+        ArrayList<Quartier> nouvelleMain = new ArrayList<>();
+        for (Quartier quartier: bot.getQuartierMain()){
+            if (!carteEchangees.contains(quartier)){        //on garde les cartes da la main non échangées
+                nouvelleMain.add(quartier);
+            }
         }
-        for(int i=0; i<nbQuartierEchanges; i++){
-            bot.ajoutQuartierMain(bot.getPioche().piocherQuartier());
+        for(Quartier quartier: carteEchangees){
+            bot.getPioche().remettreDansPioche(quartier);
         }
+        for(Quartier quartier: carteEchangees){
+            nouvelleMain.add(bot.getPioche().piocherQuartier());
+        }
+        bot.setQuartierMain(nouvelleMain);
     }
 
     /**
@@ -47,6 +54,7 @@ public class Magicien implements Role {
      */
     public void changeAvecBot(Bot bot, Bot botEchange){
         choix = "le " + botEchange.toString();
+        cartesAEchangees = new ArrayList<>(bot.getQuartierMain());
         ArrayList<Quartier> tmpList = new ArrayList<>(bot.getQuartierMain());
         bot.getQuartierMain().clear();
         bot.getQuartierMain().addAll(botEchange.getQuartierMain());
@@ -70,7 +78,7 @@ public class Magicien implements Role {
     }
 
     public String actionToString(Bot bot){
-        return "Le " + bot.toString() +" a échangé ses carte avec " + choix + ".\nMain actuelle : " + bot.getQuartierMain();
+        return "Le " + bot.toString() +" a échangé ses cartes :" + cartesAEchangees + " avec " + choix + ".\nMain actuelle : " + bot.getQuartierMain();
     }
 
 

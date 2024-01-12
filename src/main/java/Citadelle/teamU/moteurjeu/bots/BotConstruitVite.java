@@ -86,9 +86,9 @@ public class BotConstruitVite extends Bot {
      */
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersTrie = quartierMain;
+        ArrayList<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.size()>0&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;

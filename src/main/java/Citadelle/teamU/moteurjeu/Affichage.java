@@ -48,7 +48,7 @@ public class Affichage {
         }
         else {
             System.out.println(choix);
-            throw new IllegalArgumentException(); // a l'aide
+            throw  new IllegalArgumentException(); // a l'aide
         }
     }
 

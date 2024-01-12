@@ -59,15 +59,18 @@ public class Bot {
     }
     public int randInt(int nb){return new Random().nextInt(nb);}
 
-    public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
+    public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquement
+    public void setQuartierMain(ArrayList<Quartier> nouvelleMain){ quartierMain = nouvelleMain; }
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
-        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()&& !quartierConstruit.contains(newQuartier)) {
+        if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
             score+= newQuartier.getCout();
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
