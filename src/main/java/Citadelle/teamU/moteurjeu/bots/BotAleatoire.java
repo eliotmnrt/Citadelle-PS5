@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -40,13 +41,12 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
 
-            int intAleatoire2= randInt(2); // Choisi un int aléatoire 0 ou 1
-            if (intAleatoire2 ==0){
+            int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
+            if (intAleatoire2 == 0) {
                 ajoutQuartierMain(quartier1);
                 pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
-            }
-            else{
+            } else {
                 ajoutQuartierMain(quartier2);
                 pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
@@ -78,7 +78,7 @@ public class BotAleatoire extends Bot{
                 quartiersPossible.add(quartier);
             }
         }
-        if(quartiersPossible.size()>0){
+        if (quartiersPossible.size() > 0) {
             int intAleatoire = randInt(quartiersPossible.size());
             Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
             ajoutQuartierConstruit(quartierConstruire);
@@ -109,6 +109,27 @@ public class BotAleatoire extends Bot{
     @Override           // UPDATE QUAND AJOUT DE CLASSES
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
-        voleur.voler(this, voleur.getRoles().get(rang) );
+        voleur.voler(this, voleur.getRoles().get(rang));
+    }
+
+    @Override
+    public void actionSpecialeCondottiere(Condottiere condottiere) {
+        Random random=new Random();
+
+        int indiceRandomBot = random.nextInt(condottiere.getBotListe().size());
+        Bot botAdetruire=(condottiere.getBotListe()).get(indiceRandomBot);
+        if(botAdetruire.getQuartiersConstruits().size()>0) {
+            int indiceRandomQuartier = random.nextInt(botAdetruire.getQuartiersConstruits().size() );
+            Quartier quartierAdetruire = botAdetruire.getQuartiersConstruits().get(indiceRandomQuartier);
+
+            if(quartierAdetruire!=null){
+                if (this.getOr() >= quartierAdetruire.getCout() - 1) {
+
+                    condottiere.destructionQuartier(this, botAdetruire, quartierAdetruire);
+
+
+                }
+            }
+        }
     }
 }

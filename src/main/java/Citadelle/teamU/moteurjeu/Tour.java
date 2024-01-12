@@ -23,6 +23,7 @@ public class Tour {
         roles.add(new Pretre(botListe));
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
+        roles.add(new Condottiere(botListe));
         this.botListe = botListe;
     }
 
