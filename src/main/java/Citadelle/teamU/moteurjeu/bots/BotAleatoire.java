@@ -108,7 +108,7 @@ public class BotAleatoire extends Bot{
 
     @Override           // UPDATE QUAND AJOUT DE CLASSES
     public void actionSpecialeVoleur(Voleur voleur){
-        int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+        int rang = randInt(6) + 1;       // pour un nb aleatoire hors assassin et voleur
         voleur.voler(this, voleur.getRoles().get(rang));
     }
 
