@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -80,6 +81,9 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
+    public void setQuartiersConstruits(ArrayList<Quartier> quartierConstruit){
+        this.quartierConstruit= quartierConstruit;
+    }
     public ArrayList<Quartier> faireActionDeBase(){
         // return le quartier choisi si le bot a choisi de piocher un quartier
         // si le bot a choisi de prendre des pieces ça return null
@@ -101,4 +105,5 @@ public class Bot {
     }
     public void actionSpecialeMagicien(Magicien magicien){}
     public void actionSpecialeVoleur(Voleur voleur){}
+    public void actionSpecialeCondottiere(Condottiere condottiere){}
 }
