@@ -14,6 +14,7 @@ public class Bot {
 
     protected Role role;
     protected Pioche pioche;
+    protected boolean couronne;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
@@ -105,4 +106,10 @@ public class Bot {
     }
     public void actionSpecialeMagicien(Magicien magicien){}
     public void actionSpecialeVoleur(Voleur voleur){}
+    public boolean isCouronne() {
+        return couronne;
+    }
+    public void setCouronne(boolean couronne) {
+        this.couronne = couronne;
+    }
 }

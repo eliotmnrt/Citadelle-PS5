@@ -16,7 +16,26 @@ public class Roi implements Role {
 
     public Roi(ArrayList<Bot> botListe){
         this.botListe = botListe;
+        distributionCouronne();
     }
+
+    private void distributionCouronne() {
+        Bot botRoi = null;
+        for(Bot bot : botListe){
+            if(bot.getRole() instanceof Roi){
+                botRoi = bot;
+            }
+        }
+        if(botRoi != null){
+            for(Bot bot : botListe){
+                bot.setCouronne(false);
+            }
+            botListe.remove(botRoi);
+            botListe.add(0,botRoi);
+            botRoi.setCouronne(true);
+        }
+    }
+
     public void orQuartierJaune(Bot bot){
         int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){

@@ -35,7 +35,7 @@ public class Tour {
         distributionRoles();
         System.out.println("Tour "+ nbTour);
         System.out.println(botListe);
-        Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
+        botListeUpdate();
         for (Bot bot: botListe){
             Affichage affiche = new Affichage(bot);
             affiche.afficheBot();
@@ -53,6 +53,18 @@ public class Tour {
 
         }
 
+    }
+
+    private void botListeUpdate() {
+        Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
+        System.out.println(botListe+"avant");
+        for(Bot bot: botListe){
+            if(bot.isCouronne()){
+                botListe.remove(bot);
+                botListe.add(0,bot);
+            }
+        }
+        System.out.println(botListe+"après");
     }
 
 
