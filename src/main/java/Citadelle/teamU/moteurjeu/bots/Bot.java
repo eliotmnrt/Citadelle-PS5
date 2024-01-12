@@ -17,7 +17,7 @@ public class Bot {
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
-
+    protected Random random;
     protected int score; // represente les points de victoire
     public Bot(Pioche pioche){
         this.pioche = pioche;
@@ -25,6 +25,7 @@ public class Bot {
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
         score=0;
+        random = new Random();
         initQuartierMain();
     }
 
@@ -57,7 +58,7 @@ public class Bot {
     public int getOrdre(){
         return role.getOrdre();
     }
-    public int randInt(int nb){return new Random().nextInt(nb);}
+    public int randInt(int nb){return random.nextInt(nb);}
 
     public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
 
