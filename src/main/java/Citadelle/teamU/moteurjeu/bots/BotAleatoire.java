@@ -7,7 +7,7 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class BotAleatoire extends Bot{
 
@@ -41,7 +41,7 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(quartier2);
 
             int intAleatoire2= randInt(2); // Choisi un int aléatoire 0 ou 1
-            if (intAleatoire2 ==0){
+            if (intAleatoire2 == 0){
                 ajoutQuartierMain(quartier1);
                 pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
@@ -78,7 +78,7 @@ public class BotAleatoire extends Bot{
                 quartiersPossible.add(quartier);
             }
         }
-        if(quartiersPossible.size()>0){
+        if(!quartiersPossible.isEmpty()){
             int intAleatoire = randInt(quartiersPossible.size());
             Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
             ajoutQuartierConstruit(quartierConstruire);

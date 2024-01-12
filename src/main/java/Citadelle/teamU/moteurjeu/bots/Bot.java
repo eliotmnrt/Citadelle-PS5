@@ -8,7 +8,7 @@ import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 public class Bot {
     protected int nbOr;
@@ -89,9 +89,24 @@ public class Bot {
     public ArrayList<Quartier> faireActionDeBase(){
         // return le quartier choisi si le bot a choisi de piocher un quartier
         // si le bot a choisi de prendre des pieces ça return null
+        return new ArrayList<>();
+    }
+    public ArrayList<Quartier> choisirEntreDeuxQuartiersViaCout(int nb){   //pour eviter de dupliquer du code
+        // si nb est positif on garde la carte la plus chère sinon la moins chère
+        Quartier quartier1 = pioche.piocherQuartier();
+        Quartier quartier2 = pioche.piocherQuartier();
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        choixDeBase.add(quartier1);
+        choixDeBase.add(quartier2);
+        if ((nb > 0 && quartier1.getCout() < quartier2.getCout()) || (nb < 0 && quartier1.getCout() > quartier2.getCout())){
+            Collections.reverse(choixDeBase);
+        }
+        ajoutQuartierMain(choixDeBase.get(0));
+        pioche.remettreDansPioche(choixDeBase.get(1));
+        choixDeBase.add(choixDeBase.get(0));
         return choixDeBase;
     }
+
     public int getScore(){
         return this.score;
     }

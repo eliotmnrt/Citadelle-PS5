@@ -7,7 +7,6 @@ import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BotConstruitChere extends Bot{
     private String name;
@@ -35,23 +34,11 @@ public class BotConstruitChere extends Bot{
         boolean piocher=true;
         for(Quartier quartier: quartierMain){
             if (quartier.getCout()>=4){
-                piocher=false;
+                piocher = false;
             }
         }
         if (piocher){
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-            if (quartier1.getCout() > quartier2.getCout()) {
-                ajoutQuartierMain(quartier1);
-                pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
-            } else {
-                ajoutQuartierMain(quartier2);
-                pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
-            }
+            choixDeBase = choisirEntreDeuxQuartiersViaCout(1);
         }
         else{
             choixDeBase.add(null);
