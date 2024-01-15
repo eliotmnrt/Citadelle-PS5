@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Bot {
+public abstract class Bot {
     protected int nbOr;
 
     protected Role role;
@@ -53,9 +53,6 @@ public class Bot {
     public void setRole(Role role){
         this.role = role;
     }
-    public void choisirRole(ArrayList<Role> roles){
-        setRole(roles.get(0));
-    }
     public int getOrdre(){
         return role.getOrdre();
     }
@@ -86,11 +83,7 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public ArrayList<Quartier> faireActionDeBase(){
-        // return le quartier choisi si le bot a choisi de piocher un quartier
-        // si le bot a choisi de prendre des pieces ça return null
-        return new ArrayList<>();
-    }
+
     public ArrayList<Quartier> choisirEntreDeuxQuartiersViaCout(int nb){   //pour eviter de dupliquer du code
         // si nb est positif on garde la carte la plus chère sinon la moins chère
         Quartier quartier1 = pioche.piocherQuartier();
@@ -117,9 +110,14 @@ public class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
-    public Quartier construire(){
-        return null;
-    }
-    public void actionSpecialeMagicien(Magicien magicien){}
-    public void actionSpecialeVoleur(Voleur voleur){}
+
+    // à implementer dans chaque bot
+    public abstract Quartier construire();
+    public abstract ArrayList<Quartier> faireActionDeBase();
+    public abstract void actionSpecialeMagicien(Magicien magicien);
+    public abstract void actionSpecialeVoleur(Voleur voleur);
+    public abstract void choisirRole(ArrayList<Role> roles);
+
+
+     //
 }

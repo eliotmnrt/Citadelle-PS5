@@ -23,7 +23,6 @@ public class BotAleatoire extends Bot{
     //rajouter ou override les methode qui définissent la manière de jouer d'un bot
 
 
-    @Override
     public ArrayList<Quartier> faireActionDeBase(){
         //une arrayList qui en 0 contient null si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
@@ -31,7 +30,6 @@ public class BotAleatoire extends Bot{
         ArrayList<Quartier> choixDeBase=new ArrayList<>();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= randInt(2);
-        //Quartier quartierChoisi=null;
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
@@ -58,7 +56,7 @@ public class BotAleatoire extends Bot{
         return choixDeBase;
     }
 
-    @Override
+
     public void choisirRole(ArrayList<Role> roles){
         nbOr += orProchainTour;         //on recupere l'or du vol
         orProchainTour = 0;
@@ -70,7 +68,6 @@ public class BotAleatoire extends Bot{
     /**
      * Construit un quartier aléatoire parmis ceux qu'il peut construire
      */
-    @Override
     public Quartier construire(){
         ArrayList<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
@@ -92,7 +89,7 @@ public class BotAleatoire extends Bot{
         return name;
     }
 
-    @Override
+
     public void actionSpecialeMagicien(Magicien magicien){
         int aleat = randInt(magicien.getBotListe().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
         while (aleat == magicien.getBotListe().indexOf(this)){          //on l'empêche d'échanger avec lui meme
@@ -105,8 +102,7 @@ public class BotAleatoire extends Bot{
         }
     }
 
-
-    @Override           // UPDATE QUAND AJOUT DE CLASSES
+    // UPDATE QUAND AJOUT DE CLASSES
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
         voleur.voler(this, voleur.getRoles().get(rang) );

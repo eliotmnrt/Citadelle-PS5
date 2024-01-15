@@ -26,7 +26,6 @@ public class BotConstruitChere extends Bot{
     }
 
 
-    @Override
     public ArrayList<Quartier> faireActionDeBase() {
         // A REFACTORER
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
@@ -58,13 +57,9 @@ public class BotConstruitChere extends Bot{
 
         }
         // répétitions de code BotAleatoire, a refactorer plus tard
-        if (quartierChoisi!=null) {
-            if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
-                quartierConstruit.add(quartierChoisi);
-                quartierMain.remove(quartierChoisi);
-                nbOr -= quartierChoisi.getCout();
+        if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
+                ajoutQuartierConstruit(quartierChoisi);
                 return quartierChoisi;
-            }
         }
         return null;
     }
@@ -73,7 +68,7 @@ public class BotConstruitChere extends Bot{
         return name;
     }
 
-    @Override
+
     public void choisirRole(ArrayList<Role> roles){
         nbOr += orProchainTour;         //on recupere l'or du vol
         orProchainTour = 0;
@@ -83,7 +78,7 @@ public class BotConstruitChere extends Bot{
         rolesRestants = new ArrayList<>(roles);
     }
 
-    @Override
+
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
@@ -101,7 +96,8 @@ public class BotConstruitChere extends Bot{
         }
     }
 
-    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+
+    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous

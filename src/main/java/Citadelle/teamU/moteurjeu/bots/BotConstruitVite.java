@@ -32,7 +32,6 @@ public class BotConstruitVite extends Bot {
     }
 
 
-    @Override
     public ArrayList<Quartier> faireActionDeBase(){
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
@@ -44,6 +43,7 @@ public class BotConstruitVite extends Bot {
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
                 aQuartierPasChere = true;
+                break;
             }
         }
         if(aQuartierPasChere){
@@ -58,7 +58,7 @@ public class BotConstruitVite extends Bot {
         return choixDeBase;
     }
 
-    @Override
+
     public void choisirRole(ArrayList<Role> roles){
         nbOr += orProchainTour;         //on recupere l'or du vol
         orProchainTour = 0;
@@ -71,11 +71,11 @@ public class BotConstruitVite extends Bot {
     /**
      * Construit un quartier
      */
-    @Override
+
     public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.size()>0&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(!quartiersTrie.isEmpty()&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
@@ -83,7 +83,7 @@ public class BotConstruitVite extends Bot {
         return null;
     }
 
-    @Override
+
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
@@ -101,7 +101,7 @@ public class BotConstruitVite extends Bot {
         }
     }
 
-    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
