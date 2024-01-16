@@ -20,6 +20,7 @@ public class Bot {
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
 
     protected int score; // represente les points de victoire
+    protected int ordreChoixRole;
     public Bot(Pioche pioche){
         this.pioche = pioche;
         nbOr = 2;
@@ -111,5 +112,12 @@ public class Bot {
     }
     public void setCouronne(boolean couronne) {
         this.couronne = couronne;
+    }
+    public void setOrdreChoixRole(int ordreChoixRole) {
+        this.ordreChoixRole = ordreChoixRole;
+    }
+
+    public int getOrdreChoixRole() {
+        return ordreChoixRole;
     }
 }

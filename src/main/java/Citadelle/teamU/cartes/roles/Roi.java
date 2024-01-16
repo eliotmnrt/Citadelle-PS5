@@ -16,27 +16,21 @@ public class Roi implements Role {
 
     public Roi(ArrayList<Bot> botListe){
         this.botListe = botListe;
-        distributionCouronne();
     }
 
-    private void distributionCouronne() {
-        Bot botRoi = null;
-        for(Bot bot : botListe){
-            if(bot.getRole() instanceof Roi){
-                botRoi = bot;
-            }
+    public void distributionCouronne(Bot notreBot) {
+        System.out.println("Le "+notreBot+" prend la couronne");
+        for(Bot bot : this.botListe){
+            bot.setCouronne(false);
         }
-        if(botRoi != null){
-            for(Bot bot : botListe){
-                bot.setCouronne(false);
-            }
-            botListe.remove(botRoi);
-            botListe.add(0,botRoi);
-            botRoi.setCouronne(true);
-        }
+        notreBot.setCouronne(true);
     }
 
     public void orQuartierJaune(Bot bot){
+        //On s'occupe de la couronne
+        distributionCouronne(bot);
+
+        //Les quartiers jaune :
         int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
