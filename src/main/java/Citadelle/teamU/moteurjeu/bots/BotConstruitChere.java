@@ -135,8 +135,9 @@ public class BotConstruitChere extends Bot{
     }
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
-        // detruit que un quartier qui coute 1
-        ArrayList<Bot> botList=condottiere.getBotListe();
+        // détruit que un quartier qui coute 1
+        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
                 if(quartier.getCout()==1){

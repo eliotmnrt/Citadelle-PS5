@@ -115,11 +115,12 @@ public class BotAleatoire extends Bot{
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
         Random random=new Random();
-
-        int indiceRandomBot = random.nextInt(condottiere.getBotListe().size());
-        Bot botAdetruire=(condottiere.getBotListe()).get(indiceRandomBot);
-        if(botAdetruire.getQuartiersConstruits().size()>0) {
-            int indiceRandomQuartier = random.nextInt(botAdetruire.getQuartiersConstruits().size() );
+        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
+        int indiceRandomBot = random.nextInt(botList.size());
+        Bot botAdetruire = (botList.get(indiceRandomBot));
+        if(!botAdetruire.getQuartiersConstruits().isEmpty()) {
+            int indiceRandomQuartier = randInt(botAdetruire.getQuartiersConstruits().size() );
             Quartier quartierAdetruire = botAdetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
             if(quartierAdetruire!=null){
