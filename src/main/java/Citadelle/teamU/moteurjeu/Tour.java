@@ -85,7 +85,7 @@ public class Tour {
     }
 
 
-    private void distributionRoles(){
+    public ArrayList<Bot> distributionRoles(){
         ArrayList<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
         Collections.sort(listeDistribution, Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
@@ -103,6 +103,7 @@ public class Tour {
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }
+        return listeDistribution;
     }
 
 
