@@ -22,9 +22,16 @@ public class Affichage {
     public void afficheBot(){
 
         System.out.println("--------------"+bot.toString()+"------------------");
-        System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
+        System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore()+"position du bot : "+bot.getOrdreChoixRole());
+        afficheCouronne();
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
+    }
+
+    private void afficheCouronne() {
+        if(bot.isCouronne()){
+            System.out.println("Ce bot a la couronne");
+        }
     }
 
     public void setChoixDeBase(ArrayList<Quartier> choixDeBase) {
