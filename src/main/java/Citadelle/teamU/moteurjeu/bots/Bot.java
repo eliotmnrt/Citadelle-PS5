@@ -6,10 +6,11 @@ import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
-public class Bot {
+public abstract class Bot {
     protected int nbOr;
 
     protected Role role;
@@ -18,7 +19,7 @@ public class Bot {
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
-
+    protected SecureRandom random;
     protected int score; // represente les points de victoire
     protected int ordreChoixRole;
     public Bot(Pioche pioche){
@@ -27,6 +28,7 @@ public class Bot {
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
         score=0;
+        random = new SecureRandom();
         initQuartierMain();
     }
 
@@ -53,13 +55,10 @@ public class Bot {
     public void setRole(Role role){
         this.role = role;
     }
-    public void choisirRole(ArrayList<Role> roles){
-        setRole(roles.get(0));
-    }
     public int getOrdre(){
         return role.getOrdre();
     }
-    public int randInt(int nb){return new Random().nextInt(nb);}
+    public int randInt(int nb){return random.nextInt(nb);}
 
     public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
 
@@ -86,12 +85,23 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public ArrayList<Quartier> faireActionDeBase(){
-        // return le quartier choisi si le bot a choisi de piocher un quartier
-        // si le bot a choisi de prendre des pieces ça return null
+
+    public ArrayList<Quartier> choisirEntreDeuxQuartiersViaCout(int nb){   //pour eviter de dupliquer du code
+        // si nb est positif on garde la carte la plus chère sinon la moins chère
+        Quartier quartier1 = pioche.piocherQuartier();
+        Quartier quartier2 = pioche.piocherQuartier();
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        choixDeBase.add(quartier1);
+        choixDeBase.add(quartier2);
+        if ((nb > 0 && quartier1.getCout() < quartier2.getCout()) || (nb < 0 && quartier1.getCout() > quartier2.getCout())){
+            Collections.reverse(choixDeBase);
+        }
+        ajoutQuartierMain(choixDeBase.get(0));
+        pioche.remettreDansPioche(choixDeBase.get(1));
+        choixDeBase.add(choixDeBase.get(0));
         return choixDeBase;
     }
+
     public int getScore(){
         return this.score;
     }
@@ -102,11 +112,6 @@ public class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
-    public Quartier construire(){
-        return null;
-    }
-    public void actionSpecialeMagicien(Magicien magicien){}
-    public void actionSpecialeVoleur(Voleur voleur){}
     public boolean isCouronne() {
         return couronne;
     }
@@ -120,4 +125,14 @@ public class Bot {
     public int getOrdreChoixRole() {
         return ordreChoixRole;
     }
+
+    // à implementer dans chaque bot
+    public abstract Quartier construire();
+    public abstract ArrayList<Quartier> faireActionDeBase();
+    public abstract void actionSpecialeMagicien(Magicien magicien);
+    public abstract void actionSpecialeVoleur(Voleur voleur);
+    public abstract void choisirRole(ArrayList<Role> roles);
+
+
+     //
 }

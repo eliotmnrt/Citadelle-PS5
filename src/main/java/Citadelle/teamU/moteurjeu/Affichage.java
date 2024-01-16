@@ -51,7 +51,7 @@ public class Affichage {
         }
         else if(choix.get(0) != null && choix.size() == 3) {
             System.out.println(bot.toString() + " a pioché les quartiers " + choixDeBase.get(0) + " et " + choixDeBase.get(1));
-            System.out.println(bot.toString() + " a choisis le quartier " + choixDeBase.get(2));
+            System.out.println(bot.toString() + " a choisi le quartier " + choixDeBase.get(2));
         }
         else {
             System.out.println(choix);

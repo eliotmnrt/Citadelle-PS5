@@ -7,7 +7,6 @@ import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BotConstruitChere extends Bot{
     private String name;
@@ -35,23 +34,11 @@ public class BotConstruitChere extends Bot{
         boolean piocher=true;
         for(Quartier quartier: quartierMain){
             if (quartier.getCout()>=4){
-                piocher=false;
+                piocher = false;
             }
         }
         if (piocher){
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-            if (quartier1.getCout() > quartier2.getCout()) {
-                ajoutQuartierMain(quartier1);
-                pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
-            } else {
-                ajoutQuartierMain(quartier2);
-                pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
-            }
+            choixDeBase = choisirEntreDeuxQuartiersViaCout(1);
         }
         else{
             choixDeBase.add(null);
@@ -59,6 +46,8 @@ public class BotConstruitChere extends Bot{
         }
         return choixDeBase;
     }
+
+    @Override
     public Quartier construire(){
 
         int max=0;
@@ -71,13 +60,9 @@ public class BotConstruitChere extends Bot{
 
         }
         // répétitions de code BotAleatoire, a refactorer plus tard
-        if (quartierChoisi!=null) {
-            if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
-                quartierConstruit.add(quartierChoisi);
-                quartierMain.remove(quartierChoisi);
-                nbOr -= quartierChoisi.getCout();
+        if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
+                ajoutQuartierConstruit(quartierChoisi);
                 return quartierChoisi;
-            }
         }
         return null;
     }
@@ -85,6 +70,7 @@ public class BotConstruitChere extends Bot{
     public String toString(){
         return name;
     }
+
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
@@ -95,6 +81,7 @@ public class BotConstruitChere extends Bot{
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
@@ -114,7 +101,9 @@ public class BotConstruitChere extends Bot{
         }
     }
 
-    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+
+    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    @Override
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous

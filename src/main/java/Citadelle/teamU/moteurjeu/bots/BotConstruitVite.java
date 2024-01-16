@@ -44,6 +44,7 @@ public class BotConstruitVite extends Bot {
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
                 aQuartierPasChere = true;
+                break;
             }
         }
         if(aQuartierPasChere){
@@ -53,23 +54,11 @@ public class BotConstruitVite extends Bot {
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-            if (quartier1.getCout()<quartier2.getCout()){
-                ajoutQuartierMain(quartier1);
-                pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
-            }
-            else{
-                ajoutQuartierMain(quartier2);
-                pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
-            }
+            choixDeBase = choisirEntreDeuxQuartiersViaCout(-1);
         }
         return choixDeBase;
     }
+
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
@@ -84,17 +73,19 @@ public class BotConstruitVite extends Bot {
     /**
      * Construit un quartier
      */
+
     @Override
     public Quartier construire(){
         ArrayList<Quartier> quartiersTrie = quartierMain;
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(quartiersTrie.size()>0&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(!quartiersTrie.isEmpty()&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
         }
         return null;
     }
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
@@ -114,7 +105,8 @@ public class BotConstruitVite extends Bot {
         }
     }
 
-    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    @Override
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Voleur implements Role{
 
-    private ArrayList<Bot> botListe;
+    private ArrayList<? extends Bot> botListe;
     private final int ordre = 2;
     private String choix = "";
     private ArrayList<Role> roles = new ArrayList<>();

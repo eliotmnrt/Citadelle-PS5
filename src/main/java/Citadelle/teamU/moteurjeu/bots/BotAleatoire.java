@@ -7,7 +7,7 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class BotAleatoire extends Bot{
 
@@ -31,7 +31,6 @@ public class BotAleatoire extends Bot{
         ArrayList<Quartier> choixDeBase=new ArrayList<>();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= randInt(2);
-        //Quartier quartierChoisi=null;
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
@@ -41,7 +40,7 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(quartier2);
 
             int intAleatoire2= randInt(2); // Choisi un int aléatoire 0 ou 1
-            if (intAleatoire2 ==0){
+            if (intAleatoire2 == 0){
                 ajoutQuartierMain(quartier1);
                 pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
@@ -57,6 +56,7 @@ public class BotAleatoire extends Bot{
         }
         return choixDeBase;
     }
+
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
@@ -78,7 +78,7 @@ public class BotAleatoire extends Bot{
                 quartiersPossible.add(quartier);
             }
         }
-        if(quartiersPossible.size()>0){
+        if(!quartiersPossible.isEmpty()){
             int intAleatoire = randInt(quartiersPossible.size());
             Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
             ajoutQuartierConstruit(quartierConstruire);
@@ -91,6 +91,7 @@ public class BotAleatoire extends Bot{
     public String toString(){
         return name;
     }
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
@@ -105,8 +106,8 @@ public class BotAleatoire extends Bot{
         }
     }
 
-
-    @Override           // UPDATE QUAND AJOUT DE CLASSES
+    // UPDATE QUAND AJOUT DE CLASSES
+    @Override
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
         voleur.voler(this, voleur.getRoles().get(rang) );
