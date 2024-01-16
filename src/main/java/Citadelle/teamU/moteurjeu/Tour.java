@@ -33,7 +33,6 @@ public class Tour {
         distributionRoles();
         System.out.println("Tour "+ nbTour);
         System.out.println(botListe);
-        //botListeUpdate();
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             Affichage affiche = new Affichage(bot);
@@ -52,38 +51,6 @@ public class Tour {
 
     }
 
-    private void botListeUpdate() {
-        boolean roiPresent = false;
-        //Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
-        System.out.println(botListe+"avant");
-        for(Bot bot: botListe){
-            if(bot.getRole() instanceof Roi){
-                //Le roi prend la couronne et joue en 1er
-                botListe.remove(bot);
-                botListe.add(0,bot);
-                bot.setCouronne(true);
-                roiPresent = true;
-                break;
-            }
-        }
-        if(roiPresent){ // Si il y a un roi les autres on pas la couronne
-            for(int i =1 ; i< botListe.size() ; i++){
-                botListe.get(i).setCouronne(false);
-            }
-        }
-        else{ //Si il n'y pas a de roi si qq avait la couronne il joue en 1er
-            for(Bot bot: botListe){
-                if(bot.isCouronne()){
-                    botListe.remove(bot);
-                    botListe.add(0,bot);
-                    break;
-                }
-            }
-        }
-        System.out.println(botListe+"après");
-    }
-
-
     public ArrayList<Bot> distributionRoles(){
         ArrayList<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
@@ -98,7 +65,7 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("ordre choisir role "+listeDistribution);
+        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }
