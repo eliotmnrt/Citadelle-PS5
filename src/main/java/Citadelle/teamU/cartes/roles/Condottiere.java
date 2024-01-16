@@ -58,6 +58,9 @@ public class Condottiere implements Role{
     public Quartier getQuartierAdetruire(){
         return quartierAdetruire;
     }
+    public Bot getBotAdetruire(){
+        return botAdetruire;
+    }
     @Override
     public String actionToString(Bot bot) {
         String str="";
