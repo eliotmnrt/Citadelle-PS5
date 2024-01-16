@@ -118,15 +118,15 @@ public class BotAleatoire extends Bot{
         ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         int indiceRandomBot = random.nextInt(botList.size());
-        Bot botAdetruire = (botList.get(indiceRandomBot));
-        if(!botAdetruire.getQuartiersConstruits().isEmpty()) {
-            int indiceRandomQuartier = randInt(botAdetruire.getQuartiersConstruits().size() );
-            Quartier quartierAdetruire = botAdetruire.getQuartiersConstruits().get(indiceRandomQuartier);
+        Bot botADetruire = (botList.get(indiceRandomBot));
+        if(!botADetruire.getQuartiersConstruits().isEmpty()) {
+            int indiceRandomQuartier = randInt(botADetruire.getQuartiersConstruits().size() );
+            Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
             if(quartierAdetruire!=null){
                 if (this.getOr() >= quartierAdetruire.getCout() - 1) {
 
-                    condottiere.destructionQuartier(this, botAdetruire, quartierAdetruire);
+                    condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
 
 
                 }
