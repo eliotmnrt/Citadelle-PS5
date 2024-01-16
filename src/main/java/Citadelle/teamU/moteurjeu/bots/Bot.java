@@ -19,6 +19,10 @@ public class Bot {
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     protected int score; // represente les points de victoire
     public Bot(Pioche pioche){
         this.pioche = pioche;
@@ -97,6 +101,9 @@ public class Bot {
     public int getScore(){
         return this.score;
     }
+
+
+
 
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles

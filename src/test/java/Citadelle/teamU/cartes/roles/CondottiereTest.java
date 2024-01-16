@@ -44,7 +44,7 @@ class CondottiereTest {
 
     @Test
     void testAleatoire(){
-        botAleatoire.setRole(track);       //botAleatoire est le magicien
+        botAleatoire.setRole(track);       //botAleatoire est le condotierre
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(new Marchand(botliste));
         botConstruitVite.setRole(new Pretre(botliste));
@@ -54,4 +54,48 @@ class CondottiereTest {
         verify(botAleatoire).actionSpecialeCondottiere(track);
 
     }
+
+    @Test
+    public void CondoQuartierRougeTest(){
+        botAleatoire.setRole(track);
+        botAleatoire.changerOr(2); // 4 d'or au total (assez pour caserne)
+        assertEquals(4, botAleatoire.getOr());
+
+        botAleatoire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(botAleatoire.getQuartierMain().get(4), Quartier.TERRAIN_DE_BATAILLE);
+        assertTrue(botAleatoire.getQuartiersConstruits().isEmpty());
+
+        botAleatoire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(botAleatoire.getQuartiersConstruits().get(0), Quartier.TERRAIN_DE_BATAILLE);
+        assertEquals(4, botAleatoire.getQuartierMain().size());
+
+        //Terrain de bataille est un quartier rouge, il doit avoir 1 or en plus
+        assertEquals(1, botAleatoire.getOr());
+        botAleatoire.faireActionSpecialRole();
+        assertEquals(2, botAleatoire.getOr());
+
+        botAleatoire.faireActionSpecialRole();
+        assertEquals(3, botAleatoire.getOr());
+    }
+    @Test
+    public void CondoQuartierNonRougeTest() {
+        botAleatoire.setRole(track);
+        botAleatoire.changerOr(2); // 4 d'or au total (assez pour taverne)
+        assertEquals(4, botAleatoire.getOr());
+
+        botAleatoire.ajoutQuartierMain(Quartier.TAVERNE);
+        assertSame(Quartier.TAVERNE, botAleatoire.getQuartierMain().get(4));
+        assertTrue(botAleatoire.getQuartiersConstruits().isEmpty());
+
+        botAleatoire.ajoutQuartierConstruit(Quartier.TAVERNE);
+        assertSame(Quartier.TAVERNE, botAleatoire.getQuartiersConstruits().get(0));
+        assertEquals(4, botAleatoire.getQuartierMain().size());
+
+        assertEquals(3, botAleatoire.getOr());
+        botAleatoire.faireActionSpecialRole();
+        assertEquals(3, botAleatoire.getOr()); // taverne n'est pas rouge
+    }
+
+
+
 }
