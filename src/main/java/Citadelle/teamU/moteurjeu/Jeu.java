@@ -23,7 +23,7 @@ public class Jeu {
 
     public void start(){
         int maxQuartiersConstruits = 0;
-        while(maxQuartiersConstruits < 7) {
+        while(maxQuartiersConstruits < 8) {
             tour.prochainTour();
             for (Bot bot: botListe){
                 if(bot.getQuartiersConstruits().size() > maxQuartiersConstruits){

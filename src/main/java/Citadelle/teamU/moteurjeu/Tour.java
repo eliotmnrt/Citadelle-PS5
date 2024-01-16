@@ -1,5 +1,7 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
@@ -33,7 +35,6 @@ public class Tour {
         distributionRoles();
         System.out.println("Tour "+ nbTour);
         System.out.println(botListe);
-        //botListeUpdate();
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             Affichage affiche = new Affichage(bot);
@@ -42,58 +43,41 @@ public class Tour {
             affiche.afficheActionSpeciale(bot);
             affiche.setChoixDeBase(bot.faireActionDeBase());
             affiche.afficheConstruction(bot.construire());
-            if(bot.getQuartiersConstruits().size()==7&&premierFinir==null) premierFinir=bot; //Premier bot qui a 7 quartier
+            if(bot.getQuartiersConstruits().size()==8&&premierFinir==null) premierFinir=bot; //Premier bot qui a 8 quartier
         }
         if (premierFinir!=null){
-            Affichage affichageFin = new Affichage(botListe);
             bonus(premierFinir);
-            affichageFin.afficheLeVainqueur();
-
         }
 
     }
 
-    private void bonus(Bot vainqueur) {
+    private void bonus(Bot premierFinir) {
         Affichage affichageFin = new Affichage(botListe);
-        vainqueur.setScore(vainqueur.getScore()+4); // on gagne 4 si on est le premier a finir
+        premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
+        //AFFICHAGE
+        System.out.println(premierFinir+" gagne 4 points car il a fini avec "+premierFinir.getQuartiersConstruits().size()+" quartiers en premier");
         for(Bot bot : botListe){
-            bot.getScore();
+            ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
+            if(quartiers.size()>=8&&bot!=premierFinir){
+                bot.setScore(premierFinir.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
+                //AFFICHAGE
+                System.out.println(bot+" gagne 2 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers");
+            }
+            if(contiensCouleur(quartiers,TypeQuartier.VERT)&&contiensCouleur(quartiers,TypeQuartier.VIOLET)&&contiensCouleur(quartiers,TypeQuartier.BLEUE)&&contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
+                bot.setScore(premierFinir.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
+                //AFFICHAGE
+                System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur");
+            }
         }
         affichageFin.afficheLeVainqueur();
     }
 
-    private void botListeUpdate() {
-        boolean roiPresent = false;
-        //Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
-        System.out.println(botListe+"avant");
-        for(Bot bot: botListe){
-            if(bot.getRole() instanceof Roi){
-                //Le roi prend la couronne et joue en 1er
-                botListe.remove(bot);
-                botListe.add(0,bot);
-                bot.setCouronne(true);
-                roiPresent = true;
-                break;
-            }
+    private boolean contiensCouleur(ArrayList<Quartier> quartiers, TypeQuartier typeQuartier) {
+        for(Quartier quartier : quartiers){
+            if(quartier.getTypeQuartier() == typeQuartier) return true;
         }
-        if(roiPresent){ // Si il y a un roi les autres on pas la couronne
-            for(int i =1 ; i< botListe.size() ; i++){
-                botListe.get(i).setCouronne(false);
-            }
-        }
-        else{ //Si il n'y pas a de roi si qq avait la couronne il joue en 1er
-            for(Bot bot: botListe){
-                if(bot.isCouronne()){
-                    botListe.remove(bot);
-                    botListe.add(0,bot);
-                    break;
-                }
-            }
-        }
-        System.out.println(botListe+"après");
+        return false;
     }
-
-
     public ArrayList<Bot> distributionRoles(){
         ArrayList<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre

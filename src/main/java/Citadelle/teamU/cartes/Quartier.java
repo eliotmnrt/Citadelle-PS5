@@ -44,4 +44,7 @@ public enum Quartier implements Comparable<Quartier> {
     public String toString(){
         return this.nom + " ("+this.cout+")";
     }
+    public TypeQuartier getTypeQuartier() {
+        return typeQuartier;
+    }
 }
