@@ -47,10 +47,4 @@ public class Voleur implements Role{
     public String toString() {
         return "Voleur";
     }
-
-    public String actionToString(Bot bot){
-        return "Le " + bot.toString() +" a volé le " + choix;
-    }
-
-
 }

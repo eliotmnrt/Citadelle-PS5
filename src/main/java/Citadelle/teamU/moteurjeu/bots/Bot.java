@@ -4,6 +4,7 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.security.SecureRandom;
@@ -19,6 +20,7 @@ public abstract class Bot {
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
     protected SecureRandom random;
+    protected Affichage affichage;
     protected int score; // represente les points de victoire
     public Bot(Pioche pioche){
         this.pioche = pioche;
@@ -42,6 +44,7 @@ public abstract class Bot {
         nbOr = nbOr+or;
     }
     public void voleDOrParVoleur(){nbOr = 0;}
+    public Affichage getAffichage(){return  affichage;}
 
     public Pioche getPioche() {return pioche;}
 

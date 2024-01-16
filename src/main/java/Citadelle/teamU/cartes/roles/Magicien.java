@@ -68,10 +68,4 @@ public class Magicien implements Role {
     public String toString() {
         return "Magicien";
     }
-
-    public String actionToString(Bot bot){
-        return "Le " + bot.toString() +" a échangé ses carte avec " + choix + ".\nMain actuelle : " + bot.getQuartierMain();
-    }
-
-
 }

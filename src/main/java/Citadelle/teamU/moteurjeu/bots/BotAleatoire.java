@@ -3,6 +3,7 @@ package Citadelle.teamU.moteurjeu.bots;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -17,6 +18,7 @@ public class BotAleatoire extends Bot{
     public BotAleatoire(Pioche pioche){
         super(pioche);
         this.name = "BotAleatoire"+numDuBotAleatoire;
+        this.affichage = new Affichage(this);
         numDuBotAleatoire++;
     }
 
@@ -54,6 +56,7 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(null);
             changerOr(2);
         }
+        affichage.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
@@ -62,7 +65,6 @@ public class BotAleatoire extends Bot{
     public void choisirRole(ArrayList<Role> roles){
         nbOr += orProchainTour;         //on recupere l'or du vol
         orProchainTour = 0;
-        System.out.println(this.name + roles);
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
     }
@@ -82,6 +84,7 @@ public class BotAleatoire extends Bot{
             int intAleatoire = randInt(quartiersPossible.size());
             Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
             ajoutQuartierConstruit(quartierConstruire);
+            affichage.afficheConstruction(quartierConstruire);
             return quartierConstruire;
         }
         return null;

@@ -25,6 +25,7 @@ public class Marchand implements Role {
             }
         }
         orGagneCapacite = comp;
+        bot.getAffichage().afficheActionSpecialeMarchand(orGagneCapacite);
     }
 
     public void actionSpeciale(Bot bot) {
@@ -41,11 +42,6 @@ public class Marchand implements Role {
     @Override
     public String toString() {
         return "Marchand";
-    }
-
-    @Override
-    public String actionToString(Bot bot) {
-        return "Le " + bot.toString() + " a gagné " + (orGagneCapacite+1) + " or(s) grâce à sa capacité de marchand";
     }
 }
    

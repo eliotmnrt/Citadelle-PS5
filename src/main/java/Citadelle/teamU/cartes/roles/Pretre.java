@@ -25,6 +25,7 @@ public class Pretre implements Role {
             }
         }
         orGagneCapacite = comp;
+        bot.getAffichage().afficheActionSpecialePretre(orGagneCapacite);
     }
     public void actionSpeciale(Bot bot){
         OrQuartierBleue(bot);
@@ -40,11 +41,4 @@ public class Pretre implements Role {
     public String toString() {
         return "Prêtre";
     }
-
-    @Override
-    public String actionToString(Bot bot) {
-        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité de prêtre";
-    }
-
-
 }
