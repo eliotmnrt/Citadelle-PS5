@@ -105,6 +105,9 @@ public abstract class Bot {
     public int getScore(){
         return this.score;
     }
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles

@@ -28,7 +28,7 @@ public class Tour {
 
     public void prochainTour(){
         rolesTemp = new ArrayList<>(roles);
-        boolean dernierTour=false;
+        Bot premierFinir=null;
         nbTour++;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
@@ -42,14 +42,24 @@ public class Tour {
             affiche.afficheActionSpeciale(bot);
             affiche.setChoixDeBase(bot.faireActionDeBase());
             affiche.afficheConstruction(bot.construire());
-            if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
+            if(bot.getQuartiersConstruits().size()==7&&premierFinir==null) premierFinir=bot; //Premier bot qui a 7 quartier
         }
-        if (dernierTour){
+        if (premierFinir!=null){
             Affichage affichageFin = new Affichage(botListe);
+            bonus(premierFinir);
             affichageFin.afficheLeVainqueur();
 
         }
 
+    }
+
+    private void bonus(Bot vainqueur) {
+        Affichage affichageFin = new Affichage(botListe);
+        vainqueur.setScore(vainqueur.getScore()+4); // on gagne 4 si on est le premier a finir
+        for(Bot bot : botListe){
+            bot.getScore();
+        }
+        affichageFin.afficheLeVainqueur();
     }
 
     private void botListeUpdate() {
