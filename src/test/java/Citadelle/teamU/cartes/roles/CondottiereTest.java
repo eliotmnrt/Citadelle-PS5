@@ -7,7 +7,6 @@ import Citadelle.teamU.moteurjeu.bots.BotConstruitVite;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 import Citadelle.teamU.moteurjeu.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +16,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CondottiereTest {
 
@@ -42,4 +42,16 @@ class CondottiereTest {
         track = Mockito.spy(new Condottiere(botliste));
     }
 
+    @Test
+    void testAleatoire(){
+        botAleatoire.setRole(track);       //botAleatoire est le magicien
+        botAleatoire2.setRole(new Roi(botliste));
+        botConstruitChere.setRole(new Marchand(botliste));
+        botConstruitVite.setRole(new Pretre(botliste));
+
+        doReturn(2).when(botAleatoire).randInt(3);      //on force à viser de dernier bot aka
+        botAleatoire.faireActionSpecialRole();
+        verify(botAleatoire).actionSpecialeCondottiere(track);
+
+    }
 }
