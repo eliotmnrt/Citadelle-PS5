@@ -27,7 +27,6 @@ public class Tour {
 
 
     public void prochainTour(){
-
         rolesTemp = new ArrayList<>(roles);
         boolean dernierTour = false;
         nbTour++;
@@ -42,7 +41,6 @@ public class Tour {
             bot.construire();
 
             if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
-
         }
         if (dernierTour){
             Affichage affichageFin = new Affichage(botListe);
@@ -52,11 +50,25 @@ public class Tour {
 
     }
 
-
-    private void distributionRoles(){
-        for (Bot bot: botListe){
+    public ArrayList<Bot> distributionRoles(){
+        ArrayList<Bot> listeDistribution = botListe;
+        //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
+        Collections.sort(listeDistribution, Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
+        for(int i = 0 ; i<listeDistribution.size() ; i++){
+            if(listeDistribution.get(i).isCouronne()){
+                //celui qui a la couronne choisi son role en premier puis celui après lui.. etc
+                for(int j= 0; j < i ; j++){
+                    listeDistribution.add(listeDistribution.get(j));
+                    listeDistribution.remove(j);
+                }
+                break;
+            }
+        }
+        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
+        for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }
+        return listeDistribution;
     }
 
 

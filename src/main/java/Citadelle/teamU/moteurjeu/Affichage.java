@@ -2,7 +2,6 @@ package Citadelle.teamU.moteurjeu;
 
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Roi;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
@@ -31,9 +30,18 @@ public class Affichage {
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
-
     }
 
+    private void afficheCouronne() {
+        if(bot.isCouronne()){
+            System.out.println("Ce bot a la couronne");
+        }
+    }
+
+    public void setConstruction(Quartier construction) {
+        this.construction = construction;
+        afficheConstruction(construction);
+    }
 
     public void afficheChoixDeBase(ArrayList<Quartier> choix){
         if(choix.get(0) == null){

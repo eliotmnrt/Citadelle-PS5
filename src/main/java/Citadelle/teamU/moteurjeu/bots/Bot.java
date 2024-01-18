@@ -16,6 +16,7 @@ public abstract class Bot {
 
     protected Role role;
     protected Pioche pioche;
+    protected boolean couronne;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
     protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
@@ -23,7 +24,9 @@ public abstract class Bot {
     protected Affichage affichage;
     protected int score; // represente les points de victoire
     protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
-    protected Bot(Pioche pioche){
+    protected int ordreChoixRole;
+
+    public Bot(Pioche pioche){
         this.pioche = pioche;
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
@@ -122,6 +125,19 @@ public abstract class Bot {
      */
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
+    }
+    public boolean isCouronne() {
+        return couronne;
+    }
+    public void setCouronne(boolean couronne) {
+        this.couronne = couronne;
+    }
+    public void setOrdreChoixRole(int ordreChoixRole) {
+        this.ordreChoixRole = ordreChoixRole;
+    }
+
+    public int getOrdreChoixRole() {
+        return ordreChoixRole;
     }
 
     // à implementer dans chaque bot
