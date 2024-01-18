@@ -52,7 +52,6 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public Quartier construire(){
-
         int max=0;
         Quartier quartierChoisi=null;
         for(Quartier quartier :quartierMain){
