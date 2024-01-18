@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu;
 
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 public class Affichage {
     // classe de gestion de tout les prints
     private Bot bot;
-    private ArrayList<Quartier> choixDeBase;
     private Quartier construction;
     private ArrayList<Bot> botList;
 
@@ -20,10 +20,14 @@ public class Affichage {
         this.botList=botList;
     }
     public void afficheBot(){
-
-        System.out.println("--------------"+bot.toString()+"------------------");
-        System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore()+"position du bot : "+bot.getOrdreChoixRole());
-        afficheCouronne();
+        System.out.println("\n\n--------------"+bot.toString()+"------------------");
+        if (bot.getOrProchainTour() >= 0){
+            afficheGainVoleur(bot.getOrProchainTour());
+        }
+        if (bot.getOrVole() >= 0){
+            afficheVolDOr(bot.getOrVole());
+        }
+        System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
     }
@@ -32,11 +36,6 @@ public class Affichage {
         if(bot.isCouronne()){
             System.out.println("Ce bot a la couronne");
         }
-    }
-
-    public void setChoixDeBase(ArrayList<Quartier> choixDeBase) {
-        this.choixDeBase = choixDeBase;
-        afficheChoixDeBase(choixDeBase);
     }
 
     public void setConstruction(Quartier construction) {
@@ -50,8 +49,8 @@ public class Affichage {
 
         }
         else if(choix.get(0) != null && choix.size() == 3) {
-            System.out.println(bot.toString() + " a pioché les quartiers " + choixDeBase.get(0) + " et " + choixDeBase.get(1));
-            System.out.println(bot.toString() + " a choisi le quartier " + choixDeBase.get(2));
+            System.out.println(bot.toString() + " a pioché les quartiers " + choix.get(0) + " et " + choix.get(1));
+            System.out.println(bot.toString() + " a choisi le quartier " + choix.get(2));
         }
         else {
             System.out.println(choix);
@@ -63,13 +62,50 @@ public class Affichage {
         if (construction != null){
             System.out.println(bot.toString() + " a construit " + construction);
         }
-        System.out.println("\n");
+    }
+
+    public void afficheActionSpecialeMagicienAvecBot(Bot echange){
+        System.out.println( "Le " + bot.toString() +" a échangé ses carte avec " + echange.toString() );
+    }
+
+    public void afficheNouvelleMainMagicien(){
+        System.out.println("Main actuelle : " + bot.getQuartierMain());
+    }
+
+    public void afficheActionSpecialeMagicienAvecPioche(ArrayList<Quartier> cartesEchangees){
+        System.out.println("Le " + bot.toString() +" a échangé ses cartes: " + cartesEchangees + ", avec la pioche");
+    }
+
+    public void afficheActionSpecialeVoleur(Role role){
+        System.out.println("Le " + bot.toString() +" a volé le " + role.toString());
+    }
+
+    public void afficheVolDOr(int nbOrVole){
+        System.out.println("Le " + bot.toString() +" s'est fait voler " + nbOrVole + " or(s) par le voleur");
+        bot.setOrVole(-1);
+    }
+    public void afficheGainVoleur(int orGagne){
+        System.out.println("Le " + bot.toString() +" a gagné " + orGagne + " or(s) grâce à son role de Voleur au tour précédent");
+        bot.setOrProchainTour(-1);
+    }
+
+    public void afficheActionSpecialeRoi(int or){
+        System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de roi");
+    }
+
+    public void afficheActionSpecialePretre(int or) {
+        System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de prêtre");
+    }
+
+    public void afficheActionSpecialeMarchand(int or) {
+        System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de marchand  ");
+    }
+
+    public void afficheActionSpecialeArchitecte(ArrayList<Quartier> quartiersSupp) {
+        System.out.println(bot.toString() + " a pioché 2 quartiers supplémentaires grâce à son role d'architecte : " + quartiersSupp.get(0).toString() + " et " + quartiersSupp.get(1).toString());
     }
 
 
-    public void afficheActionSpeciale(Bot bot){
-        System.out.println(bot.getRole().actionToString(bot));
-    }
 
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
@@ -82,6 +118,6 @@ public class Affichage {
             }
         }
 
-        System.out.println("Le vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
+        System.out.println("\n\nLe vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
     }
 }

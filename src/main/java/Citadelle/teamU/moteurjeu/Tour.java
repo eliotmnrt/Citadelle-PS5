@@ -28,19 +28,18 @@ public class Tour {
 
     public void prochainTour(){
         rolesTemp = new ArrayList<>(roles);
-        boolean dernierTour=false;
+        boolean dernierTour = false;
         nbTour++;
         distributionRoles();
-        System.out.println("Tour "+ nbTour);
+        System.out.println("\n\n\nTour "+ nbTour);
         System.out.println(botListe);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
-            Affichage affiche = new Affichage(bot);
-            affiche.afficheBot();
+            bot.getAffichage().afficheBot();
             bot.faireActionSpecialRole();
-            affiche.afficheActionSpeciale(bot);
-            affiche.setChoixDeBase(bot.faireActionDeBase());
-            affiche.afficheConstruction(bot.construire());
+            bot.faireActionDeBase();
+            bot.construire();
+
             if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
         }
         if (dernierTour){

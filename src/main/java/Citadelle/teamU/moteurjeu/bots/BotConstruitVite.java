@@ -4,6 +4,7 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.*;
@@ -22,7 +23,8 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super(pioche);
-        this.name = "Bot_qui_construit_vite"+numDuBotAleatoire;
+        this.affichage = new Affichage(this);
+        this.name = "Bot_qui_construit_vite" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -56,15 +58,14 @@ public class BotConstruitVite extends Bot {
             // piocher deux quartiers, quartier1 et quartier 2
             choixDeBase = choisirEntreDeuxQuartiersViaCout(-1);
         }
+        affichage.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
-        System.out.println(this.name + roles);
+        if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
         int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -76,11 +77,12 @@ public class BotConstruitVite extends Bot {
 
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersTrie = quartierMain;
+        ArrayList<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(!quartiersTrie.isEmpty()&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
+            affichage.afficheConstruction(quartierConstruit);
             return quartierConstruit;
         }
         return null;
@@ -98,10 +100,13 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
-
+            affichage.afficheNouvelleMainMagicien();
         } else {    // sinon on échange toutes ses cartes avec la pioche
+            affichage.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 
@@ -115,13 +120,14 @@ public class BotConstruitVite extends Bot {
 
             /*while (rang == rolesRestants.indexOf(Assassin))
             */
-
+            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
             int rang = randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
             //+1 pcq le premier c'est voleur et on veut pas le prendre
+            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
