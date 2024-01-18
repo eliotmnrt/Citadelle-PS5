@@ -17,7 +17,7 @@ public class Marchand implements Role {
     }
 
     public void OrQuartierVert(Bot bot) {
-        int comp =0;
+        int comp = 0;
         for (Quartier quartier : bot.getQuartiersConstruits()) {
             if (Objects.equals(quartier.getCouleur(), TypeQuartier.VERT)) {
                 bot.changerOr(1);
@@ -25,7 +25,7 @@ public class Marchand implements Role {
             }
         }
         orGagneCapacite = comp;
-        bot.getAffichage().afficheActionSpecialeMarchand(orGagneCapacite);
+        bot.getAffichage().afficheActionSpecialeMarchand(orGagneCapacite + 1);
     }
 
     public void actionSpeciale(Bot bot) {

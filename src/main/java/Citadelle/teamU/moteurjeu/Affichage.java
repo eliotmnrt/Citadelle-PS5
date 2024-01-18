@@ -22,9 +22,16 @@ public class Affichage {
     }
     public void afficheBot(){
         System.out.println("\n\n--------------"+bot.toString()+"------------------");
+        if (bot.getOrProchainTour() >= 0){
+            afficheGainVoleur(bot.getOrProchainTour());
+        }
+        if (bot.getOrVole() >= 0){
+            afficheVolDOr(bot.getOrVole());
+        }
         System.out.println("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         System.out.println("Main: "+bot.getQuartierMain());
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
+
     }
 
 
@@ -50,14 +57,28 @@ public class Affichage {
     }
 
     public void afficheActionSpecialeMagicienAvecBot(Bot echange){
-        System.out.println( "Le " + bot.toString() +" a échangé ses carte avec " + echange.toString() + ".\nMain actuelle : " + bot.getQuartierMain());
+        System.out.println( "Le " + bot.toString() +" a échangé ses carte avec " + echange.toString() );
     }
+
+    public void afficheNouvelleMainMagicien(){
+        System.out.println("Main actuelle : " + bot.getQuartierMain());
+    }
+
     public void afficheActionSpecialeMagicienAvecPioche(ArrayList<Quartier> cartesEchangees){
-        System.out.println("Le " + bot.toString() +" a échangé ses cartes: " + cartesEchangees + ", avec la pioche .\nMain actuelle : " + bot.getQuartierMain());
+        System.out.println("Le " + bot.toString() +" a échangé ses cartes: " + cartesEchangees + ", avec la pioche");
     }
 
     public void afficheActionSpecialeVoleur(Role role){
         System.out.println("Le " + bot.toString() +" a volé le " + role.toString());
+    }
+
+    public void afficheVolDOr(int nbOrVole){
+        System.out.println("Le " + bot.toString() +" s'est fait voler " + nbOrVole + " or(s) par le voleur");
+        bot.setOrVole(-1);
+    }
+    public void afficheGainVoleur(int orGagne){
+        System.out.println("Le " + bot.toString() +" a gagné " + orGagne + " or(s) grâce à son role de Voleur au tour précédent");
+        bot.setOrProchainTour(-1);
     }
 
     public void afficheActionSpecialeRoi(int or){

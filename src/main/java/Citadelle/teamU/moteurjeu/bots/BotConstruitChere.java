@@ -78,8 +78,7 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
+        if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -97,10 +96,14 @@ public class BotConstruitChere extends Bot{
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
+            affichage.afficheNouvelleMainMagicien();
 
         } else {    // sinon on échange toutes ses cartes avec la pioche
+            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 
@@ -115,12 +118,13 @@ public class BotConstruitChere extends Bot{
 
             /*while (rang == rolesRestants.indexOf(Assassin))
              */
-
+            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
             int rang =randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
+            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }

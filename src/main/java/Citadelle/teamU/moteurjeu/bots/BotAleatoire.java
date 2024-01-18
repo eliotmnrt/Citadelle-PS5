@@ -63,8 +63,7 @@ public class BotAleatoire extends Bot{
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
+        if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
     }
@@ -103,9 +102,13 @@ public class BotAleatoire extends Bot{
             aleat = randInt(magicien.getBotListe().size() + 1);
         }
         if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
+            affichage.afficheActionSpecialeMagicienAvecBot(magicien.getBotListe().get(aleat));
             magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
+            affichage.afficheNouvelleMainMagicien();
         } else {                                                        //aleatoire correspondant à la pioche
+            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 
@@ -113,6 +116,7 @@ public class BotAleatoire extends Bot{
     @Override
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+        affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
         voleur.voler(this, voleur.getRoles().get(rang) );
     }
 }

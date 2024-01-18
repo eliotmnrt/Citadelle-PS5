@@ -65,8 +65,7 @@ public class BotConstruitVite extends Bot {
 
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
+        if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
         int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -78,9 +77,9 @@ public class BotConstruitVite extends Bot {
 
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersTrie = quartierMain;
+        ArrayList<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
-        if(!quartiersTrie.isEmpty()&&quartiersTrie.get(0).getCout()<4&&quartiersTrie.get(0).getCout()<=nbOr){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             affichage.afficheConstruction(quartierConstruit);
@@ -103,9 +102,11 @@ public class BotConstruitVite extends Bot {
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
             affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
+            affichage.afficheNouvelleMainMagicien();
         } else {    // sinon on échange toutes ses cartes avec la pioche
             affichage.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 

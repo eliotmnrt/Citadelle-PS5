@@ -29,7 +29,7 @@ public class Tour {
     public void prochainTour(){
 
         rolesTemp = new ArrayList<>(roles);
-        boolean dernierTour=false;
+        boolean dernierTour = false;
         nbTour++;
         distributionRoles();
         System.out.println("\n\n\nTour "+ nbTour);
