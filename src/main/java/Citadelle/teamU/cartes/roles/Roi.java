@@ -39,6 +39,7 @@ public class Roi implements Role {
             }
         }
         orGagneCapacite = comp;
+        bot.getAffichage().afficheActionSpecialeRoi(orGagneCapacite);
     }
     public void actionSpeciale(Bot bot){
         orQuartierJaune(bot);
@@ -52,9 +53,5 @@ public class Roi implements Role {
     @Override
     public String toString() {
         return "Roi";
-    }
-
-    public String actionToString(Bot bot){
-        return "Le " + bot.toString() + " a gagné " + orGagneCapacite + " or(s) grâce à sa capacité de roi";
     }
 }

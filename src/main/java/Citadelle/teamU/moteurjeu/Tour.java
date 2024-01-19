@@ -24,6 +24,7 @@ public class Tour {
         roles.add(new Pretre(botListe));
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
+        roles.add(new Condottiere(botListe));
         this.botListe = botListe;
     }
 
@@ -33,16 +34,15 @@ public class Tour {
         Bot premierFinir=null;
         nbTour++;
         distributionRoles();
-        System.out.println("Tour "+ nbTour);
+        System.out.println("\n\n\nTour "+ nbTour);
         System.out.println(botListe);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
-            Affichage affiche = new Affichage(bot);
-            affiche.afficheBot();
+            bot.getAffichage().afficheBot();
             bot.faireActionSpecialRole();
-            affiche.afficheActionSpeciale(bot);
-            affiche.setChoixDeBase(bot.faireActionDeBase());
-            affiche.afficheConstruction(bot.construire());
+            bot.faireActionDeBase();
+            bot.construire();
+
             if(bot.getQuartiersConstruits().size()==8&&premierFinir==null) premierFinir=bot; //Premier bot qui a 8 quartier
         }
         if (premierFinir!=null){
@@ -92,7 +92,7 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("ordre choisir role "+listeDistribution);
+        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }

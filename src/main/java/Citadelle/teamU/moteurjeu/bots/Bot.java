@@ -1,9 +1,11 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.security.SecureRandom;
@@ -18,16 +20,19 @@ public abstract class Bot {
     protected boolean couronne;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
-    protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
+    protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
     protected SecureRandom random;
+    protected Affichage affichage;
     protected int score; // represente les points de victoire
+    protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
     protected int ordreChoixRole;
+
     public Bot(Pioche pioche){
         this.pioche = pioche;
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
-        score=0;
+        score = 0;
         random = new SecureRandom();
         initQuartierMain();
     }
@@ -36,6 +41,10 @@ public abstract class Bot {
         return nbOr;
     }
 
+    public int getOrVole() { return orVole; }
+
+    public void setOrVole(int orVole) { this.orVole = orVole; }
+
     /**
      * @param or a ajouter (positif) ou à soustraire (négatif)
      * Ajoute ou soustrait x nombre d'or
@@ -43,7 +52,11 @@ public abstract class Bot {
     public void changerOr(int or){
         nbOr = nbOr+or;
     }
-    public void voleDOrParVoleur(){nbOr = 0;}
+    public void voleDOrParVoleur(){
+        orVole = nbOr;
+        nbOr = 0;
+    }
+    public Affichage getAffichage(){return  affichage;}
 
     public Pioche getPioche() {return pioche;}
 
@@ -64,11 +77,13 @@ public abstract class Bot {
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
-        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()&& !quartierConstruit.contains(newQuartier)) {
+        if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
             score+= newQuartier.getCout();
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -134,6 +149,7 @@ public abstract class Bot {
     public abstract ArrayList<Quartier> faireActionDeBase();
     public abstract void actionSpecialeMagicien(Magicien magicien);
     public abstract void actionSpecialeVoleur(Voleur voleur);
+    public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(ArrayList<Role> roles);
 
     public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {

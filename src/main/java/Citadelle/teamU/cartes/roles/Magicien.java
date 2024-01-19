@@ -31,11 +31,11 @@ public class Magicien implements Role {
     public void changeAvecPioche(Bot bot, ArrayList<Quartier> carteEchangees){
         choix = "la pioche";
         int nbQuartierEchanges = carteEchangees.size() - 1;
-        for (int i=nbQuartierEchanges; i>0; i--){
+        for (int i=nbQuartierEchanges; i>=0; i--){
             int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
             bot.getPioche().remettreDansPioche(bot.getQuartierMain().remove(rang));
         }
-        for(int i=0; i<nbQuartierEchanges; i++){
+        for(int i=0; i<=nbQuartierEchanges; i++){
             bot.ajoutQuartierMain(bot.getPioche().piocherQuartier());
         }
     }
@@ -68,10 +68,4 @@ public class Magicien implements Role {
     public String toString() {
         return "Magicien";
     }
-
-    public String actionToString(Bot bot){
-        return "Le " + bot.toString() +" a échangé ses carte avec " + choix + ".\nMain actuelle : " + bot.getQuartierMain();
-    }
-
-
 }
