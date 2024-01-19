@@ -120,6 +120,9 @@ public abstract class Bot {
     public int getScore(){
         return this.score;
     }
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles
@@ -149,6 +152,7 @@ public abstract class Bot {
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(ArrayList<Role> roles);
 
-
-     //
+    public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
+    }
 }
