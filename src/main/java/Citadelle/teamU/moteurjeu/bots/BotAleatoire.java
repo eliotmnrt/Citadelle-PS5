@@ -4,11 +4,12 @@ import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class BotAleatoire extends Bot{
 
@@ -18,6 +19,7 @@ public class BotAleatoire extends Bot{
     public BotAleatoire(Pioche pioche){
         super(pioche);
         this.name = "BotAleatoire"+numDuBotAleatoire;
+        this.affichage = new Affichage(this);
         numDuBotAleatoire++;
     }
 
@@ -32,7 +34,6 @@ public class BotAleatoire extends Bot{
         ArrayList<Quartier> choixDeBase=new ArrayList<>();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= randInt(2);
-        //Quartier quartierChoisi=null;
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
@@ -55,14 +56,14 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(null);
             changerOr(2);
         }
+        affichage.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
+
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
-        System.out.println(this.name + roles);
+        if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
     }
@@ -78,10 +79,11 @@ public class BotAleatoire extends Bot{
                 quartiersPossible.add(quartier);
             }
         }
-        if (quartiersPossible.size() > 0) {
+        if(!quartiersPossible.isEmpty()){
             int intAleatoire = randInt(quartiersPossible.size());
             Quartier quartierConstruire = quartiersPossible.get(intAleatoire);
             ajoutQuartierConstruit(quartierConstruire);
+            affichage.afficheConstruction(quartierConstruire);
             return quartierConstruire;
         }
         return null;
@@ -92,6 +94,7 @@ public class BotAleatoire extends Bot{
         return name;
     }
 
+
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
         int aleat = randInt(magicien.getBotListe().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
@@ -99,17 +102,22 @@ public class BotAleatoire extends Bot{
             aleat = randInt(magicien.getBotListe().size() + 1);
         }
         if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
+            affichage.afficheActionSpecialeMagicienAvecBot(magicien.getBotListe().get(aleat));
             magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
+            affichage.afficheNouvelleMainMagicien();
         } else {                                                        //aleatoire correspondant à la pioche
+            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 
-
-    @Override           // UPDATE QUAND AJOUT DE CLASSES
+    // UPDATE QUAND AJOUT DE CLASSES
+    @Override
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(6) + 1;       // pour un nb aleatoire hors assassin et voleur
-        voleur.voler(this, voleur.getRoles().get(rang));
+        affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
+        voleur.voler(this, voleur.getRoles().get(rang) );
     }
 
     @Override

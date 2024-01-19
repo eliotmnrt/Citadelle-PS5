@@ -5,37 +5,45 @@ import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
-public class Bot {
+public abstract class Bot {
     protected int nbOr;
 
     protected Role role;
     protected Pioche pioche;
     protected ArrayList<Quartier> quartierConstruit;
     protected ArrayList<Quartier> quartierMain;
-    protected int orProchainTour; //or vole par le voleur que l'on recupere au prochain tour
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
+    protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
+    protected SecureRandom random;
+    protected Affichage affichage;
     protected int score; // represente les points de victoire
+    protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
+    protected int ordreChoixRole;
+    protected boolean couronne;
+
     public Bot(Pioche pioche){
         this.pioche = pioche;
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
-        score=0;
+        score = 0;
+        random = new SecureRandom();
         initQuartierMain();
     }
 
     public int getOr(){
         return nbOr;
     }
+
+    public int getOrVole() { return orVole; }
+
+    public void setOrVole(int orVole) { this.orVole = orVole; }
 
     /**
      * @param or a ajouter (positif) ou à soustraire (négatif)
@@ -44,7 +52,14 @@ public class Bot {
     public void changerOr(int or){
         nbOr = nbOr+or;
     }
-    public void voleDOrParVoleur(){nbOr = 0;}
+    public void voleDOrParVoleur(){
+        orVole = nbOr;
+        nbOr = 0;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+    public Affichage getAffichage(){return  affichage;}
 
     public Pioche getPioche() {return pioche;}
 
@@ -56,23 +71,22 @@ public class Bot {
     public void setRole(Role role){
         this.role = role;
     }
-    public void choisirRole(ArrayList<Role> roles){
-        setRole(roles.get(0));
-    }
     public int getOrdre(){
         return role.getOrdre();
     }
-    public int randInt(int nb){return new Random().nextInt(nb);}
+    public int randInt(int nb){return random.nextInt(nb);}
 
     public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
-        if(quartierMain.contains(newQuartier)&&nbOr >= newQuartier.getCout()&& !quartierConstruit.contains(newQuartier)) {
+        if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
             score+= newQuartier.getCout();
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -89,15 +103,23 @@ public class Bot {
     public ArrayList<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
     }
-    public void setQuartiersConstruits(ArrayList<Quartier> quartierConstruit){
-        this.quartierConstruit= quartierConstruit;
-    }
-    public ArrayList<Quartier> faireActionDeBase(){
-        // return le quartier choisi si le bot a choisi de piocher un quartier
-        // si le bot a choisi de prendre des pieces ça return null
+
+    public ArrayList<Quartier> choisirEntreDeuxQuartiersViaCout(int nb){   //pour eviter de dupliquer du code
+        // si nb est positif on garde la carte la plus chère sinon la moins chère
+        Quartier quartier1 = pioche.piocherQuartier();
+        Quartier quartier2 = pioche.piocherQuartier();
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        choixDeBase.add(quartier1);
+        choixDeBase.add(quartier2);
+        if ((nb > 0 && quartier1.getCout() < quartier2.getCout()) || (nb < 0 && quartier1.getCout() > quartier2.getCout())){
+            Collections.reverse(choixDeBase);
+        }
+        ajoutQuartierMain(choixDeBase.get(0));
+        pioche.remettreDansPioche(choixDeBase.get(1));
+        choixDeBase.add(choixDeBase.get(0));
         return choixDeBase;
     }
+
     public int getScore(){
         return this.score;
     }
@@ -111,10 +133,28 @@ public class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
-    public Quartier construire(){
-        return null;
+    public boolean isCouronne() {
+        return couronne;
     }
-    public void actionSpecialeMagicien(Magicien magicien){}
-    public void actionSpecialeVoleur(Voleur voleur){}
-    public void actionSpecialeCondottiere(Condottiere condottiere){}
+    public void setCouronne(boolean couronne) {
+        this.couronne = couronne;
+    }
+    public void setOrdreChoixRole(int ordreChoixRole) {
+        this.ordreChoixRole = ordreChoixRole;
+    }
+
+    public int getOrdreChoixRole() {
+        return ordreChoixRole;
+    }
+
+    // à implementer dans chaque bot
+    public abstract Quartier construire();
+    public abstract ArrayList<Quartier> faireActionDeBase();
+    public abstract void actionSpecialeMagicien(Magicien magicien);
+    public abstract void actionSpecialeVoleur(Voleur voleur);
+    public abstract void actionSpecialeCondottiere(Condottiere condottiere);
+    public abstract void choisirRole(ArrayList<Role> roles);
+
+
+     //
 }

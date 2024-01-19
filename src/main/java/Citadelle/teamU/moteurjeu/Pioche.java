@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import static java.util.Collections.shuffle;
 
 public class Pioche {
-    private ArrayList<Quartier> pioche;
+    private ArrayList<Quartier> laPioche;
 
     public Pioche(){
-        pioche = new ArrayList<>();
+        laPioche = new ArrayList<>();
         for (Quartier quartier: Quartier.values()){
             for (int i=0; i<quartier.getNbCartes(); i++){
-                pioche.add(quartier);
+                laPioche.add(quartier);
             }
         }
-        shuffle(pioche);
+        shuffle(laPioche);
     }
     public ArrayList<Quartier> getPioche() {
-        return pioche;
+        return laPioche;
     }
 
 
@@ -28,17 +28,17 @@ public class Pioche {
      * @return Quartier
      */
     public Quartier piocherQuartier(){
-        if(pioche.size()<=0){
+        if(laPioche.size()<=0){
             for (Quartier quartier: Quartier.values()){
                 for (int i=0; i<quartier.getNbCartes(); i++){
-                    pioche.add(quartier);
+                    laPioche.add(quartier);
                 }
             }
-            shuffle(pioche);
+            shuffle(laPioche);
         }
-        return pioche.remove(0);
+        return laPioche.remove(0);
     }
     public void remettreDansPioche(Quartier quartier){
-        pioche.add(quartier);
+        laPioche.add(quartier);
     }
 }
