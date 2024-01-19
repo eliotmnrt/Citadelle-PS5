@@ -100,7 +100,7 @@ public class Affichage {
     }
 
     public void afficheActionSpecialeOrCondottiere(int nbOr) {
-        System.out.println("Le " + bot.toString() + " a gagné " + nbOr + " or(s) grâce à sa capacité de marchand");
+        System.out.println("Le " + bot.toString() + " a gagné " + nbOr + " or(s) grâce à sa capacité de condottière");
     }
     public void afficheActionSpecialeDestructionCondottiere(Bot botVise, Quartier quartierDetruit) {
         System.out.println("Le " + bot.toString() + " a detruit le " + quartierDetruit + " du " + botVise);

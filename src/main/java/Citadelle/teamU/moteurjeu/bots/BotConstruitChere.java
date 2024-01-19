@@ -136,7 +136,7 @@ public class BotConstruitChere extends Bot{
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
                     condottiere.destructionQuartier(this,bot, quartier);
                     return;
                 }

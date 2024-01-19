@@ -131,7 +131,7 @@ public class BotAleatoire extends Bot{
             Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
             if(quartierAdetruire!=null){
-                if (this.getOr() >= quartierAdetruire.getCout() - 1) {
+                if (this.getOr() >= quartierAdetruire.getCout() - 1 && !quartierAdetruire.equals(Quartier.DONJON)) {
                     condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
                 }
             }

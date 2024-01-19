@@ -152,7 +152,7 @@ public class BotConstruitVite extends Bot {
         }
         Quartier minPrixQuartier=botMax.getQuartiersConstruits().get(0);
         for(Quartier quartier: botMax.getQuartiersConstruits()){
-            if(quartier.getCout() < minPrixQuartier.getCout()){
+            if(quartier.getCout() < minPrixQuartier.getCout() && !quartier.equals(Quartier.DONJON)){
                 minPrixQuartier = quartier;
             }
         }

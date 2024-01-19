@@ -70,4 +70,24 @@ class CondottiereTest {
         botAleatoire.faireActionSpecialRole();
         assertEquals(7, botAleatoire.getOr()); // ecole de magie compte pour jaune n'est pas jaune
     }
+
+    @Test
+    public void donjonIndestructible(){
+
+        botAleatoire.setRole(track);       //botAleatoire est le magicien
+        botAleatoire2.setRole(new Roi(botliste));
+        botConstruitChere.setRole(new Marchand(botliste));
+        botConstruitVite.setRole(new Pretre(botliste));
+
+        doReturn(1).when(botAleatoire).randInt(3);      //on force à viser de dernier bot aka botconstruitVite
+        botConstruitVite.changerOr(10);
+        botAleatoire.changerOr(10);
+        botConstruitVite.ajoutQuartierMain(Quartier.DONJON);            // le seul quartier à detruire est le donjon, botAleatoire a assez d'argent pour le detruire
+        botConstruitVite.ajoutQuartierConstruit(Quartier.DONJON);
+        botAleatoire.faireActionSpecialRole();
+        verify(botAleatoire).actionSpecialeCondottiere(track);
+        verify(track, times(0)).destructionQuartier(eq(botAleatoire), eq(botConstruitVite), any());         //verifie que l'on a pas detruit le batiment
+        assertEquals(Quartier.DONJON, botConstruitVite.getQuartiersConstruits().get(0));        //verifie présence donjon
+
+    }
 }
