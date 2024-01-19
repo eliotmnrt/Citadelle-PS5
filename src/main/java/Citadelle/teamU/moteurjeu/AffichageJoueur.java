@@ -7,16 +7,16 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 
-public class Affichage {
+public class AffichageJoueur {
     // classe de gestion de tout les prints
     private Bot bot;
     private Quartier construction;
     private ArrayList<Bot> botList;
 
-    public Affichage(Bot bot){
+    public AffichageJoueur(Bot bot){
         this.bot=bot;
     }
-    public Affichage(ArrayList<Bot> botList){
+    public AffichageJoueur(ArrayList<Bot> botList){
         this.botList=botList;
     }
     public void afficheBot(){
@@ -32,9 +32,11 @@ public class Affichage {
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
     }
 
-    private void afficheCouronne() {
+    public void afficheCouronne() {
         if(bot.isCouronne()){
             System.out.println("Ce bot a la couronne");
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -103,21 +105,5 @@ public class Affichage {
 
     public void afficheActionSpecialeArchitecte(ArrayList<Quartier> quartiersSupp) {
         System.out.println(bot.toString() + " a pioché 2 quartiers supplémentaires grâce à son role d'architecte : " + quartiersSupp.get(0).toString() + " et " + quartiersSupp.get(1).toString());
-    }
-
-
-
-    public void afficheLeVainqueur(){
-        //affiche le vainqueur de la partie, celui qui a un score maximal
-        int max=0;
-        Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot1: botList){
-            if (bot1.getScore()>max){
-             max= bot1.getScore();
-             botVainqueur=bot1;
-            }
-        }
-
-        System.out.println("\n\nLe vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
     }
 }

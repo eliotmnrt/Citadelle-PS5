@@ -4,7 +4,7 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class BotConstruitChere extends Bot{
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.affichage = new Affichage(this);
+        this.affichageJoueur = new AffichageJoueur(this);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
@@ -46,7 +46,7 @@ public class BotConstruitChere extends Bot{
             choixDeBase.add(null);
             changerOr(2);
         }
-        affichage.afficheChoixDeBase(choixDeBase);
+        affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
@@ -64,7 +64,7 @@ public class BotConstruitChere extends Bot{
         // répétitions de code BotAleatoire, a refactorer plus tard
         if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
                 ajoutQuartierConstruit(quartierChoisi);
-                affichage.afficheConstruction(quartierChoisi);
+                affichageJoueur.afficheConstruction(quartierChoisi);
                 return quartierChoisi;
         }
         return null;
@@ -95,14 +95,14 @@ public class BotConstruitChere extends Bot{
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
 
         } else {    // sinon on échange toutes ses cartes avec la pioche
-            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
         }
     }
 
@@ -117,13 +117,13 @@ public class BotConstruitChere extends Bot{
 
             /*while (rang == rolesRestants.indexOf(Assassin))
              */
-            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
+            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
             int rang =randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
-            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
+            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }

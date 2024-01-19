@@ -9,6 +9,9 @@ public class Jeu {
 
     private ArrayList<Bot> botListe;
     private Tour tour;
+
+    private static ArrayList<Bot> listeGagnants = new ArrayList<>();
+
     public Jeu(Bot...bots) {
         if(bots.length == 0){
             throw new IllegalArgumentException();
@@ -32,6 +35,9 @@ public class Jeu {
     public ArrayList<Bot> getBotListe() {
         return botListe;
     }
+    public static void ajoutGagnant(Bot botGagnant){
+        listeGagnants.add(botGagnant);
+    }
 
 
     public static void main (String... args){
@@ -46,6 +52,20 @@ public class Jeu {
         bot3.setOrdreChoixRole(3);
         bot4.setOrdreChoixRole(4);
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
-        jeu.start();
+        for (int i=0; i<20; i++){
+            jeu.start();
+
+            pioche = new Pioche();
+            bot1 = new BotFocusRoi(pioche);
+            bot2 = new BotConstruitChere(pioche);
+            bot3 = new BotConstruitVite(pioche);
+            bot4 = new BotAleatoire(pioche);
+            //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
+            bot1.setOrdreChoixRole(1);
+            bot2.setOrdreChoixRole(2);
+            bot3.setOrdreChoixRole(3);
+            bot4.setOrdreChoixRole(4);
+        }
+        System.out.println("\n\n\n\n" + listeGagnants);
     }
 }

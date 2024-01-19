@@ -13,8 +13,6 @@ public class Magicien implements Role {
     private ArrayList<Bot> botListe;
     private final int ordre = 3;
 
-    private String choix;
-
     public Magicien(ArrayList<Bot> botListe){
         this.botListe = botListe;
     }
@@ -29,7 +27,6 @@ public class Magicien implements Role {
      * @param carteEchangees quartiers à échanger
      */
     public void changeAvecPioche(Bot bot, ArrayList<Quartier> carteEchangees){
-        choix = "la pioche";
         int nbQuartierEchanges = carteEchangees.size() - 1;
         for (int i=nbQuartierEchanges; i>=0; i--){
             int rang = bot.getQuartierMain().indexOf(carteEchangees.get(i));
@@ -46,7 +43,6 @@ public class Magicien implements Role {
      * @param botEchange bot qui subit l'échange
      */
     public void changeAvecBot(Bot bot, Bot botEchange){
-        choix = "le " + botEchange.toString();
         ArrayList<Quartier> tmpList = new ArrayList<>(bot.getQuartierMain());
         bot.getQuartierMain().clear();
         bot.getQuartierMain().addAll(botEchange.getQuartierMain());

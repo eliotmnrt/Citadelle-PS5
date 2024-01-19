@@ -11,11 +11,13 @@ import java.util.Comparator;
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private ArrayList<Bot> botListe;
-    private static int nbTour = 0;
+    private int nbTour = 0;
+    private AffichageJeu affichageJeu;
     ArrayList<Role> roles = new ArrayList<>();
 
     ArrayList<Role> rolesTemp = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
+        this.affichageJeu = new AffichageJeu(this);
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
@@ -31,8 +33,7 @@ public class Tour {
         boolean dernierTour = false;
         nbTour++;
         distributionRoles();
-        System.out.println("\n\n\nTour "+ nbTour);
-        System.out.println(botListe);
+        affichageJeu.affichageNbTour();
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             bot.getAffichage().afficheBot();
@@ -43,9 +44,7 @@ public class Tour {
             if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
         }
         if (dernierTour){
-            Affichage affichageFin = new Affichage(botListe);
-            affichageFin.afficheLeVainqueur();
-
+            Jeu.ajoutGagnant(affichageJeu.afficheLeVainqueur());
         }
 
     }
@@ -64,7 +63,7 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
+        affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }
@@ -72,4 +71,11 @@ public class Tour {
     }
 
 
+    public ArrayList<Bot> getBotListe() {
+        return botListe;
+    }
+
+    public int getNbTour() {
+        return nbTour;
+    }
 }
