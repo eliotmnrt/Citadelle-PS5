@@ -123,7 +123,7 @@ public class Affichage {
     }
 
     public void afficheBonusPremier() {
-        System.out.println("\n"+bot+" gagne 4 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers en premier");
+        System.out.println("\n\n"+bot+" gagne 4 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers en premier");
     }
 
     public void afficheBonusQuartier() {

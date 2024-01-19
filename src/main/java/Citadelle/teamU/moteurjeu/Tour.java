@@ -6,6 +6,7 @@ import Citadelle.teamU.cartes.roles.*;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,9 +16,11 @@ public class Tour {
     private ArrayList<Bot> botListe;
     private static int nbTour = 0;
     ArrayList<Role> roles = new ArrayList<>();
+    private SecureRandom random;
 
     ArrayList<Role> rolesTemp = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
+        random = new SecureRandom();
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
@@ -31,6 +34,8 @@ public class Tour {
 
     public void prochainTour(){
         rolesTemp = new ArrayList<>(roles);
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
         Bot premierFinir=null;
         nbTour++;
         distributionRoles();
@@ -57,7 +62,7 @@ public class Tour {
         premierFinir.getAffichage().afficheBonusPremier();
         for(Bot bot : botListe){
             ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
-            if(quartiers.size()>=8&&bot!=premierFinir){
+            if(quartiers.size()>=8 && bot!=premierFinir){
                 bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
                 premierFinir.getAffichage().afficheBonusQuartier();
             }
