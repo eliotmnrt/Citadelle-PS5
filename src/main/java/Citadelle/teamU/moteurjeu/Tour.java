@@ -51,7 +51,7 @@ public class Tour {
 
     }
 
-    private void bonus(Bot premierFinir) {
+    public void bonus(Bot premierFinir) {
         Affichage affichageFin = new Affichage(botListe);
         premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
         //AFFICHAGE
@@ -59,7 +59,7 @@ public class Tour {
         for(Bot bot : botListe){
             ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
             if(quartiers.size()>=8&&bot!=premierFinir){
-                bot.setScore(premierFinir.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
+                bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
                 //AFFICHAGE
                 System.out.println(bot+" gagne 2 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers");
             }

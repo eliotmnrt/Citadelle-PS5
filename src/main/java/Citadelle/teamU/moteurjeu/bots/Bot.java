@@ -136,6 +136,7 @@ public abstract class Bot {
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void choisirRole(ArrayList<Role> roles);
 
-
-     //
+    public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
+    }
 }
