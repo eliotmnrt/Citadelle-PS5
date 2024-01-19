@@ -1,9 +1,12 @@
 package Citadelle.teamU.moteurjeu;
 
+import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,84 +16,80 @@ public class Tour {
     private ArrayList<Bot> botListe;
     private static int nbTour = 0;
     ArrayList<Role> roles = new ArrayList<>();
+    private SecureRandom random;
 
     ArrayList<Role> rolesTemp = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
 
         roles.add(new Assassin(botListe,roles));
+        random = new SecureRandom();
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
         roles.add(new Pretre(botListe));
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
-
+        roles.add(new Condottiere(botListe));
         this.botListe = botListe;
     }
 
 
     public void prochainTour(){
         rolesTemp = new ArrayList<>(roles);
-        boolean dernierTour=false;
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        Bot premierFinir=null;
         nbTour++;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
         System.out.println("BOTLISTE  :"+botListe);
         System.out.println("ROLES   :"+roles);
         //botListeUpdate();
+        System.out.println("\n\n\nTour "+ nbTour);
+        System.out.println(botListe);
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe) {
             if (!bot.estMort()) {
-                Affichage affiche = new Affichage(bot);
-                affiche.afficheBot();
+                bot.getAffichage().afficheBot();
                 bot.faireActionSpecialRole();
-                affiche.afficheActionSpeciale(bot);
-                affiche.setChoixDeBase(bot.faireActionDeBase());
-                affiche.afficheConstruction(bot.construire());
-                if (bot.getQuartiersConstruits().size() == 7) dernierTour = true;
-            }
-            bot.setMort(false); //ressusiter le bot mort pr le prochain tour
-        }
-        if (dernierTour){
-            Affichage affichageFin = new Affichage(botListe);
-            affichageFin.afficheLeVainqueur();
+                bot.faireActionDeBase();
+                bot.construire();
 
+                if (bot.getQuartiersConstruits().size() == 8 && premierFinir == null)
+                    premierFinir = bot; //Premier bot qui a 8 quartier
+            }
+            bot.setMort(false);
+        }
+        if (premierFinir!=null){
+            bonus(premierFinir);
         }
 
     }
 
-    private void botListeUpdate() {
-        boolean roiPresent = false;
-        //Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
-        System.out.println(botListe+"avant");
-        for(Bot bot: botListe){
-            if(bot.getRole() instanceof Roi){
-                //Le roi prend la couronne et joue en 1er
-                botListe.remove(bot);
-                botListe.add(0,bot);
-                bot.setCouronne(true);
-                roiPresent = true;
-                break;
+    public void bonus(Bot premierFinir) {
+        Affichage affichageFin = new Affichage(botListe);
+        premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
+        premierFinir.getAffichage().afficheBonusPremier();
+        for(Bot bot : botListe){
+            ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
+            if(quartiers.size()>=8 && bot!=premierFinir){
+                bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
+                premierFinir.getAffichage().afficheBonusQuartier();
+            }
+            if(contiensCouleur(quartiers,TypeQuartier.VERT)&&contiensCouleur(quartiers,TypeQuartier.VIOLET)&&contiensCouleur(quartiers,TypeQuartier.BLEUE)&&contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
+                bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
+                premierFinir.getAffichage().afficheBonusCouleur();
             }
         }
-        if(roiPresent){ // Si il y a un roi les autres on pas la couronne
-            for(int i =1 ; i< botListe.size() ; i++){
-                botListe.get(i).setCouronne(false);
-            }
-        }
-        else{ //Si il n'y pas a de roi si qq avait la couronne il joue en 1er
-            for(Bot bot: botListe){
-                if(bot.isCouronne()){
-                    botListe.remove(bot);
-                    botListe.add(0,bot);
-                    break;
-                }
-            }
-        }
-        System.out.println(botListe+"après");
+        affichageFin.afficheLeVainqueur();
     }
 
-
+    private boolean contiensCouleur(ArrayList<Quartier> quartiers, TypeQuartier typeQuartier) {
+        for(Quartier quartier : quartiers){
+            if(quartier.getTypeQuartier() == typeQuartier) return true;
+        }
+        return false;
+    }
     public ArrayList<Bot> distributionRoles(){
         ArrayList<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
@@ -105,7 +104,7 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("ordre choisir role "+listeDistribution);
+        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }

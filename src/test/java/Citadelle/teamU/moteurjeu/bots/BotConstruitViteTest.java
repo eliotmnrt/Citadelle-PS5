@@ -1,10 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Roi;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -158,5 +155,60 @@ class BotConstruitViteTest {
         while(bot.getQuartierMain().size()!=0){pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide pour le bot1
         assertNull(bot.construire());
         //rien dans la main il ne peut pas construire
+    }
+    @Test
+    public void actionSpecialeCondottiere(){
+        BotAleatoire botPleinDeQuartier = new BotAleatoire(pioche);
+        BotAleatoire botPasBcpQuartier = new BotAleatoire(pioche);
+        while(botPleinDeQuartier.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
+        } // main vide
+        botPleinDeQuartier.changerOr(100);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.TEMPLE); //coute 1 il doit detruire lui
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.OBSERVATOIRE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.FORTERESSE);
+
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.TEMPLE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.OBSERVATOIRE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.FORTERESSE);
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        arrayBot.add(bot);
+        arrayBot.add(botPleinDeQuartier);
+        arrayBot.add(botPasBcpQuartier);
+        bot.actionSpecialeCondottiere(new Condottiere(arrayBot));
+        assertFalse(botPleinDeQuartier.getQuartiersConstruits().contains(Quartier.TEMPLE));
+    }
+    @Test
+    public void actionSpecialeCondottierePerteOr(){
+        BotAleatoire botPleinDeQuartier = new BotAleatoire(pioche);
+        BotAleatoire botPasBcpQuartier = new BotAleatoire(pioche);
+        while(botPleinDeQuartier.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
+        } // main vide
+        botPleinDeQuartier.changerOr(100);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.ECHOPPE); //coute 2 il doit detruire lui
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.OBSERVATOIRE);
+        botPleinDeQuartier.ajoutQuartierMain(Quartier.FORTERESSE);
+
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.ECHOPPE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.OBSERVATOIRE);
+        botPleinDeQuartier.ajoutQuartierConstruit(Quartier.FORTERESSE);
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        arrayBot.add(bot);
+        arrayBot.add(botPleinDeQuartier);
+        arrayBot.add(botPasBcpQuartier);
+        bot.actionSpecialeCondottiere(new Condottiere(arrayBot));
+        assertFalse(botPleinDeQuartier.getQuartiersConstruits().contains(Quartier.ECHOPPE));
+        assertEquals(1,bot.getOr()); //Il a 2 or de base et le quartier coute 2 a construire donc 1 a détruire
     }
 }

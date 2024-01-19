@@ -11,10 +11,8 @@ import static org.mockito.Mockito.verify;
 
 import Citadelle.teamU.moteurjeu.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
-import org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
@@ -54,7 +52,7 @@ class MagicienTest {
     }
 
     @Test
-    void botPasConChangeAvecPioche() {
+    void  botPasConChangeAvecPioche() {
         botAleatoire.setRole(new Marchand(botliste));
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(track);               //botConstruitChere est le magicien
