@@ -12,7 +12,6 @@ public class Affichage {
     private ArrayList<Quartier> choixDeBase;
     private Quartier construction;
     private ArrayList<Bot> botList;
-
     public Affichage(Bot bot){
         this.bot=bot;
     }

@@ -99,4 +99,8 @@ class TourTest {
         assertEquals(res.get(2),bot3);
         assertEquals(res.get(3),bot4);
     }
+    @Test
+    void bonusTest(){
+        //A FAIRE
+    }
 }
