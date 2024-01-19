@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class Voleur implements Role{
 
-    private ArrayList<? extends Bot> botListe;
+    private ArrayList<Bot> botListe;
     private final int ordre = 2;
-    private String choix = "";
+    private Role choix;
     private ArrayList<Role> roles = new ArrayList<>();
 
 
@@ -22,16 +22,17 @@ public class Voleur implements Role{
     }
 
     public void voler(Bot botVoleur, Role roleVole){
-        choix = roleVole.toString();
+        // a régler dans Affichage
+        choix = roleVole;
         for (Bot bot:botListe){
             if(bot.getRole().toString().equals(roleVole.toString())){
-                choix += "(" + bot.toString() + " " + bot.getOr() + " ors)";
+                //choix += "(" + bot.toString() + " " + bot.getOr() + " ors)";
                 botVoleur.setOrProchainTour(bot.getOr());
                 bot.voleDOrParVoleur();
                 return;
             }
         }
-        choix += " (personne)";
+        //choix += " (personne)";
     }
 
     public void actionSpeciale(Bot bot){
@@ -49,7 +50,7 @@ public class Voleur implements Role{
     }
 
     public String actionToString(Bot bot){
-        return "Le " + bot.toString() +" a volé le " + choix;
+        return "Le " + bot.toString() +" a volé le " + choix.toString();
     }
 
 

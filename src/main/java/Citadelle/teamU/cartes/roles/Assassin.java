@@ -6,18 +6,18 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 
-public class Assassin {
+public class Assassin implements Role {
 
 
     private ArrayList<Bot> botListe;
     private final int ordre = 1;
+    private Role choix;
+    private ArrayList<Role> roles = new ArrayList<>();
 
-
-
-    public Assassin(ArrayList<Bot> botListe){
+    public Assassin(ArrayList<Bot> botListe,ArrayList<Role> roles){
         this.botListe = botListe;
+        this.roles=roles;
     }
-
     public ArrayList<Bot> getBotListe() {
         return botListe;
     }
@@ -25,17 +25,18 @@ public class Assassin {
     /**
      *  permet de tuer
      */
-    public void tuer(Role role){
+    public void tuer( Role roleTue){
+        choix=roleTue;
         for(Bot bot: botListe){
-            if (bot.getRole()==role){
-                botListe.remove(bot);
+            if (bot.getRole()==roleTue){
+                bot.setMort(true);
             }
         }
     }
 
 
     public void actionSpeciale(Bot bot){
-
+        bot.actionSpecialeAssassin(this);
     }
 
 
@@ -47,8 +48,13 @@ public class Assassin {
     public String toString() {
         return "Assassin";
     }
-
-
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
+    @Override
+    public String actionToString(Bot bot) {
+        return "Le " + bot.toString() +" a tué le " + choix.toString();
+    }
 
 
 }

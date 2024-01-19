@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -83,6 +84,8 @@ public class BotConstruitChere extends Bot{
     }
 
 
+
+
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
@@ -119,6 +122,18 @@ public class BotConstruitChere extends Bot{
             //sinon on fait aleatoire et on croise les doigts
             int rang =randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
             voleur.voler(this, voleur.getRoles().get(rang) );
+        }
+    }
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        if(rolesRestants.size()>1){
+            int rang= randInt(rolesRestants.size());
+            assassin.tuer(rolesRestants.get(rang));
+
+        }
+        else{
+            int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            assassin.tuer(assassin.getRoles().get(rang));
         }
     }
 }

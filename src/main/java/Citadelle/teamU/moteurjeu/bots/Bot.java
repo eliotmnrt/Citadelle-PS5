@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -13,6 +14,10 @@ import java.util.Collections;
 public abstract class Bot {
     protected int nbOr;
 
+
+
+
+    protected boolean mort;
     protected Role role;
     protected Pioche pioche;
     protected boolean couronne;
@@ -29,9 +34,15 @@ public abstract class Bot {
         quartierMain = new ArrayList<>();
         score=0;
         random = new SecureRandom();
+        mort=false;
         initQuartierMain();
     }
-
+    public boolean estMort() { //renvoit s'il est mort
+        return mort;
+    }
+    public void setMort(boolean mort) {
+        this.mort = mort;
+    }
     public int getOr(){
         return nbOr;
     }
@@ -132,7 +143,7 @@ public abstract class Bot {
     public abstract void actionSpecialeMagicien(Magicien magicien);
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void choisirRole(ArrayList<Role> roles);
-
+    public abstract void actionSpecialeAssassin(Assassin assassin);
 
      //
 }

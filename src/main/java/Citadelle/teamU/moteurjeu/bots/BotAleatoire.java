@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -67,6 +68,12 @@ public class BotAleatoire extends Bot{
         setRole(roles.remove(intAleatoire));
     }
 
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+        assassin.tuer(assassin.getRoles().get(rang));
+    }
+
     /**
      * Construit un quartier aléatoire parmis ceux qu'il peut construire
      */
@@ -112,4 +119,6 @@ public class BotAleatoire extends Bot{
         int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
         voleur.voler(this, voleur.getRoles().get(rang) );
     }
+
+
 }

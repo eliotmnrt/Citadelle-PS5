@@ -16,12 +16,15 @@ public class Tour {
 
     ArrayList<Role> rolesTemp = new ArrayList<>();
     public Tour(ArrayList<Bot> botListe){
+
+        roles.add(new Assassin(botListe,roles));
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
         roles.add(new Pretre(botListe));
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
+
         this.botListe = botListe;
     }
 
@@ -32,17 +35,21 @@ public class Tour {
         nbTour++;
         distributionRoles();
         System.out.println("Tour "+ nbTour);
-        System.out.println(botListe);
+        System.out.println("BOTLISTE  :"+botListe);
+        System.out.println("ROLES   :"+roles);
         //botListeUpdate();
         Collections.sort(botListe, Comparator.comparingInt(Bot::getOrdre));
-        for (Bot bot: botListe){
-            Affichage affiche = new Affichage(bot);
-            affiche.afficheBot();
-            bot.faireActionSpecialRole();
-            affiche.afficheActionSpeciale(bot);
-            affiche.setChoixDeBase(bot.faireActionDeBase());
-            affiche.afficheConstruction(bot.construire());
-            if(bot.getQuartiersConstruits().size()==7) dernierTour=true;
+        for (Bot bot: botListe) {
+            if (!bot.estMort()) {
+                Affichage affiche = new Affichage(bot);
+                affiche.afficheBot();
+                bot.faireActionSpecialRole();
+                affiche.afficheActionSpeciale(bot);
+                affiche.setChoixDeBase(bot.faireActionDeBase());
+                affiche.afficheConstruction(bot.construire());
+                if (bot.getQuartiersConstruits().size() == 7) dernierTour = true;
+            }
+            bot.setMort(false); //ressusiter le bot mort pr le prochain tour
         }
         if (dernierTour){
             Affichage affichageFin = new Affichage(botListe);
