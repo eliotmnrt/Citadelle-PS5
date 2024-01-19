@@ -19,7 +19,7 @@ public class Marchand implements Role {
     public void OrQuartierVert(Bot bot) {
         int comp = 0;
         for (Quartier quartier : bot.getQuartiersConstruits()) {
-            if (Objects.equals(quartier.getCouleur(), TypeQuartier.VERT)) {
+            if (Objects.equals(quartier.getCouleur(), TypeQuartier.VERT) || quartier.equals(Quartier.ECOLE_DE_MAGIE)) {
                 bot.changerOr(1);
                 comp++;
             }

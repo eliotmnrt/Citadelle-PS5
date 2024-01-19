@@ -54,4 +54,20 @@ class CondottiereTest {
         verify(botAleatoire).actionSpecialeCondottiere(track);
 
     }
+    @Test
+    public void CondottiereConstruitEcoleDeMagie(){
+        botAleatoire.changerOr(10);      //il a 12 ors
+        botAleatoire.setRole(track);
+        botAleatoire.ajoutQuartierMain(Quartier.ECOLE_DE_MAGIE);
+        assertSame(Quartier.ECOLE_DE_MAGIE, botAleatoire.getQuartierMain().get(4));
+        assertTrue(botAleatoire.getQuartiersConstruits().isEmpty());
+
+        botAleatoire.ajoutQuartierConstruit(Quartier.ECOLE_DE_MAGIE);
+        assertSame(Quartier.ECOLE_DE_MAGIE, botAleatoire.getQuartiersConstruits().get(0));
+        assertEquals(4, botAleatoire.getQuartierMain().size());
+
+        assertEquals(6, botAleatoire.getOr());
+        botAleatoire.faireActionSpecialRole();
+        assertEquals(7, botAleatoire.getOr()); // ecole de magie compte pour jaune n'est pas jaune
+    }
 }

@@ -22,7 +22,7 @@ public class Condottiere implements Role{
     public void orQuartierRouge(Bot bot) {
         int cpt=0;
         for (Quartier quartier : bot.getQuartiersConstruits()) {
-            if (Objects.equals(quartier.getCouleur(), TypeQuartier.ROUGE)) {
+            if (Objects.equals(quartier.getCouleur(), TypeQuartier.ROUGE) || quartier.equals(Quartier.ECOLE_DE_MAGIE)) {
                 bot.changerOr(1);
                 cpt++;
             }

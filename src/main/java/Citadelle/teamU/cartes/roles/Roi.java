@@ -33,7 +33,7 @@ public class Roi implements Role {
         //Les quartiers jaune :
         int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
-            if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
+            if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE) || quartier.equals(Quartier.ECOLE_DE_MAGIE)){
                 bot.changerOr(1);
                 comp++;
             }
