@@ -115,4 +115,11 @@ class TourTest {
         tour.bonus(bot2); //ne fait rien pour bot1
         assertEquals(bot1.getScore(),1); // IL n'a aucun bonus mais a un quartie qui coute 1
     }
+    @Test
+    void bonusCouleurTest(){
+        ArrayList<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.MONASTERE,Quartier.CHATEAU,Quartier.PRISON,Quartier.DONJON));
+        bot2.setQuartierConstruit(arrayList);
+        tour.bonus(bot1);
+        assertEquals(bot2.getScore(),3); //Il n'a pas 8 quartiers mais 5 couleurs donc il gagne 3 score en plus
+    }
 }

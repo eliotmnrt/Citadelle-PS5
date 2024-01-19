@@ -48,15 +48,15 @@ public enum Quartier implements Comparable<Quartier> {
 
     @Override
     public String toString(){
-        String res ="";
+        String color ="";
         switch (this.typeQuartier){
-            case VERT -> res = ANSI_GREEN;
-            case ROUGE -> res = ANSI_RED;
-            case JAUNE -> res = ANSI_YELLOW;
-            case VIOLET -> res = ANSI_PURPLE;
-            case BLEUE -> res = ANSI_BLUE;
+            case VERT -> color = ANSI_GREEN;
+            case ROUGE -> color = ANSI_RED;
+            case JAUNE -> color = ANSI_YELLOW;
+            case VIOLET -> color = ANSI_PURPLE;
+            case BLEUE -> color = ANSI_BLUE;
         }
-        return res+this.nom+ " ("+this.cout+")"+ANSI_RESET ;
+        return color+this.nom+ " ("+this.cout+")"+ANSI_RESET ;
     }
     public TypeQuartier getTypeQuartier() {
         return typeQuartier;
