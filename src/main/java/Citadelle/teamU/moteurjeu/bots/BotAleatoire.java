@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -41,13 +42,12 @@ public class BotAleatoire extends Bot{
             choixDeBase.add(quartier1);
             choixDeBase.add(quartier2);
 
-            int intAleatoire2= randInt(2); // Choisi un int aléatoire 0 ou 1
-            if (intAleatoire2 == 0){
+            int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
+            if (intAleatoire2 == 0) {
                 ajoutQuartierMain(quartier1);
                 pioche.remettreDansPioche(quartier2);
                 choixDeBase.add(quartier1);
-            }
-            else{
+            } else {
                 ajoutQuartierMain(quartier2);
                 pioche.remettreDansPioche(quartier1);
                 choixDeBase.add(quartier2);
@@ -115,8 +115,26 @@ public class BotAleatoire extends Bot{
     // UPDATE QUAND AJOUT DE CLASSES
     @Override
     public void actionSpecialeVoleur(Voleur voleur){
-        int rang = randInt(5) + 1;       // pour un nb aleatoire hors assassin et voleur
+        int rang = randInt(6) + 1;       // pour un nb aleatoire hors assassin et voleur
         affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
         voleur.voler(this, voleur.getRoles().get(rang) );
+    }
+
+    @Override
+    public void actionSpecialeCondottiere(Condottiere condottiere) {
+        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
+        int indiceRandomBot = randInt(botList.size());
+        Bot botADetruire = (botList.get(indiceRandomBot));
+        if(!botADetruire.getQuartiersConstruits().isEmpty()) {
+            int indiceRandomQuartier = randInt(botADetruire.getQuartiersConstruits().size() );
+            Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
+
+            if(quartierAdetruire!=null){
+                if (this.getOr() >= quartierAdetruire.getCout() - 1) {
+                    condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
+                }
+            }
+        }
     }
 }

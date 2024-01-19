@@ -1,16 +1,15 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Roi;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -21,12 +20,14 @@ class BotConstruitChereTest {
     private BotConstruitChere bot;
     private ArrayList<Bot> botliste;
     private Pioche pioche;
+    //Condottiere track;
     @BeforeEach
     public void setBot(){
         pioche = spy(new Pioche());
         bot = new BotConstruitChere(pioche);
         botliste = new ArrayList<>();
         botliste.add(bot);
+        //track = Mockito.spy(new Condottiere(botliste));
     }
     /**@Test
     public void prendreOr(){
@@ -161,4 +162,167 @@ class BotConstruitChereTest {
         assertNull(bot.construire());
         //rien dans la main il ne peut pas construire
     }
+    @Test
+    public void condottierePeutDetruire(){
+        BotAleatoire aQuartierADetruire = new BotAleatoire(pioche);
+        BotAleatoire aPasQuartierADetruire = new BotAleatoire(pioche);
+        while(aQuartierADetruire.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aQuartierADetruire.getQuartierMain().remove(0));
+        } // main vide
+        aQuartierADetruire.changerOr(100);
+        aQuartierADetruire.ajoutQuartierMain(Quartier.TEMPLE); //coute 1 il doit detruire lui
+        aQuartierADetruire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aQuartierADetruire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aQuartierADetruire.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.TEMPLE); //coute 1 il doit detruire lui
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 6
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 5
+
+
+
+        while(aPasQuartierADetruire.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aPasQuartierADetruire.getQuartierMain().remove(0));
+        } // main vide
+        aPasQuartierADetruire.changerOr(100);
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 5
+
+
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        arrayBot.add(bot);
+        arrayBot.add(aQuartierADetruire);
+        arrayBot.add(aPasQuartierADetruire);
+
+
+
+        Condottiere condott=Mockito.spy(new Condottiere(arrayBot));
+
+        bot.actionSpecialeCondottiere(condott); // dans cette appel de fonctions le condottiere doit detruire le quartier Temple du aQuartierADetruire
+
+        verify(condott).destructionQuartier(bot, aQuartierADetruire,Quartier.TEMPLE);
+        assertFalse(aQuartierADetruire.getQuartiersConstruits().contains(Quartier.TEMPLE));
+        assertEquals(aQuartierADetruire.getQuartiersConstruits(),new ArrayList<>(List.of(Quartier.TERRAIN_DE_BATAILLE,Quartier.BIBLIOTHEQUE,Quartier.OBSERVATOIRE)));
+
+
+    }
+    @Test
+    public void condottierePeutPasDetruire(){
+        BotAleatoire aPasQuartierADetruire1 = new BotAleatoire(pioche);
+        BotAleatoire aPasQuartierADetruire2 = new BotAleatoire(pioche);
+        while(aPasQuartierADetruire1.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aPasQuartierADetruire1.getQuartierMain().remove(0));
+        } // main vide
+
+        //mettre de l'argent pour construire
+        aPasQuartierADetruire1.changerOr(100);
+
+        aPasQuartierADetruire1.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire1.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire1.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.COUR_DES_MIRACLES); //coute 2
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.CIMETIERE); // coute 5
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+
+
+        ArrayList<Quartier> avantDestruction1= aPasQuartierADetruire1.getQuartiersConstruits();
+        ArrayList<Quartier> avantDestruction2= aPasQuartierADetruire2.getQuartiersConstruits();
+
+
+        while(aPasQuartierADetruire2.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aPasQuartierADetruire2.getQuartierMain().remove(0));
+        } // main vide
+
+
+        aPasQuartierADetruire2.changerOr(100);
+
+
+        aPasQuartierADetruire2.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire2.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire2.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+        aPasQuartierADetruire2.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire2.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire2.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 5
+
+
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        arrayBot.add(bot);
+        arrayBot.add(aPasQuartierADetruire1);
+        arrayBot.add(aPasQuartierADetruire2);
+
+
+
+        Condottiere condott=Mockito.spy(new Condottiere(arrayBot));
+
+        bot.actionSpecialeCondottiere(condott); // dans cette appel de fonctions le condottiere doit detruire le quartier Temple du aQuartierADetruire
+        verify(condott, times(0)).destructionQuartier(any(),any(),any());
+        assertEquals(aPasQuartierADetruire1.getQuartiersConstruits(),avantDestruction1);
+        assertEquals(aPasQuartierADetruire2.getQuartiersConstruits(), avantDestruction2);
+
+    }
+    @Test
+    public void actionSpecialeCondottierePasPerteOr(){
+        BotAleatoire aQuartierADetruire = new BotAleatoire(pioche);
+        BotAleatoire aPasQuartierADetruire = new BotAleatoire(pioche);
+        while(aQuartierADetruire.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aQuartierADetruire.getQuartierMain().remove(0));
+        } // main vide
+
+
+        aQuartierADetruire.changerOr(100);
+
+        aQuartierADetruire.ajoutQuartierMain(Quartier.TEMPLE); //coute 1 il doit detruire lui
+        aQuartierADetruire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aQuartierADetruire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aQuartierADetruire.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.TEMPLE); //coute 1 il doit detruire lui
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 6
+        aQuartierADetruire.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 5
+
+
+
+        while(aPasQuartierADetruire.getQuartierMain().size()!=0){
+            pioche.remettreDansPioche(aPasQuartierADetruire.getQuartierMain().remove(0));
+        } // main vide
+        aPasQuartierADetruire.changerOr(100);
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
+        //------
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 6
+        aPasQuartierADetruire.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 5
+
+
+
+        ArrayList<Bot> arrayBot = new ArrayList<>();
+        arrayBot.add(bot);
+        arrayBot.add(aQuartierADetruire);
+        arrayBot.add(aPasQuartierADetruire);
+
+        Condottiere condott=Mockito.spy(new Condottiere(arrayBot));
+
+        int argentAvantDestruction=bot.getOr();
+        bot.actionSpecialeCondottiere(condott); // dans cette appel de fonctions le condottiere doit detruire le quartier Temple du aQuartierADetruire
+
+        verify(condott).destructionQuartier(bot, aQuartierADetruire,Quartier.TEMPLE);
+        assertEquals(bot.getOr(),argentAvantDestruction);
+
+
+
+    }
+    
 }

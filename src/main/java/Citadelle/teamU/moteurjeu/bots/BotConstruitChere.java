@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -123,9 +124,27 @@ public class BotConstruitChere extends Bot{
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang =randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
+            int rang =randInt(6) +1;       // pour un nb aleatoire hors assassin et voleur
             affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
+    }
+    @Override
+    public void actionSpecialeCondottiere(Condottiere condottiere){
+        // détruit que un quartier qui coute 1
+        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
+        for(Bot bot:botList){
+            for(Quartier quartier: bot.getQuartiersConstruits()){
+                if(quartier.getCout()==1){
+                    condottiere.destructionQuartier(this,bot, quartier);
+                    return;
+                }
+            }
+        }
+
+
+
+
     }
 }
