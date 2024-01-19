@@ -122,4 +122,20 @@ class TourTest {
         tour.bonus(bot1);
         assertEquals(bot2.getScore(),3); //Il n'a pas 8 quartiers mais 5 couleurs donc il gagne 3 score en plus
     }
+    @Test
+    void UniversiteTest(){
+        bot1.changerOr(4); //Il a 8 d'or
+        bot1.ajoutQuartierMain(Quartier.UNIVERSITE);
+        bot1.ajoutQuartierConstruit(Quartier.UNIVERSITE);
+        tour.bonus(bot2);
+        assertEquals(bot1.getScore(),8);
+    }
+    @Test
+    void DracoportTest(){
+        bot1.changerOr(4); //Il a 8 d'or
+        bot1.ajoutQuartierMain(Quartier.DRACOPORT);
+        bot1.ajoutQuartierConstruit(Quartier.DRACOPORT);
+        tour.bonus(bot2);
+        assertEquals(bot1.getScore(),8);
+    }
 }

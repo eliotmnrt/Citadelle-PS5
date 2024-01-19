@@ -57,6 +57,14 @@ public class Tour {
         premierFinir.getAffichage().afficheBonusPremier();
         for(Bot bot : botListe){
             ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
+            if(quartiers.contains(Quartier.UNIVERSITE)){
+                bot.setScore(bot.getScore()+2);
+                bot.getAffichage().afficheBonusQuartierViolet(Quartier.UNIVERSITE);
+            }
+            if(quartiers.contains(Quartier.DRACOPORT)){
+                bot.setScore(bot.getScore()+2);
+                bot.getAffichage().afficheBonusQuartierViolet(Quartier.DRACOPORT);
+            }
             if(quartiers.size()>=8&&bot!=premierFinir){
                 bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
                 premierFinir.getAffichage().afficheBonusQuartier();
