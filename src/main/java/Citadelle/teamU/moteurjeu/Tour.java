@@ -54,19 +54,16 @@ public class Tour {
     public void bonus(Bot premierFinir) {
         Affichage affichageFin = new Affichage(botListe);
         premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
-        //AFFICHAGE
-        System.out.println(premierFinir+" gagne 4 points car il a fini avec "+premierFinir.getQuartiersConstruits().size()+" quartiers en premier");
+        premierFinir.getAffichage().afficheBonusPremier();
         for(Bot bot : botListe){
             ArrayList<Quartier> quartiers = bot.getQuartiersConstruits();
             if(quartiers.size()>=8&&bot!=premierFinir){
                 bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
-                //AFFICHAGE
-                System.out.println(bot+" gagne 2 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers");
+                premierFinir.getAffichage().afficheBonusQuartier();
             }
             if(contiensCouleur(quartiers,TypeQuartier.VERT)&&contiensCouleur(quartiers,TypeQuartier.VIOLET)&&contiensCouleur(quartiers,TypeQuartier.BLEUE)&&contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
-                bot.setScore(premierFinir.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
-                //AFFICHAGE
-                System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur");
+                bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
+                premierFinir.getAffichage().afficheBonusCouleur();
             }
         }
         affichageFin.afficheLeVainqueur();
