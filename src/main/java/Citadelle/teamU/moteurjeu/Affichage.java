@@ -121,4 +121,16 @@ public class Affichage {
 
         System.out.println("\n\nLe vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
     }
+
+    public void afficheBonusPremier() {
+        System.out.println("\n"+bot+" gagne 4 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers en premier");
+    }
+
+    public void afficheBonusQuartier() {
+        System.out.println(bot+" gagne 2 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers");
+    }
+
+    public void afficheBonusCouleur() {
+        System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur");
+    }
 }

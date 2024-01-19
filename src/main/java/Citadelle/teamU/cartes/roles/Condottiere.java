@@ -60,7 +60,7 @@ public class Condottiere implements Role{
     public Bot getBotAdetruire(){
         return botAdetruire;
     }
-    @Override
+    /*@Override
     public String actionToString(Bot bot) {
         String str="";
         if(orQuartierRouge>0){
@@ -73,5 +73,5 @@ public class Condottiere implements Role{
             str += bot.toString() + " n'a rien detruit";
         }
         return str;
-    }
+    }*/
 }
