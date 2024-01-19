@@ -9,6 +9,7 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Queue;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
@@ -67,14 +68,31 @@ public class Tour {
             }
             if(quartiers.size()>=8&&bot!=premierFinir){
                 bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
-                premierFinir.getAffichage().afficheBonusQuartier();
+                bot.getAffichage().afficheBonusQuartier();
             }
-            if(contiensCouleur(quartiers,TypeQuartier.VERT)&&contiensCouleur(quartiers,TypeQuartier.VIOLET)&&contiensCouleur(quartiers,TypeQuartier.BLEUE)&&contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
+            if(nbCouleur(bot.getQuartiersConstruits())==5){
                 bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
-                premierFinir.getAffichage().afficheBonusCouleur();
+                bot.getAffichage().afficheBonusCouleur();
+            }
+            else if(bot.getQuartiersConstruits().contains(Quartier.COUR_DES_MIRACLES)){
+                ArrayList<Quartier> arrayList = bot.getQuartiersConstruits();
+                arrayList.remove(Quartier.COUR_DES_MIRACLES);
+                if(nbCouleur(bot.getQuartiersConstruits())==4){
+                    bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
+                    bot.getAffichage().afficheBonusCouleurAvecQV();
+                }
             }
         }
         affichageFin.afficheLeVainqueur();
+    }
+    private int nbCouleur(ArrayList<Quartier> quartiers) {
+        ArrayList<TypeQuartier> arrayList = new ArrayList<>();
+        for(Quartier quartier : quartiers){
+            if(!arrayList.contains(quartier.getTypeQuartier())){
+                arrayList.add(quartier.getTypeQuartier());
+            }
+        }
+        return arrayList.size();
     }
 
     private boolean contiensCouleur(ArrayList<Quartier> quartiers, TypeQuartier typeQuartier) {
