@@ -12,7 +12,6 @@ public class Affichage {
     private Bot bot;
     private Quartier construction;
     private ArrayList<Bot> botList;
-
     public Affichage(Bot bot){
         this.bot=bot;
     }
@@ -111,10 +110,12 @@ public class Affichage {
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
         Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot1: botList){
-            if (bot1.getScore()>max){
-             max= bot1.getScore();
-             botVainqueur=bot1;
+        System.out.println();
+        for(Bot bot: botList){
+            System.out.println(bot+" a un score de : "+bot.getScore());
+            if (bot.getScore()>max){
+             max= bot.getScore();
+             botVainqueur=bot;
             }
         }
 
