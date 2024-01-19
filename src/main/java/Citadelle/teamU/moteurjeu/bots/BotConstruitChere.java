@@ -5,10 +5,10 @@ import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BotConstruitChere extends Bot{
     private String name;
@@ -18,6 +18,7 @@ public class BotConstruitChere extends Bot{
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
+        this.affichage = new Affichage(this);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
@@ -36,30 +37,21 @@ public class BotConstruitChere extends Bot{
         boolean piocher=true;
         for(Quartier quartier: quartierMain){
             if (quartier.getCout()>=4){
-                piocher=false;
+                piocher = false;
             }
         }
         if (piocher){
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-            if (quartier1.getCout() > quartier2.getCout()) {
-                ajoutQuartierMain(quartier1);
-                pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
-            } else {
-                ajoutQuartierMain(quartier2);
-                pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
-            }
+            choixDeBase = choisirEntreDeuxQuartiersViaCout(1);
         }
         else{
             choixDeBase.add(null);
             changerOr(2);
         }
+        affichage.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
+
+    @Override
     public Quartier construire(){
 
         int max=0;
@@ -72,13 +64,10 @@ public class BotConstruitChere extends Bot{
 
         }
         // répétitions de code BotAleatoire, a refactorer plus tard
-        if (quartierChoisi!=null) {
-            if (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL) {
-                quartierConstruit.add(quartierChoisi);
-                quartierMain.remove(quartierChoisi);
-                nbOr -= quartierChoisi.getCout();
+        if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
+                ajoutQuartierConstruit(quartierChoisi);
+                affichage.afficheConstruction(quartierChoisi);
                 return quartierChoisi;
-            }
         }
         return null;
     }
@@ -87,15 +76,15 @@ public class BotConstruitChere extends Bot{
         return name;
     }
 
+
     @Override
     public void choisirRole(ArrayList<Role> roles){
-        nbOr += orProchainTour;         //on recupere l'or du vol
-        orProchainTour = 0;
-
+        if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
@@ -108,14 +97,20 @@ public class BotConstruitChere extends Bot{
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
+            affichage.afficheNouvelleMainMagicien();
 
         } else {    // sinon on échange toutes ses cartes avec la pioche
+            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichage.afficheNouvelleMainMagicien();
         }
     }
 
-    @Override           //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+
+    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
+    @Override
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
@@ -124,12 +119,13 @@ public class BotConstruitChere extends Bot{
 
             /*while (rang == rolesRestants.indexOf(Assassin))
              */
-
+            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
             int rang =randInt(6) +1;       // pour un nb aleatoire hors assassin et voleur
+            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }

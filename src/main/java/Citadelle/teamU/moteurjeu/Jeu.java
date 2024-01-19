@@ -43,6 +43,11 @@ public class Jeu {
         Bot bot2 = new BotConstruitChere(pioche);
         Bot bot3 = new BotConstruitVite(pioche);
         Bot bot4 = new BotAleatoire(pioche);
+        //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
+        bot1.setOrdreChoixRole(1);
+        bot2.setOrdreChoixRole(2);
+        bot3.setOrdreChoixRole(3);
+        bot4.setOrdreChoixRole(4);
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
         jeu.start();
     }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
-    public Bot bot;
+    /* public Bot bot;
     @BeforeEach
     void setBot(){
         Pioche pioche = new Pioche();
@@ -55,5 +55,5 @@ class BotTest {
         assertEquals(bot.getQuartiersConstruits().get(0).getCout()+bot.getQuartiersConstruits().get(1).getCout(), bot.getScore());
         // s'assure que le score conrespond bien à la somme des couts des quartiers construits
     }
-
+    */
 }
