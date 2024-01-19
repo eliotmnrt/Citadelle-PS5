@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
@@ -145,6 +146,7 @@ public abstract class Bot {
     public abstract ArrayList<Quartier> faireActionDeBase();
     public abstract void actionSpecialeMagicien(Magicien magicien);
     public abstract void actionSpecialeVoleur(Voleur voleur);
+    public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(ArrayList<Role> roles);
 
 
