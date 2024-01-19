@@ -163,6 +163,7 @@ class BotConstruitViteTest {
         while(botPleinDeQuartier.getQuartierMain().size()!=0){
             pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
         } // main vide
+        botPleinDeQuartier.changerOr(100);
         botPleinDeQuartier.ajoutQuartierMain(Quartier.TEMPLE); //coute 1 il doit detruire lui
         botPleinDeQuartier.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
         botPleinDeQuartier.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
@@ -189,6 +190,7 @@ class BotConstruitViteTest {
         while(botPleinDeQuartier.getQuartierMain().size()!=0){
             pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
         } // main vide
+        botPleinDeQuartier.changerOr(100);
         botPleinDeQuartier.ajoutQuartierMain(Quartier.ECHOPPE); //coute 2 il doit detruire lui
         botPleinDeQuartier.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
         botPleinDeQuartier.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);

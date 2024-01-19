@@ -28,6 +28,7 @@ public class Condottiere implements Role{
             }
         }
         orQuartierRouge=cpt;
+        bot.getAffichage().afficheActionSpecialeOrCondottiere(orQuartierRouge);
     }
 
     public void destructionQuartier(Bot bot,Bot botAdetruire,Quartier quartier){
@@ -35,13 +36,13 @@ public class Condottiere implements Role{
         this.botAdetruire=botAdetruire;
         botAdetruire.getQuartiersConstruits().remove(quartier);
         bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la detruction de quartier
+        botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
+        bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
     }
     @Override
     public void actionSpeciale(Bot bot) {
         orQuartierRouge(bot);
         bot.actionSpecialeCondottiere(this);
-
-
     }
     @Override
     public int getOrdre() {
@@ -59,19 +60,5 @@ public class Condottiere implements Role{
     }
     public Bot getBotAdetruire(){
         return botAdetruire;
-    }
-    @Override
-    public String actionToString(Bot bot) {
-        String str="";
-        if(orQuartierRouge>0){
-            str+="Le "+ bot.toString()+" a gagné "+orQuartierRouge+" pièces pour ses quartiers rouges\n";
-        }
-        if (quartierAdetruire != null) {
-            str+="Le " + bot.toString() + " a detruit le quartier "+quartierAdetruire.toString()+" du bot "+botAdetruire.toString();
-        }
-        else {
-            str += bot.toString() + " n'a rien detruit";
-        }
-        return str;
     }
 }

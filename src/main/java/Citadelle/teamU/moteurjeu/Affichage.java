@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Affichage {
     // classe de gestion de tout les prints
     private Bot bot;
-    private Quartier construction;
     private ArrayList<Bot> botList;
     public Affichage(Bot bot){
         this.bot=bot;
@@ -37,10 +36,6 @@ public class Affichage {
         }
     }
 
-    public void setConstruction(Quartier construction) {
-        this.construction = construction;
-        afficheConstruction(construction);
-    }
 
     public void afficheChoixDeBase(ArrayList<Quartier> choix){
         if(choix.get(0) == null){
@@ -97,14 +92,19 @@ public class Affichage {
     }
 
     public void afficheActionSpecialeMarchand(int or) {
-        System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de marchand  ");
+        System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de marchand");
     }
 
     public void afficheActionSpecialeArchitecte(ArrayList<Quartier> quartiersSupp) {
         System.out.println(bot.toString() + " a pioché 2 quartiers supplémentaires grâce à son role d'architecte : " + quartiersSupp.get(0).toString() + " et " + quartiersSupp.get(1).toString());
     }
 
-
+    public void afficheActionSpecialeOrCondottiere(int nbOr) {
+        System.out.println("Le " + bot.toString() + " a gagné " + nbOr + " or(s) grâce à sa capacité de marchand");
+    }
+    public void afficheActionSpecialeDestructionCondottiere(Bot botVise, Quartier quartierDetruit) {
+        System.out.println("Le " + bot.toString() + " a detruit le " + quartierDetruit + " du " + botVise);
+    }
 
     public void afficheLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
