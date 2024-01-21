@@ -76,7 +76,7 @@ class MarchandTest {
 
         assertEquals(6, bot.getOr());
         bot.faireActionSpecialRole();
-        assertEquals(7, bot.getOr()); // ecole de magie compte pour jaune n'est pas jaune
+        assertEquals(8, bot.getOr()); // ecole de magie compte pour vert
     }
 
 }

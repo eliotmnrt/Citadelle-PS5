@@ -37,6 +37,7 @@ public class BotConstruitVite extends Bot {
 
     @Override
     public ArrayList<Quartier> faireActionDeBase(){
+        quartiersViolets();         //actions spéciales violettes
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux

@@ -32,12 +32,23 @@ public class Condottiere implements Role{
     }
 
     public void destructionQuartier(Bot bot,Bot botAdetruire,Quartier quartier){
-        this.quartierAdetruire=quartier;
-        this.botAdetruire=botAdetruire;
+        this.quartierAdetruire = quartier;
+        this.botAdetruire = botAdetruire;
         botAdetruire.getQuartiersConstruits().remove(quartier);
-        bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la detruction de quartier
+        bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
         botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
         bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
+
+        ArrayList<Bot> autresBots = new ArrayList<>(botListe);
+        autresBots.remove(bot);            //copie de la liste pour proposer le quartier à celui qui a le cimetiere
+        for (Bot botCimetiere: autresBots){
+            for (Quartier quartier2: botCimetiere.getQuartiersConstruits()){
+                if (quartier2.equals(Quartier.CIMETIERE)){
+                    botCimetiere.quartierCimetiere(quartier);
+                    return;
+                }
+            }
+        }
     }
     @Override
     public void actionSpeciale(Bot bot) {

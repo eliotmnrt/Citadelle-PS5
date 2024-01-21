@@ -103,7 +103,18 @@ public class Affichage {
         System.out.println("Le " + bot.toString() + " a gagné " + nbOr + " or(s) grâce à sa capacité de condottière");
     }
     public void afficheActionSpecialeDestructionCondottiere(Bot botVise, Quartier quartierDetruit) {
-        System.out.println("Le " + bot.toString() + " a detruit le " + quartierDetruit + " du " + botVise);
+        System.out.println("Le " + bot.toString() + " a detruit " + quartierDetruit + " du " + botVise);
+    }
+    public void afficheQuartierManufacture(ArrayList<Quartier> nvxQuartiers){
+        System.out.println("Le " + bot.toString() + " a pioché " + nvxQuartiers + "en échange de 3ors, grâce à sa carte Manufacture");
+    }
+
+    public void afficheQuartierLaboratoire(Quartier quartier){
+        System.out.println("Le " + bot.toString() + " a défaussé " + quartier + " grâce à sa carte Laboratoire pour gagner 1or");
+    }
+
+    public void afficheQuartierCimetiere(Quartier quartier){
+        System.out.println("Le " + bot.toString() + " a recupéré " + quartier + " grâce à sa carte Cimetiere contre 1or");
     }
 
     public void afficheLeVainqueur(){

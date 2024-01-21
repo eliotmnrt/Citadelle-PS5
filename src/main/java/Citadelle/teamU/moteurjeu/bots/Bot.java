@@ -144,6 +144,46 @@ public abstract class Bot {
         return ordreChoixRole;
     }
 
+    public void quartiersViolets(){
+        if (quartierConstruit.contains(Quartier.MANUFACTURE)){
+            quartierManufacture();
+        }
+        if(quartierConstruit.contains(Quartier.LABORATOIRE)){
+            quartierLaboratoire();
+        }
+    }
+
+    public void quartierManufacture(){
+        if (nbOr >= 3 && quartierMain.size() <= 1){
+            changerOr(-3);
+            ArrayList<Quartier> nvxQuartiers = new ArrayList<>();
+            for (int i=0; i<3; i++){
+                Quartier quartier = pioche.piocherQuartier();
+                nvxQuartiers.add(quartier);
+                ajoutQuartierMain(quartier);
+            }
+            affichage.afficheQuartierManufacture(nvxQuartiers);
+        }
+    }
+    public void quartierLaboratoire(){
+        for (Quartier quartier: quartierMain){
+            if (quartierConstruit.contains(quartier)){
+                int rang = quartierMain.indexOf(quartier);
+                pioche.remettreDansPioche(quartierMain.remove(rang));
+                changerOr(1);
+                affichage.afficheQuartierLaboratoire(quartier);
+                return;
+            }
+        }
+    }
+    public void quartierCimetiere(Quartier quartierDetruit){
+        if (nbOr >= 1 && !quartierConstruit.contains(quartierDetruit)){
+            changerOr(-1);
+            quartierConstruit.add(quartierDetruit);         //on utilise pas ajoutQuartierConstruit car on recup directement le quartier
+            score+= quartierDetruit.getCout();
+        }
+    }
+
     // à implementer dans chaque bot
     public abstract Quartier construire();
     public abstract ArrayList<Quartier> faireActionDeBase();
@@ -154,5 +194,8 @@ public abstract class Bot {
 
     public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {
         this.quartierConstruit = quartierConstruit;
+    }
+    public void setQuartierMain(ArrayList<Quartier> quartierMain) {
+        this.quartierMain = quartierMain;
     }
 }

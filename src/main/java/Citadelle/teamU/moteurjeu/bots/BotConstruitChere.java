@@ -32,6 +32,8 @@ public class BotConstruitChere extends Bot{
     @Override
     public ArrayList<Quartier> faireActionDeBase() {
         // A REFACTORER
+        quartiersViolets();         //actions spéciales violettes
+
         ArrayList<Quartier> choixDeBase = new ArrayList<>();
 
         boolean piocher=true;
