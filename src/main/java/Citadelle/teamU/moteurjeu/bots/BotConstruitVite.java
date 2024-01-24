@@ -58,7 +58,8 @@ public class BotConstruitVite extends Bot {
         else{
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            choixDeBase = choisirEntreDeuxQuartiersViaCout(-1);
+            choixDeBase = piocheDeBase();
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         affichage.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
@@ -88,6 +89,31 @@ public class BotConstruitVite extends Bot {
             return quartierConstruit;
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches) {
+        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+            if (quartierPioches.get(2) == null){
+                quartierPioches.remove(2);
+                Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+                Collections.reverse(quartierPioches);
+                pioche.remettreDansPioche(quartierPioches.remove(0));
+                ajoutQuartierMain(quartierPioches.get(0));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            }
+            Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+            Collections.reverse(quartierPioches);
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            ajoutQuartierMain(quartierPioches.get(0));
+            return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+        } else {
+            for (Quartier quartier: quartierPioches){
+                ajoutQuartierMain(quartier);
+            }
+            return quartierPioches;
+        }
     }
 
 

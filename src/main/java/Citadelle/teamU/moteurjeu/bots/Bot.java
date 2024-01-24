@@ -184,6 +184,21 @@ public abstract class Bot {
         }
     }
 
+
+    public ArrayList<Quartier> piocheDeBase(){
+        ArrayList<Quartier> quartiersPioches = new ArrayList<>();
+        if (!quartierConstruit.contains(Quartier.OBSERVATOIRE)){
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(null);
+        } else {
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+        }
+        return quartiersPioches;
+    }
+
     // à implementer dans chaque bot
     public abstract Quartier construire();
     public abstract ArrayList<Quartier> faireActionDeBase();
@@ -191,6 +206,7 @@ public abstract class Bot {
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(ArrayList<Role> roles);
+    public abstract ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches);
 
     public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {
         this.quartierConstruit = quartierConstruit;

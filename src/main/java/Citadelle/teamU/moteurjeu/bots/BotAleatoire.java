@@ -9,6 +9,7 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class BotAleatoire extends Bot{
@@ -38,21 +39,10 @@ public class BotAleatoire extends Bot{
         if(intAleatoire == 0){
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
+            choixDeBase = piocheDeBase();
 
-            int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
-            if (intAleatoire2 == 0) {
-                ajoutQuartierMain(quartier1);
-                pioche.remettreDansPioche(quartier2);
-                choixDeBase.add(quartier1);
-            } else {
-                ajoutQuartierMain(quartier2);
-                pioche.remettreDansPioche(quartier1);
-                choixDeBase.add(quartier2);
-            }
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
+
         } else {
             choixDeBase.add(null);
             changerOr(2);
@@ -67,6 +57,29 @@ public class BotAleatoire extends Bot{
         if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
+    }
+
+    @Override
+    public ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches) {
+        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+            int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
+            if (intAleatoire2 == 0) {
+                ajoutQuartierMain(quartierPioches.get(0));
+                pioche.remettreDansPioche(quartierPioches.get(1));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            } else {
+                ajoutQuartierMain(quartierPioches.get(1));
+                pioche.remettreDansPioche(quartierPioches.get(0));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(1)));
+            }
+        } else {
+            for (Quartier quartier: quartierPioches){
+                if (quartier != null){
+                    ajoutQuartierMain(quartier);
+                }
+            }
+            return quartierPioches;
+        }
     }
 
     /**

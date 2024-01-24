@@ -40,14 +40,21 @@ public class Affichage {
     public void afficheChoixDeBase(ArrayList<Quartier> choix){
         if(choix.get(0) == null){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
-
         }
-        else if(choix.get(0) != null && choix.size() == 3) {
+        else if(choix.get(0) != null && choix.size() == 4 && choix.get(2) == null) {
             System.out.println(bot.toString() + " a pioché les quartiers " + choix.get(0) + " et " + choix.get(1));
-            System.out.println(bot.toString() + " a choisi le quartier " + choix.get(2));
-        }
-        else {
-            System.out.println(choix);
+            System.out.println(bot.toString() + " a choisi le quartier " + choix.get(3));
+        } else if (choix.get(0) != null && choix.size() == 4) {
+            System.out.println(bot.toString() + " a pioché 3 quartiers " + choix.get(0) + ", " + choix.get(1) + " et " + choix.get(2) + " grâce à sa carte Observatoire");
+            System.out.println(bot.toString() + " a choisi le quartier " + choix.get(3));
+        } else if (choix.get(0) != null && choix.size() == 6 && choix.get(2) == null) {
+            System.out.println(bot.toString() + " a pioché les quartiers " + choix.get(0) + " et " + choix.get(1));
+            System.out.println(bot.toString() + " a gardé les 2 quartiers " + choix.get(3) + " et " + choix.get(4) + " grâce à sa carte Bibliothèque");
+        } else if (choix.get(0) != null && choix.size() == 6 && choix.get(2) != null) {
+            System.out.println(bot.toString() + " a pioché 3 quartiers " + choix.get(0) + ", " + choix.get(1) + " et " + choix.get(2) + " grâce à sa carte Observatoire");
+            System.out.println(bot.toString() + " a choisi les 2 quartiers " + choix.get(3) + ", " + choix.get(4) + " et " + choix.get(5) + " grâce à sa carte Bibliothèque");
+        } else {
+            System.out.println("erreur :" + choix);
             throw new IllegalArgumentException(); // a l'aide
         }
     }

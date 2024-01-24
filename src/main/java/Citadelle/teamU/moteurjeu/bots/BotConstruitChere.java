@@ -9,6 +9,8 @@ import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BotConstruitChere extends Bot{
     private String name;
@@ -43,7 +45,8 @@ public class BotConstruitChere extends Bot{
             }
         }
         if (piocher){
-            choixDeBase = choisirEntreDeuxQuartiersViaCout(1);
+            choixDeBase = piocheDeBase();
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         else{
             choixDeBase.add(null);
@@ -85,6 +88,29 @@ public class BotConstruitChere extends Bot{
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
+    }
+
+    @Override
+    public ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches) {
+        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+            if (quartierPioches.get(2) == null){
+                quartierPioches.remove(2);
+                Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+                pioche.remettreDansPioche(quartierPioches.remove(0));
+                ajoutQuartierMain(quartierPioches.get(0));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            }
+            Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            ajoutQuartierMain(quartierPioches.get(0));
+            return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+        } else {
+            for (Quartier quartier: quartierPioches){
+                ajoutQuartierMain(quartier);
+            }
+            return quartierPioches;
+        }
     }
 
 
