@@ -6,15 +6,17 @@ import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.List;
 
+@SuppressWarnings("java:S106")
 public class Affichage {
     // classe de gestion de tout les prints
     private Bot bot;
-    private ArrayList<Bot> botList;
+    private List<Bot> botList;
     public Affichage(Bot bot){
         this.bot=bot;
     }
-    public Affichage(ArrayList<Bot> botList){
+    public Affichage(List<Bot> botList){
         this.botList=botList;
     }
     public void afficheBot(){
@@ -30,14 +32,16 @@ public class Affichage {
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
     }
 
-    private void afficheCouronne() {
+    public void afficheCouronne() {
         if(bot.isCouronne()){
             System.out.println("Ce bot a la couronne");
+        }else {
+            throw new IllegalArgumentException();
         }
     }
 
 
-    public void afficheChoixDeBase(ArrayList<Quartier> choix){
+    public void afficheChoixDeBase(List<Quartier> choix){
         if(choix.get(0) == null){
             System.out.println(bot.toString()+" a pris 2 pièces d'or");
         }
