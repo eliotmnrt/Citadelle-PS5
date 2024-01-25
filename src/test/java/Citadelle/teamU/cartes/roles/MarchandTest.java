@@ -1,7 +1,6 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Marchand;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -24,16 +23,16 @@ class MarchandTest {
         bot.setRole(new Marchand(botliste));
     }
     @Test
-    public void MarchandSpecialTest(){
+    void MarchandSpecialTest(){
         bot.changerOr(2);
         assertEquals(4, bot.getOr());
 
         bot.ajoutQuartierMain(Quartier.TAVERNE);
-        assertSame(bot.getQuartierMain().get(4), Quartier.TAVERNE);
+        assertSame(Quartier.TAVERNE, bot.getQuartierMain().get(4));
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.TAVERNE);
-        assertSame(bot.getQuartiersConstruits().get(0), Quartier.TAVERNE);
+        assertSame(Quartier.TAVERNE, bot.getQuartiersConstruits().get(0));
         assertEquals(4, bot.getQuartierMain().size());
 
         /*taverne est un quartier vert, il doit avoir 1 or en plus
@@ -47,7 +46,7 @@ class MarchandTest {
     }
 
     @Test
-    public void MarchandPasSpecialTest(){
+    void MarchandPasSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, bot.getOr());
 
@@ -64,7 +63,7 @@ class MarchandTest {
         assertEquals(4, bot.getOr()); // temple n'est pas vert,marchand gagne pièce supp
     }
     @Test
-    public void marchandConstruitEcoleDeMagie(){
+    void marchandConstruitEcoleDeMagie(){
         bot.changerOr(10);      //il a 12 ors
         bot.ajoutQuartierMain(Quartier.ECOLE_DE_MAGIE);
         assertSame(Quartier.ECOLE_DE_MAGIE, bot.getQuartierMain().get(4));

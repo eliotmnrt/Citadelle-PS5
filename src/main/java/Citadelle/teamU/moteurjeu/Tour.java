@@ -36,7 +36,7 @@ public class Tour {
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        Bot premierFinir=null;
+        Bot premierFinir = null;
         nbTour++;
         distributionRoles();
         System.out.println("\n\n\nTour "+ nbTour);
@@ -48,7 +48,7 @@ public class Tour {
             bot.faireActionDeBase();
             bot.construire();
 
-            if(bot.getQuartiersConstruits().size()==8 && premierFinir==null) premierFinir=bot; //Premier bot qui a 8 quartier
+            if(bot.getQuartiersConstruits().size()>=8 && premierFinir==null) premierFinir=bot; //Premier bot qui a 8 quartier
         }
         if (premierFinir!=null){
             bonus(premierFinir);

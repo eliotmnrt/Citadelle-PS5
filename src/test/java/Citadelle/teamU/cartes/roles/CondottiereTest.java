@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CondottiereTest {
@@ -60,17 +59,17 @@ class CondottiereTest {
     }
 
     @Test
-    public void CondoQuartierRougeTestAleatoire(){
+    void CondoQuartierRougeTestAleatoire(){
         botAleatoire.setRole(track);
         botAleatoire.changerOr(2); // 4 d'or au total (assez pour caserne)
         assertEquals(4, botAleatoire.getOr());
 
         botAleatoire.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botAleatoire.getQuartierMain().get(4), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botAleatoire.getQuartierMain().get(4));
         assertTrue(botAleatoire.getQuartiersConstruits().isEmpty());
 
         botAleatoire.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botAleatoire.getQuartiersConstruits().get(0), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botAleatoire.getQuartiersConstruits().get(0));
         assertEquals(4, botAleatoire.getQuartierMain().size());
 
         //Terrain de bataille est un quartier rouge, il doit avoir 1 or en plus
@@ -82,7 +81,7 @@ class CondottiereTest {
         assertEquals(3, botAleatoire.getOr());
     }
     @Test
-    public void CondoQuartierNonRougeTestAleatoire() {
+    void CondoQuartierNonRougeTestAleatoire() {
         botAleatoire.setRole(track);
         botAleatoire.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, botAleatoire.getOr());
@@ -101,17 +100,17 @@ class CondottiereTest {
     }
 
     @Test
-    public void CondoQuartierRougeTestConsChere(){
+    void CondoQuartierRougeTestConsChere(){
         botConstruitChere.setRole(track);
         botConstruitChere.changerOr(2); // 4 d'or au total (assez pour caserne)
         assertEquals(4, botConstruitChere.getOr());
 
         botConstruitChere.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botConstruitChere.getQuartierMain().get(4), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botConstruitChere.getQuartierMain().get(4));
         assertTrue(botConstruitChere.getQuartiersConstruits().isEmpty());
 
         botConstruitChere.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botConstruitChere.getQuartiersConstruits().get(0), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botConstruitChere.getQuartiersConstruits().get(0));
         assertEquals(4, botConstruitChere.getQuartierMain().size());
 
         //Terrain de bataille est un quartier rouge, il doit avoir 1 or en plus
@@ -123,7 +122,7 @@ class CondottiereTest {
         assertEquals(3, botConstruitChere.getOr());
     }
     @Test
-    public void CondoQuartierNonRougeTestConsChere() {
+    void CondoQuartierNonRougeTestConsChere() {
         botConstruitChere.setRole(track);
         botConstruitChere.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, botConstruitChere.getOr());
@@ -142,17 +141,17 @@ class CondottiereTest {
     }
 
     @Test
-    public void CondoQuartierRougeTestConsVite(){
+    void CondoQuartierRougeTestConsVite(){
         botConstruitVite.setRole(track);
         botConstruitVite.changerOr(2); // 4 d'or au total (assez pour caserne)
         assertEquals(4, botConstruitVite.getOr());
 
         botConstruitVite.ajoutQuartierMain(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botConstruitVite.getQuartierMain().get(4), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botConstruitVite.getQuartierMain().get(4));
         assertTrue(botConstruitVite.getQuartiersConstruits().isEmpty());
 
         botConstruitVite.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE);
-        assertSame(botConstruitVite.getQuartiersConstruits().get(0), Quartier.TERRAIN_DE_BATAILLE);
+        assertSame(Quartier.TERRAIN_DE_BATAILLE, botConstruitVite.getQuartiersConstruits().get(0));
         assertEquals(4, botConstruitVite.getQuartierMain().size());
 
         //Terrain de bataille est un quartier rouge, il doit avoir 1 or en plus
@@ -164,7 +163,7 @@ class CondottiereTest {
         assertEquals(3, botConstruitVite.getOr());
     }
     @Test
-    public void CondoQuartierNonRougeTestConsVite() {
+    void CondoQuartierNonRougeTestConsVite() {
         botConstruitVite.setRole(track);
         botConstruitVite.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, botConstruitVite.getOr());
@@ -183,7 +182,7 @@ class CondottiereTest {
     }
 
     @Test
-    public void CondottiereConstruitEcoleDeMagie(){
+    void CondottiereConstruitEcoleDeMagie(){
         botAleatoire.changerOr(10);      //il a 12 ors
         botAleatoire.setRole(track);
         botAleatoire.ajoutQuartierMain(Quartier.ECOLE_DE_MAGIE);
@@ -200,7 +199,7 @@ class CondottiereTest {
     }
 
     @Test
-    public void donjonIndestructible(){
+    void donjonIndestructible(){
 
         botAleatoire.setRole(track);       //botAleatoire est le magicien
         botAleatoire2.setRole(new Roi(botliste));
@@ -220,7 +219,7 @@ class CondottiereTest {
 
 
     @Test
-    public void testCimetiere(){
+    void testCimetiere(){
         botAleatoire.setRole(track);       //botAleatoire est le magicien
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(new Marchand(botliste));

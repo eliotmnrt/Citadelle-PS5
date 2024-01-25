@@ -60,21 +60,14 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public Quartier construire(){
-
-        int max=0;
-        Quartier quartierChoisi=null;
-        for(Quartier quartier :quartierMain){
-            if(quartier.getCout()>max){
-                max=quartier.getCout();
-                quartierChoisi=quartier;
-            }
-
-        }
-        // répétitions de code BotAleatoire, a refactorer plus tard
-        if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
-                ajoutQuartierConstruit(quartierChoisi);
-                affichage.afficheConstruction(quartierChoisi);
-                return quartierChoisi;
+        List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
+        quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
+        Collections.reverse(quartiersTrie);
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=COUT_MINIMAL && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+            Quartier quartierConstruit = quartiersTrie.get(0);
+            affichage.afficheConstruction(quartierConstruit);
+            ajoutQuartierConstruit(quartierConstruit);
+            return quartierConstruit;
         }
         return null;
     }
@@ -109,7 +102,9 @@ public class BotConstruitChere extends Bot{
             return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
         } else {
             for (Quartier quartier: quartierPioches){
-                ajoutQuartierMain(quartier);
+                if (quartier != null){
+                    ajoutQuartierMain(quartier);
+                }
             }
             return quartierPioches;
         }

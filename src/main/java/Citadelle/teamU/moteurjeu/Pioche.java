@@ -29,7 +29,7 @@ public class Pioche {
      * @return Quartier
      */
     public Quartier piocherQuartier(){
-        if(!laPioche.isEmpty()){
+        if(laPioche.isEmpty()){
             for (Quartier quartier: Quartier.values()){
                 for (int i=0; i<quartier.getNbCartes(); i++){
                     laPioche.add(quartier);

@@ -1,7 +1,6 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Roi;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,16 +23,16 @@ class RoiTest {
         bot.setRole(new Roi(botliste));
     }
     @Test
-    public void roiSpecialTest(){
+    void roiSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour chateau)
         assertEquals(4, bot.getOr());
 
         bot.ajoutQuartierMain(Quartier.CHATEAU);
-        assertSame(bot.getQuartierMain().get(4), Quartier.CHATEAU);
+        assertSame(Quartier.CHATEAU, bot.getQuartierMain().get(4));
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.CHATEAU);
-        assertSame(bot.getQuartiersConstruits().get(0), Quartier.CHATEAU);
+        assertSame(Quartier.CHATEAU, bot.getQuartiersConstruits().get(0));
         assertEquals(4, bot.getQuartierMain().size());
 
         //Chateau est un quartier jaune, il doit avoir 1 or en plus
@@ -47,7 +45,7 @@ class RoiTest {
     }
 
     @Test
-    public void roiPasSpecialTest(){
+    void roiPasSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, bot.getOr());
 
@@ -65,7 +63,7 @@ class RoiTest {
     }
 
     @Test
-    public void roiConstruitEcoleDeMagie(){
+    void roiConstruitEcoleDeMagie(){
         bot.changerOr(10);      //il a 12 ors
         bot.ajoutQuartierMain(Quartier.ECOLE_DE_MAGIE);
         assertSame(Quartier.ECOLE_DE_MAGIE, bot.getQuartierMain().get(4));

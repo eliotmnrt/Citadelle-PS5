@@ -1,7 +1,6 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Pretre;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -24,16 +23,16 @@ class PretreTest {
         bot.setRole(new Pretre(botliste));
     }
     @Test
-    public void PrêtreSpecialTest(){
+    void PretreSpecialTest(){
         bot.changerOr(2);
         assertEquals(4, bot.getOr());
 
         bot.ajoutQuartierMain(Quartier.EGLISE);
-        assertSame(bot.getQuartierMain().get(4), Quartier.EGLISE);
+        assertSame(Quartier.EGLISE, bot.getQuartierMain().get(4));
         assertTrue(bot.getQuartiersConstruits().isEmpty());
 
         bot.ajoutQuartierConstruit(Quartier.EGLISE);
-        assertSame(bot.getQuartiersConstruits().get(0), Quartier.EGLISE);
+        assertSame(Quartier.EGLISE, bot.getQuartiersConstruits().get(0));
         assertEquals(4, bot.getQuartierMain().size());
 
         //église est un quartier bleue, il doit avoir 1 or en plus
@@ -46,7 +45,7 @@ class PretreTest {
     }
 
     @Test
-    public void PrêtrePasSpecialTest(){
+    void PretrePasSpecialTest(){
         bot.changerOr(2); // 4 d'or au total (assez pour taverne)
         assertEquals(4, bot.getOr());
 
@@ -64,7 +63,7 @@ class PretreTest {
     }
 
     @Test
-    public void pretreConstruitEcoleDeMagie(){
+    void pretreConstruitEcoleDeMagie(){
         bot.changerOr(10);      //il a 12 ors
         bot.ajoutQuartierMain(Quartier.ECOLE_DE_MAGIE);
         assertSame(Quartier.ECOLE_DE_MAGIE, bot.getQuartierMain().get(4));

@@ -110,7 +110,9 @@ public class BotConstruitVite extends Bot {
             return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
         } else {
             for (Quartier quartier: quartierPioches){
-                ajoutQuartierMain(quartier);
+                if (quartier != null){
+                    ajoutQuartierMain(quartier);
+                }
             }
             return quartierPioches;
         }
@@ -175,7 +177,10 @@ public class BotConstruitVite extends Bot {
                 botMax=bot;
             }
         }
-        Quartier minPrixQuartier=botMax.getQuartiersConstruits().get(0);
+        if (botMax.getQuartiersConstruits().isEmpty()){
+            return;
+        }
+        Quartier minPrixQuartier = botMax.getQuartiersConstruits().get(0);
         for(Quartier quartier: botMax.getQuartiersConstruits()){
             if(quartier.getCout() < minPrixQuartier.getCout() && !quartier.equals(Quartier.DONJON)){
                 minPrixQuartier = quartier;
