@@ -24,7 +24,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void quartierTest(){
+    void quartierTest(){
         bot.ajoutQuartierMain(Quartier.TAVERNE);
         bot.ajoutQuartierMain(Quartier.PRISON);
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
@@ -36,7 +36,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void testManufacture(){
+    void testManufacture(){
         bot.changerOr(10);      //il a 12 ors
         ArrayList<Quartier> main = new ArrayList<>();
         main.add(Quartier.MANUFACTURE);
@@ -55,7 +55,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void testLaboratoire(){
+    void testLaboratoire(){
         bot.changerOr(10);      //il a 12 ors
         ArrayList<Quartier> main = new ArrayList<>();
         main.add(Quartier.LABORATOIRE);
@@ -80,7 +80,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void testBibliotheque(){
+    void testBibliotheque(){
         bot.changerOr(10);      //il a 12 ors
         ArrayList<Quartier> main = new ArrayList<>();
         main.add(Quartier.BIBLIOTHEQUE);
@@ -105,7 +105,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void testObservatoire(){
+    void testObservatoire(){
         bot.changerOr(10);      //il a 12 ors
         ArrayList<Quartier> main = new ArrayList<>();
         main.add(Quartier.OBSERVATOIRE);
@@ -139,7 +139,7 @@ class BotAleatoireTest {
     }
 
     @Test
-    public void testBibliothequeETObservatoire(){
+    void testBibliothequeETObservatoire(){
         bot.changerOr(20);      //il a 22 ors
         ArrayList<Quartier> main = new ArrayList<>();
         main.add(Quartier.BIBLIOTHEQUE);

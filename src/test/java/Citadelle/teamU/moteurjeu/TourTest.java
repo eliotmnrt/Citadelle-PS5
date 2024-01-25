@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -73,7 +74,7 @@ class TourTest {
         doNothing().when(bot3).choisirRole(any());
         doNothing().when(bot4).choisirRole(any());
 
-        ArrayList<Bot> res = tour.distributionRoles();
+        List<Bot> res = tour.distributionRoles();
         assertEquals(res.get(0),bot2);
         assertEquals(res.get(1),bot3);
         assertEquals(res.get(2),bot4);
@@ -94,7 +95,7 @@ class TourTest {
         doNothing().when(bot3).choisirRole(any());
         doNothing().when(bot4).choisirRole(any());
 
-        ArrayList<Bot> res = tour.distributionRoles();
+        List<Bot> res = tour.distributionRoles();
         assertEquals(res.get(0),bot1);
         assertEquals(res.get(1),bot2);
         assertEquals(res.get(2),bot3);

@@ -3,11 +3,12 @@ package Citadelle.teamU.moteurjeu;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Collections.shuffle;
 
 public class Pioche {
-    private ArrayList<Quartier> laPioche;
+    private List<Quartier> laPioche;
 
     public Pioche(){
         laPioche = new ArrayList<>();
@@ -18,7 +19,7 @@ public class Pioche {
         }
         shuffle(laPioche);
     }
-    public ArrayList<Quartier> getPioche() {
+    public List<Quartier> getPioche() {
         return laPioche;
     }
 
@@ -28,7 +29,7 @@ public class Pioche {
      * @return Quartier
      */
     public Quartier piocherQuartier(){
-        if(laPioche.size()<=0){
+        if(!laPioche.isEmpty()){
             for (Quartier quartier: Quartier.values()){
                 for (int i=0; i<quartier.getNbCartes(); i++){
                     laPioche.add(quartier);

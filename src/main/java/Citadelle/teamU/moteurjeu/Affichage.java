@@ -5,7 +5,6 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("java:S106")
@@ -77,7 +76,7 @@ public class Affichage {
         System.out.println("Main actuelle : " + bot.getQuartierMain());
     }
 
-    public void afficheActionSpecialeMagicienAvecPioche(ArrayList<Quartier> cartesEchangees){
+    public void afficheActionSpecialeMagicienAvecPioche(List<Quartier> cartesEchangees){
         System.out.println("Le " + bot.toString() +" a échangé ses cartes: " + cartesEchangees + ", avec la pioche");
     }
 
@@ -106,7 +105,7 @@ public class Affichage {
         System.out.println("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de marchand");
     }
 
-    public void afficheActionSpecialeArchitecte(ArrayList<Quartier> quartiersSupp) {
+    public void afficheActionSpecialeArchitecte(List<Quartier> quartiersSupp) {
         System.out.println(bot.toString() + " a pioché 2 quartiers supplémentaires grâce à son role d'architecte : " + quartiersSupp.get(0).toString() + " et " + quartiersSupp.get(1).toString());
     }
 
@@ -116,7 +115,7 @@ public class Affichage {
     public void afficheActionSpecialeDestructionCondottiere(Bot botVise, Quartier quartierDetruit) {
         System.out.println("Le " + bot.toString() + " a detruit " + quartierDetruit + " du " + botVise);
     }
-    public void afficheQuartierManufacture(ArrayList<Quartier> nvxQuartiers){
+    public void afficheQuartierManufacture(List<Quartier> nvxQuartiers){
         System.out.println("Le " + bot.toString() + " a pioché " + nvxQuartiers + "en échange de 3ors, grâce à sa carte Manufacture");
     }
 
@@ -133,11 +132,11 @@ public class Affichage {
         int max=0;
         Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
         System.out.println();
-        for(Bot bot: botList){
-            System.out.println(bot+" a un score de : "+bot.getScore());
-            if (bot.getScore()>max){
-             max= bot.getScore();
-             botVainqueur=bot;
+        for(Bot bot1: botList){
+            System.out.println(bot1+" a un score de : "+bot1.getScore());
+            if (bot1.getScore()>max){
+             max= bot1.getScore();
+             botVainqueur=bot1;
             }
         }
 

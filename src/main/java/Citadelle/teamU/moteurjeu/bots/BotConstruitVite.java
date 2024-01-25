@@ -13,7 +13,7 @@ import java.util.*;
 public class BotConstruitVite extends Bot {
     private static int numDuBotAleatoire = 1;
     private String name;
-    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     public BotConstruitVite(Pioche pioche){
         //Bot qui construit le plus vite possible
@@ -30,19 +30,19 @@ public class BotConstruitVite extends Bot {
     }
 
     // utile pour les tests uniquement
-    public void setRolesRestants(ArrayList<Role> rolesRestants){
+    public void setRolesRestants(List<Role> rolesRestants){
         this.rolesRestants = rolesRestants;
     }
 
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
+    public List<Quartier> faireActionDeBase(){
         quartiersViolets();         //actions spéciales violettes
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
         //en indice 3 le quartier construit si un quartier a été construit
-        ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        List<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
@@ -67,7 +67,7 @@ public class BotConstruitVite extends Bot {
 
 
     @Override
-    public void choisirRole(ArrayList<Role> roles){
+    public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
         int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
@@ -80,8 +80,8 @@ public class BotConstruitVite extends Bot {
 
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
-        Collections.sort(quartiersTrie, Comparator.comparingInt(Quartier::getCout));
+        List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
+        quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
         if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
@@ -92,17 +92,17 @@ public class BotConstruitVite extends Bot {
     }
 
     @Override
-    public ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches) {
+    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
-                Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
                 Collections.reverse(quartierPioches);
                 pioche.remettreDansPioche(quartierPioches.remove(0));
                 ajoutQuartierMain(quartierPioches.get(0));
                 return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
             }
-            Collections.sort(quartierPioches, Comparator.comparingInt(Quartier::getCout));
+            quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
             Collections.reverse(quartierPioches);
             pioche.remettreDansPioche(quartierPioches.remove(0));
             pioche.remettreDansPioche(quartierPioches.remove(0));
@@ -146,8 +146,6 @@ public class BotConstruitVite extends Bot {
             // c.a.d au moins 1 chance sur 2 de voler qq
             int rang = randInt(rolesRestants.size());
 
-            /*while (rang == rolesRestants.indexOf(Assassin))
-            */
             affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }

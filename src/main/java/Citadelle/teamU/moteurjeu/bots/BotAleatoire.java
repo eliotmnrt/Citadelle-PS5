@@ -10,6 +10,7 @@ import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class BotAleatoire extends Bot{
@@ -28,12 +29,12 @@ public class BotAleatoire extends Bot{
 
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
+    public List<Quartier> faireActionDeBase(){
         quartiersViolets();         //actions spéciales violettes
         //une arrayList qui en 0 contient null si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
-        ArrayList<Quartier> choixDeBase=new ArrayList<>();
+        List<Quartier> choixDeBase = new ArrayList<>();
         //cree un nombre random soit 0 soit 1, selon le nombre aleatoire choisi, fait une action de base
         int intAleatoire= randInt(2);
         if(intAleatoire == 0){
@@ -53,14 +54,14 @@ public class BotAleatoire extends Bot{
 
 
     @Override
-    public void choisirRole(ArrayList<Role> roles){
+    public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
     }
 
     @Override
-    public ArrayList<Quartier> choisirCarte(ArrayList<Quartier> quartierPioches) {
+    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
             int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 == 0) {
@@ -87,7 +88,7 @@ public class BotAleatoire extends Bot{
      */
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersPossible = new ArrayList<>();
+        List<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
             if(quartier.getCout()<=nbOr  &&  !quartierConstruit.contains(quartier)){
                 quartiersPossible.add(quartier);
@@ -136,7 +137,7 @@ public class BotAleatoire extends Bot{
 
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
-        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         int indiceRandomBot = randInt(botList.size());
         Bot botADetruire = (botList.get(indiceRandomBot));
@@ -144,10 +145,8 @@ public class BotAleatoire extends Bot{
             int indiceRandomQuartier = randInt(botADetruire.getQuartiersConstruits().size() );
             Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
-            if(quartierAdetruire!=null){
-                if (this.getOr() >= quartierAdetruire.getCout() - 1 && !quartierAdetruire.equals(Quartier.DONJON)) {
-                    condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
-                }
+            if (quartierAdetruire!=null && this.getOr() >= quartierAdetruire.getCout() - 1 && !quartierAdetruire.equals(Quartier.DONJON)) {
+                condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
             }
         }
     }

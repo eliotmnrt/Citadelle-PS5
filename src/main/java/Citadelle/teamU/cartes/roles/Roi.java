@@ -2,19 +2,18 @@ package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
-import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Roi implements Role {
 
-    private ArrayList<Bot> botListe;
-    private int orGagneCapacite = 0;
+    private List<Bot> botListe;
+
     private final int ordre = 4;
 
-    public Roi(ArrayList<Bot> botListe){
+    public Roi(List<Bot> botListe){
         this.botListe = botListe;
     }
 
@@ -27,6 +26,7 @@ public class Roi implements Role {
     }
 
     public void orQuartierJaune(Bot bot){
+        int orGagneCapacite = 0;
         //On s'occupe de la couronne
         distributionCouronne(bot);
 
