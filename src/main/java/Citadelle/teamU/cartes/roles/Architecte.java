@@ -4,17 +4,18 @@ import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Architecte implements Role {
 
     private final int ordre = 7;
-    private ArrayList<Bot> botListe;
+    private List<Bot> botListe;
     private int nbQuartierConstructible;
-    private ArrayList<Quartier> quartiersSupplementaires;
+    private List<Quartier> quartiersSupplementaires;
 
 
 
-    public Architecte(ArrayList<Bot> botListe){
+    public Architecte(List<Bot> botListe){
         this.botListe = botListe;
         this.nbQuartierConstructible = 3;
         quartiersSupplementaires = new ArrayList<>();

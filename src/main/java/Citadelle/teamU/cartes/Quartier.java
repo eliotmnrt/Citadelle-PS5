@@ -33,10 +33,6 @@ public enum Quartier implements Comparable<Quartier> {
         this.nbCartes = nbCartes;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
     public int getCout() {
         return cout;
     }

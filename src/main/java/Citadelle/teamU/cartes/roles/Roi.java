@@ -2,38 +2,39 @@ package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
-import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Roi implements Role {
 
-    private ArrayList<Bot> botListe;
-    private int orGagneCapacite = 0;
+    private List<Bot> botListe;
+
     private final int ordre = 4;
 
-    public Roi(ArrayList<Bot> botListe){
+    public Roi(List<Bot> botListe){
         this.botListe = botListe;
     }
 
     public void distributionCouronne(Bot notreBot) {
-        System.out.println("Le "+notreBot+" prend la couronne");
+        System.out.println("Ce bot a la couronne");
         for(Bot bot : this.botListe){
             bot.setCouronne(false);
         }
         notreBot.setCouronne(true);
+        // notreBot.getAffichage().afficheCouronne();
     }
 
     public void orQuartierJaune(Bot bot){
+        int orGagneCapacite = 0;
         //On s'occupe de la couronne
         distributionCouronne(bot);
 
         //Les quartiers jaune :
         int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
-            if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE)){
+            if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE) || quartier.equals(Quartier.ECOLE_DE_MAGIE)){
                 bot.changerOr(1);
                 comp++;
             }
