@@ -32,14 +32,12 @@ public class Roi implements Role {
         distributionCouronne(bot);
 
         //Les quartiers jaune :
-        int comp = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
             if(Objects.equals(quartier.getCouleur(), TypeQuartier.JAUNE) || quartier.equals(Quartier.ECOLE_DE_MAGIE)){
                 bot.changerOr(1);
-                comp++;
+                orGagneCapacite++;
             }
         }
-        orGagneCapacite = comp;
         bot.getAffichage().afficheActionSpecialeRoi(orGagneCapacite);
     }
     public void actionSpeciale(Bot bot){

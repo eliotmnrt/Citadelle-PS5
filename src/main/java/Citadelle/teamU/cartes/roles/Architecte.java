@@ -10,14 +10,12 @@ public class Architecte implements Role {
 
     private final int ordre = 7;
     private List<Bot> botListe;
-    private int nbQuartierConstructible;
     private List<Quartier> quartiersSupplementaires;
 
 
 
     public Architecte(List<Bot> botListe){
         this.botListe = botListe;
-        this.nbQuartierConstructible = 3;
         quartiersSupplementaires = new ArrayList<>();
     }
     public void piocheDeuxCartes(Bot bot){

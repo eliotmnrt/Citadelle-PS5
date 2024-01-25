@@ -169,7 +169,7 @@ public class BotConstruitVite extends Bot {
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
         // detruit que le quartier le moins chère du bot qui a le plus de quartier construits
-        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         Bot botMax = botList.get(0);
         for(Bot bot:botList){

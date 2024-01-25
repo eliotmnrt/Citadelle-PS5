@@ -14,7 +14,7 @@ import java.util.List;
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
     private List<Bot> botListe;
-    private static int nbTour = 0;
+    private int nbTour = 0;
     List<Role> roles = new ArrayList<>();
     private SecureRandom random;
 
