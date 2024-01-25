@@ -10,7 +10,7 @@ class PiocheTest {
     void PiocheTest() {
         Pioche pioche = new Pioche();
         int size = pioche.getPioche().size();
-        assertEquals(pioche.piocherQuartier() instanceof Quartier, true );
+        assertNotNull(pioche.piocherQuartier());
         assertEquals(pioche.getPioche().size(), size -1);
     }
 }

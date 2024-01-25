@@ -1,7 +1,5 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.cartes.roles.Architecte;
-import Citadelle.teamU.cartes.roles.Roi;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
@@ -24,7 +22,7 @@ class RoleTest {
 
     }
     @Test
-    public void archiTest(){
+    void archiTest(){
         bot.setRole(new Architecte(botliste));
         bot.changerOr(20); // 22 d'or au total pour pouvoir construire bcp potentiellement
         assertEquals(22, bot.getOr());
@@ -33,7 +31,7 @@ class RoleTest {
         // Le bot peut construire entre 1 et 3 quartiers
         }
     @Test
-    public void RoiTest(){
+    void RoiTest(){
         bot.setRole(new Roi(botliste));
         bot.changerOr(20); // 22 d'or au total pour pouvoir construire n'importe quelle quartier
         assertEquals(22, bot.getOr());
