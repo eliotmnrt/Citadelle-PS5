@@ -319,9 +319,6 @@ class BotConstruitChereTest {
 
         verify(condott).destructionQuartier(bot, aQuartierADetruire,Quartier.TEMPLE);
         assertEquals(bot.getOr(),argentAvantDestruction);
-
-
-
     }
     
 }
