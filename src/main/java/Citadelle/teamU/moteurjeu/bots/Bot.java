@@ -107,6 +107,7 @@ public abstract class Bot {
         return this.score;
     }
 
+    public void setScore(int score) { this.score = score; }
 
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles
@@ -114,6 +115,7 @@ public abstract class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
+
     public boolean isCouronne() {
         return couronne;
     }
@@ -201,7 +203,6 @@ public abstract class Bot {
         }
         return quartiersPioches;
     }
-
     // à implementer dans chaque bot
     public abstract Quartier construire();
     public abstract List<Quartier> faireActionDeBase();
@@ -209,7 +210,7 @@ public abstract class Bot {
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(List<Role> roles);
-    public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
 
+    public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
 
 }

@@ -152,6 +152,6 @@ public class Affichage {
     }
 
     public void afficheBonusCouleur() {
-        System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur");
+        System.out.println(bot + " gagne 3 points car il a un quartier de chaque couleur");
     }
 }

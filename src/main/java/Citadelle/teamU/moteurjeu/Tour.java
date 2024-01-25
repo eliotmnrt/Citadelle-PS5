@@ -62,13 +62,13 @@ public class Tour {
         premierFinir.getAffichage().afficheBonusPremier();
         for(Bot bot : botListe){
             List<Quartier> quartiers = bot.getQuartiersConstruits();
-            if(quartiers.size()>=8 && bot!=premierFinir){
+            if(quartiers.size()>=8 && bot != premierFinir){
                 bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
                 premierFinir.getAffichage().afficheBonusQuartier();
             }
             if(contiensCouleur(quartiers,TypeQuartier.VERT) && contiensCouleur(quartiers,TypeQuartier.VIOLET) && contiensCouleur(quartiers,TypeQuartier.BLEUE) && contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
                 bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
-                premierFinir.getAffichage().afficheBonusCouleur();
+                bot.getAffichage().afficheBonusCouleur();
             }
         }
         affichageFin.afficheLeVainqueur();
