@@ -30,9 +30,11 @@ public class Affichage {
         System.out.println("Quartiers construits "+bot.getQuartiersConstruits());
     }
 
-    private void afficheCouronne() {
+    public   void afficheCouronne() {
         if(bot.isCouronne()){
             System.out.println("Ce bot a la couronne");
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
