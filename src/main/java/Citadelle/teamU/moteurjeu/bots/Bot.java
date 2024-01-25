@@ -57,6 +57,7 @@ public abstract class Bot {
         orVole = nbOr;
         nbOr = 0;
     }
+
     public Affichage getAffichage(){return  affichage;}
 
     public Pioche getPioche() {return pioche;}
@@ -109,6 +110,9 @@ public abstract class Bot {
         this.score = score;
     }
 
+
+
+
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles
      */
@@ -118,15 +122,29 @@ public abstract class Bot {
     public boolean isCouronne() {
         return couronne;
     }
+
     public void setCouronne(boolean couronne) {
         this.couronne = couronne;
     }
+
     public void setOrdreChoixRole(int ordreChoixRole) {
         this.ordreChoixRole = ordreChoixRole;
     }
 
     public int getOrdreChoixRole() {
         return ordreChoixRole;
+    }
+
+    public void setQuartierConstruit(List<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
+    }
+
+    public void setQuartierMain(List<Quartier> quartierMain) {
+        this.quartierMain = quartierMain;
+    }
+
+    public void setQuartiersConstruits(ArrayList<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
     }
 
     public void quartiersViolets(){
@@ -150,6 +168,8 @@ public abstract class Bot {
             affichage.afficheQuartierManufacture(nvxQuartiers);
         }
     }
+
+
     public void quartierLaboratoire(){
         for (Quartier quartier: quartierMain){
             if (quartierConstruit.contains(quartier)){
@@ -161,6 +181,8 @@ public abstract class Bot {
             }
         }
     }
+
+
     public void quartierCimetiere(Quartier quartierDetruit){
         if (nbOr >= 1 && !quartierConstruit.contains(quartierDetruit)){
             changerOr(-1);
@@ -194,10 +216,5 @@ public abstract class Bot {
     public abstract void choisirRole(List<Role> roles);
     public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
 
-    public void setQuartierConstruit(List<Quartier> quartierConstruit) {
-        this.quartierConstruit = quartierConstruit;
-    }
-    public void setQuartierMain(List<Quartier> quartierMain) {
-        this.quartierMain = quartierMain;
-    }
+
 }

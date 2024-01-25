@@ -32,6 +32,7 @@ public class Condottiere implements Role{
         this.quartierAdetruire = quartier;
         botAdetruire.getQuartiersConstruits().remove(quartier);
         bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
+        botAdetruire.setScore(botAdetruire.getScore()-quartierAdetruire.getCout());
         botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
         bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
 
