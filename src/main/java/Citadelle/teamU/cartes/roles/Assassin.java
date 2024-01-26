@@ -5,20 +5,21 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Assassin implements Role {
 
 
-    private ArrayList<Bot> botListe;
+    private List<Bot> botListe;
     private final int ordre = 1;
     private Role choix;
-    private ArrayList<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
-    public Assassin(ArrayList<Bot> botListe,ArrayList<Role> roles){
+    public Assassin(List<Bot> botListe,List<Role> roles){
         this.botListe = botListe;
         this.roles=roles;
     }
-    public ArrayList<Bot> getBotListe() {
+    public List<Bot> getBotListe() {
         return botListe;
     }
 
@@ -48,7 +49,7 @@ public class Assassin implements Role {
     public String toString() {
         return "Assassin";
     }
-    public ArrayList<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
     /*

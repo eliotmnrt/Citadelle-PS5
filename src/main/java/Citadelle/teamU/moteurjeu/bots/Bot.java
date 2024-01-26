@@ -222,7 +222,6 @@ public abstract class Bot {
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(List<Role> roles);
-    public abstract void choisirRole(ArrayList<Role> roles);
     public abstract void actionSpecialeAssassin(Assassin assassin);
 
      //

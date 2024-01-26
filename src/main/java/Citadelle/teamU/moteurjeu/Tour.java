@@ -7,10 +7,7 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Queue;
-import java.util.List;
+import java.util.*;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
@@ -108,7 +105,7 @@ public class Tour {
     public List<Bot> distributionRoles(){
         List<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
-        listeDistribution.sort(Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
+        Collections.sort(listeDistribution, Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
         for(int i = 0 ; i<listeDistribution.size() ; i++){
             if(listeDistribution.get(i).isCouronne()){
                 //celui qui a la couronne choisi son role en premier puis celui après lui.. etc
