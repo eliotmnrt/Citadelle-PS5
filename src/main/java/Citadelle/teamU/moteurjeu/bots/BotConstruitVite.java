@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
@@ -160,6 +161,18 @@ public class BotConstruitVite extends Bot {
         }
     }
 
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        if(rolesRestants.size()>1){
+            int rang= randInt(rolesRestants.size());
+            assassin.tuer(rolesRestants.get(rang));
+
+        }
+        else{
+            int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            assassin.tuer(assassin.getRoles().get(rang));
+        }
+    }
 
     @Override
     public String toString(){
@@ -188,5 +201,6 @@ public class BotConstruitVite extends Bot {
         }
         condottiere.destructionQuartier(this,botMax,minPrixQuartier);
     }
+
 
 }

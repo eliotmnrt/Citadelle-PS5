@@ -7,10 +7,7 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Queue;
-import java.util.List;
+import java.util.*;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
@@ -18,10 +15,12 @@ public class Tour {
     private int nbTour = 0;
     List<Role> roles = new ArrayList<>();
     private SecureRandom random;
+    private Bot mort;
 
     List<Role> rolesTemp = new ArrayList<>();
     public Tour(List<Bot> botListe){
         random = new SecureRandom();
+        roles.add(new Assassin(botListe,roles));
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
         roles.add(new Roi(botListe));
@@ -37,19 +36,29 @@ public class Tour {
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
         Bot premierFinir = null;
         nbTour++;
         distributionRoles();
         System.out.println("\n\n\nTour "+ nbTour);
-        System.out.println(botListe);
         botListe.sort(Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
-            bot.getAffichage().afficheBot();
-            bot.faireActionSpecialRole();
-            bot.faireActionDeBase();
-            bot.construire();
+            if (!bot.estMort()) {
+                bot.getAffichage().afficheBot();
+                bot.faireActionSpecialRole();
+                bot.faireActionDeBase();
+                bot.construire();
 
-            if(bot.getQuartiersConstruits().size()>=8 && premierFinir==null) premierFinir=bot; //Premier bot qui a 8 quartier
+                if (bot.getQuartiersConstruits().size() >= 8 && premierFinir == null)
+                    premierFinir = bot; //Premier bot qui a 8 quartier
+            }else{
+                mort = bot;
+            }
+            bot.setMort(false);
+        }
+        if(mort!=null){
+            mort.getAffichage().afficheMort(mort);
+            mort = null;
         }
         if (premierFinir!=null){
             bonus(premierFinir);
@@ -102,7 +111,7 @@ public class Tour {
     public List<Bot> distributionRoles(){
         List<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
-        listeDistribution.sort(Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
+        Collections.sort(listeDistribution, Comparator.comparingInt(Bot::getOrdreChoixRole)); //Ordonne en fonction de leur ordre dans la partie
         for(int i = 0 ; i<listeDistribution.size() ; i++){
             if(listeDistribution.get(i).isCouronne()){
                 //celui qui a la couronne choisi son role en premier puis celui après lui.. etc
@@ -113,7 +122,6 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }
