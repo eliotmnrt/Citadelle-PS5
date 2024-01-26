@@ -52,7 +52,7 @@ class CondottiereTest {
         botConstruitVite.setRole(new Pretre(botliste));
         ArrayList<Quartier> quart = new ArrayList<>();
         quart.add(Quartier.LABORATOIRE);
-        botAleatoire2.setQuartiersConstruits(quart);
+        botAleatoire2.setQuartierConstruit(quart);
         doReturn(0).when(botAleatoire).randInt(3);      //on force à viser de dernier bot aka
         botAleatoire.faireActionSpecialRole();
         verify(botAleatoire).actionSpecialeCondottiere(track);

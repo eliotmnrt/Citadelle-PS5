@@ -51,10 +51,11 @@ public class Assassin implements Role {
     public ArrayList<Role> getRoles() {
         return roles;
     }
+    /*
     @Override
     public String actionToString(Bot bot) {
         return "Le " + bot.toString() +" a tué le " + choix.toString();
     }
-
+    */
 
 }
