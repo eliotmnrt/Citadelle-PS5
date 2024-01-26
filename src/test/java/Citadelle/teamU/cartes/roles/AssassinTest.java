@@ -16,6 +16,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 class AssassinTest {
@@ -65,5 +66,40 @@ class AssassinTest {
 
     }
 
+    @Test
+    void testViteTue(){
+        botConstruitVite.setRole(mocAssassin); //donne le role de l'asssassin
+        botAleatoire2.setRole(mocAssassin.getRoles().get(2)); //donne le role du Magicien
+        botConstruitChere.setRole(mocAssassin.getRoles().get(3)); //donne le role du Roi
+
+        List<Role> rolesRestant = new ArrayList<>();
+        rolesRestant.add(mocAssassin.getRoles().get(2));
+        rolesRestant.add(mocAssassin.getRoles().get(3));
+        botConstruitVite.setRolesRestants(rolesRestant);
+        doReturn(1).when(botAleatoire).randInt(anyInt());
+        botConstruitVite.faireActionSpecialRole();
+        verify(botConstruitVite).actionSpecialeAssassin(mocAssassin);
+        //verify(mocAssassin).tuer(roi);
+        assertEquals(true,botConstruitChere.estMort());
+
+    }
+
+    @Test
+    void testChereTue(){
+        botConstruitChere.setRole(mocAssassin); //donne le role de l'asssassin
+        botAleatoire2.setRole(mocAssassin.getRoles().get(2)); //donne le role du Magicien
+        botConstruitVite.setRole(mocAssassin.getRoles().get(3)); //donne le role du Roi
+
+        List<Role> rolesRestant = new ArrayList<>();
+        rolesRestant.add(mocAssassin.getRoles().get(2));
+        rolesRestant.add(mocAssassin.getRoles().get(3));
+        botConstruitChere.setRolesRestants(rolesRestant);
+        doReturn(1).when(botAleatoire).randInt(anyInt());
+        botConstruitChere.faireActionSpecialRole();
+        verify(botConstruitChere).actionSpecialeAssassin(mocAssassin);
+        //verify(mocAssassin).tuer(roi);
+        assertEquals(true,botConstruitVite.estMort());
+
+    }
   
 }
