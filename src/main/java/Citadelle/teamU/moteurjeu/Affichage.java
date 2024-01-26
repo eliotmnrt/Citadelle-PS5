@@ -168,6 +168,6 @@ public class Affichage {
     }
 
     public void afficheMort(Bot mort) {
-        System.out.println("\n------- Le "+mort+" est mort, il n'as pas jouer pendant ce tour -------\n");
+        System.out.println("\n------- Le "+mort+" est mort, il n'a pas joué pendant ce tour -------\n");
     }
 }
