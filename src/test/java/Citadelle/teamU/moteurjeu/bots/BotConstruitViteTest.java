@@ -5,13 +5,10 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class BotConstruitViteTest {
@@ -27,16 +24,16 @@ class BotConstruitViteTest {
         botliste.add(bot);
     }
     @Test
-    public void prendreOr(){
+     void prendreOr(){
         when(pioche.piocherQuartier()).thenReturn(Quartier.TAVERNE);
-        while(bot.getQuartierMain().size()!=0){
+        while(!bot.getQuartierMain().isEmpty()){
             pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
         } // main vide
         bot.ajoutQuartierMain(pioche.piocherQuartier());
         bot.faireActionDeBase();
         assertEquals(4,bot.getOr());
     }
-    /**@Test
+    /**Test
     public void prendreQuartier(){
         //piocheMock = mockStatic(Pioche.class);
         when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
@@ -49,7 +46,7 @@ class BotConstruitViteTest {
         assertEquals(2,bot.getQuartierMain().size()); //Cimetiere et celui qu'il a piocher
     }**/
     @Test
-    public void quartierMoinsChereTest(){
+    void quartierMoinsChereTest(){
         bot.ajoutQuartierMain(Quartier.TEMPLE);
         bot.ajoutQuartierMain(Quartier.PRISON);
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
@@ -61,16 +58,16 @@ class BotConstruitViteTest {
         assertEquals(6, bot.quartierMain.size());
     }
     @Test
-    public void actionMagicienAvecBotTest(){
+    void actionMagicienAvecBotTest(){
         //notre bot à 0 carte dans sa main
         //L'autre bot à 1 carte (une église)
 
-        while(bot.getQuartierMain().size()!=0){bot.getPioche().remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
+        while(!bot.getQuartierMain().isEmpty()){bot.getPioche().remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
 
         ArrayList<Bot> arrayBot = new ArrayList<>();
         BotAleatoire bot1 = new BotAleatoire(pioche);
 
-        while(bot1.getQuartierMain().size()!=0){bot.getPioche().remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
+        while(!bot1.getQuartierMain().isEmpty()){bot.getPioche().remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
 
         bot1.ajoutQuartierMain(Quartier.EGLISE);
 
@@ -81,21 +78,21 @@ class BotConstruitViteTest {
         assertTrue(bot.getQuartierMain().contains(Quartier.EGLISE));
     }
     @Test
-    public void actionMagicienAvecPiocheTest(){
+    void actionMagicienAvecPiocheTest(){
         //notre bot à 2 carte dans sa main
         //L'autre bot à 1 carte (une église)
         //Il échange 2 cartes avec la pioche (qui ne renvoie que des monastere)
         //piocheMock = mockStatic(Pioche.class);
         when(pioche.piocherQuartier()).thenReturn(Quartier.MONASTERE);
 
-        while(bot.getQuartierMain().size()!=0){pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
+        while(!bot.getQuartierMain().isEmpty()){pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide
         bot.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
         bot.ajoutQuartierMain(Quartier.COMPTOIR);
 
         ArrayList<Bot> arrayBot = new ArrayList<>();
         BotAleatoire bot1 = new BotAleatoire(pioche);
 
-        while(bot1.getQuartierMain().size()!=0){pioche.remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
+        while(!bot1.getQuartierMain().isEmpty()){pioche.remettreDansPioche(bot1.getQuartierMain().remove(0));} // main vide pour le bot1
         bot1.ajoutQuartierMain(Quartier.EGLISE);
 
         arrayBot.add(bot1);
@@ -106,7 +103,7 @@ class BotConstruitViteTest {
         assertTrue(bot.getQuartierMain().contains(Quartier.MONASTERE));
     }
     @Test
-    public void voleurTest(){
+    void voleurTest(){
         //On est pas le dernier
         ArrayList<Bot> arrayBot = new ArrayList<>();
         ArrayList<Role> arrayRole = new ArrayList<>();
@@ -125,8 +122,9 @@ class BotConstruitViteTest {
         bot.choisirRole(arrayRole); //Le tour d'après
         assertEquals(8, bot.getOr());
     }
+
     @Test
-    public void voleurDernierValideTest(){
+    void voleurDernierValideTest(){
         //On est dernier et on choisit un role que qq a
         ArrayList<Bot> arrayBot = new ArrayList<>();
         ArrayList<Role> arrayRole = new ArrayList<>();
@@ -151,16 +149,16 @@ class BotConstruitViteTest {
         assertEquals(8, botSpy.getOr());
     }
     @Test
-    public void pasConstruireTest(){
-        while(bot.getQuartierMain().size()!=0){pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide pour le bot1
+    void pasConstruireTest(){
+        while(!bot.getQuartierMain().isEmpty()){pioche.remettreDansPioche(bot.getQuartierMain().remove(0));} // main vide pour le bot1
         assertNull(bot.construire());
         //rien dans la main il ne peut pas construire
     }
     @Test
-    public void actionSpecialeCondottiere(){
+    void actionSpecialeCondottiere(){
         BotAleatoire botPleinDeQuartier = new BotAleatoire(pioche);
         BotAleatoire botPasBcpQuartier = new BotAleatoire(pioche);
-        while(botPleinDeQuartier.getQuartierMain().size()!=0){
+        while(!botPleinDeQuartier.getQuartierMain().isEmpty()){
             pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
         } // main vide
 
@@ -185,10 +183,10 @@ class BotConstruitViteTest {
         assertFalse(botPleinDeQuartier.getQuartiersConstruits().contains(Quartier.TEMPLE));
     }
     @Test
-    public void actionSpecialeCondottierePerteOr(){
+    void actionSpecialeCondottierePerteOr(){
         BotAleatoire botPleinDeQuartier = new BotAleatoire(pioche);
         BotAleatoire botPasBcpQuartier = new BotAleatoire(pioche);
-        while(botPleinDeQuartier.getQuartierMain().size()!=0){
+        while(!botPleinDeQuartier.getQuartierMain().isEmpty()){
             pioche.remettreDansPioche(botPleinDeQuartier.getQuartierMain().remove(0));
         } // main vide
 

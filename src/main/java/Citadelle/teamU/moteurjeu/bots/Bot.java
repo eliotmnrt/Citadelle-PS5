@@ -11,6 +11,7 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public abstract class Bot {
     protected int nbOr;
@@ -18,8 +19,8 @@ public abstract class Bot {
     protected Role role;
     protected Pioche pioche;
     protected boolean couronne;
-    protected ArrayList<Quartier> quartierConstruit;
-    protected ArrayList<Quartier> quartierMain;
+    protected List<Quartier> quartierConstruit;
+    protected List<Quartier> quartierMain;
     protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
     protected SecureRandom random;
     protected Affichage affichage;
@@ -27,7 +28,7 @@ public abstract class Bot {
     protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
     protected int ordreChoixRole;
 
-    public Bot(Pioche pioche){
+    protected Bot(Pioche pioche){
         this.pioche = pioche;
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
@@ -56,6 +57,7 @@ public abstract class Bot {
         orVole = nbOr;
         nbOr = 0;
     }
+
     public Affichage getAffichage(){return  affichage;}
 
     public Pioche getPioche() {return pioche;}
@@ -96,33 +98,16 @@ public abstract class Bot {
             ajoutQuartierMain(pioche.piocherQuartier());
         }
     }
-    public ArrayList<Quartier> getQuartierMain(){ return quartierMain;}
-    public ArrayList<Quartier> getQuartiersConstruits(){
+    public List<Quartier> getQuartierMain(){ return quartierMain;}
+    public List<Quartier> getQuartiersConstruits(){
         return this.quartierConstruit;
-    }
-
-    public ArrayList<Quartier> choisirEntreDeuxQuartiersViaCout(int nb){   //pour eviter de dupliquer du code
-        // si nb est positif on garde la carte la plus chère sinon la moins chère
-        Quartier quartier1 = pioche.piocherQuartier();
-        Quartier quartier2 = pioche.piocherQuartier();
-        ArrayList<Quartier> choixDeBase = new ArrayList<>();
-        choixDeBase.add(quartier1);
-        choixDeBase.add(quartier2);
-        if ((nb > 0 && quartier1.getCout() < quartier2.getCout()) || (nb < 0 && quartier1.getCout() > quartier2.getCout())){
-            Collections.reverse(choixDeBase);
-        }
-        ajoutQuartierMain(choixDeBase.get(0));
-        pioche.remettreDansPioche(choixDeBase.get(1));
-        choixDeBase.add(choixDeBase.get(0));
-        return choixDeBase;
     }
 
     public int getScore(){
         return this.score;
     }
-    public void setScore(int score) {
-        this.score = score;
-    }
+
+    public void setScore(int score) { this.score = score; }
 
     /**
      * Fait les actions qui sont différentes en fonction de chaque roles
@@ -130,12 +115,15 @@ public abstract class Bot {
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
     }
+
     public boolean isCouronne() {
         return couronne;
     }
+
     public void setCouronne(boolean couronne) {
         this.couronne = couronne;
     }
+
     public void setOrdreChoixRole(int ordreChoixRole) {
         this.ordreChoixRole = ordreChoixRole;
     }
@@ -144,15 +132,85 @@ public abstract class Bot {
         return ordreChoixRole;
     }
 
+    public void setQuartierConstruit(List<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
+    }
+
+    public void setQuartierMain(List<Quartier> quartierMain) {
+        this.quartierMain = quartierMain;
+    }
+
+    public void setQuartiersConstruits(ArrayList<Quartier> quartierConstruit) {
+        this.quartierConstruit = quartierConstruit;
+    }
+
+    public void quartiersViolets(){
+        if (quartierConstruit.contains(Quartier.MANUFACTURE)){
+            quartierManufacture();
+        }
+        if(quartierConstruit.contains(Quartier.LABORATOIRE)){
+            quartierLaboratoire();
+        }
+    }
+
+    public void quartierManufacture(){
+        if (nbOr >= 3 && quartierMain.size() <= 1){
+            changerOr(-3);
+            List<Quartier> nvxQuartiers = new ArrayList<>();
+            for (int i=0; i<3; i++){
+                Quartier quartier = pioche.piocherQuartier();
+                nvxQuartiers.add(quartier);
+                ajoutQuartierMain(quartier);
+            }
+            affichage.afficheQuartierManufacture(nvxQuartiers);
+        }
+    }
+
+
+    public void quartierLaboratoire(){
+        for (Quartier quartier: quartierMain){
+            if (quartierConstruit.contains(quartier)){
+                int rang = quartierMain.indexOf(quartier);
+                pioche.remettreDansPioche(quartierMain.remove(rang));
+                changerOr(1);
+                affichage.afficheQuartierLaboratoire(quartier);
+                return;
+            }
+        }
+    }
+
+
+    public void quartierCimetiere(Quartier quartierDetruit){
+        if (nbOr >= 1 && !quartierConstruit.contains(quartierDetruit)){
+            changerOr(-1);
+            quartierConstruit.add(quartierDetruit);         //on utilise pas ajoutQuartierConstruit car on recup directement le quartier
+            score+= quartierDetruit.getCout();
+            affichage.afficheQuartierCimetiere(quartierDetruit);
+        }
+    }
+
+
+    public List<Quartier> piocheDeBase(){
+        List<Quartier> quartiersPioches = new ArrayList<>();
+        if (!quartierConstruit.contains(Quartier.OBSERVATOIRE)){
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(null);
+        } else {
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+            quartiersPioches.add(pioche.piocherQuartier());
+        }
+        return quartiersPioches;
+    }
     // à implementer dans chaque bot
     public abstract Quartier construire();
-    public abstract ArrayList<Quartier> faireActionDeBase();
+    public abstract List<Quartier> faireActionDeBase();
     public abstract void actionSpecialeMagicien(Magicien magicien);
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
-    public abstract void choisirRole(ArrayList<Role> roles);
+    public abstract void choisirRole(List<Role> roles);
 
-    public void setQuartierConstruit(ArrayList<Quartier> quartierConstruit) {
-        this.quartierConstruit = quartierConstruit;
-    }
+    public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
+
 }
