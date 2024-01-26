@@ -9,11 +9,12 @@ import Citadelle.teamU.moteurjeu.Pioche;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class BotFocusRoi extends Bot {
     private static int numDuBotAleatoire = 1;
     private String name;
-    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
     private int nbQuartiersJaunesConstruits = 0;
 
     public BotFocusRoi(Pioche pioche){
@@ -34,16 +35,17 @@ public class BotFocusRoi extends Bot {
     }
 
     // utile pour les tests uniquement
-    public void setRolesRestants(ArrayList<Role> rolesRestants){
+    public void setRolesRestants(List<Role> rolesRestants){
         this.rolesRestants = rolesRestants;
     }
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase(){
+    public List<Quartier> faireActionDeBase(){
+        quartiersViolets();
         //une arrayList qui contient rien si le bot prend 2 pieces d'or
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
-        ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        List<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier jaune non construit
         for(Quartier quartier : quartierMain){
             if (quartier.getCouleur() == TypeQuartier.JAUNE && quartier.getCout() >= nbOr && !quartierConstruit.contains(quartier)) {
@@ -63,32 +65,16 @@ public class BotFocusRoi extends Bot {
         } else {                            // sinon on pioche
             // piocher deux quartiers, et en choisir un des deux aléatoirement
             // piocher deux quartiers, quartier1 et quartier 2
-            Quartier quartier1 = pioche.piocherQuartier();
-            Quartier quartier2 = pioche.piocherQuartier();
-            choixDeBase.add(quartier1);
-            choixDeBase.add(quartier2);
-            if (quartier1.getCouleur() == TypeQuartier.JAUNE){
-                ajoutQuartierMain(quartier1);
-                choixDeBase.add(quartier1);
-                pioche.remettreDansPioche(quartier2);
-            }
-            else if(quartier2.getCouleur() == TypeQuartier.JAUNE){
-                ajoutQuartierMain(quartier2);
-                choixDeBase.add(quartier2);
-                pioche.remettreDansPioche(quartier1);
-            } else {
-                int rand = randInt(2);
-                ajoutQuartierMain(choixDeBase.get(rand));
-                choixDeBase.add(choixDeBase.get(rand));
-                pioche.remettreDansPioche(choixDeBase.get(1 - rand));
-            }
+            choixDeBase = piocheDeBase();
+
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
     @Override
-    public void choisirRole(ArrayList<Role> roles){
+    public void choisirRole(List<Role> roles){
         if (nbQuartiersJaunesConstruits < 2){
             choisirRoleDebut(roles);
         } else {
@@ -96,7 +82,60 @@ public class BotFocusRoi extends Bot {
         }
     }
 
-    public void choisirRoleDebut(ArrayList<Role> roles){
+    @Override
+    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
+        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+            if (quartierPioches.get(2) == null){        //on cherche le quartier jaune s'il y a
+                quartierPioches.remove(2);
+                if (quartierPioches.get(1).getCouleur() == TypeQuartier.JAUNE){
+                    ajoutQuartierMain(quartierPioches.get(1));
+                    pioche.remettreDansPioche(quartierPioches.get(0));
+                }
+                else if(quartierPioches.get(0).getCouleur() == TypeQuartier.JAUNE){
+                    ajoutQuartierMain(quartierPioches.get(0));
+                    pioche.remettreDansPioche(quartierPioches.get(1));
+                } else {
+                    int rand = randInt(2);
+                    ajoutQuartierMain(quartierPioches.get(rand));
+                    pioche.remettreDansPioche(quartierPioches.get(1 - rand));
+                }
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            }
+
+            Quartier quartierJaune = null;
+            List<Quartier> autresQuartiers = new ArrayList<>();
+            for (Quartier quartierPioch : quartierPioches) {
+                if (quartierPioch.getCouleur() == TypeQuartier.JAUNE) {
+                    quartierJaune = quartierPioch;
+                } else {
+                    autresQuartiers.add(quartierPioch);
+                }
+            }
+            if (quartierJaune != null){
+                ajoutQuartierMain(quartierJaune);
+                for (Quartier quart: autresQuartiers){
+                    pioche.remettreDansPioche(quart);
+                }
+                return new ArrayList<>(Collections.singleton(quartierJaune));
+            } else {
+                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+                Collections.reverse((quartierPioches));
+                pioche.remettreDansPioche(quartierPioches.remove(0));
+                pioche.remettreDansPioche(quartierPioches.remove(0));
+                ajoutQuartierMain(quartierPioches.get(0));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            }
+        } else {
+            for (Quartier quartier: quartierPioches){
+                if (quartier != null){
+                    ajoutQuartierMain(quartier);
+                }
+            }
+            return quartierPioches;
+        }
+    }
+
+    public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
         for (int i=0; i<roles.size(); i++){     //on cherche l'archi en premier => plus de cartes
             if(roles.get(i) instanceof Architecte){
@@ -125,7 +164,7 @@ public class BotFocusRoi extends Bot {
      * utilisé si on a 2 quartiers jaunes ou plus construits, cad si prendre le roi est rentable
      * @param roles
      */
-    public void choisirRoleFin(ArrayList<Role> roles){
+    public void choisirRoleFin(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
         for (int i=0; i<roles.size(); i++){     //on cherche le roi en premier
             if(roles.get(i) instanceof Roi){
@@ -154,8 +193,8 @@ public class BotFocusRoi extends Bot {
 
     @Override
     public Quartier construire(){
-        ArrayList<Quartier> quartiersJaunes = new ArrayList<>();
-        ArrayList<Quartier> quartiersAutreConstructibles = new ArrayList<>();
+        List<Quartier> quartiersJaunes = new ArrayList<>();
+        List<Quartier> quartiersAutreConstructibles = new ArrayList<>();
         for(Quartier quartier: quartierMain){
             if(quartier.getCouleur() == TypeQuartier.JAUNE && !quartierConstruit.contains(quartier)){
                 quartiersJaunes.add(quartier);
@@ -213,7 +252,7 @@ public class BotFocusRoi extends Bot {
         }
 
 
-        ArrayList<Quartier> quartiersAEchanger = new ArrayList<>();
+        List<Quartier> quartiersAEchanger = new ArrayList<>();
         for(Quartier quartier: quartierMain){
             if (quartier.getCouleur() != TypeQuartier.JAUNE || quartierConstruit.contains(quartier)){
                 quartiersAEchanger.add(quartier);
@@ -239,6 +278,21 @@ public class BotFocusRoi extends Bot {
             //+1 pcq le premier c'est voleur et on veut pas le prendre
             affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
+        }
+    }
+
+    @Override
+    public void actionSpecialeCondottiere(Condottiere condottiere) {
+        // détruit que un quartier qui coute 1
+        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
+        for(Bot bot:botList){
+            for(Quartier quartier: bot.getQuartiersConstruits()){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
+                    condottiere.destructionQuartier(this,bot, quartier);
+                    return;
+                }
+            }
         }
     }
 }

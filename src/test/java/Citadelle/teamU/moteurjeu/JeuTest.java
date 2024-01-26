@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 
 class JeuTest {
 
@@ -33,6 +31,6 @@ class JeuTest {
                 maxQuartiersConstruits = bot.getQuartiersConstruits().size();
             }
         }
-        assertTrue(maxQuartiersConstruits>=7);
+        assertTrue(maxQuartiersConstruits>=8);
     }
 }

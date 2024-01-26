@@ -2,8 +2,9 @@ package Citadelle.teamU.moteurjeu;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
+import java.util.List;
 
+@SuppressWarnings("java:S106")
 public class AffichageJeu {
     private Tour tour;
 
@@ -15,7 +16,7 @@ public class AffichageJeu {
         System.out.println("Tour "+ tour.getNbTour());
     }
 
-    public void affichageOrdre(ArrayList<Bot> ordre){
+    public void affichageOrdre(List<Bot> ordre){
         System.out.println("\n\n\nOrdre dans lequel les bots choissent leurs role : " + ordre);
     }
 
