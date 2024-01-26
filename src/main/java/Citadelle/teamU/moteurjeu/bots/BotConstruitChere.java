@@ -87,6 +87,11 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
+        List<Quartier> quartiersPioche = new ArrayList<>();
+        quartiersPioche.add(Quartier.TAVERNE);
+        quartiersPioche.add(Quartier.TAVERNE);
+        quartiersPioche.add(Quartier.TAVERNE);
+        System.out.println(quartierPioches.equals(quartiersPioche));
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);

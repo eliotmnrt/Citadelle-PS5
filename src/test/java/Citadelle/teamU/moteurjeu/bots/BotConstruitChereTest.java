@@ -23,13 +23,13 @@ class BotConstruitChereTest {
     @BeforeEach
     public void setBot(){
         pioche = spy(new Pioche());
-        bot = new BotConstruitChere(pioche);
+        bot = spy(new BotConstruitChere(pioche));
         botliste = new ArrayList<>();
         botliste.add(bot);
         //track = Mockito.spy(new Condottiere(botliste));
     }
     /**Test
-    public void prendreOr(){
+    public void prendreOr(){c
         piocheMock = mockStatic(Pioche.class);
         when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
         while(bot.getQuartierMain().size()!=0){
@@ -143,17 +143,16 @@ class BotConstruitChereTest {
         bot1.setRole(roi);
 
 
-        BotConstruitChere botSpy = spy(bot);
-        botSpy.setRolesRestants(arrayRole);
-        doReturn(0).when(botSpy).randInt(anyInt());
+        bot.setRolesRestants(arrayRole);
+        doReturn(0).when(bot).randInt(anyInt());
         arrayRole.add(roi);
         //Il choisit de voler le dernier
 
-        botSpy.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
-        assertEquals(2, botSpy.getOr());
-        assertEquals(6, botSpy.orProchainTour);
-        botSpy.choisirRole(arrayRole); //Le tour d'après
-        assertEquals(8, botSpy.getOr());
+        bot.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
+        assertEquals(2, bot.getOr());
+        assertEquals(6, bot.orProchainTour);
+        bot.choisirRole(arrayRole); //Le tour d'après
+        assertEquals(8, bot.getOr());
     }
     @Test
     void pasConstruireTest(){
@@ -319,6 +318,103 @@ class BotConstruitChereTest {
 
         verify(condott).destructionQuartier(bot, aQuartierADetruire,Quartier.TEMPLE);
         assertEquals(bot.getOr(),argentAvantDestruction);
+    }
+
+    @Test
+    void testManufacture(){
+        bot.changerOr(10);      //il a 12 ors
+        ArrayList<Quartier> main = new ArrayList<>();
+        main.add(Quartier.MANUFACTURE);
+        bot.setQuartierMain(main);    //main = manufacture
+
+        assertSame(Quartier.MANUFACTURE, bot.getQuartierMain().get(0));
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.MANUFACTURE);       //lui coute 5ors, lui en reste 7
+        assertSame(Quartier.MANUFACTURE, bot.getQuartiersConstruits().get(0));
+        assertEquals(0, bot.getQuartierMain().size());
+
+        bot.quartiersViolets();
+        assertEquals(3, bot.getQuartierMain().size());
+        assertEquals(4, bot.getOr());
+    }
+
+    @Test
+    void testLaboratoire(){
+        bot.changerOr(10);      //il a 12 ors
+        ArrayList<Quartier> main = new ArrayList<>();
+        main.add(Quartier.LABORATOIRE);
+        main.add(Quartier.MARCHE);
+        main.add(Quartier.MARCHE);
+        bot.setQuartierMain(main);
+
+
+        assertSame(Quartier.LABORATOIRE, bot.getQuartierMain().get(0));
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.LABORATOIRE);       //lui coute 5ors, lui en reste 7
+        bot.ajoutQuartierConstruit(Quartier.MARCHE);       //lui coute 2ors, lui en reste 5
+
+        assertSame(Quartier.LABORATOIRE, bot.getQuartiersConstruits().get(0));
+        assertEquals(1, bot.getQuartierMain().size());
+
+        bot.quartiersViolets();     //on echange la carte marché, en doublon contre 1or
+
+        assertEquals(0, bot.getQuartierMain().size());
+        assertEquals(6, bot.getOr());
+    }
+
+    @Test
+    void testBibliotheque(){
+        bot.changerOr(10);      //il a 12 ors
+        ArrayList<Quartier> main = new ArrayList<>();
+        main.add(Quartier.BIBLIOTHEQUE);
+        main.add(Quartier.MARCHE);
+        bot.setQuartierMain(main);
+
+
+        assertSame(Quartier.BIBLIOTHEQUE, bot.getQuartierMain().get(0));
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);       //lui coute 6ors, lui en reste 6
+
+        assertSame(Quartier.BIBLIOTHEQUE, bot.getQuartiersConstruits().get(0));
+        assertEquals(1, bot.getQuartierMain().size());
+
+        doReturn(0).when(bot).randInt(2);       //on le force à choisir de piocher des quartiers au lieu de prendre 2ors
+
+        bot.faireActionDeBase();    //il pioche ses 2 quartiers et les garde car il a construit la bibliotheque
+
+        assertEquals(3, bot.getQuartierMain().size());      //il a mtn 1 + 2 quartiers dans sa main
+        assertEquals(6, bot.getOr());
+    }
+    @Test
+    void testBibliothequeETObservatoire(){
+        bot.changerOr(20);      //il a 22 ors
+        ArrayList<Quartier> main = new ArrayList<>();
+        main.add(Quartier.BIBLIOTHEQUE);
+        main.add(Quartier.OBSERVATOIRE);
+        main.add(Quartier.MARCHE);
+        bot.setQuartierMain(main);
+
+
+        assertSame(Quartier.BIBLIOTHEQUE, bot.getQuartierMain().get(0));
+        assertSame(Quartier.OBSERVATOIRE, bot.getQuartierMain().get(1));
+        assertTrue(bot.getQuartiersConstruits().isEmpty());
+
+        bot.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);       //lui coute 6ors, lui en reste 16
+        bot.ajoutQuartierConstruit(Quartier.OBSERVATOIRE);       //lui coute 5ors, lui en reste 11
+
+        assertSame(Quartier.BIBLIOTHEQUE, bot.getQuartiersConstruits().get(0));
+        assertSame(Quartier.OBSERVATOIRE, bot.getQuartiersConstruits().get(1));
+        assertEquals(1, bot.getQuartierMain().size());
+
+        doReturn(0).when(bot).randInt(2);       //on le force à choisir de piocher des quartiers au lieu de 2ors
+
+        bot.faireActionDeBase();    //il pioche ses 3 quartiers et les garde car il a construit la bibliotheque
+
+        assertEquals(4, bot.getQuartierMain().size());      //il a mtn 1 + 3 quartiers dans sa main
+        assertEquals(11, bot.getOr());
     }
     
 }
