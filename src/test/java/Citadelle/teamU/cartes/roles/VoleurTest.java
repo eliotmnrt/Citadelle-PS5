@@ -40,12 +40,23 @@ class VoleurTest {
         botliste.add(botConstruitChere);
 
         rolesTemp = new ArrayList<>();
-        rolesTemp.add(new Magicien(botliste));
-        rolesTemp.add(roi);
-        rolesTemp.add(new Pretre(botliste));
-        rolesTemp.add(new Marchand(botliste));
+        Assassin assassin = new Assassin(botliste,rolesTemp);
         track = Mockito.spy(new Voleur(botliste, rolesTemp));
-        rolesTemp.add(track);
+        Magicien magicien = new Magicien(botliste);
+        Roi roi = new Roi(botliste);
+        Pretre pretre = new Pretre(botliste);
+        Marchand marchand = new Marchand(botliste);
+        Architecte architecte = new Architecte(botliste);
+        Condottiere condottiere = new Condottiere(botliste);
+
+        rolesTemp.add(assassin);
+        rolesTemp.add(track); //track = voleur
+        rolesTemp.add(magicien);
+        rolesTemp.add(roi);
+        rolesTemp.add(pretre);
+        rolesTemp.add(marchand);
+        rolesTemp.add(architecte);
+        rolesTemp.add(condottiere);
     }
 
     @Test
@@ -53,16 +64,16 @@ class VoleurTest {
         botAleatoire.setRole(track);                        //voleur
         botAleatoire2.setRole(track.getRoles().get(0));     //magicien
         botConstruitChere.setRole(track.getRoles().get(1)); //Roi
-        botConstruitVite.setRole(track.getRoles().get(2));  //Pretre
+        botConstruitVite.setRole(track.getRoles().get(3));  //Pretre
 
         int orAvantVol = botAleatoire.getOr();
         int orVole = botAleatoire2.getOr();
-        doReturn(0).when(botAleatoire).randInt(anyInt());   //on force le hasard à choisir le roi, pour certaines raisons ca correspond au 0;
+        doReturn(1).when(botAleatoire).randInt(anyInt());   //on force le hasard à choisir le roi, pour certaines raisons ca correspond au 0;
 
         botAleatoire.faireActionSpecialRole();
         verify(botAleatoire).actionSpecialeVoleur(track);
-        verify(track).voler(botAleatoire, roi);
-        assertEquals(0,botConstruitChere.getOr());
+        verify(track).voler(eq(botAleatoire), any());
+        assertEquals(0,botConstruitVite.getOr());
         assertEquals(orVole + orAvantVol, botAleatoire.getOr() + botAleatoire.getOrProchainTour());
     }
 

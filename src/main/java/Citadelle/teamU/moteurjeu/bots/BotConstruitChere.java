@@ -1,6 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
@@ -87,11 +88,6 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        List<Quartier> quartiersPioche = new ArrayList<>();
-        quartiersPioche.add(Quartier.TAVERNE);
-        quartiersPioche.add(Quartier.TAVERNE);
-        quartiersPioche.add(Quartier.TAVERNE);
-        System.out.println(quartierPioches.equals(quartiersPioche));
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
@@ -114,6 +110,8 @@ public class BotConstruitChere extends Bot{
             return quartierPioches;
         }
     }
+
+
 
 
     @Override
@@ -152,7 +150,7 @@ public class BotConstruitChere extends Bot{
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang =randInt(6) +1;       // pour un nb aleatoire hors assassin et voleur
+            int rang =randInt(6) + 2;       // pour un nb aleatoire hors assassin et voleur
             affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
@@ -164,11 +162,27 @@ public class BotConstruitChere extends Bot{
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8){
                     condottiere.destructionQuartier(this,bot, quartier);
                     return;
                 }
             }
+        }
+
+
+
+
+    }
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        if(rolesRestants.size()>1){
+            int rang= randInt(rolesRestants.size());
+            assassin.tuer(rolesRestants.get(rang));
+
+        }
+        else{
+            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            assassin.tuer(assassin.getRoles().get(rang));
         }
     }
 }

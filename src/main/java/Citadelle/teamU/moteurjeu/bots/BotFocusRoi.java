@@ -135,6 +135,19 @@ public class BotFocusRoi extends Bot {
         }
     }
 
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        if(rolesRestants.size()>1){
+            int rang= randInt(rolesRestants.size());
+            assassin.tuer(rolesRestants.get(rang));
+
+        }
+        else{
+            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            assassin.tuer(assassin.getRoles().get(rang));
+        }
+    }
+
     public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
         for (int i=0; i<roles.size(); i++){     //on cherche l'archi en premier => plus de cartes

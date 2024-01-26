@@ -134,4 +134,20 @@ public class AffichageJoueur {
     public void afficheBonusCouleur() {
         System.out.println(bot + " gagne 3 points car il a un quartier de chaque couleur");
     }
+
+    public void afficheBonusQuartierViolet(Quartier quartier) {
+        System.out.println(bot+" gagne 2 points en plus car "+quartier+" vaut 8 points au lieu de 6");
+    }
+
+    public void afficheBonusCouleurAvecQV() {
+        System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur (la cour des miracles change de couleur)");
+    }
+
+    public void afficheMeurtre(Bot bot) {
+        System.out.println("Ce bot tue le role : "+bot.getRole());
+    }
+
+    public void afficheMort(Bot mort) {
+        System.out.println("\n------- Le "+mort+" est mort, il n'a pas joué pendant ce tour -------\n");
+    }
 }

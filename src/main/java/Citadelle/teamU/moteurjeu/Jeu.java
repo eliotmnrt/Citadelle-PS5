@@ -11,8 +11,6 @@ public class Jeu {
     private List<Bot> botListe;
     private Tour tour;
 
-    private static ArrayList<Bot> listeGagnants = new ArrayList<>();
-
     public Jeu(Bot...bots) {
         if(bots.length == 0){
             throw new IllegalArgumentException();
@@ -35,9 +33,6 @@ public class Jeu {
     }
     public List<Bot> getBotListe() {
         return botListe;
-    }
-    public static void ajoutGagnant(Bot botGagnant){
-        listeGagnants.add(botGagnant);
     }
 
 
