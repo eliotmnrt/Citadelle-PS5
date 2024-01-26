@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
@@ -58,6 +59,12 @@ public class BotAleatoire extends Bot{
         if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
+    }
+
+    @Override
+    public void actionSpecialeAssassin(Assassin assassin) {
+        int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+        assassin.tuer(assassin.getRoles().get(rang));
     }
 
     @Override
@@ -130,10 +137,12 @@ public class BotAleatoire extends Bot{
     // UPDATE QUAND AJOUT DE CLASSES
     @Override
     public void actionSpecialeVoleur(Voleur voleur){
-        int rang = randInt(6) + 1;       // pour un nb aleatoire hors assassin et voleur
+        int rang = randInt(6) + 2;       // pour un nb aleatoire hors assassin et voleur
         affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
         voleur.voler(this, voleur.getRoles().get(rang) );
     }
+
+
 
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {

@@ -1,12 +1,15 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Voleur implements Role{
 
     private List<Bot> botListe;
     private final int ordre = 2;
+    private String choix = "";
     private List<Role> roles;
 
 
@@ -20,13 +23,18 @@ public class Voleur implements Role{
     }
 
     public void voler(Bot botVoleur, Role roleVole){
+        System.out.println(roleVole.toString());
+        choix = roleVole.toString();
         for (Bot bot:botListe){
             if(bot.getRole().toString().equals(roleVole.toString())){
+                System.out.println(bot.getOr());
+                choix += "(" + bot.toString() + " " + bot.getOr() + " ors)";
                 botVoleur.setOrProchainTour(bot.getOr());
                 bot.voleDOrParVoleur();
                 return;
             }
         }
+        choix += " (personne)";
     }
 
     public void actionSpeciale(Bot bot){
