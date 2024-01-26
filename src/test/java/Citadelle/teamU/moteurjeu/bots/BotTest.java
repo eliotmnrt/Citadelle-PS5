@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
+
+    // on ne peut plus instancier la classe car elle est abstraite, mais testée via les autres bots
+
+
     /* public Bot bot;
     @BeforeEach
     void setBot(){
