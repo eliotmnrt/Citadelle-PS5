@@ -36,6 +36,7 @@ public class Tour {
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        rolesTemp.remove(random.nextInt(rolesTemp.size()));
         Bot premierFinir = null;
         nbTour++;
         distributionRoles();
