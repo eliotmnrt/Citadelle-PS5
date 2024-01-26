@@ -1,38 +1,32 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.moteurjeu.bots.Bot;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Voleur implements Role{
 
-    private ArrayList<Bot> botListe;
+    private List<Bot> botListe;
     private final int ordre = 2;
-    private Role choix;
-    private ArrayList<Role> roles = new ArrayList<>();
+    private List<Role> roles;
 
 
-    public Voleur(ArrayList<Bot> botListe, ArrayList<Role> roles){
+    public Voleur(List<Bot> botListe, List<Role> roles){
         this.botListe = botListe;
         this.roles = roles;
     }
 
-    public ArrayList<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
     public void voler(Bot botVoleur, Role roleVole){
-        // a régler dans Affichage
-        choix = roleVole;
         for (Bot bot:botListe){
             if(bot.getRole().toString().equals(roleVole.toString())){
-                //choix += "(" + bot.toString() + " " + bot.getOr() + " ors)";
                 botVoleur.setOrProchainTour(bot.getOr());
                 bot.voleDOrParVoleur();
                 return;
             }
         }
-        //choix += " (personne)";
     }
 
     public void actionSpeciale(Bot bot){

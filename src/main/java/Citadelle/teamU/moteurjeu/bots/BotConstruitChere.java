@@ -10,12 +10,15 @@ import Citadelle.teamU.moteurjeu.Affichage;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class BotConstruitChere extends Bot{
     private String name;
     private final int COUT_MINIMAL=4;
     private static int numDuBotConstruitChere=1;
-    private ArrayList<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
@@ -25,24 +28,28 @@ public class BotConstruitChere extends Bot{
     }
 
     // utile pour les tests uniquement
-    public void setRolesRestants(ArrayList<Role> rolesRestants){
+    public void setRolesRestants(List<Role> rolesRestants){
         this.rolesRestants = rolesRestants;
     }
 
 
     @Override
-    public ArrayList<Quartier> faireActionDeBase() {
+    public List<Quartier> faireActionDeBase() {
         // A REFACTORER
-        ArrayList<Quartier> choixDeBase = new ArrayList<>();
+        quartiersViolets();         //actions spéciales violettes
+
+        List<Quartier> choixDeBase = new ArrayList<>();
 
         boolean piocher=true;
         for(Quartier quartier: quartierMain){
-            if (quartier.getCout()>=4){
+            if (quartier.getCout() >= 4) {
                 piocher = false;
+                break;
             }
         }
         if (piocher){
-            choixDeBase = choisirEntreDeuxQuartiersViaCout(1);
+            choixDeBase = piocheDeBase();
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         else{
             choixDeBase.add(null);
@@ -54,21 +61,14 @@ public class BotConstruitChere extends Bot{
 
     @Override
     public Quartier construire(){
-
-        int max=0;
-        Quartier quartierChoisi=null;
-        for(Quartier quartier :quartierMain){
-            if(quartier.getCout()>max){
-                max=quartier.getCout();
-                quartierChoisi=quartier;
-            }
-
-        }
-        // répétitions de code BotAleatoire, a refactorer plus tard
-        if (quartierChoisi!=null && (quartierChoisi.getCout() <= nbOr && !quartierConstruit.contains(quartierChoisi) && quartierChoisi.getCout()>=COUT_MINIMAL)) {
-                ajoutQuartierConstruit(quartierChoisi);
-                affichage.afficheConstruction(quartierChoisi);
-                return quartierChoisi;
+        List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
+        quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
+        Collections.reverse(quartiersTrie);
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=COUT_MINIMAL && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+            Quartier quartierConstruit = quartiersTrie.get(0);
+            affichage.afficheConstruction(quartierConstruit);
+            ajoutQuartierConstruit(quartierConstruit);
+            return quartierConstruit;
         }
         return null;
     }
@@ -79,11 +79,36 @@ public class BotConstruitChere extends Bot{
 
 
     @Override
-    public void choisirRole(ArrayList<Role> roles){
+    public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
+    }
+
+    @Override
+    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
+        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+            if (quartierPioches.get(2) == null){
+                quartierPioches.remove(2);
+                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+                pioche.remettreDansPioche(quartierPioches.remove(0));
+                ajoutQuartierMain(quartierPioches.get(0));
+                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+            }
+            quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            pioche.remettreDansPioche(quartierPioches.remove(0));
+            ajoutQuartierMain(quartierPioches.get(0));
+            return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+        } else {
+            for (Quartier quartier: quartierPioches){
+                if (quartier != null){
+                    ajoutQuartierMain(quartier);
+                }
+            }
+            return quartierPioches;
+        }
     }
 
 
@@ -120,8 +145,6 @@ public class BotConstruitChere extends Bot{
             // c.a.d au moins 1 chance sur 2 de voler qq
             int rang = randInt(rolesRestants.size());
 
-            /*while (rang == rolesRestants.indexOf(Assassin))
-             */
             affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
@@ -135,11 +158,11 @@ public class BotConstruitChere extends Bot{
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
         // détruit que un quartier qui coute 1
-        ArrayList<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
                     condottiere.destructionQuartier(this,bot, quartier);
                     return;
                 }

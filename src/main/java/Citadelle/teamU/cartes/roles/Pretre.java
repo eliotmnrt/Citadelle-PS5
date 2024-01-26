@@ -2,33 +2,31 @@ package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
-import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Pretre implements Role {
 
     private final int ordre = 5;
-    private ArrayList<Bot> botliste;
-    private int orGagneCapacite = 0;
-    public Pretre(ArrayList<Bot> botliste){
+    private List<Bot> botliste;
+
+    public Pretre(List<Bot> botliste){
         this.botliste = botliste;
     }
-    public void OrQuartierBleue(Bot bot){
-        int comp = 0;
+    public void orQuartierBleue(Bot bot){
+        int orGagneCapacite = 0;
         for(Quartier quartier: bot.getQuartiersConstruits()){
-            if(Objects.equals(quartier.getCouleur(), TypeQuartier.BLEUE)){
+            if(Objects.equals(quartier.getCouleur(), TypeQuartier.BLEUE) || quartier.equals(Quartier.ECOLE_DE_MAGIE)){
                 bot.changerOr(1);
-                comp++;
+                orGagneCapacite++;
             }
         }
-        orGagneCapacite = comp;
         bot.getAffichage().afficheActionSpecialePretre(orGagneCapacite);
     }
     public void actionSpeciale(Bot bot){
-        OrQuartierBleue(bot);
+        orQuartierBleue(bot);
     }
 
     @Override

@@ -7,10 +7,11 @@ import Citadelle.teamU.moteurjeu.bots.BotConstruitVite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Jeu {
 
-    private ArrayList<Bot> botListe;
+    private List<Bot> botListe;
     private Tour tour;
     public Jeu(Bot...bots) {
         if(bots.length == 0){
@@ -32,7 +33,7 @@ public class Jeu {
             }
         }
     }
-    public ArrayList<Bot> getBotListe() {
+    public List<Bot> getBotListe() {
         return botListe;
     }
 
