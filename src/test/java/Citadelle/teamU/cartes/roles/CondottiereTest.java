@@ -250,6 +250,15 @@ class CondottiereTest {
 
 
     }
+    @Test
+    void scoreTest(){
+        botAleatoire.setRole(track);
+        botConstruitChere.ajoutQuartierMain(Quartier.TEMPLE);
+        botConstruitChere.ajoutQuartierConstruit(Quartier.TEMPLE);
+        assertEquals(botConstruitChere.getScore(),1);
+        track.destructionQuartier(botAleatoire,botConstruitChere,Quartier.TEMPLE);
+        assertEquals(botConstruitChere.getScore(),0);
+    }
 
 
 }
