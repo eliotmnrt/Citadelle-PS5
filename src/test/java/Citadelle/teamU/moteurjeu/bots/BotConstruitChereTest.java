@@ -229,9 +229,9 @@ class BotConstruitChereTest {
         aPasQuartierADetruire1.ajoutQuartierMain(Quartier.OBSERVATOIRE); //coute 5
         //------
 
-        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.COUR_DES_MIRACLES); //coute 2
-        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.CIMETIERE); // coute 5
-        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 3
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.TERRAIN_DE_BATAILLE); //coute 2
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE); // coute 5
+        aPasQuartierADetruire1.ajoutQuartierConstruit(Quartier.OBSERVATOIRE); //coute 3
 
 
         ArrayList<Quartier> avantDestruction1= aPasQuartierADetruire1.getQuartiersConstruits();
