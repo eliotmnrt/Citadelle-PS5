@@ -9,6 +9,7 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Queue;
 import java.util.List;
 
 public class Tour {
@@ -62,23 +63,41 @@ public class Tour {
         premierFinir.getAffichage().afficheBonusPremier();
         for(Bot bot : botListe){
             List<Quartier> quartiers = bot.getQuartiersConstruits();
-            if(quartiers.size()>=8 && bot != premierFinir){
-                bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
-                premierFinir.getAffichage().afficheBonusQuartier();
+            if(quartiers.contains(Quartier.UNIVERSITE)){
+                bot.setScore(bot.getScore()+2);
+                bot.getAffichage().afficheBonusQuartierViolet(Quartier.UNIVERSITE);
             }
-            if(contiensCouleur(quartiers,TypeQuartier.VERT) && contiensCouleur(quartiers,TypeQuartier.VIOLET) && contiensCouleur(quartiers,TypeQuartier.BLEUE) && contiensCouleur(quartiers,TypeQuartier.JAUNE)&&contiensCouleur(quartiers,TypeQuartier.ROUGE)){
+            if(quartiers.contains(Quartier.DRACOPORT)){
+                bot.setScore(bot.getScore()+2);
+                bot.getAffichage().afficheBonusQuartierViolet(Quartier.DRACOPORT);
+            }
+            if(quartiers.size()>=8&&bot!=premierFinir){
+                bot.setScore(bot.getScore()+2); //Si il n'est pas le premier a finir mais qu'il fini dans le tour (il a 8 quartiers ou plus)
+                bot.getAffichage().afficheBonusQuartier();
+            }
+            if(nbCouleur(bot.getQuartiersConstruits())==5){
                 bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
                 bot.getAffichage().afficheBonusCouleur();
+            }
+            else if(bot.getQuartiersConstruits().contains(Quartier.COUR_DES_MIRACLES)){
+                List<Quartier> arrayList = bot.getQuartiersConstruits();
+                arrayList.remove(Quartier.COUR_DES_MIRACLES);
+                if(nbCouleur(bot.getQuartiersConstruits())==4){
+                    bot.setScore(bot.getScore()+3); //Si le bot a un quartier de chaque couleur il gagne 3 points
+                    bot.getAffichage().afficheBonusCouleurAvecQV();
+                }
             }
         }
         affichageFin.afficheLeVainqueur();
     }
-
-    private boolean contiensCouleur(List<Quartier> quartiers, TypeQuartier typeQuartier) {
+    private int nbCouleur(List<Quartier> quartiers) {
+        ArrayList<TypeQuartier> arrayList = new ArrayList<>();
         for(Quartier quartier : quartiers){
-            if(quartier.getTypeQuartier() == typeQuartier) return true;
+            if(!arrayList.contains(quartier.getTypeQuartier())){
+                arrayList.add(quartier.getTypeQuartier());
+            }
         }
-        return false;
+        return arrayList.size();
     }
     public List<Bot> distributionRoles(){
         List<Bot> listeDistribution = botListe;

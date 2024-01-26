@@ -154,4 +154,12 @@ public class Affichage {
     public void afficheBonusCouleur() {
         System.out.println(bot + " gagne 3 points car il a un quartier de chaque couleur");
     }
+
+    public void afficheBonusQuartierViolet(Quartier quartier) {
+        System.out.println(bot+" gagne 2 points en plus car "+quartier+" vaut 8 points au lieu de 6");
+    }
+
+    public void afficheBonusCouleurAvecQV() {
+        System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur (la cour des miracles change de couleur)");
+    }
 }
