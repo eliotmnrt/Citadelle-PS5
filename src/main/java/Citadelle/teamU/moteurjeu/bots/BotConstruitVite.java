@@ -186,7 +186,8 @@ public class BotConstruitVite extends Bot {
         botList.remove(this);
         Bot botMax = botList.get(0);
         for(Bot bot:botList){
-            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size()){
+            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size() && bot.getQuartiersConstruits().size()<8){
+                //pas un bot qui a 8 quartiers
                 botMax=bot;
             }
         }
