@@ -30,6 +30,7 @@ public class Assassin implements Role {
         choix=roleTue;
         for(Bot bot: botListe){
             if (bot.getRole()==roleTue){
+                bot.getAffichage().afficheMeurtre(bot);
                 bot.setMort(true);
             }
         }

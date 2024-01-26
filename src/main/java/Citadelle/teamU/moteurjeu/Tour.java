@@ -15,6 +15,7 @@ public class Tour {
     private int nbTour = 0;
     List<Role> roles = new ArrayList<>();
     private SecureRandom random;
+    private Bot mort;
 
     List<Role> rolesTemp = new ArrayList<>();
     public Tour(List<Bot> botListe){
@@ -39,7 +40,6 @@ public class Tour {
         nbTour++;
         distributionRoles();
         System.out.println("\n\n\nTour "+ nbTour);
-        System.out.println(botListe);
         botListe.sort(Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe){
             if (!bot.estMort()) {
@@ -50,9 +50,14 @@ public class Tour {
 
                 if (bot.getQuartiersConstruits().size() >= 8 && premierFinir == null)
                     premierFinir = bot; //Premier bot qui a 8 quartier
+            }else{
+                mort = bot;
             }
             bot.setMort(false);
-
+        }
+        if(mort!=null){
+            mort.getAffichage().afficheMort(mort);
+            mort = null;
         }
         if (premierFinir!=null){
             bonus(premierFinir);
@@ -116,7 +121,6 @@ public class Tour {
                 break;
             }
         }
-        System.out.println("Ordre dans lequel les bots choissent leurs role : "+listeDistribution);
         for (Bot bot: listeDistribution){
             bot.choisirRole(rolesTemp);
         }

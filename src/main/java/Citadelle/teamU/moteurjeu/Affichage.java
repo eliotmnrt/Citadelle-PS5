@@ -162,4 +162,12 @@ public class Affichage {
     public void afficheBonusCouleurAvecQV() {
         System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur (la cour des miracles change de couleur)");
     }
+
+    public void afficheMeurtre(Bot bot) {
+        System.out.println("Ce bot tue le role : "+bot.getRole());
+    }
+
+    public void afficheMort(Bot mort) {
+        System.out.println("\n------- Le "+mort+" est mort, il n'as pas jouer pendant ce tour -------\n");
+    }
 }
