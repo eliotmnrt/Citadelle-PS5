@@ -23,11 +23,9 @@ public class Voleur implements Role{
     }
 
     public void voler(Bot botVoleur, Role roleVole){
-        System.out.println(roleVole.toString());
         choix = roleVole.toString();
         for (Bot bot:botListe){
             if(bot.getRole().toString().equals(roleVole.toString())){
-                System.out.println(bot.getOr());
                 choix += "(" + bot.toString() + " " + bot.getOr() + " ors)";
                 botVoleur.setOrProchainTour(bot.getOr());
                 bot.voleDOrParVoleur();
