@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Clean package
-      run: mvn clean package
+      run: mvn -B package --file pom.xml
     - name: Execute Unit Tests
       run: mvn exec:java
 
