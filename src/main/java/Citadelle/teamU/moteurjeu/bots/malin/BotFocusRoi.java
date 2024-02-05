@@ -127,26 +127,14 @@ public class BotFocusRoi extends BotMalin {
 
     public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        for (int i=0; i<roles.size(); i++){     //on cherche l'archi en premier => plus de cartes
-            if(roles.get(i) instanceof Architecte){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Architecte")){
+            return;
         }
-        for (int i=0; i<roles.size(); i++){     //le magicien en 2eme => renouveler ses cartes non jaunes
-            if(roles.get(i) instanceof Magicien){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Magicien")){
+            return;
         }
-        for (int i=0; i<roles.size(); i++){     //le roi sinon
-            if(roles.get(i) instanceof Roi){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Roi")){
+            return;
         }
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
@@ -160,26 +148,14 @@ public class BotFocusRoi extends BotMalin {
     public void choisirRoleFin(List<Role> roles){
         role = null;
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        for (int i=0; i<roles.size(); i++){     //on cherche le roi en premier
-            if(roles.get(i) instanceof Roi){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Roi")){
+            return;
         }
-        for (int i=0; i<roles.size(); i++){     //l'archi en 2eme
-            if(roles.get(i) instanceof Architecte){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Architecte")){
+            return;
         }
-        for (int i=0; i<roles.size(); i++){     //le magicien en 3eme
-            if(roles.get(i) instanceof Magicien){
-                setRole(roles.remove(i));
-                rolesRestants = new ArrayList<>(roles);
-                return;
-            }
+        if (trouverRole(roles, "Magicien")){
+            return;
         }
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
