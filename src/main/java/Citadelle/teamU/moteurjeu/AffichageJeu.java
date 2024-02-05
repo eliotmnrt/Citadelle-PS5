@@ -27,8 +27,11 @@ public class AffichageJeu {
 
     public void afficheLeVainqueur(Bot botVainqueur){
         //affiche le vainqueur de la partie, celui qui a un score maximal
-        LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + botVainqueur.getScore() + " points");
-
+        if (botVainqueur != null){
+            LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + botVainqueur.getScore() + " points");
+        }else{
+            LOGGER.info("\n\nTour " + tour.getNbTour() +"Egalité, deux bot on fini avec autant de point");
+        }
     }
 
     public void afficheCartesVisible(Role role1, Role role2) {

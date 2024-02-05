@@ -8,7 +8,6 @@ import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,18 +18,24 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Jeu {
 
     private List<Bot> botListe;
     private static Tour tour;
-    static float pourcentageConstruitChere;
-    static float pourcentageConstruitVite;
-    static float pourcentageAleatoire;
-    static float pourcentageQuiFocusRoi;
+    // pv = pourcentage Victoire
+    static float pVConstruitChere;
+    static float pVConstruitVite;
+    static float pVAleatoire;
+    static float pVFocusRoi;
+    static float pVNull;
+    //pt = points
+    static float ptConstruitChere;
+    static float ptConstruitVite;
+    static float ptAleatoire;
+    static float ptFocusRoi;
+    static float ptNull;
 
     public Jeu(Bot...bots) {
         if(bots.length == 0){
@@ -65,6 +70,12 @@ public class Jeu {
         int cptConstruitVite=0;
         int cptAleatoire=0;
         int cptQuiFocusRoi=0;
+        int cptNull = 0;
+        ptConstruitChere=0;
+        ptConstruitVite=0;
+        ptAleatoire=0;
+        ptFocusRoi=0;
+        ptNull = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
             Bot bot1 = new BotFocusRoi(pioche);
@@ -74,28 +85,49 @@ public class Jeu {
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             JouerPartie(bot1,bot2,bot3,bot4);
             Bot vainqueur=tour.getLeVainqueur();
-            //System.out.println(vainqueur);
-            //System.out.println(vainqueur.toString());
-            if(vainqueur.toString().contains("BotConstruitChere")){
+            ptFocusRoi+=bot1.getScore();
+            ptConstruitChere+=bot2.getScore();
+            ptConstruitVite+=bot3.getScore();
+            ptAleatoire+=bot4.getScore();
+            if(vainqueur==null){
+                cptNull++;
+                int max = 0;
+                for (Bot bot : new ArrayList<Bot>(Arrays.asList(bot1,bot2,bot3,bot4))){
+                    if(bot.getScore()>max){
+                        max=bot.getScore();
+                    }
+                }
+                ptNull+=max;
+            }
+            else if(vainqueur.toString().contains("BotConstruitChere")){
                 cptConstruitChere++;
             }
-            if(vainqueur.toString().contains("Bot_qui_construit_vite")){
+            else if(vainqueur.toString().contains("Bot_qui_construit_vite")){
                 cptConstruitVite++;
             }
-            if(vainqueur.toString().contains("BotAleatoire")){
+            else if(vainqueur.toString().contains("BotAleatoire")){
                 cptAleatoire++;
             }
-            if(vainqueur.toString().contains("BotQuiFocusRoi")){
+            else if(vainqueur.toString().contains("BotQuiFocusRoi")){
                 cptQuiFocusRoi++;
             }
             i++;
         }
-        pourcentageConstruitChere=((float)cptConstruitChere/nombre)*100;
-        pourcentageQuiFocusRoi=((float)cptQuiFocusRoi/nombre)*100;
-        pourcentageConstruitVite=((float)cptConstruitVite/nombre)*100;
-        pourcentageAleatoire=((float)cptAleatoire/nombre)*100;
+        ptFocusRoi/=nombre;
+        ptConstruitChere/=nombre;
+        ptConstruitVite/=nombre;
+        ptAleatoire/=nombre;
+        ptNull/=cptNull;
+        // pv = pourcentage Victoire
+        pVConstruitChere =((float)cptConstruitChere/nombre)*100;
+        pVFocusRoi =((float)cptQuiFocusRoi/nombre)*100;
+        pVConstruitVite =((float)cptConstruitVite/nombre)*100;
+        pVAleatoire =((float)cptAleatoire/nombre)*100;
+        pVNull =((float)cptNull/nombre)*100;
         if(!csv){
-            System.out.println( "BotConstruitChere: "+pourcentageConstruitChere+"% ,BotQuiFocusRoi: "+pourcentageQuiFocusRoi+"% ,Bot_qui_construit_vite :"+pourcentageConstruitVite+",% BotAleatoire :"+pourcentageAleatoire+"%");
+            System.out.println("Comparaison des différents bots");
+            System.out.println( "Taux de victoire : BotConstruitChere: "+ pVConstruitChere +"% ,BotQuiFocusRoi: "+ pVFocusRoi +"% ,Bot_qui_construit_vite :"+ pVConstruitVite +"% ,BotAleatoire :"+ pVAleatoire +"% ,Egalité : "+pVNull+"%");
+            System.out.println( "Moyenne de points : BotConstruitChere: "+ ptConstruitChere +"points ,BotQuiFocusRoi: "+ ptFocusRoi +"points ,Bot_qui_construit_vite :"+ ptConstruitVite +"points ,BotAleatoire :"+ ptAleatoire +"points ,Egalité : "+ptNull+"points");
         }
     }
     public static void simulation2(int nombre){
@@ -104,6 +136,7 @@ public class Jeu {
         int cptQuiFocusRoi2=0;
         int cptQuiFocusRoi3=0;
         int cptQuiFocusRoi4=0;
+        int cptNull=0;
 
         while(i<=nombre){
             Pioche pioche = new Pioche();
@@ -114,11 +147,15 @@ public class Jeu {
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             JouerPartie(bot1,bot2,bot3,bot4);
             Bot vainqueur=tour.getLeVainqueur();
-            int parse=Integer.parseInt(vainqueur.toString().substring(14));
-            if (parse%4==1) cptQuiFocusRoi1++;
-            if (parse%4==2) cptQuiFocusRoi2++;
-            if (parse%4==3) cptQuiFocusRoi3++;
-            if (parse%4==0) cptQuiFocusRoi4++;
+            if (vainqueur!=null){
+                int parse=Integer.parseInt(vainqueur.toString().substring(14));
+                if (parse%4==1) cptQuiFocusRoi1++;
+                if (parse%4==2) cptQuiFocusRoi2++;
+                if (parse%4==3) cptQuiFocusRoi3++;
+                if (parse%4==0) cptQuiFocusRoi4++;
+            }else{
+                cptNull++;
+            }
             i++;
         }
 
@@ -126,7 +163,9 @@ public class Jeu {
         float pourcent2=((float)cptQuiFocusRoi2/nombre)*100;
         float pourcent3=((float)cptQuiFocusRoi3/nombre)*100;
         float pourcent4=((float)cptQuiFocusRoi4/nombre)*100;
-        System.out.println( "BotQuiFocusRoi1: "+pourcent1+"% ,BotQuiFocusRoi2: "+pourcent2+"% ,BotQuiFocusRoi3 :"+pourcent3+",% BotQuiFocusRoi4 :"+pourcent4+"%");
+        float pourcentnull=((float)cptNull/nombre)*100;
+        System.out.println("Simulation de bot Roi");
+        System.out.println( "BotQuiFocusRoi1: "+pourcent1+"% ,BotQuiFocusRoi2: "+pourcent2+"% ,BotQuiFocusRoi3 :"+pourcent3+"% ,BotQuiFocusRoi4 :"+pourcent4+"% , Egalité : "+pourcentnull+"%");
 
     }
 
@@ -149,12 +188,10 @@ public class Jeu {
 
         if(arg.demo){
             //Faire une demo
-            System.out.println("demo detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
 
         }else if(arg.two){
             //faire 2 fois 1000 stats
-            System.out.println("2 thousand detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
             simulation1(1000,false);
             simulation2(1000);
@@ -181,34 +218,58 @@ public class Jeu {
     }
 
     private static void updateCSV(File file) {
+        int nombre = 1000;
         try {
-            int nombre = 1000;
             //On lis d'abord les valeurs actuels
             CSVReader reader;
             reader = new CSVReader(new FileReader(file));
             List<String[]> allRows = reader.readAll();
-            float cptConstruitChereAvant = Float.parseFloat(allRows.get(0)[1])/nombre;
-            float cptConstruitViteAvant = Float.parseFloat(allRows.get(1)[1])/nombre;
-            float cptAleatoireAvant = Float.parseFloat(allRows.get(2)[1])/nombre;
-            float cptQuiFocusRoiAvant = Float.parseFloat(allRows.get(3)[1])/nombre;
-            float total = Float.parseFloat(allRows.get(4)[1]);
+            simulation1(nombre,true);
+            float total = Float.parseFloat(allRows.get(6)[1]);
+            float pVConstruitChereUpdate = (Float.parseFloat(allRows.get(1)[1])*total+pVConstruitChere*nombre)/(total+nombre);
+            float pVConstruitViteUpdate = (Float.parseFloat(allRows.get(2)[1])*total+pVConstruitVite*nombre)/(total+nombre);
+            float pVAleatoireUpdate = (Float.parseFloat(allRows.get(3)[1])*total+pVAleatoire*nombre)/(total+nombre);
+            float pVFocusRoiUpdate = (Float.parseFloat(allRows.get(4)[1])*total+pVFocusRoi*nombre)/(total+nombre);
+            float pVNullUpdate = (Float.parseFloat(allRows.get(5)[1])*total+pVNull*nombre)/(total+nombre);
 
+            float ptConstruitChereUpdate = (Float.parseFloat(allRows.get(1)[2])*total+ptConstruitChere*nombre)/(total+nombre);
+            float ptConstruitViteUpdate = (Float.parseFloat(allRows.get(2)[2])*total+ptConstruitVite*nombre)/(total+nombre);
+            float ptAleatoireUpdate = (Float.parseFloat(allRows.get(3)[2])*total+ptAleatoire*nombre)/(total+nombre);
+            float ptFocusRoiUpdate = (Float.parseFloat(allRows.get(4)[2])*total+ptFocusRoi*nombre)/(total+nombre);
+            float ptNullUpdate = (Float.parseFloat(allRows.get(5)[2])*total+ptNull*nombre)/(total+nombre);
+            total+=nombre;
 
             CSVWriter writer = new CSVWriter(new FileWriter(file));
 
-            simulation1(nombre,true);
-
-            writer.writeNext(new String[]{"Bot construit chère",pourcentageConstruitChere+""},false);
-            writer.writeNext(new String[]{"Bot construit vite",pourcentageConstruitVite+""},false);
-            writer.writeNext(new String[]{"Bot qui focus Roi",pourcentageQuiFocusRoi+""},false);
-            writer.writeNext(new String[]{"Bot aléatoire",pourcentageAleatoire+""},false);
-            writer.writeNext(new String[]{"Total",nombre+""},false);
+            writer.writeNext(new String[]{"Bot", "Pourcentage de victoire","Points à la fin", "Points en cas de victoire"},false);
+            writer.writeNext(new String[]{"Bot construit chère", pVConstruitChereUpdate +"",ptConstruitChereUpdate+""},false);
+            writer.writeNext(new String[]{"Bot construit vite", pVConstruitViteUpdate +"",ptConstruitViteUpdate+""},false);
+            writer.writeNext(new String[]{"Bot qui focus Roi", pVFocusRoiUpdate +"",ptFocusRoiUpdate+""},false);
+            writer.writeNext(new String[]{"Bot aléatoire", pVAleatoireUpdate +"",ptAleatoireUpdate+""},false);
+            writer.writeNext(new String[]{"Egalité", pVNullUpdate +"",ptNullUpdate+""},false);
+            writer.writeNext(new String[]{"Total",total+""},false);
             writer.close();
             lireCSV(file);
         } catch (IOException e) {
-            throw new RuntimeException("probleme ecriture");
+            //On a pas encore le fichier
+            CSVWriter writer = null;
+            try {
+                simulation1(nombre,true);
+                writer = new CSVWriter(new FileWriter(file));
+                writer.writeNext(new String[]{"Bot", "Pourcentage de victoire","Points à la fin", "Points en cas de victoire"},false);
+                writer.writeNext(new String[]{"Bot construit chère", pVConstruitChere +"",ptConstruitChere+""},false);
+                writer.writeNext(new String[]{"Bot construit vite", pVConstruitVite +"",ptConstruitVite+""},false);
+                writer.writeNext(new String[]{"Bot qui focus Roi", pVFocusRoi +"",ptFocusRoi+""},false);
+                writer.writeNext(new String[]{"Bot aléatoire", pVAleatoire +"",ptAleatoire+""},false);
+                writer.writeNext(new String[]{"Egalité", pVNull +"",ptNull+""},false);
+                writer.writeNext(new String[]{"Total",nombre+""},false);
+                writer.close();
+                lireCSV(file);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         } catch (CsvException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("probleme CSV");
         }
     }
 

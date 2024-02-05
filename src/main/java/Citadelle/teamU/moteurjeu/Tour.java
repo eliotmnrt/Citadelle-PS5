@@ -69,15 +69,18 @@ public class Tour {
     public Bot getLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
-        Bot botVainqueur =this.getBotListe().get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
+        List<Bot> botVainqueur = new ArrayList<>();
+        botVainqueur.add(this.getBotListe().get(0)); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
         for(Bot bot1: this.getBotListe()){
             if (bot1.getScore()>max){
                 max= bot1.getScore();
-                botVainqueur=bot1;
+                botVainqueur.clear();
+                botVainqueur.add(bot1);
+            }else if (bot1.getScore()==max){
+                botVainqueur.add(bot1);
             }
         }
-
-        return botVainqueur;
+        return botVainqueur.size()==1 ? botVainqueur.get(0) : null;
     }
 
     public void bonus(Bot premierFinir) {
