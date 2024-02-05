@@ -5,12 +5,18 @@ import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.beust.jcommander.JCommander;
+import com.opencsv.CSVWriter;
+
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +68,17 @@ public class Jeu {
             System.out.println("2 thousand detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
             //faire 2 fois 1000 stats
+        }else if(arg.csv){
+            Path path = Paths.get("stats/gamestats.csv");
+
+            try {
+                CSVWriter writer = new CSVWriter(new FileWriter(path.toFile()));
+                // Remplire un fichier existant
+            } catch (IOException e) {
+                //crer un fichier
+                System.out.println("aaaaah");
+                throw new RuntimeException(e);
+            }
         }
 
         Pioche pioche = new Pioche();

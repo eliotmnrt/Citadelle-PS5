@@ -6,4 +6,7 @@ public class Args {
     public boolean demo = false;
     @Parameter(names = "--2thousands")
     public boolean two = false;
+
+    @Parameter(names = "--csv")
+    public boolean csv = false;
 }
