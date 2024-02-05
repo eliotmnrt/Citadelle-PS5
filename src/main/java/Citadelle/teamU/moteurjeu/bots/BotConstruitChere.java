@@ -143,7 +143,11 @@ public class BotConstruitChere extends Bot{
         if (rolesRestants.size() > 1){
             //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
             // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang = randInt(rolesRestants.size());
+            int rang;
+            do{
+                rang = randInt(rolesRestants.size());
+            }while(rolesRestants.get(rang) instanceof Assassin ); //ne pas prendre l'assassin car on ne peut pas le voler
+
 
             affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));

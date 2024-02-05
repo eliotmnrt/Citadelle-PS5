@@ -38,10 +38,10 @@ public class Tour {
     public void prochainTour(){
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        rolesTemp.remove(random.nextInt(rolesTemp.size()));
+        System.out.println("Les rôles face visible sont : "+
+            rolesTemp.remove(random.nextInt(rolesTemp.size()))+" et "+
+            rolesTemp.remove(random.nextInt(rolesTemp.size())));
         Bot premierFinir = null;
-        nbTour++;
         distributionRoles();
         affichageJeu.affichageNbTour();
         System.out.println(botListe);
@@ -64,7 +64,6 @@ public class Tour {
             mort.getAffichage().afficheMort(mort);
             mort = null;
         }
-
         if (premierFinir!=null){
             bonus(premierFinir);
         }
