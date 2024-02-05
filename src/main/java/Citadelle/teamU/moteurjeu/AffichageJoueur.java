@@ -143,8 +143,8 @@ public class AffichageJoueur {
         System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur (la cour des miracles change de couleur)");
     }
 
-    public void afficheMeurtre(Bot bot) {
-        System.out.println("Ce bot tue le role : "+bot.getRole());
+    public void afficheMeurtre(Role role) {
+        System.out.println("Ce bot tue le role : " + role);
     }
 
     public void afficheMort(Bot mort) {

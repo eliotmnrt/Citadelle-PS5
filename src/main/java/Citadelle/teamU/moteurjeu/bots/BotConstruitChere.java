@@ -177,11 +177,13 @@ public class BotConstruitChere extends Bot{
     public void actionSpecialeAssassin(Assassin assassin) {
         if(rolesRestants.size()>1){
             int rang= randInt(rolesRestants.size());
+            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
             assassin.tuer(rolesRestants.get(rang));
 
         }
         else{
             int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
             assassin.tuer(assassin.getRoles().get(rang));
         }
     }

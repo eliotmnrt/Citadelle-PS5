@@ -131,7 +131,8 @@ public class BotAleatoire extends Bot{
 
     @Override
     public void actionSpecialeAssassin(Assassin assassin) {
-        int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+        int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+        affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
         assassin.tuer(assassin.getRoles().get(rang));
     }
 

@@ -34,7 +34,7 @@ class AssassinTest {
         botAleatoire = Mockito.spy(new BotAleatoire(pioche));
         botAleatoire2 = Mockito.spy(new BotAleatoire(pioche));
         botConstruitVite = Mockito.spy(new BotConstruitVite(pioche));
-        botConstruitChere =Mockito.spy(new BotConstruitChere(pioche));
+        botConstruitChere = Mockito.spy(new BotConstruitChere(pioche));
         botliste = new ArrayList<>();
         botliste.add(botAleatoire);
         botliste.add(botAleatoire2);
@@ -63,7 +63,7 @@ class AssassinTest {
         botConstruitChere.setRole(mocAssassin.getRoles().get(3)); //donne le role du Roi
         botConstruitVite.setRole(mocAssassin.getRoles().get(1)); //donne le role du voleur
 
-        doReturn(2).when(botAleatoire).randInt(6);
+        doReturn(2).when(botAleatoire).randInt(7);
         botAleatoire.faireActionSpecialRole();
         verify(botAleatoire).actionSpecialeAssassin(mocAssassin);
         verify(mocAssassin).tuer(roi);
@@ -81,7 +81,8 @@ class AssassinTest {
         rolesRestant.add(mocAssassin.getRoles().get(2));
         rolesRestant.add(mocAssassin.getRoles().get(3));
         botConstruitVite.setRolesRestants(rolesRestant);
-        doReturn(1).when(botAleatoire).randInt(2);
+
+        doReturn(1).when(botConstruitVite).randInt(anyInt());
         botConstruitVite.faireActionSpecialRole();
         verify(botConstruitVite).actionSpecialeAssassin(mocAssassin);
         //verify(mocAssassin).tuer(roi);
@@ -98,7 +99,8 @@ class AssassinTest {
         rolesRestant.add(mocAssassin.getRoles().get(2));
         rolesRestant.add(mocAssassin.getRoles().get(3));
         botConstruitChere.setRolesRestants(rolesRestant);
-        doReturn(1).when(botAleatoire).randInt(2);
+
+        doReturn(1).when(botConstruitChere).randInt(2);
         botConstruitChere.faireActionSpecialRole();
         verify(botConstruitChere).actionSpecialeAssassin(mocAssassin);
         //verify(mocAssassin).tuer(roi);
