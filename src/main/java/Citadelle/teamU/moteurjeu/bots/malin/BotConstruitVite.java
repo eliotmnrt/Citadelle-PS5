@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Assassin;
@@ -8,13 +8,12 @@ import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.*;
 
-public class BotConstruitVite extends Bot {
-    private static int numDuBotAleatoire = 1;
-    private String name;
-    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+public class BotConstruitVite extends BotMalin {
+    private static int numDuBot = 1;
 
     public BotConstruitVite(Pioche pioche){
         //Bot qui construit le plus vite possible
@@ -25,15 +24,9 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super(pioche);
-        this.name = "Bot_qui_construit_vite" + numDuBotAleatoire;
-        numDuBotAleatoire++;
+        this.name = "Bot_qui_construit_vite" + numDuBot;
+        numDuBot++;
     }
-
-    // utile pour les tests uniquement
-    public void setRolesRestants(List<Role> rolesRestants){
-        this.rolesRestants = rolesRestants;
-    }
-
 
     @Override
     public List<Quartier> faireActionDeBase(){
@@ -66,18 +59,10 @@ public class BotConstruitVite extends Bot {
     }
 
 
-    @Override
-    public void choisirRole(List<Role> roles){
-        if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
-        int intAleatoire= randInt(roles.size());
-        setRole(roles.remove(intAleatoire));
-        rolesRestants = new ArrayList<>(roles);
-    }
 
     /**
      * Construit un quartier
      */
-
     @Override
     public Quartier construire(){
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
@@ -140,48 +125,6 @@ public class BotConstruitVite extends Bot {
         }
     }
 
-    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
-    @Override
-    public void actionSpecialeVoleur(Voleur voleur){
-        if (rolesRestants.size() > 1){
-            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
-            // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang;
-            do{
-                rang = randInt(rolesRestants.size());
-            }while(rolesRestants.get(rang) instanceof Assassin ); //ne pas prendre l'assassin car on ne peut pas le voler
-
-            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
-            voleur.voler(this, rolesRestants.get(rang));
-        }
-        else {
-            //sinon on fait aleatoire et on croise les doigts
-            int rang = randInt(6) +1;       // pour un nb aleatoire hors assassin et voleur
-            //+1 pcq le premier c'est voleur et on veut pas le prendre
-            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
-            voleur.voler(this, voleur.getRoles().get(rang) );
-        }
-    }
-
-    @Override
-    public void actionSpecialeAssassin(Assassin assassin) {
-        if(rolesRestants.size()>1){
-            int rang = randInt(rolesRestants.size());
-            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
-            assassin.tuer(rolesRestants.get(rang));
-
-        }
-        else{
-            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
-            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
-            assassin.tuer(assassin.getRoles().get(rang));
-        }
-    }
-
-    @Override
-    public String toString(){
-        return name;
-    }
 
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
