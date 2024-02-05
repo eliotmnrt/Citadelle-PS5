@@ -25,9 +25,9 @@ public class AffichageJeu {
         LOGGER.info("\n\n\nOrdre dans lequel les bots choissent leurs role : " + ordre);
     }
 
-    public void afficheLeVainqueur(Bot botVainqueur, int max){
+    public void afficheLeVainqueur(Bot botVainqueur){
         //affiche le vainqueur de la partie, celui qui a un score maximal
-        LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + max + " points");
+        LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + botVainqueur.getScore() + " points");
 
     }
 

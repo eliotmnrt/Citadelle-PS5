@@ -79,9 +79,7 @@ public class Tour {
 
         return botVainqueur;
     }
-    public int getMaxPoint(){
-        return getLeVainqueur().getOr();
-    }
+
     public void bonus(Bot premierFinir) {
         premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
         premierFinir.getAffichage().afficheBonusPremier();
@@ -112,7 +110,7 @@ public class Tour {
                 }
             }
         }
-        affichageJeu.afficheLeVainqueur(getLeVainqueur(), getMaxPoint());
+        affichageJeu.afficheLeVainqueur(getLeVainqueur());
     }
     private int nbCouleur(List<Quartier> quartiers) {
         ArrayList<TypeQuartier> arrayList = new ArrayList<>();

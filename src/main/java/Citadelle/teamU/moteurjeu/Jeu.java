@@ -48,12 +48,12 @@ public class Jeu {
 
 
 
-    public static void simulation(int nombre){
+    public static void simulation1(int nombre){
         int i=1;
-        float cptConstruitChere=0;
-        float cptConstruitVite=0;
-        float cptAleatoire=0;
-        float cptQuiFocusRoi=0;
+        int cptConstruitChere=0;
+        int cptConstruitVite=0;
+        int cptAleatoire=0;
+        int cptQuiFocusRoi=0;
         while(i<nombre){
             Pioche pioche = new Pioche();
             Bot bot1 = new BotFocusRoi(pioche);
@@ -79,9 +79,45 @@ public class Jeu {
             }
             i++;
         }
-        System.out.println( "BotConstruitChere: "+(cptConstruitChere/1000)*100+"% ,BotQuiFocusRoi: "+(cptQuiFocusRoi/1000)*100+"% ,Bot_qui_construit_vite :"+(cptConstruitVite/1000)*100+",% BotAleatoire :"+(cptAleatoire/1000)*100+"%");
+        float pourcent1=((float)cptConstruitChere/nombre)*100;
+        float pourcent2=((float)cptQuiFocusRoi/nombre)*100;
+        float pourcent3=((float)cptConstruitVite/nombre)*100;
+        float pourcent4=((float)cptAleatoire/nombre)*100;
+        System.out.println( "BotConstruitChere: "+pourcent1+"% ,BotQuiFocusRoi: "+pourcent2+"% ,Bot_qui_construit_vite :"+pourcent3+",% BotAleatoire :"+pourcent4+"%");
 
     }
+    public static void simulation2(int nombre){
+        int i=1;
+        int cptQuiFocusRoi1=0;
+        int cptQuiFocusRoi2=0;
+        int cptQuiFocusRoi3=0;
+        int cptQuiFocusRoi4=0;
+
+        while(i<=nombre){
+            Pioche pioche = new Pioche();
+            Bot bot1 = new BotFocusRoi(pioche);
+            Bot bot2 = new BotFocusRoi(pioche);
+            Bot bot3 = new BotFocusRoi(pioche);
+            Bot bot4 = new BotFocusRoi(pioche);
+            //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
+            JouerPartie(bot1,bot2,bot3,bot4);
+            Bot vainqueur=tour.getLeVainqueur();
+            int parse=Integer.parseInt(vainqueur.toString().substring(14));
+            if (parse%4==1) cptQuiFocusRoi1++;
+            if (parse%4==2) cptQuiFocusRoi2++;
+            if (parse%4==3) cptQuiFocusRoi3++;
+            if (parse%4==0) cptQuiFocusRoi4++;
+            i++;
+        }
+
+        float pourcent1=((float)cptQuiFocusRoi1/nombre)*100;
+        float pourcent2=((float)cptQuiFocusRoi2/nombre)*100;
+        float pourcent3=((float)cptQuiFocusRoi3/nombre)*100;
+        float pourcent4=((float)cptQuiFocusRoi4/nombre)*100;
+        System.out.println( "BotQuiFocusRoi1: "+pourcent1+"% ,BotQuiFocusRoi2: "+pourcent2+"% ,BotQuiFocusRoi3 :"+pourcent3+",% BotQuiFocusRoi4 :"+pourcent4+"%");
+
+    }
+
     // j'ai mis en static parce que ça me faisait une erreur
     public static void JouerPartie(Bot bot1, Bot bot2, Bot bot3, Bot bot4){
         bot1.setOrdreChoixRole(1);
@@ -100,19 +136,28 @@ public class Jeu {
                 .parse(args);
 
         if(arg.demo){
+            //Faire une demo
             System.out.println("demo detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
-            //Faire une demo
+
         }else if(arg.two){
+            //faire 2 fois 1000 stats
             System.out.println("2 thousand detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
-            simulation(1000);
-            //faire 2 fois 1000 stats
+            simulation1(1000);
+            simulation2(1000);
         }
 
-       
+        Pioche pioche = new Pioche();
+        Bot bot1 = new BotFocusRoi(pioche);
+        Bot bot2 = new BotConstruitChere(pioche);
+        Bot bot3 = new BotConstruitVite(pioche);
+        Bot bot4 = new BotAleatoire(pioche);
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-        //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
+        //JouerPartie(bot1,bot2,bot3,bot4);
+
+
+
         
     }
 }
