@@ -6,7 +6,7 @@ import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.*;
@@ -25,7 +25,7 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super(pioche);
-        this.affichage = new Affichage(this);
+        this.affichageJoueur = new AffichageJoueur(this);
         this.name = "Bot_qui_construit_vite" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }
@@ -62,7 +62,7 @@ public class BotConstruitVite extends Bot {
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
-        affichage.afficheChoixDeBase(choixDeBase);
+        affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
@@ -86,7 +86,7 @@ public class BotConstruitVite extends Bot {
         if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
-            affichage.afficheConstruction(quartierConstruit);
+            affichageJoueur.afficheConstruction(quartierConstruit);
             return quartierConstruit;
         }
         return null;
@@ -131,13 +131,13 @@ public class BotConstruitVite extends Bot {
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
         } else {    // sinon on échange toutes ses cartes avec la pioche
-            affichage.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
             magicien.changeAvecPioche(this, this.getQuartierMain());
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
         }
     }
 
@@ -152,14 +152,14 @@ public class BotConstruitVite extends Bot {
                 rang = randInt(rolesRestants.size());
             }while(rolesRestants.get(rang) instanceof Assassin ); //ne pas prendre l'assassin car on ne peut pas le voler
 
-            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
+            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
             int rang = randInt(6) +1;       // pour un nb aleatoire hors assassin et voleur
             //+1 pcq le premier c'est voleur et on veut pas le prendre
-            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
+            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
@@ -167,12 +167,14 @@ public class BotConstruitVite extends Bot {
     @Override
     public void actionSpecialeAssassin(Assassin assassin) {
         if(rolesRestants.size()>1){
-            int rang= randInt(rolesRestants.size());
+            int rang = randInt(rolesRestants.size());
+            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
             assassin.tuer(rolesRestants.get(rang));
 
         }
         else{
-            int rang = randInt(6)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
             assassin.tuer(assassin.getRoles().get(rang));
         }
     }

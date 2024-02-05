@@ -6,7 +6,7 @@ import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class BotConstruitChere extends Bot{
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.affichage = new Affichage(this);
+        this.affichageJoueur = new AffichageJoueur(this);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
@@ -55,7 +55,7 @@ public class BotConstruitChere extends Bot{
             choixDeBase.add(null);
             changerOr(2);
         }
-        affichage.afficheChoixDeBase(choixDeBase);
+        affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
@@ -66,7 +66,7 @@ public class BotConstruitChere extends Bot{
         Collections.reverse(quartiersTrie);
         if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=COUT_MINIMAL && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
-            affichage.afficheConstruction(quartierConstruit);
+            affichageJoueur.afficheConstruction(quartierConstruit);
             ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
         }
@@ -125,14 +125,14 @@ public class BotConstruitChere extends Bot{
             }
         }
         if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            affichage.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
 
         } else {    // sinon on échange toutes ses cartes avec la pioche
-            affichage.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
-            affichage.afficheNouvelleMainMagicien();
+            affichageJoueur.afficheNouvelleMainMagicien();
         }
     }
 
@@ -149,13 +149,13 @@ public class BotConstruitChere extends Bot{
             }while(rolesRestants.get(rang) instanceof Assassin ); //ne pas prendre l'assassin car on ne peut pas le voler
 
 
-            affichage.afficheActionSpecialeVoleur(rolesRestants.get(rang));
+            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
             voleur.voler(this, rolesRestants.get(rang));
         }
         else {
             //sinon on fait aleatoire et on croise les doigts
-            int rang =randInt(6) +2;       // pour un nb aleatoire hors assassin et voleur
-            affichage.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
+            int rang =randInt(6) + 2;       // pour un nb aleatoire hors assassin et voleur
+            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
             voleur.voler(this, voleur.getRoles().get(rang) );
         }
     }
@@ -181,11 +181,13 @@ public class BotConstruitChere extends Bot{
     public void actionSpecialeAssassin(Assassin assassin) {
         if(rolesRestants.size()>1){
             int rang= randInt(rolesRestants.size());
+            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
             assassin.tuer(rolesRestants.get(rang));
 
         }
         else{
             int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
             assassin.tuer(assassin.getRoles().get(rang));
         }
     }

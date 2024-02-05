@@ -8,15 +8,11 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 import java.util.List;
 
 @SuppressWarnings("java:S106")
-public class Affichage {
-    // classe de gestion de tout les prints
+
+public class AffichageJoueur {
     private Bot bot;
-    private List<Bot> botList;
-    public Affichage(Bot bot){
+    public AffichageJoueur(Bot bot){
         this.bot=bot;
-    }
-    public Affichage(List<Bot> botList){
-        this.botList=botList;
     }
     public void afficheBot(){
         System.out.println("\n\n--------------"+bot.toString()+"------------------");
@@ -127,22 +123,6 @@ public class Affichage {
         System.out.println("Le " + bot.toString() + " a recupéré " + quartier + " grâce à sa carte Cimetiere contre 1or");
     }
 
-    public void afficheLeVainqueur(){
-        //affiche le vainqueur de la partie, celui qui a un score maximal
-        int max=0;
-        Bot botVainqueur=botList.get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        System.out.println();
-        for(Bot bot1: botList){
-            System.out.println(bot1+" a un score de : "+bot1.getScore());
-            if (bot1.getScore()>max){
-             max= bot1.getScore();
-             botVainqueur=bot1;
-            }
-        }
-
-        System.out.println("\n\nLe vainqueur de la partie est "+botVainqueur.toString()+" avec un score de "+max+" points");
-    }
-
     public void afficheBonusPremier() {
         System.out.println("\n\n"+bot+" gagne 4 points car il a fini avec "+bot.getQuartiersConstruits().size()+" quartiers en premier");
     }
@@ -163,8 +143,8 @@ public class Affichage {
         System.out.println(bot+" gagne 3 points car il a un quartier de chaque couleur (la cour des miracles change de couleur)");
     }
 
-    public void afficheMeurtre(Bot bot) {
-        System.out.println("Ce bot tue le role : "+bot.getRole());
+    public void afficheMeurtre(Role role) {
+        System.out.println("Ce bot tue le role : " + role);
     }
 
     public void afficheMort(Bot mort) {

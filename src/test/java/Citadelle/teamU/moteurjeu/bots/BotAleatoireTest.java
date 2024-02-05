@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.*;
 class BotAleatoireTest {
     private BotAleatoire bot;
     Pioche pioche;
-    ArrayList<Bot> botliste;
+    List<Bot> botliste;
     @BeforeEach
     public void setBot(){
         pioche = spy(new Pioche());
@@ -38,7 +39,7 @@ class BotAleatoireTest {
     @Test
     void testManufacture(){
         bot.changerOr(10);      //il a 12 ors
-        ArrayList<Quartier> main = new ArrayList<>();
+        List<Quartier> main = new ArrayList<>();
         main.add(Quartier.MANUFACTURE);
         bot.setQuartierMain(main);    //main = manufacture
 
@@ -57,7 +58,7 @@ class BotAleatoireTest {
     @Test
     void testLaboratoire(){
         bot.changerOr(10);      //il a 12 ors
-        ArrayList<Quartier> main = new ArrayList<>();
+        List<Quartier> main = new ArrayList<>();
         main.add(Quartier.LABORATOIRE);
         main.add(Quartier.MARCHE);
         main.add(Quartier.MARCHE);
@@ -82,7 +83,7 @@ class BotAleatoireTest {
     @Test
     void testBibliotheque(){
         bot.changerOr(10);      //il a 12 ors
-        ArrayList<Quartier> main = new ArrayList<>();
+        List<Quartier> main = new ArrayList<>();
         main.add(Quartier.BIBLIOTHEQUE);
         main.add(Quartier.MARCHE);
         bot.setQuartierMain(main);
@@ -107,7 +108,7 @@ class BotAleatoireTest {
     @Test
     void testObservatoire(){
         bot.changerOr(10);      //il a 12 ors
-        ArrayList<Quartier> main = new ArrayList<>();
+        List<Quartier> main = new ArrayList<>();
         main.add(Quartier.OBSERVATOIRE);
         main.add(Quartier.MARCHE);
         bot.setQuartierMain(main);
@@ -126,7 +127,7 @@ class BotAleatoireTest {
 
         bot.faireActionDeBase();    //il pioche ses 2 quartiers et les garde car il a construit la bibliotheque
 
-        ArrayList<Quartier> quartiersPioches = new ArrayList<>();
+        List<Quartier> quartiersPioches = new ArrayList<>();
         quartiersPioches.add(Quartier.TAVERNE);
         quartiersPioches.add(Quartier.TAVERNE);
         quartiersPioches.add(Quartier.TAVERNE);
@@ -141,7 +142,7 @@ class BotAleatoireTest {
     @Test
     void testBibliothequeETObservatoire(){
         bot.changerOr(20);      //il a 22 ors
-        ArrayList<Quartier> main = new ArrayList<>();
+        List<Quartier> main = new ArrayList<>();
         main.add(Quartier.BIBLIOTHEQUE);
         main.add(Quartier.OBSERVATOIRE);
         main.add(Quartier.MARCHE);

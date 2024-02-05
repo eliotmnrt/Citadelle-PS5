@@ -18,12 +18,14 @@ public class Roi implements Role {
     }
 
     public void distributionCouronne(Bot notreBot) {
-        System.out.println("Ce bot a la couronne");
+        System.out.println("Le "+notreBot+" prend la couronne");
         for(Bot bot : this.botListe){
             bot.setCouronne(false);
         }
         notreBot.setCouronne(true);
-        // notreBot.getAffichage().afficheCouronne();
+        if (notreBot.isCouronne()){
+            //notreBot.getAffichage().afficheCouronne();
+        }
     }
 
     public void orQuartierJaune(Bot bot){

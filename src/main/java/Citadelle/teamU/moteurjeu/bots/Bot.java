@@ -6,7 +6,7 @@ import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.Affichage;
+import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 
 import java.security.SecureRandom;
@@ -28,7 +28,7 @@ public abstract class Bot {
     protected List<Quartier> quartierMain;
     protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
     protected SecureRandom random;
-    protected Affichage affichage;
+    protected AffichageJoueur affichageJoueur;
     protected int score; // represente les points de victoire
     protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
     protected int ordreChoixRole;
@@ -68,8 +68,7 @@ public abstract class Bot {
         orVole = nbOr;
         nbOr = 0;
     }
-
-    public Affichage getAffichage(){return  affichage;}
+    public AffichageJoueur getAffichage(){return affichageJoueur;}
 
     public Pioche getPioche() {return pioche;}
 
@@ -174,7 +173,7 @@ public abstract class Bot {
                 nvxQuartiers.add(quartier);
                 ajoutQuartierMain(quartier);
             }
-            affichage.afficheQuartierManufacture(nvxQuartiers);
+            affichageJoueur.afficheQuartierManufacture(nvxQuartiers);
         }
     }
 
@@ -185,7 +184,7 @@ public abstract class Bot {
                 int rang = quartierMain.indexOf(quartier);
                 pioche.remettreDansPioche(quartierMain.remove(rang));
                 changerOr(1);
-                affichage.afficheQuartierLaboratoire(quartier);
+                affichageJoueur.afficheQuartierLaboratoire(quartier);
                 return;
             }
         }
@@ -197,7 +196,7 @@ public abstract class Bot {
             changerOr(-1);
             quartierConstruit.add(quartierDetruit);         //on utilise pas ajoutQuartierConstruit car on recup directement le quartier
             score+= quartierDetruit.getCout();
-            affichage.afficheQuartierCimetiere(quartierDetruit);
+            affichageJoueur.afficheQuartierCimetiere(quartierDetruit);
         }
     }
 
