@@ -1,5 +1,6 @@
 package Citadelle.teamU.moteurjeu.bots;
 
+//modification pour test githubActions
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Assassin;
