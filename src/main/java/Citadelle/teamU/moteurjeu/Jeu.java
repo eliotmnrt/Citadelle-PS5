@@ -5,8 +5,7 @@ import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLOutput;
@@ -16,7 +15,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.beust.jcommander.JCommander;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -26,6 +27,10 @@ public class Jeu {
 
     private List<Bot> botListe;
     private static Tour tour;
+    static float cptConstruitChere;
+    static float cptConstruitVite;
+    static float cptAleatoire;
+    static float cptQuiFocusRoi;
 
     public Jeu(Bot...bots) {
         if(bots.length == 0){
@@ -54,12 +59,12 @@ public class Jeu {
 
 
 
-    public static void simulation(int nombre){
+    public static void simulation(int nombre,boolean csv){
         int i=1;
-        float cptConstruitChere=0;
-        float cptConstruitVite=0;
-        float cptAleatoire=0;
-        float cptQuiFocusRoi=0;
+        cptConstruitChere=0;
+        cptConstruitVite=0;
+        cptAleatoire=0;
+        cptQuiFocusRoi=0;
         while(i<nombre){
             Pioche pioche = new Pioche();
             Bot bot1 = new BotFocusRoi(pioche);
@@ -85,8 +90,7 @@ public class Jeu {
             }
             i++;
         }
-        System.out.println( "BotConstruitChere: "+(cptConstruitChere/1000)*100+"% ,BotQuiFocusRoi: "+(cptQuiFocusRoi/1000)*100+"% ,Bot_qui_construit_vite :"+(cptConstruitVite/1000)*100+",% BotAleatoire :"+(cptAleatoire/1000)*100+"%");
-
+        if(!csv) System.out.println( "BotConstruitChere: "+(cptConstruitChere/1000)*100+"% ,BotQuiFocusRoi: "+(cptQuiFocusRoi/1000)*100+"% ,Bot_qui_construit_vite :"+(cptConstruitVite/1000)*100+",% BotAleatoire :"+(cptAleatoire/1000)*100+"%");
     }
     // j'ai mis en static parce que ça me faisait une erreur
     public static void JouerPartie(Bot bot1, Bot bot2, Bot bot3, Bot bot4){
@@ -112,24 +116,76 @@ public class Jeu {
         }else if(arg.two){
             System.out.println("2 thousand detecté");
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
-            simulation(1000);
+            simulation(1000,false);
             //faire 2 fois 1000 stats
         }else if(arg.csv){
-            Path path = Paths.get("stats/gamestats.csv");
-
-            try {
-                CSVWriter writer = new CSVWriter(new FileWriter(path.toFile()));
-                // Remplire un fichier existant
-            } catch (IOException e) {
-                //crer un fichier
-                System.out.println("aaaaah");
-                throw new RuntimeException(e);
-            }
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            Path path = Paths.get("stats","gamestats.csv");
+            updateCSV(path.toFile());
         }
 
 
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
         //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
 
+    }
+
+    private static void updateCSV(File file) {
+        try {
+            int nombre = 1000;
+            //On lis d'abord les valeurs actuels
+            CSVReader reader;
+            reader = new CSVReader(new FileReader(file));
+            List<String[]> allRows = reader.readAll();
+            float cptConstruitChereAvant = Float.parseFloat(allRows.get(0)[1])/nombre;
+            float cptConstruitViteAvant = Float.parseFloat(allRows.get(1)[1])/nombre;
+            float cptAleatoireAvant = Float.parseFloat(allRows.get(2)[1])/nombre;
+            float cptQuiFocusRoiAvant = Float.parseFloat(allRows.get(3)[1])/nombre;
+            float total = Float.parseFloat(allRows.get(4)[1]);
+
+
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+
+            simulation(nombre,true);
+
+
+
+            writer.writeNext(new String[]{"Bot construit chère",cptConstruitChere+""},false);
+            writer.writeNext(new String[]{"Bot construit vite",cptConstruitVite+""},false);
+            writer.writeNext(new String[]{"Bot qui focus Roi",cptQuiFocusRoi+""},false);
+            writer.writeNext(new String[]{"Bot aléatoire",cptAleatoire+""},false);
+            int total2 = (int) (cptConstruitChere + cptConstruitVite + cptQuiFocusRoi + cptAleatoire);
+            writer.writeNext(new String[]{"Total",1000+""},false);
+            writer.close();
+            lireCSV(file);
+        } catch (IOException e) {
+            throw new RuntimeException("probleme ecriture");
+        } catch (CsvException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void lireCSV(File file) {
+        //Build reader instance
+        CSVReader reader = null;
+        try {
+            reader = new CSVReader(new FileReader(file));
+            //Read all rows at once
+            List<String[]> allRows = reader.readAll();
+
+            //Read CSV line by line and use the string array as you want
+            for (String[] row : allRows) {
+                System.out.println(Arrays.toString(row));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("erreur 1");
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            System.out.println("erreur 2");
+            throw new RuntimeException(e);
+        } catch (CsvException e) {
+            System.out.println("erreur 3");
+            throw new RuntimeException(e);
+        }
     }
 }
