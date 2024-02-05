@@ -22,7 +22,6 @@ public class BotConstruitChere extends Bot{
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }

@@ -25,7 +25,6 @@ public class BotConstruitVite extends Bot {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name = "Bot_qui_construit_vite" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }

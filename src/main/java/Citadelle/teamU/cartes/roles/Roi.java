@@ -18,7 +18,7 @@ public class Roi implements Role {
     }
 
     public void distributionCouronne(Bot notreBot) {
-        System.out.println("Le "+notreBot+" prend la couronne");
+        notreBot.getAffichage().affichePrendreCouronne();
         for(Bot bot : this.botListe){
             bot.setCouronne(false);
         }

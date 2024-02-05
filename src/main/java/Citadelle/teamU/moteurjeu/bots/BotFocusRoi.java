@@ -24,7 +24,6 @@ public class BotFocusRoi extends Bot {
         //pioche sinon
         //s'il ne peut pas avoir le roi, il cherche magicien puis architecte pour renouveler ses cartes jaunes
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name = "BotQuiFocusRoi"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }

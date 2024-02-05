@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Bot {
     protected int nbOr;
@@ -42,6 +43,7 @@ public abstract class Bot {
         random = new SecureRandom();
         mort=false;
         initQuartierMain();
+        this.affichageJoueur = new AffichageJoueur(this);
     }
     public boolean estMort() { //renvoit s'il est mort
         return mort;

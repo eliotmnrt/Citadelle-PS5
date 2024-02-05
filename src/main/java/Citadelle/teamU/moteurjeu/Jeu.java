@@ -21,6 +21,7 @@ public class Jeu {
     }
 
     public void start(){
+
         int maxQuartiersConstruits = 0;
         while(maxQuartiersConstruits < 8) {
             tour.prochainTour();

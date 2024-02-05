@@ -25,6 +25,7 @@ public enum Quartier implements Comparable<Quartier> {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
     Quartier(String nom, int cout, TypeQuartier typeQuartier, int nbCartes){
         this.nom = nom;
@@ -52,7 +53,7 @@ public enum Quartier implements Comparable<Quartier> {
             case VIOLET -> color = ANSI_PURPLE;
             case BLEUE -> color = ANSI_BLUE;
         }
-        return color+this.nom+ " ("+this.cout+")"+ANSI_RESET ;
+        return color+this.nom+ " ("+this.cout+")"+ANSI_WHITE ;
     }
     public TypeQuartier getTypeQuartier() {
         return typeQuartier;
