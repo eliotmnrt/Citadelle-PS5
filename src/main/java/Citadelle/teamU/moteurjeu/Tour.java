@@ -36,6 +36,7 @@ public class Tour {
 
 
     public void prochainTour(){
+        nbTour++;
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
         System.out.println("Les rôles face visible sont : "+

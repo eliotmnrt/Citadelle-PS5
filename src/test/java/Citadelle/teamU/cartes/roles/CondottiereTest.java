@@ -2,8 +2,8 @@ package Citadelle.teamU.cartes.roles;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
-import Citadelle.teamU.moteurjeu.bots.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.BotConstruitVite;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,9 @@
 package Citadelle.teamU.moteurjeu;
 
 import Citadelle.teamU.moteurjeu.bots.*;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
+import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
 
 import java.util.ArrayList;
 import java.util.Arrays;

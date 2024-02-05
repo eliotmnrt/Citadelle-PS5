@@ -16,10 +16,7 @@ import java.util.List;
 
 public abstract class Bot {
     protected int nbOr;
-
-
-
-
+    protected String name;
     protected boolean mort;
     protected Role role;
     protected Pioche pioche;
@@ -35,6 +32,7 @@ public abstract class Bot {
 
     protected Bot(Pioche pioche){
         this.pioche = pioche;
+        this.affichageJoueur = new AffichageJoueur(this);
         nbOr = 2;
         quartierConstruit = new ArrayList<>();
         quartierMain = new ArrayList<>();
@@ -86,6 +84,11 @@ public abstract class Bot {
     public int randInt(int nb){return random.nextInt(nb);}
 
     public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
+
+    @Override
+    public String toString(){
+        return name;
+    }
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom

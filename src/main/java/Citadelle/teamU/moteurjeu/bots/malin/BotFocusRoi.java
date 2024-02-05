@@ -1,20 +1,19 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class BotFocusRoi extends Bot {
+public class BotFocusRoi extends BotMalin {
     private static int numDuBotAleatoire = 1;
-    private String name;
-    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
     private int nbQuartiersJaunesConstruits = 0;
 
     public BotFocusRoi(Pioche pioche){
@@ -24,20 +23,10 @@ public class BotFocusRoi extends Bot {
         //pioche sinon
         //s'il ne peut pas avoir le roi, il cherche magicien puis architecte pour renouveler ses cartes jaunes
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name = "BotQuiFocusRoi"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
-    @Override
-    public String toString(){
-        return name;
-    }
-
-    // utile pour les tests uniquement
-    public void setRolesRestants(List<Role> rolesRestants){
-        this.rolesRestants = rolesRestants;
-    }
 
     @Override
     public List<Quartier> faireActionDeBase(){
@@ -135,18 +124,6 @@ public class BotFocusRoi extends Bot {
         }
     }
 
-    @Override
-    public void actionSpecialeAssassin(Assassin assassin) {
-        if(rolesRestants.size()>1){
-            int rang= randInt(rolesRestants.size());
-            assassin.tuer(rolesRestants.get(rang));
-
-        }
-        else{
-            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
-            assassin.tuer(assassin.getRoles().get(rang));
-        }
-    }
 
     public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
@@ -235,6 +212,9 @@ public class BotFocusRoi extends Bot {
         }
         return null;
     }
+
+
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
