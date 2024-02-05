@@ -1,12 +1,8 @@
 package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
@@ -29,86 +25,10 @@ public class BotConstruitVite extends BotMalin {
     }
 
     @Override
-    public List<Quartier> faireActionDeBase(){
-        quartiersViolets();         //actions spéciales violettes
-        //une arrayList qui contient rien si le bot prend 2 pieces d'or
-        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
-        //en indice 2 le quartier choisi parmis les deux
-        //en indice 3 le quartier construit si un quartier a été construit
-        List<Quartier> choixDeBase = new ArrayList<>();
-        //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
-        boolean aQuartierPasChere = false;
-        for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
-                aQuartierPasChere = true;
-                break;
-            }
-        }
-        if(aQuartierPasChere){
-            choixDeBase.add(null);
-            changerOr(2);
-        }
-        else{
-            // piocher deux quartiers, et en choisir un des deux aléatoirement
-            // piocher deux quartiers, quartier1 et quartier 2
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
-    }
-
-
-
-    /**
-     * Construit un quartier
-     */
-    @Override
-    public Quartier construire(){
-        List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
-        quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
-        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
-            Quartier quartierConstruit = quartiersTrie.get(0);
-            ajoutQuartierConstruit(quartierConstruit);
-            affichageJoueur.afficheConstruction(quartierConstruit);
-            return quartierConstruit;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
-            if (quartierPioches.get(2) == null){
-                quartierPioches.remove(2);
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse(quartierPioches);
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
-            }
-            quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-            Collections.reverse(quartierPioches);
-            pioche.remettreDansPioche(quartierPioches.remove(0));
-            pioche.remettreDansPioche(quartierPioches.remove(0));
-            ajoutQuartierMain(quartierPioches.get(0));
-            return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
-        } else {
-            for (Quartier quartier: quartierPioches){
-                if (quartier != null){
-                    ajoutQuartierMain(quartier);
-                }
-            }
-            return quartierPioches;
-        }
-    }
-
-
-    @Override
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
             if(botAdverse.getQuartierMain().size() > nbQuartierMain){
                 botAvecQuiEchanger = botAdverse;
                 nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();

@@ -52,6 +52,10 @@ public class Roi implements Role {
     }
 
     @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
+    @Override
     public String toString() {
         return "Roi";
     }

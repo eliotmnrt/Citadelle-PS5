@@ -10,7 +10,7 @@ public class Marchand implements Role {
 
     private final int ordre = 6;
     private int orGagneCapacite = 0;
-    List<Bot> botliste;
+    private List<Bot> botliste;
     public Marchand(List<Bot> botListe) {
         this.botliste = botListe;
     }
@@ -37,6 +37,10 @@ public class Marchand implements Role {
         return ordre;
     }
 
+    @Override
+    public List<Bot> getBotliste() {
+        return botliste;
+    }
 
     @Override
     public String toString() {

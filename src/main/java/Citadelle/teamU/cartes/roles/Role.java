@@ -1,6 +1,8 @@
 package Citadelle.teamU.cartes.roles;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
+import java.util.List;
+
 
 public interface Role {
     
@@ -8,4 +10,5 @@ public interface Role {
     void actionSpeciale(Bot bot);
     String toString();
     int getOrdre();
+    List<Bot> getBotliste();
 }

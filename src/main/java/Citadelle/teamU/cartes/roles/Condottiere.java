@@ -57,6 +57,12 @@ public class Condottiere implements Role{
     public int getOrdre() {
         return ordre;
     }
+
+    @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
+
     public List<Bot> getBotListe() {
         return botListe;
     }

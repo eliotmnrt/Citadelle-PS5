@@ -34,6 +34,11 @@ public class Pretre implements Role {
         return ordre;
     }
 
+    @Override
+    public List<Bot> getBotliste() {
+        return botliste;
+    }
+
 
     @Override
     public String toString() {
