@@ -14,7 +14,7 @@ public class AffichageJeu {
 
     public AffichageJeu(Tour tour){
         this.tour = tour;
-        LOGGER.setLevel(Level.OFF);
+        //LOGGER.setLevel(Level.OFF);
     }
 
     public void affichageNbTour(){

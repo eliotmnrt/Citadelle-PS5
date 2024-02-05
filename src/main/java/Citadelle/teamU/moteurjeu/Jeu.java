@@ -9,6 +9,12 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
+import com.beust.jcommander.JCommander;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Jeu {
 
@@ -86,14 +92,27 @@ public class Jeu {
         jeu.start();
     }
     public static void main (String... args){
-        Pioche pioche = new Pioche();
-        Bot bot1 = new BotFocusRoi(pioche);
-        Bot bot2 = new BotConstruitChere(pioche);
-        Bot bot3 = new BotConstruitVite(pioche);
-        Bot bot4 = new BotAleatoire(pioche);
-        JouerPartie(bot1,bot2,bot3,bot4);
+
+        Args arg = new Args();
+        JCommander.newBuilder()
+                .addObject(arg)
+                .build()
+                .parse(args);
+
+        if(arg.demo){
+            System.out.println("demo detecté");
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
+            //Faire une demo
+        }else if(arg.two){
+            System.out.println("2 thousand detecté");
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            simulation(1000);
+            //faire 2 fois 1000 stats
+        }
+
+       
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
         //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
-        simulation(1000);
+        
     }
 }
