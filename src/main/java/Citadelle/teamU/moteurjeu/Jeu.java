@@ -8,6 +8,12 @@ import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
+import com.beust.jcommander.JCommander;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Jeu {
 
@@ -41,6 +47,23 @@ public class Jeu {
 
 
     public static void main (String... args){
+
+        Args arg = new Args();
+        JCommander.newBuilder()
+                .addObject(arg)
+                .build()
+                .parse(args);
+
+        if(arg.demo){
+            System.out.println("demo detecté");
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
+            //Faire une demo
+        }else if(arg.two){
+            System.out.println("2 thousand detecté");
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            //faire 2 fois 1000 stats
+        }
+
         Pioche pioche = new Pioche();
         Bot bot1 = new BotFocusRoi(pioche);
         Bot bot2 = new BotConstruitChere(pioche);
