@@ -24,7 +24,7 @@ public class BotRichard extends BotMalin{
     public void choisirRole(List<Role> roles){
         nbTour++;
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (nbTour>1 && !architecteAvance()){
+        if (nbTour>1 && architecteAvance()){
             premierAChoisir = roles.size() == 5;        //si il y aencore 5 roles a piocher c'est que l'on est premier
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){
