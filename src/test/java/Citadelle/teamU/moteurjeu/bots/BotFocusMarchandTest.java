@@ -77,7 +77,7 @@ class BotFocusMarchandTest {
         bot.construire();        //il a assez d'argent donc il doit construire le comptoir
         verify(bot).ajoutQuartierConstruit(Quartier.COMPTOIR);
         assertEquals(Quartier.COMPTOIR, bot.getQuartiersConstruits().get(0));
-        assertEquals(4-3, bot.getOr());
+        assertEquals(4-3, bot.getOr()) ;
 
     }
 
