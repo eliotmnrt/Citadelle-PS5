@@ -17,9 +17,6 @@ public class Assassin implements Role {
         this.botListe = botListe;
         this.roles=roles;
     }
-    public List<Bot> getBotListe() {
-        return botListe;
-    }
 
     /**
      *  permet de tuer

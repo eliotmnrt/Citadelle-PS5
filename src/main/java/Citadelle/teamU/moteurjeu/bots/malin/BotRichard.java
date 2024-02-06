@@ -1,10 +1,12 @@
 package Citadelle.teamU.moteurjeu.bots.malin;
 
+import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,7 @@ public class BotRichard extends BotMalin{
     private static int numDuBot = 1;
 
     private boolean premierAChoisir = false;
+    private boolean joueurAvance = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
         this.name = "Bot_Richard" + numDuBot;
@@ -25,7 +28,7 @@ public class BotRichard extends BotMalin{
         nbTour++;
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-            premierAChoisir = roles.size() == 5;        //si il y aencore 5 roles a piocher c'est que l'on est premier
+            premierAChoisir = roles.size() == 5;        //si il y a encore 5 roles a piocher c'est que l'on est premier
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){
                     return;
@@ -33,6 +36,19 @@ public class BotRichard extends BotMalin{
                 if (trouverRole(roles, "Architecte")){
                     return;
                 }
+            }
+        } else if (nbTour>1 && joueurAvance()){
+            if (trouverRole(roles, "Roi")){
+                return;
+            }
+            if (trouverRole(roles, "Assassin")){
+                return;
+            }
+            if (trouverRole(roles, "Condottiere")){
+                return;
+            }
+            if (trouverRole(roles, "Pretre")){
+                return;
             }
         }
         int intAleatoire = randInt(roles.size());
@@ -44,12 +60,29 @@ public class BotRichard extends BotMalin{
 
 
     private boolean architecteAvance(){
-        return role.getBotliste().stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
+        List<Bot> list = new ArrayList<>(role.getBotliste());
+        list.remove(this);
+        return list.stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
     }
+    private boolean joueurAvance(){
+        List<Bot> list = new ArrayList<>(role.getBotliste());
+        list.remove(this);
+        joueurAvance = list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==6);
+        return joueurAvance;
+    }
+
 
     @Override
     public void actionSpecialeAssassin(Assassin assassin){
-        //si un joueur menace de finir avec l'architecte
+        //si un joueur menace de finir
+        if (joueurAvance){
+            Optional<Role> roleRoi = assassin.getRoles().stream().filter(Roi.class::isInstance).findFirst();
+            roleRoi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+            roleRoi.ifPresent(assassin::tuer);
+            return;
+        }
+
+        //si un joueur menace de finir en 1 tour avec l'architecte
         if (premierAChoisir){
             Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
             roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
@@ -66,7 +99,7 @@ public class BotRichard extends BotMalin{
         }
 
         //si un bot est très riche on tue le voleur
-        Optional<Bot> botRiche = assassin.getBotListe().stream().filter(bot -> bot.getOr() > 7).findAny();
+        Optional<Bot> botRiche = assassin.getBotliste().stream().filter(bot -> bot.getOr() > 7).findAny();
         if (botRiche.isPresent()){
             affichageJoueur.afficheMeurtre(botRiche.get().getRole());
             assassin.tuer(botRiche.get().getRole());
@@ -90,13 +123,33 @@ public class BotRichard extends BotMalin{
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien) {
-        if(rolesRestants.size() > 1){
+        if (joueurAvance){
+            List<Bot> list = new ArrayList<>(magicien.getBotliste());
+            list.remove(this);
+            Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
+            optionalBot.ifPresent(affichageJoueur::afficheActionSpecialeMagicienAvecBot);
+            optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
+            optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
 
         }
     }
 
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
-
+        if (joueurAvance) {
+            List<Bot> list = new ArrayList<>(condottiere.getBotliste());
+            list.remove(this);
+            Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
+            if (optionalBot.isPresent()) {
+                Optional<Quartier> quartierMin = optionalBot.get().getQuartiersConstruits().stream().min(Comparator.comparingInt(Quartier::getCout));
+                if (quartierMin.isPresent() && quartierMin.get().getCout()-1 <= nbOr){
+                    condottiere.destructionQuartier(this, optionalBot.get(), quartierMin.get());
+                }
+                return;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+        super.actionSpecialeCondottiere(condottiere);
     }
 }

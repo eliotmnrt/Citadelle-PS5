@@ -118,6 +118,7 @@ public abstract class Bot {
         return this.quartierConstruit;
     }
 
+    public int getNbQuartiersConstruits(){ return quartierConstruit.size(); }
     public int getScore(){
         return this.score;
     }
