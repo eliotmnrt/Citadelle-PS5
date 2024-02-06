@@ -33,7 +33,12 @@ public class Tour {
         roles.add(new Condottiere(botListe));
         this.botListe = botListe;
     }
-
+    public List<Role> getRolesTemp(){
+        return rolesTemp;
+    }
+    public void setRolesTemp(ArrayList<Role> roles){
+        this.rolesTemp=roles;
+    }
 
     public void prochainTour(){
         nbTour++;
