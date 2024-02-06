@@ -31,6 +31,7 @@ public abstract class Bot {
     protected int score; // represente les points de victoire
     protected int orVole = -1;      //sert pour afficher l'or que l'on a volé / s'est fait volé
     protected int ordreChoixRole;
+    protected int nbTour = 0;
 
     protected Bot(Pioche pioche){
         this.pioche = pioche;
@@ -40,7 +41,7 @@ public abstract class Bot {
         quartierMain = new ArrayList<>();
         score = 0;
         random = new SecureRandom();
-        mort=false;
+        mort = false;
         initQuartierMain();
         this.affichageJoueur = new AffichageJoueur(this);
     }
@@ -119,6 +120,7 @@ public abstract class Bot {
         return this.quartierConstruit;
     }
 
+    public int getNbQuartiersConstruits(){ return quartierConstruit.size(); }
     public int getScore(){
         return this.score;
     }

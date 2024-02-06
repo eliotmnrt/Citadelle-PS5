@@ -33,6 +33,9 @@ public class Condottiere implements Role{
         if(botAdetruire.getQuartiersConstruits().size()<8){
             botAdetruire.getQuartiersConstruits().remove(quartier);
             bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
+            if (bot.getOr() < 0){
+                throw new IllegalArgumentException();
+            }
             botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
             bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
         }
@@ -57,6 +60,12 @@ public class Condottiere implements Role{
     public int getOrdre() {
         return ordre;
     }
+
+    @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
+
     public List<Bot> getBotListe() {
         return botListe;
     }

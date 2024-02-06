@@ -18,7 +18,8 @@ public class Magicien implements Role {
         this.botListe = botListe;
     }
 
-    public List<Bot> getBotListe() {
+    @Override
+    public List<Bot> getBotliste() {
         return botListe;
     }
 

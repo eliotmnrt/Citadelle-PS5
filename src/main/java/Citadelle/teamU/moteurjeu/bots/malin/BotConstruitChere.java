@@ -1,12 +1,7 @@
 package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Assassin;
-import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
@@ -100,7 +95,7 @@ public class BotConstruitChere extends BotMalin {
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
             if(botAdverse.getQuartierMain().size() > nbQuartierMain){
                 botAvecQuiEchanger = botAdverse;
                 nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
@@ -115,23 +110,6 @@ public class BotConstruitChere extends BotMalin {
             affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
             affichageJoueur.afficheNouvelleMainMagicien();
-        }
-    }
-
-
-
-    @Override
-    public void actionSpecialeCondottiere(Condottiere condottiere){
-        // détruit que un quartier qui coute 1
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
-        botList.remove(this);
-        for(Bot bot:botList){
-            for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8){
-                    condottiere.destructionQuartier(this,bot, quartier);
-                    return;
-                }
-            }
         }
     }
 

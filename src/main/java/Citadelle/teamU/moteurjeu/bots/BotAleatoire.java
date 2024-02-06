@@ -113,13 +113,13 @@ public class BotAleatoire extends Bot{
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
-        int aleat = randInt(magicien.getBotListe().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
-        while (aleat == magicien.getBotListe().indexOf(this)){          //on l'empêche d'échanger avec lui meme
-            aleat = randInt(magicien.getBotListe().size() + 1);
+        int aleat = randInt(magicien.getBotliste().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
+        while (aleat == magicien.getBotliste().indexOf(this)){          //on l'empêche d'échanger avec lui meme
+            aleat = randInt(magicien.getBotliste().size() + 1);
         }
-        if(aleat < magicien.getBotListe().size()){                      // aleatoire correspondant à un bot
-            affichageJoueur.afficheActionSpecialeMagicienAvecBot(magicien.getBotListe().get(aleat));
-            magicien.changeAvecBot(this, magicien.getBotListe().get(aleat));
+        if(aleat < magicien.getBotliste().size()){                      // aleatoire correspondant à un bot
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(magicien.getBotliste().get(aleat));
+            magicien.changeAvecBot(this, magicien.getBotliste().get(aleat));
             affichageJoueur.afficheNouvelleMainMagicien();
         } else {                                                        //aleatoire correspondant à la pioche
             affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());

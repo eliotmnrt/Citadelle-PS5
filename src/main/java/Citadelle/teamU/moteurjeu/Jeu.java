@@ -4,6 +4,7 @@ import Citadelle.teamU.moteurjeu.bots.*;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
+import Citadelle.teamU.moteurjeu.bots.malin.BotRichard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,10 +43,10 @@ public class Jeu {
 
     public static void main (String... args){
         Pioche pioche = new Pioche();
-        Bot bot1 = new BotFocusRoi(pioche);
+        Bot bot1 = new BotRichard(pioche);
         Bot bot2 = new BotConstruitChere(pioche);
         Bot bot3 = new BotConstruitVite(pioche);
-        Bot bot4 = new BotAleatoire(pioche);
+        Bot bot4 = new BotFocusRoi(pioche);
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
         bot1.setOrdreChoixRole(1);
         bot2.setOrdreChoixRole(2);
