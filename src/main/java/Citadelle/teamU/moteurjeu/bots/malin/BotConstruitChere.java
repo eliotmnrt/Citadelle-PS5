@@ -1,36 +1,25 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Assassin;
-import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class BotConstruitChere extends Bot{
-    private String name;
+public class BotConstruitChere extends BotMalin {
     private final int COUT_MINIMAL=4;
     private static int numDuBotConstruitChere=1;
-    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name="BotConstruitChere"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
 
-    // utile pour les tests uniquement
-    public void setRolesRestants(List<Role> rolesRestants){
-        this.rolesRestants = rolesRestants;
-    }
 
 
     @Override
@@ -72,19 +61,7 @@ public class BotConstruitChere extends Bot{
         }
         return null;
     }
-    @Override
-    public String toString(){
-        return name;
-    }
 
-
-    @Override
-    public void choisirRole(List<Role> roles){
-        if (orProchainTour >= 0) nbOr += orProchainTour;         //on recupere l'or du vol
-        int intAleatoire = randInt(roles.size());
-        setRole(roles.remove(intAleatoire));
-        rolesRestants = new ArrayList<>(roles);
-    }
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
@@ -118,7 +95,7 @@ public class BotConstruitChere extends Bot{
     public void actionSpecialeMagicien(Magicien magicien){
         int nbQuartierMain = this.getQuartierMain().size();
         Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
             if(botAdverse.getQuartierMain().size() > nbQuartierMain){
                 botAvecQuiEchanger = botAdverse;
                 nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
@@ -136,59 +113,4 @@ public class BotConstruitChere extends Bot{
         }
     }
 
-
-    //A MODIFER QUAND AJOUT CLASSE ASSASSIN, on peut pas tuer l'assassin
-    @Override
-    public void actionSpecialeVoleur(Voleur voleur){
-        if (rolesRestants.size() > 1){
-            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
-            // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang;
-            do{
-                rang = randInt(rolesRestants.size());
-            }while(rolesRestants.get(rang) instanceof Assassin ); //ne pas prendre l'assassin car on ne peut pas le voler
-
-
-            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
-            voleur.voler(this, rolesRestants.get(rang));
-        }
-        else {
-            //sinon on fait aleatoire et on croise les doigts
-            int rang =randInt(6) + 2;       // pour un nb aleatoire hors assassin et voleur
-            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
-            voleur.voler(this, voleur.getRoles().get(rang) );
-        }
-    }
-    @Override
-    public void actionSpecialeCondottiere(Condottiere condottiere){
-        // détruit que un quartier qui coute 1
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
-        botList.remove(this);
-        for(Bot bot:botList){
-            for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8){
-                    condottiere.destructionQuartier(this,bot, quartier);
-                    return;
-                }
-            }
-        }
-
-
-
-
-    }
-    @Override
-    public void actionSpecialeAssassin(Assassin assassin) {
-        if(rolesRestants.size()>1){
-            int rang= randInt(rolesRestants.size());
-            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
-            assassin.tuer(rolesRestants.get(rang));
-
-        }
-        else{
-            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
-            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
-            assassin.tuer(assassin.getRoles().get(rang));
-        }
-    }
 }

@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
-import Citadelle.teamU.moteurjeu.bots.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.BotConstruitVite;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 class AssassinTest {
     private BotAleatoire botAleatoire, botAleatoire2;
     private BotConstruitVite botConstruitVite;

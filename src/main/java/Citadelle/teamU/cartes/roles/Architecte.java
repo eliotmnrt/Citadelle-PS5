@@ -43,6 +43,11 @@ public class Architecte implements Role {
         return ordre;
     }
 
+    @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
+
 
     @Override
     public String toString() {

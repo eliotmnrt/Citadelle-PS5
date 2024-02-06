@@ -33,18 +33,21 @@ public class Tour {
         roles.add(new Condottiere(botListe));
         this.botListe = botListe;
     }
-
+    public List<Role> getRolesTemp(){
+        return rolesTemp;
+    }
+    public void setRolesTemp(ArrayList<Role> roles){
+        this.rolesTemp=roles;
+    }
 
     public void prochainTour(){
+        nbTour++;
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        System.out.println("Les rôles face visible sont : "+
-            rolesTemp.remove(random.nextInt(rolesTemp.size()))+" et "+
-            rolesTemp.remove(random.nextInt(rolesTemp.size())));
+        affichageJeu.afficheCartesVisible(rolesTemp.remove(random.nextInt(rolesTemp.size())),rolesTemp.remove(random.nextInt(rolesTemp.size())));
         Bot premierFinir = null;
         distributionRoles();
         affichageJeu.affichageNbTour();
-        System.out.println(botListe);
         botListe.sort(Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe) {
             if (!bot.estMort()) {
@@ -67,6 +70,22 @@ public class Tour {
         if (premierFinir!=null){
             bonus(premierFinir);
         }
+    }
+    public Bot getLeVainqueur(){
+        //affiche le vainqueur de la partie, celui qui a un score maximal
+        int max=0;
+        List<Bot> botVainqueur = new ArrayList<>();
+        botVainqueur.add(this.getBotListe().get(0)); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
+        for(Bot bot1: this.getBotListe()){
+            if (bot1.getScore()>max){
+                max= bot1.getScore();
+                botVainqueur.clear();
+                botVainqueur.add(bot1);
+            }else if (bot1.getScore()==max){
+                botVainqueur.add(bot1);
+            }
+        }
+        return botVainqueur.size()==1 ? botVainqueur.get(0) : null;
     }
 
     public void bonus(Bot premierFinir) {
@@ -99,7 +118,7 @@ public class Tour {
                 }
             }
         }
-        affichageJeu.afficheLeVainqueur();
+        affichageJeu.afficheLeVainqueur(getLeVainqueur());
     }
     private int nbCouleur(List<Quartier> quartiers) {
         ArrayList<TypeQuartier> arrayList = new ArrayList<>();

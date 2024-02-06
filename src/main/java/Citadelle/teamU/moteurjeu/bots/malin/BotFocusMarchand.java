@@ -1,10 +1,11 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -265,7 +266,7 @@ public class BotFocusMarchand extends Bot {
         if(comp == 0){
             int nbQuartierMain = this.getQuartierMain().size();
             Bot botAvecQuiEchanger = null;
-            for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+            for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
                 if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 3){
                     botAvecQuiEchanger = botAdverse;
                 }

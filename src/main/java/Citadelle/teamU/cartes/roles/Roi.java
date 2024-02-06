@@ -18,7 +18,7 @@ public class Roi implements Role {
     }
 
     public void distributionCouronne(Bot notreBot) {
-        System.out.println("Le "+notreBot+" prend la couronne");
+        notreBot.getAffichage().affichePrendreCouronne();
         for(Bot bot : this.botListe){
             bot.setCouronne(false);
         }
@@ -51,6 +51,10 @@ public class Roi implements Role {
         return ordre;
     }
 
+    @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
     @Override
     public String toString() {
         return "Roi";
