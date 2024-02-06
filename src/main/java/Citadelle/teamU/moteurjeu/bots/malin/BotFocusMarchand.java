@@ -7,10 +7,7 @@ import Citadelle.teamU.moteurjeu.AffichageJoueur;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class BotFocusMarchand extends Bot {
     private static int numDuBotAleatoire = 1;
@@ -80,25 +77,27 @@ public class BotFocusMarchand extends Bot {
         }
     }
 
+    public boolean trouverRole(List<Role> roles, String roleRecherche){
+        Optional<Role> roleOptional = roles.stream().filter(role1 -> role1.toString().equals(roleRecherche)).findFirst();
+        if (roleOptional.isPresent()){
+            int rang = roles.indexOf(roleOptional.get());
+            setRole(roles.remove(rang));
+            rolesRestants = new ArrayList<>(roles);
+            return true;
+        }
+        return false;
+    }
+
     public void choisirRoleDebut(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        for (int i = 0; i < roles.size(); i++) {     //on cherche l'archi en premier pour avoir plus de cartes
-            if (roles.get(i) instanceof Architecte) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Architecte")){
+            return;
         }
-        for (int i = 0; i < roles.size(); i++) {     //le magicien en 2eme pour renouveler ses cartes non vertes
-            if (roles.get(i) instanceof Magicien) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Magicien")){
+            return;
         }
-        for (int i = 0; i < roles.size(); i++) {     //3eme meilleur choix choisir marchand
-            if (roles.get(i) instanceof Marchand) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Marchand")){
+            return;
         }
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
@@ -107,29 +106,17 @@ public class BotFocusMarchand extends Bot {
 
     public void choisirRoleFin(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        for (int i = 0; i < roles.size(); i++) {     //meilleur choix est le marchand
-            if (roles.get(i) instanceof Marchand) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Marchand")){
+            return;
         }
-        for (int i = 0; i < roles.size(); i++) {     //le Roi en 2eme
-            if (roles.get(i) instanceof Roi) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Roi")){
+            return;
         }
-        for (int i = 0; i < roles.size(); i++) {     //l Architecte en 3eme
-            if (roles.get(i) instanceof Architecte) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Architecte")){
+            return;
         }
-        for (int i = 0; i < roles.size(); i++) {     //le magicien en 4eme
-            if (roles.get(i) instanceof Magicien) {
-                setRole(roles.remove(i));
-                return;
-            }
+        if (trouverRole(roles, "Magicien")){
+            return;
         }
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
