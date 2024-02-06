@@ -44,13 +44,10 @@ public class Tour {
         nbTour++;
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        System.out.println("Les rôles face visible sont : "+
-            rolesTemp.remove(random.nextInt(rolesTemp.size()))+" et "+
-            rolesTemp.remove(random.nextInt(rolesTemp.size())));
+        affichageJeu.afficheCartesVisible(rolesTemp.remove(random.nextInt(rolesTemp.size())),rolesTemp.remove(random.nextInt(rolesTemp.size())));
         Bot premierFinir = null;
         distributionRoles();
         affichageJeu.affichageNbTour();
-        System.out.println(botListe);
         botListe.sort(Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe) {
             if (!bot.estMort()) {

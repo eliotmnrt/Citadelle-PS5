@@ -22,7 +22,6 @@ public class BotAleatoire extends Bot{
     public BotAleatoire(Pioche pioche){
         super(pioche);
         this.name = "BotAleatoire"+numDuBotAleatoire;
-        this.affichageJoueur = new AffichageJoueur(this);
         numDuBotAleatoire++;
     }
 
