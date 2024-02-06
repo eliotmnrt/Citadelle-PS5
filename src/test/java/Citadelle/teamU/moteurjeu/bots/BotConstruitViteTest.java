@@ -16,7 +16,7 @@ class BotConstruitViteTest {
 
     private Pioche pioche;
     private BotConstruitVite bot;
-    ArrayList<Bot> botliste;
+    private ArrayList<Bot> botliste;
     @BeforeEach
     public void setBot(){
         pioche = spy(new Pioche());

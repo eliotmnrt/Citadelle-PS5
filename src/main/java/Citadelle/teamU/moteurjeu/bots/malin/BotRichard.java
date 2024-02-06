@@ -37,7 +37,8 @@ public class BotRichard extends BotMalin{
                     return;
                 }
             }
-        } else if (nbTour>1 && joueurAvance()){
+        } else if (nbTour>1 && !joueurAvance()){
+            System.out.println("salut");
             if (trouverRole(roles, "Roi")){
                 return;
             }
@@ -76,6 +77,7 @@ public class BotRichard extends BotMalin{
     public void actionSpecialeAssassin(Assassin assassin){
         //si un joueur menace de finir
         if (joueurAvance){
+            System.out.println("hey");
             Optional<Role> roleRoi = assassin.getRoles().stream().filter(Roi.class::isInstance).findFirst();
             roleRoi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
             roleRoi.ifPresent(assassin::tuer);
@@ -123,20 +125,22 @@ public class BotRichard extends BotMalin{
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien) {
-        if (joueurAvance){
+        //on échange ses cartes avec le joueur avancé ssi peu de cartes et aucune pas chere
+        if (joueurAvance && quartierMain.size()<=3 && quartierMain.stream().allMatch(quartier -> quartier.getCout() >=3)){
+            System.out.println("hey");
             List<Bot> list = new ArrayList<>(magicien.getBotliste());
             list.remove(this);
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
-            optionalBot.ifPresent(affichageJoueur::afficheActionSpecialeMagicienAvecBot);
+            optionalBot.ifPresentOrElse(affichageJoueur::afficheActionSpecialeMagicienAvecBot, () -> {throw new IllegalArgumentException();});
             optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
             optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
-
         }
     }
 
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
         if (joueurAvance) {
+            System.out.println("hey");
             List<Bot> list = new ArrayList<>(condottiere.getBotliste());
             list.remove(this);
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));

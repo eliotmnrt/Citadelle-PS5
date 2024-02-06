@@ -67,7 +67,9 @@ public class BotConstruitVite extends BotMalin {
                 minPrixQuartier = quartier;
             }
         }
-        condottiere.destructionQuartier(this,botMax,minPrixQuartier);
+        if (minPrixQuartier.getCout() - 1 <= nbOr){
+            condottiere.destructionQuartier(this,botMax,minPrixQuartier);
+        }
     }
 
 

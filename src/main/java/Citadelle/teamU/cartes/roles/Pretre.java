@@ -42,6 +42,6 @@ public class Pretre implements Role {
 
     @Override
     public String toString() {
-        return "Prêtre";
+        return "Pretre";
     }
 }
