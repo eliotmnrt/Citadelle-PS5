@@ -5,10 +5,7 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitVite sauf pour les règles demandées
@@ -91,6 +88,7 @@ public class BotRichard extends BotMalin{
         joueurAvance = list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==6);
         return joueurAvance;
     }
+
 
 
     @Override

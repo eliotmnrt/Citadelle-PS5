@@ -23,9 +23,7 @@ class BotRichardTest {
     Pioche pioche;
 
     List<Bot> botliste;
-    Bot bot1;
-    Bot bot2;
-    Bot bot3;
+    Bot bot1, bot2, bot3;
     Tour tour;
 
     @BeforeEach
@@ -41,22 +39,18 @@ class BotRichardTest {
         botliste.add(bot1);
         botliste.add(bot2);
         botliste.add(bot3);
-
-
     }
 
     @Test
         //tester si le bot Richard choisit soit l'assassin ou l'architecte si il est le premier à choisir
     void testPremierAChoisir() {
-
-
         bot.setOrdreChoixRole(4);
         bot1.setOrdreChoixRole(2);
         bot2.setOrdreChoixRole(3);
         bot3.setOrdreChoixRole(1);
         tour.prochainTour();
 
-        //assertFalse(bot.getPremierAChoisir());
+        assertFalse(bot.getPremierAChoisir());
 
         bot1.setOrdreChoixRole(4);
         bot2.setOrdreChoixRole(2);
@@ -64,11 +58,6 @@ class BotRichardTest {
         bot.setOrdreChoixRole(1);
         tour.prochainTour();
 
-        //assertTrue(bot.getPremierAChoisir());
-
-
+        assertTrue(bot.getPremierAChoisir());
         }
-
-
-
     }
