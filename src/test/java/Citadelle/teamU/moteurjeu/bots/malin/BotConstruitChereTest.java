@@ -1,8 +1,10 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,14 +59,14 @@ class BotConstruitChereTest {
         bot.ajoutQuartierMain(Quartier.TEMPLE);
         bot.ajoutQuartierMain(Quartier.PRISON);
         bot.ajoutQuartierMain(Quartier.CATHEDRALE);
-        assertEquals(3, bot.quartierMain.size()); //4 de base + 3 ajouts
+        assertEquals(3, bot.getQuartierMain().size()); //4 de base + 3 ajouts
         //bot.setRole(new Roi(botliste));
         bot.changerOr(10);
 
         assertEquals(Quartier.CATHEDRALE, bot.construire());
-        assertEquals(5, bot.quartierConstruit.get(0).getCout());
-        assertEquals(1, bot.quartierConstruit.size());
-        assertEquals(2, bot.quartierMain.size());
+        assertEquals(5, bot.getQuartiersConstruits().get(0).getCout());
+        assertEquals(1, bot.getQuartiersConstruits().size());
+        assertEquals(2, bot.getQuartiersConstruits().size());
 
     }
     @Test
@@ -84,7 +86,7 @@ class BotConstruitChereTest {
         arrayBot.add(bot1);
 
         bot.actionSpecialeMagicien(new Magicien(arrayBot));
-        assertEquals(1, bot.quartierMain.size());
+        assertEquals(1, bot.getQuartierMain().size());
         assertTrue(bot.getQuartierMain().contains(Quartier.EGLISE));
     }
     @Test
@@ -106,9 +108,9 @@ class BotConstruitChereTest {
 
         arrayBot.add(bot1);
 
-        assertEquals(2, bot.quartierMain.size());
+        assertEquals(2, bot.getQuartierMain().size());
         bot.actionSpecialeMagicien(new Magicien(arrayBot));
-        assertEquals(2, bot.quartierMain.size());
+        assertEquals(2, bot.getQuartierMain().size());
         assertTrue(bot.getQuartierMain().contains(Quartier.MONASTERE));
     }
     @Test
@@ -127,7 +129,7 @@ class BotConstruitChereTest {
         bot.setRolesRestants(arrayRole);
         bot.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
         assertEquals(2, bot.getOr());
-        assertEquals(6, bot.orProchainTour);
+        assertEquals(6, bot.getOrProchainTour());
         bot.choisirRole(arrayRole); //Le tour d'après
         assertEquals(8, bot.getOr());
     }
@@ -151,7 +153,7 @@ class BotConstruitChereTest {
 
         bot.actionSpecialeVoleur(new Voleur(arrayBot,arrayRole));
         assertEquals(2, bot.getOr());
-        assertEquals(6, bot.orProchainTour);
+        assertEquals(6, bot.getOrProchainTour());
         bot.choisirRole(arrayRole); //Le tour d'après
         assertEquals(8, bot.getOr());
     }

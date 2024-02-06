@@ -13,21 +13,26 @@ public class BotRichard extends BotMalin{
 
     private static int numDuBot = 1;
 
+
+
     private boolean premierAChoisir = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
         this.name = "Bot_Richard" + numDuBot;
+
         numDuBot++;
     }
 
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
+        isPremierAChoisir(roles);    //si il y aencore 5 roles a piocher c'est que l'on est premier
+
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-            premierAChoisir = roles.size() == 5;        //si il y aencore 5 roles a piocher c'est que l'on est premier
+
             if (premierAChoisir){
-                if (trouverRole(roles, "Assassin")){
+                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
                     return;
                 }
                 if (trouverRole(roles, "Architecte")){
@@ -40,9 +45,14 @@ public class BotRichard extends BotMalin{
         rolesRestants = new ArrayList<>(roles);
     }
 
+    public boolean isPremierAChoisir(List<Role> roles){
+        System.out.println("hello");
+        return premierAChoisir = roles.size() == 5;
+    }
 
-
-
+    public boolean getPremierAChoisir() {
+        return premierAChoisir;
+    }
     private boolean architecteAvance(){
         return role.getBotliste().stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
     }
@@ -53,7 +63,7 @@ public class BotRichard extends BotMalin{
         if (premierAChoisir){
             Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
             roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-            roleArchi.ifPresent(assassin::tuer);
+            roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
             return;
         }
 
