@@ -14,7 +14,7 @@ public class AffichageJeu {
 
     public AffichageJeu(Tour tour){
         this.tour = tour;
-        LOGGER.setLevel(Level.OFF);
+        //LOGGER.setLevel(Level.OFF);
     }
 
     public void affichageNbTour(){
@@ -25,19 +25,13 @@ public class AffichageJeu {
         LOGGER.info("\n\n\nOrdre dans lequel les bots choissent leurs role : " + ordre);
     }
 
-    public Bot afficheLeVainqueur(){
+    public void afficheLeVainqueur(Bot botVainqueur){
         //affiche le vainqueur de la partie, celui qui a un score maximal
-        int max=0;
-        Bot botVainqueur =tour.getBotListe().get(0); //choisit arbitrairement au début, on modifie dans la boucle quand on compare le score
-        for(Bot bot1: tour.getBotListe()){
-            if (bot1.getScore()>max){
-                max= bot1.getScore();
-                botVainqueur=bot1;
-            }
+        if (botVainqueur != null){
+            LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + botVainqueur.getScore() + " points");
+        }else{
+            LOGGER.info("\n\nTour " + tour.getNbTour() +"Egalité, deux bot on fini avec autant de point");
         }
-
-        LOGGER.info("\n\nTour " + tour.getNbTour() +": Le vainqueur de la partie est " + botVainqueur.toString() + " avec un score de " + max + " points");
-        return botVainqueur;
     }
 
     public void afficheCartesVisible(Role role1, Role role2) {

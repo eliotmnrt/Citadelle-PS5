@@ -1,0 +1,7 @@
+Simulations,Pourcentage de victoire,Pourcentage de défaite,Score moyen,Score moyen en cas de victoire
+Bot construit chère,32.75,67.25,23.8745,31.960007
+Bot construit vite,5.75,94.25,11.9305,23.990625
+Bot qui focus Roi,46.1,53.9,24.0795,27.679173
+Bot aléatoire,10.0,90.0,16.422,29.093636
+Egalité,5.3,--,25.624187,25.624187
+Nombre de simulations,2000.0
