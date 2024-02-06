@@ -29,6 +29,7 @@ public class BotRichard extends BotMalin{
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
+        assassinerMagicien = false;
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
@@ -116,6 +117,13 @@ public class BotRichard extends BotMalin{
             roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
             roleCondott.ifPresent(assassin::tuer);
             return;
+        }
+
+        //si on a bcp de cartes et pas, les autres, on tue le magicien
+        if (assassinerMagicien){
+            Optional<Role> roleMagicien = assassin.getRoles().stream().filter(Magicien.class::isInstance).findFirst();
+            roleMagicien.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+            roleMagicien.ifPresent(assassin::tuer);
         }
 
         //si un bot est très riche on tue le voleur
