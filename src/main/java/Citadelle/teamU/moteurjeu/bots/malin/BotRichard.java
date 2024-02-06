@@ -168,6 +168,7 @@ public class BotRichard extends BotMalin{
             optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
             optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
         }
+
     }
 
     @Override

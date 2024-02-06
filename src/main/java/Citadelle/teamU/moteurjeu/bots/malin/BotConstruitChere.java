@@ -1,14 +1,9 @@
 package Citadelle.teamU.moteurjeu.bots.malin;
 
-import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class BotConstruitChere extends BotMalin {
     private final int COUT_MINIMAL=4;
@@ -36,7 +31,6 @@ public class BotConstruitChere extends BotMalin {
             affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
             magicien.changeAvecBot(this, botAvecQuiEchanger);
             affichageJoueur.afficheNouvelleMainMagicien();
-
         } else {    // sinon on échange toutes ses cartes avec la pioche
             affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());

@@ -70,32 +70,7 @@ public class BotConstruitVite extends BotMalin {
     }
 
 
-    @Override
-    public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
-            if (quartierPioches.get(2) == null){
-                quartierPioches.remove(2);
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse(quartierPioches);
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
-            }
-            quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-            Collections.reverse(quartierPioches);
-            pioche.remettreDansPioche(quartierPioches.remove(0));
-            pioche.remettreDansPioche(quartierPioches.remove(0));
-            ajoutQuartierMain(quartierPioches.get(0));
-            return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
-        } else {
-            for (Quartier quartier: quartierPioches){
-                if (quartier != null){
-                    ajoutQuartierMain(quartier);
-                }
-            }
-            return quartierPioches;
-        }
-    }
+
 
 
 
@@ -115,7 +90,7 @@ public class BotConstruitVite extends BotMalin {
             magicien.changeAvecBot(this, botAvecQuiEchanger);
             affichageJoueur.afficheNouvelleMainMagicien();
         } else {    // sinon on échange toutes ses cartes avec la pioche
-            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
             magicien.changeAvecPioche(this, this.getQuartierMain());
             affichageJoueur.afficheNouvelleMainMagicien();
         }
