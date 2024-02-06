@@ -19,6 +19,7 @@ public class BotRichard extends BotMalin{
 
     private boolean premierAChoisir = false;
     private boolean joueurAvance = false;
+    private boolean assassinerMagicien = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
         this.name = "Bot_Richard" + numDuBot;
@@ -55,6 +56,17 @@ public class BotRichard extends BotMalin{
                 return;
             }
         }
+        //si on a bcp de cartes et que les autres non, on tue l'assassin
+        if (nbTour>1 && quartierMain.size()>=4){
+            List<Bot> list = new ArrayList<>(role.getBotliste());
+            list.remove(this);
+            if(list.stream().allMatch(bot -> bot.getQuartierMain().size()<=2) && (trouverRole(roles, "Assassin"))){
+                    assassinerMagicien = true;
+                    return;
+            }
+        }
+
+        //sinon aleatoire
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
