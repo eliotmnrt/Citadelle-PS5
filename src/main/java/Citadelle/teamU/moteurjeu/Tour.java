@@ -36,10 +36,12 @@ public class Tour {
     public List<Role> getRolesTemp(){
         return rolesTemp;
     }
-    public void setRolesTemp(ArrayList<Role> roles){
+    public void setRolesTemp(List<Role> roles){
         this.rolesTemp=roles;
     }
-
+    public void setNbTour(int nb){
+        nbTour=nb;
+    }
     public void prochainTour(){
         nbTour++;
         rolesTemp = new ArrayList<>(roles);
@@ -145,6 +147,7 @@ public class Tour {
         }
         affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
+            System.out.println("avant de choisir:"+rolesTemp);
             bot.choisirRole(rolesTemp);
         }
         return listeDistribution;

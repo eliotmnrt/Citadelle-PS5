@@ -31,26 +31,32 @@ public class BotRichard extends BotMalin{
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-
+            System.out.println("je suis la");
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
+                    System.out.println("Assassin");
                     return;
                 }
                 if (trouverRole(roles, "Architecte")){
+                    System.out.println("Architecte");
                     return;
                 }
             }
         } else if (nbTour>1 && joueurAvance()){
             if (trouverRole(roles, "Roi")){
+                System.out.println("roi");
                 return;
             }
             if (trouverRole(roles, "Assassin")){
+                System.out.println("assassin");
                 return;
             }
             if (trouverRole(roles, "Condottiere")){
+                System.out.println("condottiere");
                 return;
             }
             if (trouverRole(roles, "Pretre")){
+                System.out.println("pretre");
                 return;
             }
         }
@@ -66,7 +72,9 @@ public class BotRichard extends BotMalin{
 
         //sinon aleatoire
         int intAleatoire = randInt(roles.size());
-        setRole(roles.remove(intAleatoire));
+        Role rolechoisi=roles.remove(intAleatoire);
+        setRole(rolechoisi);
+        System.out.println(rolechoisi);
         rolesRestants = new ArrayList<>(roles);
     }
 
@@ -78,11 +86,13 @@ public class BotRichard extends BotMalin{
         return premierAChoisir;
     }
     private boolean architecteAvance(){
+        //joueur avance (meets conditions en dessous) et peut gagner en prenant l'architecte
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         return list.stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
     }
     private boolean joueurAvance(){
+        //joueur qui a 6 quartiers construits
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         joueurAvance = list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==6);

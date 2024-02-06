@@ -96,6 +96,9 @@ public abstract class Bot {
 
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
+        System.out.println(this.getOr());
+        System.out.println(this.getQuartierMain());
+        System.out.println(this.getQuartiersConstruits());
         if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
             quartierConstruit.add(newQuartier);
             quartierMain.remove(newQuartier);
@@ -126,6 +129,7 @@ public abstract class Bot {
     }
 
 
+
     public void setScore(int score) { this.score = score; }
 
     /**
@@ -153,6 +157,10 @@ public abstract class Bot {
 
     public void setQuartierConstruit(List<Quartier> quartierConstruit) {
         this.quartierConstruit = quartierConstruit;
+    }
+
+    public void setNbTour(int nbTour) {
+        this.nbTour = nbTour;
     }
 
     public void setQuartierMain(List<Quartier> quartierMain) {
