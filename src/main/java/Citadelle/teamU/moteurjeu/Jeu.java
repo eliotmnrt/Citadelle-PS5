@@ -4,6 +4,7 @@ import Citadelle.teamU.moteurjeu.bots.*;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
 import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
 import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
+import Citadelle.teamU.moteurjeu.bots.malin.BotRichard;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -202,7 +203,7 @@ public class Jeu {
 
 
 
-        
+
         //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
 
     }

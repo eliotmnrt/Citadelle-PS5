@@ -17,9 +17,6 @@ public class Assassin implements Role {
         this.botListe = botListe;
         this.roles=roles;
     }
-    public List<Bot> getBotListe() {
-        return botListe;
-    }
 
     /**
      *  permet de tuer
@@ -43,8 +40,13 @@ public class Assassin implements Role {
     }
 
     @Override
+    public List<Bot> getBotliste() {
+        return botListe;
+    }
+
+    @Override
     public String toString() {
-        return "Assassin";
+            return "Assassin";
     }
     public List<Role> getRoles() {
         return roles;

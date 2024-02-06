@@ -27,9 +27,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Clean package
-      run: mvn -B package --file pom.xml
     - name: Execute Unit Tests
+      run: mvn -B package --file pom.xml
+    - name: demo
       run: mvn exec:java
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
