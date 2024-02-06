@@ -219,14 +219,86 @@ public class BotFocusMarchand extends Bot {
         return null;
     }
     @Override
-    public void actionSpecialeVoleur(Voleur voleur){}
+    public void actionSpecialeVoleur(Voleur voleur){
+        if (rolesRestants.size() > 1){
+            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
+            // c.a.d au moins 1 chance sur 2 de voler qq
+            int rang = randInt(rolesRestants.size());
+            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
+            voleur.voler(this, rolesRestants.get(rang));
+        }
+        else {
+            int rang = randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
+            //+1 pcq le premier c'est voleur et on veut pas le prendre
+            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
+            voleur.voler(this, voleur.getRoles().get(rang) );
+        }
+    }
+
+
     @Override
-    public void actionSpecialeCondottiere(Condottiere condottiere) {}
+    public void actionSpecialeCondottiere(Condottiere condottiere) {
+        // détruit que un quartier qui coute 1
+        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        botList.remove(this);
+        for(Bot bot:botList){
+            for(Quartier quartier: bot.getQuartiersConstruits()){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
+                    condottiere.destructionQuartier(this,bot, quartier);
+                    return;
+                }
+            }
+        }
+    }
+
     @Override
-    public void actionSpecialeMagicien(Magicien magicien){}
+    public void actionSpecialeMagicien(Magicien magicien){
+        //n'echange pas sa main des autres joueurs mais toutes ses cartes non vertes avec la pioche, sauf s'il ne possede aucun quartier vert
+        //si une carte verte est deja construite il l'échange aussi
+        int comp = 0;
+        for (Quartier quartier : quartierMain){
+            if (quartier.getCouleur() == TypeQuartier.VERT && !quartierConstruit.contains(quartier)){
+                comp++;
+            }
+        }
+
+        if(comp == 0){
+            int nbQuartierMain = this.getQuartierMain().size();
+            Bot botAvecQuiEchanger = null;
+            for (Bot botAdverse: magicien.getBotListe()){  //on regarde qui a le plus de cartes dans sa main
+                if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 3){
+                    botAvecQuiEchanger = botAdverse;
+                }
+            }
+            if(botAvecQuiEchanger != null){ // si un bot a 3 cartes de plus que nous, on échange avec lui
+                affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+                magicien.changeAvecBot(this, botAvecQuiEchanger);
+                affichageJoueur.afficheNouvelleMainMagicien();
+                return;
+            }
+        }
+        List<Quartier> quartiersAEchanger = new ArrayList<>();
+        for(Quartier quartier: quartierMain){
+            if (quartier.getCouleur() != TypeQuartier.VERT || quartierConstruit.contains(quartier)){
+                quartiersAEchanger.add(quartier);
+            }
+        }
+        affichageJoueur.afficheActionSpecialeMagicienAvecPioche(quartiersAEchanger);
+        magicien.changeAvecPioche(this, quartiersAEchanger);
+        affichageJoueur.afficheNouvelleMainMagicien();
+    }
     @Override
 
-    public void actionSpecialeAssassin(Assassin assassin){}
+    public void  actionSpecialeAssassin(Assassin assassin) {
+        if(rolesRestants.size()>1){
+            int rang= randInt(rolesRestants.size());
+            assassin.tuer(rolesRestants.get(rang));
 
+        }
+        else{
+            int rang = randInt(7)+ 1  ;
+            assassin.tuer(assassin.getRoles().get(rang));
+        }
+    }
 }
 

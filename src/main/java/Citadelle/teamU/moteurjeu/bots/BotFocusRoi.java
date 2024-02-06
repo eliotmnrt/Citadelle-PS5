@@ -143,7 +143,7 @@ public class BotFocusRoi extends Bot {
 
         }
         else{
-            int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+            int rang = randInt(7)+ 1  ;
             assassin.tuer(assassin.getRoles().get(rang));
         }
     }
