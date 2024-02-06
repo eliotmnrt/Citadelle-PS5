@@ -195,11 +195,11 @@ public class Jeu {
         Pioche pioche = new Pioche();
         Bot bot1 = new BotFocusRoi(pioche);
         Bot bot2 = new BotConstruitChere(pioche);
-        Bot bot3 = new BotConstruitVite(pioche);
+        Bot bot3 = new BotRichard(pioche);
         Bot bot4 = new BotAleatoire(pioche);
 
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-        //JouerPartie(bot1,bot2,bot3,bot4);
+        JouerPartie(bot1,bot2,bot3,bot4);
 
 
 
