@@ -154,6 +154,9 @@ public class BotFocusRoi extends BotMalin {
         if (trouverRole(roles, "Architecte")){
             return;
         }
+        if (trouverRole(roles, "Marchand")){
+            return;
+        }
         if (trouverRole(roles, "Magicien")){
             return;
         }
