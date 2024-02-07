@@ -5,6 +5,7 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,15 +66,15 @@ public class BotRichard extends BotMalin{
          afin de construire son dernier quartier sans craindre le Condottiere.
          */ joueurProcheFinir=joueurProcheFinir();
             System.out.println("dans choisir role  "+joueurProcheFinir);
-            //à enlever
-            List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
-            System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
+
+            Bot botProcheDeFinir = this.getJoueurProcheFinir();//avec 7 quartiers construit
+            System.out.println("Joueurs proches de finir:" +botProcheDeFinir );
             if (joueurProcheFinir) {
             /*
              Dans le meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
               prendre l’Assassin et tuer l’Evêque ou Condottiere.
             */
-                if (joueursProchesDeFinirList.contains(this)) {
+                if (botProcheDeFinir.equals(this)){
 
                     if ((ordreChoix == 1 || ordreChoix == 2)) {
                         if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
@@ -88,7 +89,7 @@ public class BotRichard extends BotMalin{
                     }
                 }
             else { //il s'agit d'un autre joueur en passe de gagner
-                    Bot bot = joueursProchesDeFinirList.get(0);
+                    Bot bot = botProcheDeFinir;
                     /*
                      Si le joueur en passe de gagner est 3ème joueur, les deux premiers joueurs doivent jouer la combo !
                       Si le joueur en passe de gagner est 4ème joueur (ou plus), les premiers joueurs doivent jouer la combo dans le même esprit que les cas précédents. Mais avec plus de chance de succès.
@@ -226,13 +227,15 @@ public class BotRichard extends BotMalin{
         joueurProcheFinir=list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==7);
         return joueurProcheFinir;
     }
-    public List<Bot> getJoueursProcheFinir(){
-        List<Bot> bots= new ArrayList<>();
+    public Bot getJoueurProcheFinir(){
         if (joueurProcheFinir){
             List<Bot> list = new ArrayList<>(role.getBotliste());
-            bots=list.stream().filter(bot -> bot.getQuartiersConstruits().size() == 7).collect(Collectors.toList());
+            for(Bot bot:list){
+                if (bot.getQuartiersConstruits().size()==7) return bot;
+
+            }
         }
-        return bots;
+        return null;
     }
 
 
@@ -247,12 +250,63 @@ public class BotRichard extends BotMalin{
             return;
         }
 
+
         //si un joueur menace de finir en 1 tour avec l'architecte
-        if (this.getOrdreChoixRole()==1){
-            Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
-            roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-            roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
-            return;
+        if (this.getOrdreChoixRole()==1) {
+            if (joueurProcheFinir) {
+                Bot botProcheFinir = getJoueurProcheFinir();
+                /*
+                 cas ou ou le joueur en passe de finir est 2ème joueur et il manque l’Evêque ou Condottiere :
+                 le premier joueur doit prendre l’Assassin et tuer l’Evêque ou Condottiere.
+
+                */
+                if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole()==2) {
+                    Optional<Role> rolePretre=assassin.getRoles().stream().filter(Pretre.class::isInstance).findFirst();
+                    Optional<Role> roleCondott=assassin.getRoles().stream().filter(Condottiere.class::isInstance).findFirst();
+                    if(rolePretre.isPresent() ^ roleCondott.isPresent()){
+                        rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                        rolePretre.ifPresent(assassin::tuer);
+                        roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                        rolePretre.ifPresent(assassin::tuer);
+                        return;
+
+                        }
+                    }
+                if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole()==3) {
+                    /*
+                     Si le joueur en passe de gagner est 3ème joueur, les deux premiers joueurs doivent jouer la combo
+                     1er cas:
+                     Il y a : Assassin, Evêque et Condottiere
+                     Le premier à choisir ne doit pas prendre l’Assassin, il prend le Condottiere…
+                     Le deuxième prend l’Assassin et tue l’Evêque.
+                    */
+                    Optional<Role> rolePretre = assassin.getRoles().stream().filter(Pretre.class::isInstance).findFirst();
+                    Optional<Role> roleCondott = assassin.getRoles().stream().filter(Condottiere.class::isInstance).findFirst();
+
+                    if (rolePretre.isPresent() && this.getOrdreChoixRole() == 2) {
+                        rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                        rolePretre.ifPresent(assassin::tuer);
+                        return;
+                    }
+                    /*
+                     2ème cas.
+                    Il manque : l’Evêque
+                    Le premier prend l’Assassin et tue qui il veut sauf le Condottiere.
+                            */
+                    if (roleCondott.isPresent() && this.getOrdreChoixRole() == 1) {
+                        roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                        roleCondott.ifPresent(assassin::tuer);
+                        return;
+                    }
+                }
+
+
+                }
+                Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
+                roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
+                return;
+
         }
 
         //si on a bientot fini on tue le condottiere pour éviter la destruction de nos quartiers

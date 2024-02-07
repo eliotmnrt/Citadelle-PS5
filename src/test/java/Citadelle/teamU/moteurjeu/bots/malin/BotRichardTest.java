@@ -212,8 +212,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==assassin);
 
 
@@ -239,8 +239,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==pretre);
 
         //cas ou il n'y a ni assassin ni pretre
@@ -265,8 +265,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==condottiere);
 
 
@@ -312,8 +312,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==assassin);
 
         roles.remove(0);
@@ -336,8 +336,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==pretre);
 
         //cas ou il n'y a ni assassin ni pretre
@@ -362,8 +362,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==condottiere);
 
 
@@ -406,8 +406,8 @@ class BotRichardTest {
         System.out.println(roles);
         System.out.println("role choisi par bot richard "+bot.getRole());
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(botFocusRoi));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==botFocusRoi);
         assertTrue(bot.getRole()==assassin);
 
     }
@@ -461,8 +461,8 @@ class BotRichardTest {
         System.out.println("role choisi par bot richard "+bot.getRole());
         System.out.println("role choisi par bot richard2 "+bot2.getRole());
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueursProcheFinir().isEmpty());
-        assertTrue(bot.getJoueursProcheFinir().contains(botFocusRoi));
+        assertFalse(bot.getJoueurProcheFinir()==null);
+        assertTrue(bot.getJoueurProcheFinir()==botFocusRoi);
         assertTrue(bot.getRole()==condottiere);
         assertTrue(bot2.getRole()==assassin);
 
