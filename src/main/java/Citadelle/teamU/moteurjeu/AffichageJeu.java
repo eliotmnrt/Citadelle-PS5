@@ -34,7 +34,7 @@ public class AffichageJeu {
         }
     }
 
-    public void afficheCartesVisible(Role role1, Role role2) {
-        LOGGER.info("Les rôles face visible sont : "+role1+" et "+role2);
+    public void afficheCartesVisible(List<Role> rolesVisible) {
+        LOGGER.info("Les rôles face visible sont : "+rolesVisible.get(0)+" et "+rolesVisible.get(1));
     }
 }

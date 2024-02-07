@@ -81,5 +81,7 @@ public class BotConstruitVite extends BotMalin {
         }
     }
 
-
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 }
