@@ -44,36 +44,6 @@ class BotRichardTest {
     }
 
     @Test
-        //tester si le bot Richard choisit soit l'assassin ou l'architecte si il est le premier à choisir
-    void testPasPremierAChoisir() {
-
-        bot.setOrdreChoixRole(4);
-        botAleatoire.setOrdreChoixRole(2);
-        botConstruitChere.setOrdreChoixRole(3);
-        botFocusRoi.setOrdreChoixRole(1);
-        tour.prochainTour();
-        System.out.println(tour.getRolesTemp());
-        assertFalse(bot.getPremierAChoisir());
-
-    }
-
-
-    @Test
-    void testPremierAChoisir() {
-
-
-        bot.setOrdreChoixRole(1);
-        botAleatoire.setOrdreChoixRole(2);
-        botConstruitChere.setOrdreChoixRole(3);
-        botFocusRoi.setOrdreChoixRole(4);
-
-        tour.prochainTour();
-        System.out.println(tour.getRolesTemp());
-        assertTrue(bot.getPremierAChoisir());
-    }
-
-
-    @Test
     void testChoixArchitecteAvance(){
         List<Role> roles = new ArrayList<>();
         Assassin assassinMock = spy(new Assassin(botliste,roles));
