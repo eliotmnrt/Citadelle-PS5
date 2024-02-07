@@ -1,11 +1,10 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.*;
 
@@ -18,12 +17,16 @@ public class BotFocusMarchand extends BotMalin {
         //Il construit ses quartiers verts en priorité
         //prend des piece si : il a des quartiers verts non construits
         //pioche sinon
-        //s'il ne peut pas avoir le marchand, il cherche magic puis architecte pour renouveler ses cartes verts
+        //s'il ne peut pas avoir le marchand, il cherche magicien puis architecte pour renouveler ses cartes verts
         super(pioche);
         this.name = "BotQuiFocusMarchand" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
+    /**
+     * fait action de base selon les quartiers verts
+     * @return liste de quartiers piochés et gardés
+     */
     @Override
     public List<Quartier> faireActionDeBase() {
         quartiersViolets();
@@ -56,6 +59,10 @@ public class BotFocusMarchand extends BotMalin {
         return choixDeBase;
     }
 
+    /**
+     * choisi le role selon l'avancement de la partie pour notre bot
+     * @param roles liste de Role
+     */
     @Override
     public void choisirRole(List<Role> roles) {
         if (nbQuartiersVertsConstruits < 3) {
@@ -65,7 +72,10 @@ public class BotFocusMarchand extends BotMalin {
         }
     }
 
-
+    /**
+     * focus archi et magicien pour recup des cartes vertes et les construire
+     * @param roles liste de Role
+     */
     public void choisirRoleDebut(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (trouverRole(roles, "Architecte")){return;}
@@ -77,6 +87,10 @@ public class BotFocusMarchand extends BotMalin {
         rolesRestants = new ArrayList<>(roles);
     }
 
+    /**
+     *
+     * @param roles
+     */
     public void choisirRoleFin(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (trouverRole(roles, "Marchand")){

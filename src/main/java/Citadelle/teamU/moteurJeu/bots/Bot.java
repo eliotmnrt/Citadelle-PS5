@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurJeu.bots;
 
 //modification pour test githubActions
 import Citadelle.teamU.cartes.Quartier;
@@ -7,14 +7,12 @@ import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
-import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurJeu.AffichageJoueur;
+import Citadelle.teamU.moteurJeu.Pioche;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 public abstract class Bot {
     protected int nbOr;
@@ -94,6 +92,10 @@ public abstract class Bot {
         return name;
     }
 
+    /**
+     * permet de verifier l'ajout d'un quartier que l'on veut construire dans quartiersConstruits
+     * @param newQuartier Quartier à construire
+     */
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
         if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
@@ -110,6 +112,10 @@ public abstract class Bot {
     public void ajoutQuartierMain(Quartier newQuartier){
         quartierMain.add(newQuartier);
     }
+
+    /**
+     * init les 4 quartiers de la main du bot au debut de la partie
+     */
     public void initQuartierMain(){ //une partie commence avec 4  quartier pour chaque joueur
         for(int i=0; i<4;i++){
             ajoutQuartierMain(pioche.piocherQuartier());
@@ -159,10 +165,9 @@ public abstract class Bot {
         this.quartierMain = quartierMain;
     }
 
-    public void setQuartiersConstruits(ArrayList<Quartier> quartierConstruit) {
-        this.quartierConstruit = quartierConstruit;
-    }
-
+    /**
+     * utilise certaines conditions pour déclencher des effets de cartes violettes
+     */
     public void quartiersViolets(){
         if (quartierConstruit.contains(Quartier.MANUFACTURE)){
             quartierManufacture();
@@ -172,6 +177,9 @@ public abstract class Bot {
         }
     }
 
+    /**
+     * si on a au moins 3ors et 1 carte ou moins, on paye pour des cartes avec la carte manufacture
+     */
     public void quartierManufacture(){
         if (nbOr >= 3 && quartierMain.size() <= 1){
             changerOr(-3);
@@ -185,7 +193,9 @@ public abstract class Bot {
         }
     }
 
-
+    /**
+     * si on a un doublon dans les cartes de la main, on l'échange contre 1piece
+     */
     public void quartierLaboratoire(){
         for (Quartier quartier: quartierMain){
             if (quartierConstruit.contains(quartier)){
@@ -198,7 +208,10 @@ public abstract class Bot {
         }
     }
 
-
+    /**
+     * on recupère le quartier détruit si 1piece et quartier pas déjà construit
+     * @param quartierDetruit Quartier detruit par le condottiere
+     */
     public void quartierCimetiere(Quartier quartierDetruit){
         if (nbOr >= 1 && !quartierConstruit.contains(quartierDetruit)){
             changerOr(-1);
@@ -208,7 +221,10 @@ public abstract class Bot {
         }
     }
 
-
+    /**
+     * pioche le bon nombre de cartes en fonction de l'observatoire
+     * @return  la liste de quartier piochés, avec un null en 3e pos si pas d'observatoire
+     */
     public List<Quartier> piocheDeBase(){
         List<Quartier> quartiersPioches = new ArrayList<>();
         if (!quartierConstruit.contains(Quartier.OBSERVATOIRE)){
@@ -229,10 +245,9 @@ public abstract class Bot {
     public abstract void actionSpecialeVoleur(Voleur voleur);
     public abstract void actionSpecialeCondottiere(Condottiere condottiere);
     public abstract void choisirRole(List<Role> roles);
+    public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
     public abstract void actionSpecialeAssassin(Assassin assassin);
 
      //
-
-    public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
 
 }

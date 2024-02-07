@@ -1,9 +1,9 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.*;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,12 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class BotRichard extends BotMalin{
-//je suis parti du principe que ce bot agit comme botConstruitVite sauf pour les règles demandées
-
+//je suis parti du principe que ce bot agit comme botConstruitChere sauf pour les règles demandées
     private static int numDuBot = 1;
-
-
-
     private boolean premierAChoisir = false;
     private boolean joueurAvance = false;
     public BotRichard(Pioche pioche) {
@@ -25,6 +21,10 @@ public class BotRichard extends BotMalin{
         numDuBot++;
     }
 
+    /**
+     * decide de quel role prendre
+     * @param roles liste de roles disponibles
+     */
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
@@ -60,18 +60,24 @@ public class BotRichard extends BotMalin{
         rolesRestants = new ArrayList<>(roles);
     }
 
-    public boolean isPremierAChoisir(List<Role> roles){
-        return premierAChoisir = roles.size() == 5;
+    public void isPremierAChoisir(List<Role> roles){
+        premierAChoisir = roles.size() == 5;
     }
 
-    public boolean getPremierAChoisir() {
-        return premierAChoisir;
-    }
+    /**
+     * check si un joueur menace de finir en un tour avec architecte
+     * @return true, false sinon
+     */
     private boolean architecteAvance(){
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         return list.stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
     }
+
+    /**
+     * check si un joueur à 6 quartiers
+     * @return true, false sinon
+     */
     private boolean joueurAvance(){
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
@@ -79,7 +85,10 @@ public class BotRichard extends BotMalin{
         return joueurAvance;
     }
 
-
+    /**
+     * assassine en fonction de l'état de la partie
+     * @param assassin Role Assassin
+     */
     @Override
     public void actionSpecialeAssassin(Assassin assassin){
         //si un joueur menace de finir
@@ -129,6 +138,10 @@ public class BotRichard extends BotMalin{
 
     }
 
+    /**
+     * assassine en fonction de l'état de la partie
+     * @param magicien Role magicien
+     */
     @Override
     public void actionSpecialeMagicien(Magicien magicien) {
         //on échange ses cartes avec le joueur avancé ssi peu de cartes et aucune pas chere
@@ -139,9 +152,15 @@ public class BotRichard extends BotMalin{
             optionalBot.ifPresentOrElse(affichageJoueur::afficheActionSpecialeMagicienAvecBot, () -> {throw new IllegalArgumentException();});
             optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
             optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
+            return;
         }
+        super.actionSpecialeMagicien(magicien);
     }
 
+    /**
+     * assassine en fonction de l'état de la partie
+     * @param condottiere Role condottiere
+     */
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
         if (joueurAvance) {

@@ -1,10 +1,9 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
-import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.*;
 
@@ -22,27 +21,6 @@ public class BotConstruitVite extends BotMalin {
         super(pioche);
         this.name = "Bot_qui_construit_vite" + numDuBot;
         numDuBot++;
-    }
-
-    @Override
-    public void actionSpecialeMagicien(Magicien magicien){
-        int nbQuartierMain = this.getQuartierMain().size();
-        Bot botAvecQuiEchanger = null;
-        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
-            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
-                botAvecQuiEchanger = botAdverse;
-                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
-            }
-        }
-        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
-            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
-            magicien.changeAvecBot(this, botAvecQuiEchanger);
-            affichageJoueur.afficheNouvelleMainMagicien();
-        } else {    // sinon on échange toutes ses cartes avec la pioche
-            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.quartierMain);
-            magicien.changeAvecPioche(this, this.getQuartierMain());
-            affichageJoueur.afficheNouvelleMainMagicien();
-        }
     }
 
 

@@ -1,8 +1,8 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurJeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.malin.BotFocusMarchand;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.malin.BotFocusMarchand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

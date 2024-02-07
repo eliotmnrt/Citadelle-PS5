@@ -1,7 +1,7 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
-import Citadelle.teamU.moteurjeu.bots.*;
-import Citadelle.teamU.moteurjeu.bots.malin.*;
+import Citadelle.teamU.moteurJeu.bots.*;
+import Citadelle.teamU.moteurJeu.bots.malin.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +33,7 @@ public class Jeu {
         }
         botListe = new ArrayList<>();
         botListe.addAll(Arrays.asList(bots));
-        this.tour = new Tour(botListe);
+        tour = new Tour(botListe);
     }
 
     public void start(){
@@ -53,7 +53,11 @@ public class Jeu {
     }
 
 
-
+    /**
+     * sert pour les simulations de jeux entre différents bots
+     * @param nombre nombre de parties
+     * @param csv booleen si ajout de stats au .csv
+     */
     public static void simulation1(int nombre,boolean csv){
         int i=1;
         int cptConstruitChere=0;
@@ -69,7 +73,7 @@ public class Jeu {
             Bot bot4 = new BotAleatoire(pioche);
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             JouerPartie(bot1,bot2,bot3,bot4);
-            Bot vainqueur=tour.getLeVainqueur();
+            Bot vainqueur = tour.getLeVainqueur();
             remplirListe(moyennePoints,moyennePoints.get(0)+bot2.getScore(),moyennePoints.get(1)+bot3.getScore(),moyennePoints.get(2)+bot4.getScore(),moyennePoints.get(3)+bot1.getScore(),(float) 0);
             if(vainqueur==null){
                 cptNull++;
@@ -111,6 +115,11 @@ public class Jeu {
             System.out.println( "Score moyen : BotConstruitChere: "+ moyennePoints.get(0) +" ,BotQuiFocusRoi: "+ moyennePoints.get(3) +" ,BotRichard :"+ moyennePoints.get(1) +" ,BotAleatoire :"+ moyennePoints.get(2) +" ,Egalité : "+moyennePoints.get(4));
         }
     }
+
+    /**
+     * sert pour les simulations de jeux entre les botFocusRoi
+     * @param nombre nombre de parties
+     */
     public static void simulation2(int nombre){
         int i=1;
         ArrayList<Float> cptPoints = new ArrayList<>(Arrays.asList((float)0,(float)0,(float)0,(float)0,(float)0));
@@ -124,8 +133,8 @@ public class Jeu {
             Bot bot4 = new BotFocusRoi(pioche);
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             JouerPartie(bot1,bot2,bot3,bot4);
-            Bot vainqueur=tour.getLeVainqueur();
-            remplirListe(cptPoints,cptPoints.get(0)+bot1.getScore(),cptPoints.get(1)+bot2.getScore(),cptPoints.get(2)+bot3.getScore(),cptPoints.get(3)+bot4.getScore(),(float) 0);
+            Bot vainqueur = tour.getLeVainqueur();
+            remplirListe(cptPoints,cptPoints.get(0)+bot1.getScore(),cptPoints.get(1)+bot2.getScore(),cptPoints.get(2)+bot3.getScore(),cptPoints.get(3)+bot4.getScore(),0);
             if (vainqueur!=null){
                 int parse=Integer.parseInt(vainqueur.toString().substring(14));
                 if (parse%4==1)cptVictoire.set(0,cptVictoire.get(0)+1);
@@ -158,6 +167,14 @@ public class Jeu {
     }
 
     // j'ai mis en static parce que ça me faisait une erreur
+
+    /**
+     * pour lancer une partie entre 4 bots
+     * @param bot1  Bot
+     * @param bot2  Bot
+     * @param bot3  Bot
+     * @param bot4  Bot
+     */
     public static void JouerPartie(Bot bot1, Bot bot2, Bot bot3, Bot bot4){
         bot1.setOrdreChoixRole(1);
         bot2.setOrdreChoixRole(2);
@@ -166,6 +183,8 @@ public class Jeu {
         Jeu jeu = new Jeu(bot1, bot2, bot3, bot4);
         jeu.start();
     }
+
+
     public static void main (String... args){
 
         Args arg = new Args();
@@ -204,6 +223,10 @@ public class Jeu {
 
     }
 
+    /**
+     *permet d'update le csv avec les resultats des simulations
+     * @param file fichier à update
+     */
     private static void updateCSV(File file) {
         int nombre = 1000;
         try {
@@ -265,6 +288,8 @@ public class Jeu {
             throw new RuntimeException("probleme CSV");
         }
     }
+
+
     private static void remplirListe(ArrayList<Float> list, float construitChere, float richard, float aleatoire, float focusRoi, float Null) {
         //list.clear();
         list.set(0,construitChere);
@@ -288,7 +313,7 @@ public class Jeu {
             Bot bot4 = new BotAleatoire(pioche);
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             JouerPartie(bot1,bot2,bot3,bot4);
-            Bot vainqueur=tour.getLeVainqueur();
+            Bot vainqueur = tour.getLeVainqueur();
             remplirListe(moyennePoints,moyennePoints.get(0)+bot2.getScore(),moyennePoints.get(1)+bot3.getScore(),moyennePoints.get(2)+bot4.getScore(),moyennePoints.get(3)+bot1.getScore(),(float) 0);
             if(vainqueur==null){
                 cptNull++;

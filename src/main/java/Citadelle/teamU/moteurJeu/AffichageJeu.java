@@ -1,16 +1,15 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
 import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SuppressWarnings("java:S106")
 public class AffichageJeu {
     private Tour tour;
-    private final static Logger LOGGER = Logger.getLogger(AffichageJeu.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AffichageJeu.class.getName());
 
     public AffichageJeu(Tour tour){
         this.tour = tour;

@@ -1,10 +1,10 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
 
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -18,11 +18,13 @@ public class Tour {
     private SecureRandom random;
     private Bot mort;
 
-    List<Role> rolesTemp = new ArrayList<>();
+    private List<Role> rolesTemp = new ArrayList<>();
 
     public Tour(List<Bot> botListe){
         random = new SecureRandom();
-        this.affichageJeu = new AffichageJeu(this);
+        affichageJeu = new AffichageJeu(this);
+        this.botListe = botListe;
+
         roles.add(new Assassin(botListe,roles));
         roles.add(new Voleur(botListe, roles));
         roles.add(new Magicien(botListe));
@@ -31,15 +33,17 @@ public class Tour {
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
         roles.add(new Condottiere(botListe));
-        this.botListe = botListe;
     }
     public List<Role> getRolesTemp(){
         return rolesTemp;
     }
-    public void setRolesTemp(ArrayList<Role> roles){
+    public void setRolesTemp(List<Role> roles){
         this.rolesTemp=roles;
     }
 
+    /**
+     * gère un tour de la partie
+     */
     public void prochainTour(){
         nbTour++;
         rolesTemp = new ArrayList<>(roles);
@@ -71,6 +75,11 @@ public class Tour {
             bonus(premierFinir);
         }
     }
+
+    /**
+     * retrouve le bot qui gagne avec le score le plus elevé
+     * @return  Bot qui a gagné ou null si égalité
+     */
     public Bot getLeVainqueur(){
         //affiche le vainqueur de la partie, celui qui a un score maximal
         int max=0;
@@ -88,6 +97,10 @@ public class Tour {
         return botVainqueur.size()==1 ? botVainqueur.get(0) : null;
     }
 
+    /**
+     * calcul des bonus de fin de partie
+     * @param premierFinir le bot qui a déclenché la fin de partie, qui a son propre bonus
+     */
     public void bonus(Bot premierFinir) {
         premierFinir.setScore(premierFinir.getScore()+4); // on gagne 4 si on est le premier a finir
         premierFinir.getAffichage().afficheBonusPremier();
@@ -120,15 +133,24 @@ public class Tour {
         }
         affichageJeu.afficheLeVainqueur(getLeVainqueur());
     }
+
+    /**
+     * cherche le nb de couleurs dans une liste de quartier
+     * @param quartiers liste de quartiers
+     * @return  nb de couleurs dfférentes
+     */
     private int nbCouleur(List<Quartier> quartiers) {
-        ArrayList<TypeQuartier> arrayList = new ArrayList<>();
+        HashSet<TypeQuartier> arrayList = new HashSet<>();
         for(Quartier quartier : quartiers){
-            if(!arrayList.contains(quartier.getTypeQuartier())){
-                arrayList.add(quartier.getTypeQuartier());
-            }
+            arrayList.add(quartier.getTypeQuartier());
         }
         return arrayList.size();
     }
+
+    /**
+     * procède à la distribution des roles en fonction de la couronne
+     * @return la liste ordonnée dans l'ordre selon la couronne
+     */
     public List<Bot> distributionRoles(){
         List<Bot> listeDistribution = botListe;
         //On met celui avec la couronne devant, et après on met ceux dans le bonne ordre
