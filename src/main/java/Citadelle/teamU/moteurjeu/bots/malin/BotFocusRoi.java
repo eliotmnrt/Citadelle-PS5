@@ -235,4 +235,7 @@ public class BotFocusRoi extends BotMalin {
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
     }
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 }

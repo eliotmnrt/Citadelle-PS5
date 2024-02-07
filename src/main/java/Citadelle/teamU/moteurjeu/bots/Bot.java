@@ -33,6 +33,8 @@ public abstract class Bot {
     protected int ordreChoixRole;
     protected int nbTour = 0;
 
+    protected List<Role> rolesVisible;
+
     protected Bot(Pioche pioche){
         this.pioche = pioche;
         this.affichageJoueur = new AffichageJoueur(this);
@@ -234,5 +236,7 @@ public abstract class Bot {
      //
 
     public abstract List<Quartier> choisirCarte(List<Quartier> quartierPioches);
+
+    public abstract void setRolesVisible(List<Role> rolesVisible);
 
 }

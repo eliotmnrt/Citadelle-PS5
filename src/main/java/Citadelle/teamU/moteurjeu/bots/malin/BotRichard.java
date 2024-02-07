@@ -164,9 +164,21 @@ public class BotRichard extends BotMalin{
 
     //Roles restant y'a pas lui même donc dernier si size = 1
     //Voleur avec new Array dans list Role
-    //pas prise en compte des deux cartes visibles
-    public Role roleProbable(Bot botCible,List<Role> rolesRestants){
+    //prise en compte des deux cartes visibles
+    // return un role mais pas le "vrai" role c'est pas la bonne reference
+    public Role roleProbable(Bot botCible){
         boolean apres = botCible.getOrdreChoixRole() > getOrdreChoixRole();
+        //Si il a construit 7 quartiers il surement prend l'assassin si y'a pas il va prendre pretre
+        if(botCible.getQuartiersConstruits().size()==7){
+            if(apres){
+                if(hasInstanceOf(rolesRestants,new Assassin(role.getBotliste(),new ArrayList<>()))) return new Assassin(role.getBotliste(),new ArrayList<>());
+                if(hasInstanceOf(rolesRestants,new Pretre(role.getBotliste()))) return new Pretre(role.getBotliste());
+            }else{
+                if(!hasInstanceOf(rolesRestants,new Assassin(role.getBotliste(),new ArrayList<>()))&&!hasInstanceOf(rolesVisible,new Assassin(role.getBotliste(),new ArrayList<>()))) return new Assassin(role.getBotliste(),new ArrayList<>());
+                if(!hasInstanceOf(rolesRestants,new Pretre(role.getBotliste()))&&!hasInstanceOf(rolesVisible,new Pretre(role.getBotliste()))) return new Pretre(role.getBotliste());
+            }
+        }
+
         HashMap<TypeQuartier,Integer> couleurs = new HashMap<TypeQuartier,Integer>();
         couleurs.put(VERT,0);
         couleurs.put(ROUGE,0);
@@ -187,12 +199,12 @@ public class BotRichard extends BotMalin{
         // On sais combien de quartier de chaque couleur il a
         int max = 0;
         Role meilleure=null;
-        System.out.println("roles restants : "+rolesRestants);
         for(TypeQuartier i : couleurs.keySet()){
-            // On cherche le role liée a la couleur qu'il a le plus ET avec un role dans la liste des roles restants
-            // Si il en a 1 c'est pas significatif et on regarde les roles restant que si c'est pas le dernier et que le cible est après nous
-            // Ou si il est pas après nous et donc le role n'est pas parmis les autres roles
-            if((couleurs.get(i)>max&&couleurs.get(i)>1)&&(
+            // Le role n'est pas dans les roles visible
+            // Si le botCible est après nous on verifie que le role est dans ceux qu'on a eu dans nos mains
+            // Inversement faut qu'il soit pas dans les roles qu'on a vu si il est avant nous
+            // Parmis les roles qui valide ces conditions on garde celui qui a la couleur de quartier que le botCible a le plus
+            if(!hasInstanceOf(rolesVisible,roles.get(i))&& (couleurs.get(i)>max&&couleurs.get(i)>1)&&(
                   rolesRestants.size()<2
                     ||(apres&&hasInstanceOf(rolesRestants,roles.get(i)))
                      ||(!apres&&!hasInstanceOf(rolesRestants,roles.get(i))&&roles.get(i).toString() != role.toString()))){
@@ -206,7 +218,7 @@ public class BotRichard extends BotMalin{
         // On est dans la situation où:
         //Il est peut etre dernier
         //Le bot a pas plus de 1 quartier de couleur d'un des roles restants
-        if(botCible.getOr()<3){
+        if(botCible.getOr()<3&&!hasInstanceOf(rolesVisible,new Voleur(role.getBotliste(),new ArrayList<>()))){
             // Si il y a un voleur et il a pas bcp d'argent et qu'il a choisi son role après nous
             boolean pasVoleur = true;
             for(Role restant : rolesRestants){
@@ -221,7 +233,7 @@ public class BotRichard extends BotMalin{
             }
         }
         //Magicien : si qq a peu de carte (<3) dans sa main il a bcp de chance de le prendre
-        if(botCible.getQuartierMain().size()<3){
+        if(botCible.getQuartierMain().size()<3&&!hasInstanceOf(rolesVisible,new Magicien(role.getBotliste()))){
             boolean pasMagicien = true;
             for(Role restant : rolesRestants){
                 if(restant instanceof Magicien){
@@ -235,7 +247,7 @@ public class BotRichard extends BotMalin{
             }
         }
         //Architeche : il a bcp de carte en main (a partir de 5)
-        if(botCible.getQuartierMain().size()>4){
+        if(botCible.getQuartierMain().size()>4&&!hasInstanceOf(rolesVisible,new Architecte(role.getBotliste()))){
             boolean pasArchi = true;
             for(Role restant : rolesRestants){
                 if(restant instanceof Architecte){
@@ -251,18 +263,27 @@ public class BotRichard extends BotMalin{
         //Assasin pas de raison particuliere de le chosir
 
         // Si on a aucune info on fait au hasard parmis les cartes qui reste (si on est pas dernier)
-        Random random = new Random();
         int choisi;
-        if (rolesRestants.size()<2){
-            choisi = random.nextInt(0,rolesRestants.size());
+        if (apres){
+            choisi = randInt(rolesRestants.size());
             return rolesRestants.get(choisi);
         }
-        ArrayList<Role> listRoleTot = new ArrayList<Role>(Arrays.asList(new Assassin(role.getBotliste(),new ArrayList<>()),new Voleur(role.getBotliste(),new ArrayList<>()),new Magicien(role.getBotliste()),new Roi(role.getBotliste()),new Pretre(role.getBotliste()),new Marchand(role.getBotliste()),new Architecte(role.getBotliste()),new Condottiere(role.getBotliste())));
-        choisi = random.nextInt(0,listRoleTot.size());
-        while(listRoleTot.get(choisi).toString()==role.toString()){
-            choisi = random.nextInt(0,listRoleTot.size());
+        ArrayList<Role> listRoleReste = new ArrayList<Role>(Arrays.asList(new Assassin(role.getBotliste(),new ArrayList<>()),new Voleur(role.getBotliste(),new ArrayList<>()),new Magicien(role.getBotliste()),new Roi(role.getBotliste()),new Pretre(role.getBotliste()),new Marchand(role.getBotliste()),new Architecte(role.getBotliste()),new Condottiere(role.getBotliste())));
+        ArrayList<Role> toRemove = new ArrayList<>();
+        for(Role role : listRoleReste){
+            if(role.toString().equals(this.getRole().toString())) toRemove.add(role);
+            if(role.toString().equals(rolesVisible.get(0).toString())) toRemove.add(role);
+            if(role.toString().equals(rolesVisible.get(1).toString())) toRemove.add(role);
+            for(Role roleApres : rolesRestants){
+                if(roleApres.toString().equals(role.toString())) toRemove.add(role);
+            }
         }
-        return listRoleTot.get(choisi);
+        for(Role role : toRemove){
+            listRoleReste.remove(role);
+        }
+        listRoleReste.removeAll(toRemove);
+        choisi = randInt(listRoleReste.size());
+        return listRoleReste.get(choisi);
     }
 
     public boolean hasInstanceOf(List<Role> list, Role role){
@@ -270,5 +291,8 @@ public class BotRichard extends BotMalin{
             if(r.toString().equals(role.toString())) return true;
         }
         return false;
+    }
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
     }
 }
