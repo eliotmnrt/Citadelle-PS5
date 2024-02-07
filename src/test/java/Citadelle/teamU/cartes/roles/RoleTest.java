@@ -1,8 +1,8 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
-import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

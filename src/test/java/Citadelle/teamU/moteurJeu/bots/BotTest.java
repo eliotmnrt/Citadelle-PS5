@@ -1,11 +1,4 @@
-package Citadelle.teamU.moteurjeu.bots;
-
-import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.moteurjeu.Pioche;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+package Citadelle.teamU.moteurJeu.bots;
 
 class BotTest {
 

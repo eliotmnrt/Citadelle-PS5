@@ -1,8 +1,8 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurJeu.bots;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Roi;
-import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurJeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class BotAleatoireTest {
         bot.setRole(new Roi(botliste));
         bot.construire();
         assertTrue(bot.quartierMain.size()==6||bot.quartierMain.size()==7);
-        assertTrue(bot.quartierConstruit.isEmpty() ||bot.quartierConstruit.size()==1);
+        assertTrue(bot.quartiersConstruits.isEmpty() ||bot.quartiersConstruits.size()==1);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 public class CustomFormatter extends Formatter {

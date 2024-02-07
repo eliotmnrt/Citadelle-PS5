@@ -1,10 +1,10 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
-import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitVite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

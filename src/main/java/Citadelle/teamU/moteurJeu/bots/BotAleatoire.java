@@ -1,12 +1,7 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurJeu.bots;
 
-import Citadelle.teamU.cartes.roles.Assassin;
-import Citadelle.teamU.cartes.roles.Condottiere;
-import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
-import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.cartes.roles.*;
+import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
 import java.util.ArrayList;
@@ -21,13 +16,16 @@ public class BotAleatoire extends Bot{
 
     public BotAleatoire(Pioche pioche){
         super(pioche);
-        this.name = "BotAleatoire"+numDuBotAleatoire;
+        this.name = "Bot aleatoire_,"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
     //rajouter ou override les methode qui définissent la manière de jouer d'un bot
 
-
+    /**
+     * effectue les actions de base de manière aleatoire
+     * @return  liste de quartier piochés puis gardés
+     */
     @Override
     public List<Quartier> faireActionDeBase(){
         quartiersViolets();         //actions spéciales violettes
@@ -60,10 +58,14 @@ public class BotAleatoire extends Bot{
         setRole(roles.remove(intAleatoire));
     }
 
-
+    /**
+     * permet de choisir quelle(s) cartes garder après avoir piocher des quartiers
+     * @param quartierPioches liste de quartier piochés
+     * @return le(s) quartiers gardé(s)
+     */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 == 0) {
                 ajoutQuartierMain(quartierPioches.get(0));
@@ -91,7 +93,7 @@ public class BotAleatoire extends Bot{
     public Quartier construire(){
         List<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=nbOr  &&  !quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<=nbOr  &&  !quartiersConstruits.contains(quartier)){
                 quartiersPossible.add(quartier);
             }
         }
@@ -105,12 +107,10 @@ public class BotAleatoire extends Bot{
         return null;
     }
 
-    @Override
-    public String toString(){
-        return name;
-    }
-
-
+    /**
+     * echange toutes ses cartes aleatoire avec bot ou pioche
+     * @param magicien Role magicien
+     */
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
         int aleat = randInt(magicien.getBotliste().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
@@ -128,14 +128,21 @@ public class BotAleatoire extends Bot{
         }
     }
 
+    /**
+     * tue un role au hasard
+     * @param assassin
+     */
     @Override
     public void actionSpecialeAssassin(Assassin assassin) {
-        int rang = randInt(7)+ 1  ;     // pour un nb aleatoire hors assassin et condottiere prsq on il y est pas dans ma branche
+        int rang = randInt(7)+ 1;
         affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
         assassin.tuer(assassin.getRoles().get(rang));
     }
 
-    // UPDATE QUAND AJOUT DE CLASSES
+    /**
+     * assassine aleatoirement
+     * @param voleur Role voleur
+     */
     @Override
     public void actionSpecialeVoleur(Voleur voleur){
         int rang = randInt(6) + 2;       // pour un nb aleatoire hors assassin et voleur
@@ -144,14 +151,17 @@ public class BotAleatoire extends Bot{
     }
 
 
-
+    /**
+     * essaye de detruire un quartier aleatoire d'un adversaire aleatoire
+     * @param condottiere Role condottiere
+     */
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
         List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         int indiceRandomBot = randInt(botList.size());
         Bot botADetruire = (botList.get(indiceRandomBot));
-        if(!botADetruire.getQuartiersConstruits().isEmpty()) {
+        if(!botADetruire.getQuartiersConstruits().isEmpty() && botADetruire.getQuartiersConstruits().size() < 8 &&!(botADetruire.getRole() instanceof Pretre)) {
             int indiceRandomQuartier = randInt(botADetruire.getQuartiersConstruits().size() );
             Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
@@ -159,5 +169,12 @@ public class BotAleatoire extends Bot{
                 condottiere.destructionQuartier(this, botADetruire, quartierAdetruire);
             }
         }
+    }
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
+    @Override
+    public String toString(){
+        return name;
     }
 }

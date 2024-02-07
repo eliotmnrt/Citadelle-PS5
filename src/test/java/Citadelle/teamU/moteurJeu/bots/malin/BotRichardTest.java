@@ -55,9 +55,31 @@ class BotRichardTest {
         roles.add(new Condottiere(botliste));
     }
 
-
     @Test
-    void roleProbableTestCouleursApres(){
+        //tester si le bot Richard choisit soit l'assassin ou l'architecte si il est le premier à choisir
+    void testPremierAChoisir() {
+
+
+        bot.setOrdreChoixRole(4);
+        bot1.setOrdreChoixRole(2);
+        bot2.setOrdreChoixRole(3);
+        bot3.setOrdreChoixRole(1);
+        tour.prochainTour();
+
+        //assertFalse(bot.getPremierAChoisir());
+
+        bot1.setOrdreChoixRole(4);
+        bot2.setOrdreChoixRole(2);
+        bot3.setOrdreChoixRole(3);
+        bot.setOrdreChoixRole(1);
+        tour.prochainTour();
+
+        //assertTrue(bot.getPremierAChoisir());
+
+
+        }
+        @Test
+        void roleProbableTestCouleursApres(){
             doReturn(1).when(bot).randInt(anyInt());
             bot.setOrdreChoixRole(1);
             bot1.setOrdreChoixRole(2);

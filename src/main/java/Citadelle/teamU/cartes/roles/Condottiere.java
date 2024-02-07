@@ -1,6 +1,6 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 
@@ -33,7 +33,7 @@ public class Condottiere implements Role{
             throw new IllegalArgumentException();
         }
         this.quartierAdetruire = quartier;
-        if(botAdetruire.getQuartiersConstruits().size()<8){
+        if(botAdetruire.getQuartiersConstruits().size()<8&&!(botAdetruire.getRole() instanceof Pretre)){
             botAdetruire.getQuartiersConstruits().remove(quartier);
             bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
             if (bot.getOr() < 0){
@@ -41,6 +41,8 @@ public class Condottiere implements Role{
             }
             botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
             bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
+        }else{
+            throw new IllegalArgumentException("le bot visé n'est pas compatible");
         }
 
         List<Bot> autresBots = new ArrayList<>(botListe);

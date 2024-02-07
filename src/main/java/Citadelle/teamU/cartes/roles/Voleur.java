@@ -1,8 +1,7 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Voleur implements Role{

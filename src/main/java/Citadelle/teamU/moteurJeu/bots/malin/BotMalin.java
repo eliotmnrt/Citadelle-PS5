@@ -1,18 +1,15 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.cartes.roles.Assassin;
-import Citadelle.teamU.cartes.roles.Condottiere;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.cartes.roles.*;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.*;
 
 
 public abstract class BotMalin extends Bot {
-
+//bot qui regroupe les methodes communes aux bots intelligents
     protected List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
 
     protected BotMalin(Pioche pioche){
@@ -36,6 +33,12 @@ public abstract class BotMalin extends Bot {
         rolesRestants = new ArrayList<>(roles);
     }
 
+    /**
+     * methode pour chercher un role précis et se l'approprier
+     * @param roles liste de roles dispos
+     * @param roleRecherche String dur role recherché
+     * @return true si trouvé, false sinon
+     */
     public boolean trouverRole(List<Role> roles, String roleRecherche){
         Optional<Role> roleOptional = roles.stream().filter(role1 -> role1.toString().equals(roleRecherche)).findFirst();
         if (roleOptional.isPresent()){
@@ -47,15 +50,17 @@ public abstract class BotMalin extends Bot {
         return false;
     }
 
+    /**
+     * fait action de base selon les regles de botconstruitChere
+     * @return liste de cartes piochées et gardées
+     */
     //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
     public List<Quartier> faireActionDeBase() {
-        // A REFACTORER
         quartiersViolets();         //actions spéciales violettes
-
         List<Quartier> choixDeBase = new ArrayList<>();
-
         boolean piocher=true;
+
         for(Quartier quartier: quartierMain){
             if (quartier.getCout() >= 4) {
                 piocher = false;
@@ -77,7 +82,7 @@ public abstract class BotMalin extends Bot {
 
 
     /**
-     * Construit un quartier
+     * Construit un quartier selon les règles de botConstruitChere
      */
     //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
@@ -85,7 +90,7 @@ public abstract class BotMalin extends Bot {
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
         Collections.reverse(quartiersTrie);
-        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=4 && quartiersTrie.get(0).getCout()<=nbOr && !quartiersConstruits.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             affichageJoueur.afficheConstruction(quartierConstruit);
             ajoutQuartierConstruit(quartierConstruit);
@@ -94,10 +99,17 @@ public abstract class BotMalin extends Bot {
         return null;
     }
 
+
+
+    /**
+     * methode de choix de cartes de botConstruitChere
+     * @param quartierPioches liste de Quartiers piochés
+     * @return le(s) quartier(s) gardés
+     */
     //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
@@ -124,6 +136,10 @@ public abstract class BotMalin extends Bot {
 
 
     //méthode de originaire de botConstruitVite car utile pour botRichard aussi -> évite doublons
+    /**
+     * assassine de manière intelligente mais pas en fonction de l'état de la partie
+     * @param assassin Role assassin
+     */
     @Override
     public void actionSpecialeAssassin(Assassin assassin) {
         if(rolesRestants.size()>1){
@@ -139,7 +155,10 @@ public abstract class BotMalin extends Bot {
         }
     }
 
-    //méthode de originaire de botConstruitVite car utile pour BOTCONSTRUITCHERE aussi -> évite doublons
+    /**
+     * vole de manière intelligente mais pas en fonction de l'état de la partie
+      * @param voleur Role voleur
+     */
     @Override
     public void actionSpecialeVoleur(Voleur voleur){
         if (rolesRestants.size() > 1){
@@ -162,7 +181,37 @@ public abstract class BotMalin extends Bot {
         }
     }
 
+    /**
+     * action de magicien de manière intelligente mais pas en fonction de l'état de la partie
+     * @param magicien Role magicien
+     */
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        int nbQuartierMain = this.getQuartierMain().size();
+        Bot botAvecQuiEchanger = null;
+        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
+            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
+                botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
+            }
+        }
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+            magicien.changeAvecBot(this, botAvecQuiEchanger);
+            affichageJoueur.afficheNouvelleMainMagicien();
 
+        } else {    // sinon on échange toutes ses cartes avec la pioche
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
+            magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichageJoueur.afficheNouvelleMainMagicien();
+        }
+    }
+
+
+    /**
+     * detruit de manière intelligente mais pas en fonction de l'état de la partie, detruit pour 0 ors
+     * @param condottiere Role condottiere
+     */
     //méthode de originaire de BOTCONSTRUITCHERE car utile pour FOCUSROI aussi -> évite doublons
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
@@ -171,7 +220,7 @@ public abstract class BotMalin extends Bot {
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8 && !(bot.getRole() instanceof Pretre)){
                     condottiere.destructionQuartier(this,bot, quartier);
                     return;
                 }

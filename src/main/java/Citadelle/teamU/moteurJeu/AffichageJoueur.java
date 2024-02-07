@@ -1,19 +1,18 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 
 @SuppressWarnings("java:S106")
 
 public class AffichageJoueur {
-    private final static Logger LOGGER = Logger.getLogger(AffichageJoueur.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AffichageJoueur.class.getName());
     private Bot bot;
     public AffichageJoueur(Bot bot){
         this.bot=bot;
@@ -35,14 +34,6 @@ public class AffichageJoueur {
         LOGGER.info("Role: "+bot.getRole()+"; or: "+bot.getOr()+"; score: "+bot.getScore());
         LOGGER.info("Main: "+bot.getQuartierMain());
         LOGGER.info("Quartiers construits "+bot.getQuartiersConstruits());
-    }
-
-    public void afficheCouronne() {
-        if(bot.isCouronne()){
-            LOGGER.info("Ce bot a la couronne");
-        } else {
-            throw new IllegalArgumentException();
-        }
     }
 
 
