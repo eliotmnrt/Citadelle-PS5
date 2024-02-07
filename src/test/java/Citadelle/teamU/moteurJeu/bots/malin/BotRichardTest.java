@@ -21,9 +21,7 @@ class BotRichardTest {
     Pioche pioche;
 
     List<Bot> botliste;
-    Bot bot1;
-    Bot bot2;
-    Bot bot3;
+    Bot bot1, bot2, bot3;
     Tour tour;
 
     @BeforeEach
@@ -318,5 +316,34 @@ class BotRichardTest {
         doReturn(0).when(bot).randInt(anyInt());
         aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Voleur);
+    }
+
+    @Test
+    void roleProbableJoueurAvanceApres(){
+        bot.setOrdreChoixRole(1);
+        bot.setRole(new Magicien(botliste));
+        bot1.setOrdreChoixRole(2);
+        bot.setJoueurAvance(true); //on fait comme si bot1 etait un 'joueur avancé'
+
+        bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Pretre(botliste),new Assassin(botliste,new ArrayList<>()))));
+        ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Roi(botliste),new Condottiere(botliste)));
+        bot.setRolesRestants(rolesRestant);
+
+        Role aViser = bot.roleProbable(bot1);
+        assertTrue(aViser instanceof Roi);
+    }
+    @Test
+    void roleProbableJoueurAvanceAvant(){
+        bot.setOrdreChoixRole(2);
+        bot.setRole(new Magicien(botliste));
+        bot1.setOrdreChoixRole(1);
+        bot.setJoueurAvance(true); //on fait comme si bot1 etait un 'joueur avancé'
+
+        bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Pretre(botliste),new Assassin(botliste,new ArrayList<>()))));
+        ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Assassin(botliste, new ArrayList<>()),new Condottiere(botliste)));
+        bot.setRolesRestants(rolesRestant);
+
+        Role aViser = bot.roleProbable(bot1);
+        assertTrue(aViser instanceof Roi);
     }
 }

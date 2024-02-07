@@ -51,77 +51,72 @@ public abstract class BotMalin extends Bot {
     }
 
     /**
-     * fait action de base selon les regles de botconstruitVite
+     * fait action de base selon les regles de botconstruitChere
      * @return liste de cartes piochées et gardées
      */
-    //méthode de originaire de botConstruitVite car utile pour botRichard aussi -> évite doublons
+    //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
-    public List<Quartier> faireActionDeBase(){
+    public List<Quartier> faireActionDeBase() {
         quartiersViolets();         //actions spéciales violettes
-        //une arrayList qui contient rien si le bot prend 2 pieces d'or
-        //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
-        //en indice 2 le quartier choisi parmis les deux
-        //en indice 3 le quartier construit si un quartier a été construit
         List<Quartier> choixDeBase = new ArrayList<>();
-        //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
-        boolean aQuartierPasChere = false;
-        for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
-                aQuartierPasChere = true;
+        boolean piocher=true;
+
+        for(Quartier quartier: quartierMain){
+            if (quartier.getCout() >= 4) {
+                piocher = false;
                 break;
             }
         }
-        if(aQuartierPasChere){
-            choixDeBase.add(null);
-            changerOr(2);
-        }
-        else{
-            // piocher deux quartiers, et en choisir un des deux aléatoirement
-            // piocher deux quartiers, quartier1 et quartier 2
+        if (piocher){
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
+        }
+        else{
+            choixDeBase.add(null);
+            changerOr(2);
         }
         affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
 
 
+
     /**
-     * Construit un quartier selon les règles de botConstruitVite
+     * Construit un quartier selon les règles de botConstruitChere
      */
-    //méthode de originaire de botConstruitVite car utile pour botRichard aussi -> évite doublons
+    //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
     public Quartier construire(){
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
-        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+        Collections.reverse(quartiersTrie);
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
-            ajoutQuartierConstruit(quartierConstruit);
             affichageJoueur.afficheConstruction(quartierConstruit);
+            ajoutQuartierConstruit(quartierConstruit);
             return quartierConstruit;
         }
         return null;
     }
 
+
     /**
-     * methode de choix de cartes de botConstruitVite
+     * methode de choix de cartes de botConstruitChere
      * @param quartierPioches liste de Quartiers piochés
      * @return le(s) quartier(s) gardés
      */
-    //méthode de originaire de botConstruitVite car utile pour botRichard aussi -> évite doublons
+    //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse(quartierPioches);
                 pioche.remettreDansPioche(quartierPioches.remove(0));
                 ajoutQuartierMain(quartierPioches.get(0));
                 return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
             }
             quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-            Collections.reverse(quartierPioches);
             pioche.remettreDansPioche(quartierPioches.remove(0));
             pioche.remettreDansPioche(quartierPioches.remove(0));
             ajoutQuartierMain(quartierPioches.get(0));
