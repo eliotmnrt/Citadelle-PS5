@@ -18,7 +18,7 @@ public class BotRichard extends BotMalin{
     private boolean joueurAvance = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
-        this.name = "Bot_Richard" + numDuBot;
+        this.name = "Bot Richard_" + numDuBot;
         numDuBot++;
     }
 
@@ -335,6 +335,6 @@ public class BotRichard extends BotMalin{
     }
     @Override
     public String toString(){
-        return "Bot Richard";
+        return name;
     }
 }

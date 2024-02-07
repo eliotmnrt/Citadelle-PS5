@@ -23,7 +23,7 @@ public class BotFocusRoi extends BotMalin {
         //pioche sinon
         //s'il ne peut pas avoir le roi, il cherche magicien puis architecte pour renouveler ses cartes jaunes
         super(pioche);
-        this.name = "BotQuiFocusRoi"+numDuBotAleatoire;
+        this.name = "Bot Qui Focus Roi_"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -258,6 +258,6 @@ public class BotFocusRoi extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui focus le roi";
+        return name;
     }
 }
