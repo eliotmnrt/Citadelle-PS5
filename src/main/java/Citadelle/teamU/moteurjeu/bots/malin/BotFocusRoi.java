@@ -148,15 +148,10 @@ public class BotFocusRoi extends BotMalin {
     public void choisirRoleFin(List<Role> roles){
         role = null;
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (trouverRole(roles, "Roi")){
-            return;
-        }
-        if (trouverRole(roles, "Architecte")){
-            return;
-        }
-        if (trouverRole(roles, "Magicien")){
-            return;
-        }
+        if (trouverRole(roles, "Roi")){return;}
+        if (trouverRole(roles, "Architecte")){return;}
+        if (trouverRole(roles, "Magicien")){return;}
+
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);

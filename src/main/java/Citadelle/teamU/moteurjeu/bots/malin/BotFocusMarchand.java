@@ -9,10 +9,8 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 
 import java.util.*;
 
-public class BotFocusMarchand extends Bot {
+public class BotFocusMarchand extends BotMalin {
     private static int numDuBotAleatoire = 1;
-    private String name;
-    private List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
     private int nbQuartiersVertsConstruits = 0;
 
     public BotFocusMarchand(Pioche pioche) {
@@ -22,18 +20,8 @@ public class BotFocusMarchand extends Bot {
         //pioche sinon
         //s'il ne peut pas avoir le marchand, il cherche magic puis architecte pour renouveler ses cartes verts
         super(pioche);
-        this.affichageJoueur = new AffichageJoueur(this);
         this.name = "BotQuiFocusMarchand" + numDuBotAleatoire;
         numDuBotAleatoire++;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public void setRolesRestants(List<Role> rolesRestants) {
-        this.rolesRestants = rolesRestants;
     }
 
     @Override
@@ -77,28 +65,13 @@ public class BotFocusMarchand extends Bot {
         }
     }
 
-    public boolean trouverRole(List<Role> roles, String roleRecherche){
-        Optional<Role> roleOptional = roles.stream().filter(role1 -> role1.toString().equals(roleRecherche)).findFirst();
-        if (roleOptional.isPresent()){
-            int rang = roles.indexOf(roleOptional.get());
-            setRole(roles.remove(rang));
-            rolesRestants = new ArrayList<>(roles);
-            return true;
-        }
-        return false;
-    }
 
     public void choisirRoleDebut(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (trouverRole(roles, "Architecte")){
-            return;
-        }
-        if (trouverRole(roles, "Magicien")){
-            return;
-        }
-        if (trouverRole(roles, "Marchand")){
-            return;
-        }
+        if (trouverRole(roles, "Architecte")){return;}
+        if (trouverRole(roles, "Magicien")){return;}
+        if (trouverRole(roles, "Marchand")){return;}
+
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -109,15 +82,10 @@ public class BotFocusMarchand extends Bot {
         if (trouverRole(roles, "Marchand")){
             return;
         }
-        if (trouverRole(roles, "Roi")){
-            return;
-        }
-        if (trouverRole(roles, "Architecte")){
-            return;
-        }
-        if (trouverRole(roles, "Magicien")){
-            return;
-        }
+        if (trouverRole(roles, "Roi")){return;}
+        if (trouverRole(roles, "Architecte")){return;}
+        if (trouverRole(roles, "Magicien")){return;}
+
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -206,38 +174,9 @@ public class BotFocusMarchand extends Bot {
         }
         return null;
     }
-    @Override
-    public void actionSpecialeVoleur(Voleur voleur){
-        if (rolesRestants.size() > 1){
-            //s'il reste plus d'un role restant c'est qu'il y a au moins un joueur apres nous
-            // c.a.d au moins 1 chance sur 2 de voler qq
-            int rang = randInt(rolesRestants.size());
-            affichageJoueur.afficheActionSpecialeVoleur(rolesRestants.get(rang));
-            voleur.voler(this, rolesRestants.get(rang));
-        }
-        else {
-            int rang = randInt(5) +1;       // pour un nb aleatoire hors assassin et voleur
-            //+1 pcq le premier c'est voleur et on veut pas le prendre
-            affichageJoueur.afficheActionSpecialeVoleur(voleur.getRoles().get(rang));
-            voleur.voler(this, voleur.getRoles().get(rang) );
-        }
-    }
 
 
-    @Override
-    public void actionSpecialeCondottiere(Condottiere condottiere) {
-        // détruit que un quartier qui coute 1
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
-        botList.remove(this);
-        for(Bot bot:botList){
-            for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON)){
-                    condottiere.destructionQuartier(this,bot, quartier);
-                    return;
-                }
-            }
-        }
-    }
+
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
@@ -274,19 +213,6 @@ public class BotFocusMarchand extends Bot {
         affichageJoueur.afficheActionSpecialeMagicienAvecPioche(quartiersAEchanger);
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
-    }
-    @Override
-
-    public void  actionSpecialeAssassin(Assassin assassin) {
-        if(rolesRestants.size()>1){
-            int rang= randInt(rolesRestants.size());
-            assassin.tuer(rolesRestants.get(rang));
-
-        }
-        else{
-            int rang = randInt(7)+ 1  ;
-            assassin.tuer(assassin.getRoles().get(rang));
-        }
     }
 }
 
