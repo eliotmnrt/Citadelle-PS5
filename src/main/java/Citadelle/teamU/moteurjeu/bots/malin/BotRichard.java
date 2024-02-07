@@ -5,7 +5,6 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,64 +47,37 @@ public class BotRichard extends BotMalin{
                     return;
                 }
             }
-        } else if (nbTour > 1 && joueurAvance()) {
-            if (trouverRole(roles, "Roi")) {
+        } else if (nbTour>1 && joueurAvance()){
+            if (trouverRole(roles, "Roi")){
                 return;
             }
-            if (trouverRole(roles, "Assassin")) {
+            if (trouverRole(roles, "Assassin")){
+                System.out.println("assassin");
                 return;
             }
-            if (trouverRole(roles, "Condottiere")) {
+            if (trouverRole(roles, "Condottiere")){
+                System.out.println("condottiere");
                 return;
             }
-            if (trouverRole(roles, "Pretre")) {
+            if (trouverRole(roles, "Pretre")){
+                System.out.println("pretre");
                 return;
             }
         }
 
-        /*
-         Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
-         afin de construire son dernier quartier sans craindre le Condottiere.
-         */
-        else if (nbTour > 1 && joueurProcheFinir) {
-            ordreChoix = getOrdreChoixRole(roles);
-            /*
-             Dans l e meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
-              prendre l’Assassin et tuer l’Evêque ou Condottiere.
-            */
-            if (joueursProchesDeFinirList.contains(this)) {
-                if (this.ordreChoix == 2) {
-                    if (!(trouverRole(roles, "Pretre") && trouverRole(roles, "Condottiere"))) {
-                        trouverRole(roles, "Assassin");
-                        return;
-                        //pour tuer l'eveque ou le condottiere
-                    }
-                }
-                if ((this.ordreChoix == 1 || this.ordreChoix == 2)) {
-                    if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
-                        return;
-                    }
-                    if (trouverRole(roles, "Pretre")) { // j'ai privilégié le pretre au condott parce qu'il joue avant
-                        return;
-                    }
-                    if (trouverRole(roles, "Condottiere")) {
-                        return;
-                    }
-                }
-            }
-            /*else{ //il s'agit d'un autre joueur en passe de gagner
-                for(Bot bot: joueursProchesDeFinirList){
-                    if(bot.getOrdreChoixRole()==3){
-                        if(this.getOrdreChoixRole(){
+        //si on a bcp d'argent on prend l'architecte
+        if (nbOr>=8 && trouverRole(roles, "Architecte")) return;
+        //magicien interessant si peu de cartes
+        if (quartierMain.size()<=1 && (trouverRole(roles, "Magicien"))) return;
 
-                        }
-                    }
-                }
+        //voleur interessant en début de partie
+        if(quartierConstruit.size()<=2 && (trouverRole(roles, "Voleur"))) {return;}
 
-            }
-        }*/
-        }
-        //si on a bcp de cartes et que les autres non, on tue l'assassin
+        //marchand interessant en debut de partie mai splus que voleur
+        if(quartierConstruit.size()<=4 && (trouverRole(roles, "Marchand"))) {return;}
+
+
+        //si on a bcp de cartes et que les autres non, on tue le magicien
         if (nbTour>1 && quartierMain.size()>=4){
             List<Bot> list = new ArrayList<>(role.getBotliste());
             list.remove(this);
@@ -114,6 +86,9 @@ public class BotRichard extends BotMalin{
                     return;
             }
         }
+
+        //on préfère le roi à aleatoire
+        if (trouverRole(roles, "Roi")) return;
 
         //sinon aleatoire
         int intAleatoire = randInt(roles.size());
