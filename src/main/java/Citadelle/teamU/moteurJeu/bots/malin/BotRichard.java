@@ -314,4 +314,8 @@ public class BotRichard extends BotMalin{
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
     }
+    @Override
+    public String toString(){
+        return "Bot Richard";
+    }
 }

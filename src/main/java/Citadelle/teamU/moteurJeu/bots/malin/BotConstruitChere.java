@@ -87,8 +87,35 @@ public class BotConstruitChere extends BotMalin {
         }
     }
 
+
+
+
+    @Override
+    public void actionSpecialeMagicien(Magicien magicien){
+        int nbQuartierMain = this.getQuartierMain().size();
+        Bot botAvecQuiEchanger = null;
+        for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
+            if(botAdverse.getQuartierMain().size() > nbQuartierMain){
+                botAvecQuiEchanger = botAdverse;
+                nbQuartierMain = botAvecQuiEchanger.getQuartierMain().size();
+            }
+        }
+        if(botAvecQuiEchanger != null){ // si un bot a plus de cartes que nous, on échange avec lui
+            affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
+            magicien.changeAvecBot(this, botAvecQuiEchanger);
+            affichageJoueur.afficheNouvelleMainMagicien();
+
+        } else {    // sinon on échange toutes ses cartes avec la pioche
+            affichageJoueur.afficheActionSpecialeMagicienAvecPioche(this.getQuartierMain());
+            magicien.changeAvecPioche(this, this.getQuartierMain());
+            affichageJoueur.afficheNouvelleMainMagicien();
+        }
+    }
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
     }
-
+    @Override
+    public String toString(){
+        return "Bot qui construit chere";
+    }
 }
