@@ -1,5 +1,7 @@
 package Citadelle.teamU.moteurJeu.bots.malin;
 
+import Citadelle.teamU.cartes.*;
+import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurJeu.Tour;
 import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.moteurJeu.bots.BotAleatoire;
@@ -8,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import Citadelle.teamU.moteurJeu.Pioche;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 class BotRichardTest {
     BotRichard bot;
@@ -79,7 +81,7 @@ class BotRichardTest {
             assertTrue(aViser instanceof Roi);
 
             //Il est dans les roles d'après
-            bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.CHATEAU)));
+            bot1.setQuartierConstruit(new ArrayList<>(List.of(Quartier.CHATEAU)));
             bot.setRolesRestants(rolesRestant);
             aViser = bot.roleProbable(bot1);
             assertTrue(aViser instanceof Pretre);
@@ -99,7 +101,7 @@ class BotRichardTest {
         Role aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Roi);
 
-        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.CHATEAU)));
+        bot1.setQuartierConstruit(new ArrayList<>(List.of(Quartier.CHATEAU)));
         bot.setRolesRestants(rolesRestant);
         aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Magicien);
@@ -161,7 +163,7 @@ class BotRichardTest {
         bot.setRole(new Roi(botliste));
         bot1.setRole(new Magicien(botliste));
         bot1.changerOr(40);
-        bot1.setQuartierMain(Arrays.asList(Quartier.CHATEAU));
+        bot1.setQuartierMain(List.of(Quartier.CHATEAU));
         List<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Pretre(botliste),new Condottiere(botliste),new Magicien(botliste)));
         bot.setOrdreChoixRole(1);
         bot1.setOrdreChoixRole(2);
@@ -183,7 +185,7 @@ class BotRichardTest {
         bot.setRole(new Roi(botliste));
         bot1.setRole(new Magicien(botliste));
         bot1.changerOr(40);
-        bot1.setQuartierMain(Arrays.asList(Quartier.CHATEAU));
+        bot1.setQuartierMain(List.of(Quartier.CHATEAU));
         List<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Pretre(botliste),new Condottiere(botliste),new Magicien(botliste)));
         bot.setOrdreChoixRole(2);
         bot1.setOrdreChoixRole(1);
@@ -250,13 +252,13 @@ class BotRichardTest {
         bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Roi(botliste),new Pretre(botliste))));
         ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Assassin(botliste,new ArrayList<>()),new Condottiere(botliste)));
         bot.setRolesRestants(rolesRestant);
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
         //Il a 7 quartiers donc il va choisir assasin vu qu'il est aprés et dans les roles restants
         Role aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Assassin);
 
         //Il en plus que 6 il ne doit pas prendre l'assassin
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
         aViser = bot.roleProbable(bot1);
         assertFalse(aViser instanceof Assassin);
     }
@@ -269,13 +271,13 @@ class BotRichardTest {
         bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Roi(botliste),new Pretre(botliste))));
         ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Marchand(botliste),new Condottiere(botliste)));
         bot.setRolesRestants(rolesRestant);
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
         //Il a 7 quartiers donc il va choisir assasin vu qu'il est avant lui et il n'est pas dans les roles restants ni dans les roles visibles
         Role aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Assassin);
 
         //Il en plus que 6 il ne doit pas prendre l'assassin
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
         aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Voleur);
     }
@@ -287,13 +289,13 @@ class BotRichardTest {
         bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Roi(botliste),new Assassin(botliste,new ArrayList<>()))));
         ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Pretre(botliste),new Condottiere(botliste)));
         bot.setRolesRestants(rolesRestant);
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
         //Il a 7 quartiers donc il va choisir assasin vu qu'il est aprés et dans les roles restants
         Role aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Pretre);
 
         //Il en plus que 6 il ne doit pas prendre le pretre
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
         aViser = bot.roleProbable(bot1);
         assertFalse(aViser instanceof Pretre);
     }
@@ -306,13 +308,13 @@ class BotRichardTest {
         bot.setRolesVisible(new ArrayList<>(Arrays.asList(new Roi(botliste),new Assassin(botliste,new ArrayList<>()))));
         ArrayList<Role> rolesRestant = new ArrayList<>(Arrays.asList(new Marchand(botliste),new Condottiere(botliste)));
         bot.setRolesRestants(rolesRestant);
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE,Quartier.PRISON)));
         //Il a 7 quartiers donc il va choisir assasin vu qu'il est avant lui et il n'est pas dans les roles restants ni dans les roles visibles
         Role aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Pretre);
 
         //Il en plus que 6 il ne doit pas prendre le pretre
-        bot1.setQuartiersConstruits(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
+        bot1.setQuartierConstruit(new ArrayList<>(Arrays.asList(Quartier.TOUR_DE_GUET,Quartier.DONJON,Quartier.TAVERNE,Quartier.HOTEL_DE_VILLE,Quartier.MARCHE,Quartier.FORTERESSE)));
         doReturn(0).when(bot).randInt(anyInt());
         aViser = bot.roleProbable(bot1);
         assertTrue(aViser instanceof Voleur);
