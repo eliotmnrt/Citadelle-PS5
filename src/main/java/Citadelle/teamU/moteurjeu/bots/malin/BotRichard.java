@@ -18,6 +18,7 @@ public class BotRichard extends BotMalin{
 
     int bcpCartes=4;
     int bcpArgent=8;
+
     private boolean joueurAvance = false;
     private boolean assassinerMagicien = false;
     private boolean joueurProcheFinir=false;
@@ -369,15 +370,26 @@ public class BotRichard extends BotMalin{
     @Override
     public void actionSpecialeMagicien(Magicien magicien) {
         //on échange ses cartes avec le joueur avancé ssi peu de cartes et aucune pas chere
-        if (joueurAvance && quartierMain.size()<=3 && quartierMain.stream().allMatch(quartier -> quartier.getCout() >=3)){
+        if (joueurAvance && quartierMain.size() < bcpCartes && quartierMain.stream().allMatch(quartier -> quartier.getCout() >= 3)) {
             List<Bot> list = new ArrayList<>(magicien.getBotliste());
             list.remove(this);
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
-            optionalBot.ifPresentOrElse(affichageJoueur::afficheActionSpecialeMagicienAvecBot, () -> {throw new IllegalArgumentException();});
+            optionalBot.ifPresentOrElse(affichageJoueur::afficheActionSpecialeMagicienAvecBot, () -> {
+                throw new IllegalArgumentException();
+            });
             optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
             optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
+            return;
         }
+        if (joueurProcheFinir) {
+            Bot botProcheFinir = getJoueurProcheFinir();
 
+            if (botProcheFinir.getOrdreChoixRole() == 3 && this.getOrdreChoixRole() == 2 && this.getQuartierMain().size() < bcpCartes && botProcheFinir.getQuartierMain().size() > bcpCartes) {
+                    magicien.changeAvecBot(this, botProcheFinir);
+                    affichageJoueur.afficheNouvelleMainMagicien();
+                    return;
+            }
+        }
     }
     public boolean hasInstanceOf(List<Role> list, Role role){
         for (Role r : list){
