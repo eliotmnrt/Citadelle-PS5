@@ -36,7 +36,7 @@ public abstract class BotMalin extends Bot {
         rolesRestants = new ArrayList<>(roles);
     }
 
-        public boolean trouverRole(List<Role> roles, String roleRecherche){
+    public boolean trouverRole(List<Role> roles, String roleRecherche){
         Optional<Role> roleOptional = roles.stream().filter(role1 -> role1.toString().equals(roleRecherche)).findFirst();
         if (roleOptional.isPresent()){
             int rang = roles.indexOf(roleOptional.get());
