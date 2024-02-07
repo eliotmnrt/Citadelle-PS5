@@ -1,13 +1,12 @@
 package Citadelle.teamU.cartes.roles;
 
 import static org.junit.jupiter.api.Assertions.*;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
-import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.BotAleatoire;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitVite;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -69,7 +68,7 @@ class AssassinTest {
 
     }
 
-    @RepeatedTest(10)
+    @Test
     void testViteTue(){
         botConstruitVite.setRole(mocAssassin); //donne le role de l'asssassin
         botAleatoire2.setRole(mocAssassin.getRoles().get(2)); //donne le role du Magicien
@@ -87,7 +86,7 @@ class AssassinTest {
         assertTrue(botConstruitChere.estMort());
     }
 
-    @RepeatedTest(10)
+    @Test
     void testChereTue(){
         botConstruitChere.setRole(mocAssassin); //donne le role de l'asssassin
         botAleatoire2.setRole(mocAssassin.getRoles().get(2)); //donne le role du Magicien

@@ -1,6 +1,6 @@
 package Citadelle.teamU.cartes.roles;
 
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 
