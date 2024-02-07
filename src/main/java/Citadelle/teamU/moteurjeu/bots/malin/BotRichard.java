@@ -31,36 +31,42 @@ public class BotRichard extends BotMalin{
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-            System.out.println("je suis la");
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
-                    System.out.println("Assassin");
                     return;
                 }
                 if (trouverRole(roles, "Architecte")){
-                    System.out.println("Architecte");
                     return;
                 }
             }
         } else if (nbTour>1 && joueurAvance()){
             if (trouverRole(roles, "Roi")){
-                System.out.println("roi");
                 return;
             }
             if (trouverRole(roles, "Assassin")){
-                System.out.println("assassin");
                 return;
             }
             if (trouverRole(roles, "Condottiere")){
-                System.out.println("condottiere");
                 return;
             }
             if (trouverRole(roles, "Pretre")){
-                System.out.println("pretre");
                 return;
             }
         }
-        //si on a bcp de cartes et que les autres non, on tue l'assassin
+
+        //si on a bcp d'argent on prend l'architecte
+        if (nbOr>=8 && trouverRole(roles, "Architecte")) return;
+        //magicien interessant si peu de cartes
+        if (quartierMain.size()<=1 && (trouverRole(roles, "Magicien"))) return;
+
+        //voleur interessant en début de partie
+        if(quartierConstruit.size()<=2 && (trouverRole(roles, "Voleur"))) {return;}
+
+        //marchand interessant en debut de partie mai splus que voleur
+        if(quartierConstruit.size()<=4 && (trouverRole(roles, "Marchand"))) {return;}
+
+
+        //si on a bcp de cartes et que les autres non, on tue le magicien
         if (nbTour>1 && quartierMain.size()>=4){
             List<Bot> list = new ArrayList<>(role.getBotliste());
             list.remove(this);
@@ -69,6 +75,9 @@ public class BotRichard extends BotMalin{
                     return;
             }
         }
+
+        //on préfère le roi à aleatoire
+        if (trouverRole(roles, "Roi")) return;
 
         //sinon aleatoire
         int intAleatoire = randInt(roles.size());
