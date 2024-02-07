@@ -20,7 +20,7 @@ public class BotConstruitVite extends BotMalin {
         //Si il a des cartes qui coute moins de 3 : il prend de l'or
         //Il prend l'architecte si possible
         super(pioche);
-        this.name = "Bot_qui_construit_vite" + numDuBot;
+        this.name = "Bot qui construit vite_" + numDuBot;
         numDuBot++;
     }
     @Override
@@ -134,6 +134,6 @@ public class BotConstruitVite extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui construit vite";
+        return name;
     }
 }
