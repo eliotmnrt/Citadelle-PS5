@@ -293,10 +293,29 @@ public class BotRichard extends BotMalin{
                     Il manque : l’Evêque
                     Le premier prend l’Assassin et tue qui il veut sauf le Condottiere.
                             */
-                    if (roleCondott.isPresent() && this.getOrdreChoixRole() == 1) {
+                    if (roleCondott.isPresent() && !rolePretre.isPresent() && this.getOrdreChoixRole() == 1) {
                         roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
                         roleCondott.ifPresent(assassin::tuer);
                         return;
+                    }
+                    Optional<Bot> bot2=assassin.getBotliste().stream().filter(bot -> bot.getOrdreChoixRole() == 2).findFirst();
+                    if(rolePretre.isPresent() && this.getOrdreChoixRole()==1){
+                         /*
+                    3ème cas.
+ Il manque : Le Condottiere
+ Le premier prend l’Assassin et tue le Magicien, si le 2ème joueur a beaucoup de
+ cartes et le joueur en position de gagner en a aucune, sinon il tue qui il veut.
+                            */
+                        if (bot2.isPresent()){
+                            if(botProcheFinir.getQuartierMain().size()==0 && bot2.get().getQuartierMain().size()>=bcpCartes) {
+                                Optional<Role> roleMagicien = assassin.getRoles().stream().filter(Magicien.class::isInstance).findFirst();
+                                    roleMagicien.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                                    roleMagicien.ifPresent(assassin::tuer);
+                                    return;
+
+                                }
+
+                            }
                     }
                 }
 
