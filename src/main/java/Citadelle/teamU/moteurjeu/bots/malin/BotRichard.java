@@ -5,10 +5,8 @@ import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BotRichard extends BotMalin{
@@ -29,20 +27,16 @@ public class BotRichard extends BotMalin{
     }
 
     @Override
-    public void choisirRole(List<Role> roles) {
-
+    public void choisirRole(List<Role> roles){
         nbTour++;
         List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
         System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
 
         assassinerMagicien = false;
-
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
-
         if (nbTour>1 && architecteAvance()){
-
             System.out.println("je suis la");
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
@@ -111,25 +105,23 @@ public class BotRichard extends BotMalin{
             }
         }*/
         }
-            //si on a bcp de cartes et que les autres non, on tue l'assassin?????
-            if (nbTour > 1 && quartierMain.size() >= 4) {
-                List<Bot> list = new ArrayList<>(role.getBotliste());
-                list.remove(this);
-                if (list.stream().allMatch(bot -> bot.getQuartierMain().size() <= 2) && (trouverRole(roles, "Assassin"))) {
+        //si on a bcp de cartes et que les autres non, on tue l'assassin
+        if (nbTour>1 && quartierMain.size()>=4){
+            List<Bot> list = new ArrayList<>(role.getBotliste());
+            list.remove(this);
+            if(list.stream().allMatch(bot -> bot.getQuartierMain().size()<=2) && (trouverRole(roles, "Assassin"))){
                     assassinerMagicien = true;
                     return;
-                }
             }
+        }
 
-
-            //sinon aleatoire
-            int intAleatoire = randInt(roles.size());
-            Role rolechoisi = roles.remove(intAleatoire);
-            setRole(rolechoisi);
-            rolesRestants = new ArrayList<>(roles);
-
+        //sinon aleatoire
+        int intAleatoire = randInt(roles.size());
+        Role rolechoisi=roles.remove(intAleatoire);
+        setRole(rolechoisi);
+        System.out.println(rolechoisi);
+        rolesRestants = new ArrayList<>(roles);
     }
-
 
     public boolean isPremierAChoisir(List<Role> roles){
         return premierAChoisir = roles.size() == 5;
@@ -165,6 +157,7 @@ public class BotRichard extends BotMalin{
         }
         return bots;
     }
+
 
 
     @Override
@@ -234,6 +227,7 @@ public class BotRichard extends BotMalin{
             optionalBot.ifPresent(bot -> magicien.changeAvecBot(this, bot));
             optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
         }
+
     }
 
     @Override

@@ -24,10 +24,9 @@ class BotRichardTest {
     Pioche pioche;
 
     List<Bot> botliste;
-    Bot botAleatoire;
-    Bot botConstruitChere;
-    Bot botFocusRoi;
+    Bot botAleatoire, botConstruitChere, botFocusRoi;
     Tour tour;
+    Architecte architecte;
 
     @BeforeEach
     public void setBot() {
@@ -42,14 +41,11 @@ class BotRichardTest {
         botliste.add(botAleatoire);
         botliste.add(botConstruitChere);
         botliste.add(botFocusRoi);
-
-
     }
 
     @Test
         //tester si le bot Richard choisit soit l'assassin ou l'architecte si il est le premier à choisir
     void testPasPremierAChoisir() {
-
 
         bot.setOrdreChoixRole(4);
         botAleatoire.setOrdreChoixRole(2);
@@ -59,10 +55,7 @@ class BotRichardTest {
         System.out.println(tour.getRolesTemp());
         assertFalse(bot.getPremierAChoisir());
 
-
-
-
-        }
+    }
 
 
     @Test
@@ -78,16 +71,20 @@ class BotRichardTest {
         System.out.println(tour.getRolesTemp());
         assertTrue(bot.getPremierAChoisir());
     }
+
+
     @Test
     void testChoixArchitecteAvance(){
         List<Role> roles = new ArrayList<>();
-        roles.add(new Assassin(botliste,roles));
+        Assassin assassinMock = spy(new Assassin(botliste,roles));
+        roles.add(assassinMock);
         roles.add(new Voleur(botliste, roles));
         roles.add(new Magicien(botliste));
         roles.add(new Roi(botliste));
         //roles.add(new Pretre(botliste));
         //roles.add(new Marchand(botliste));
-        roles.add(new Architecte(botliste));
+        Architecte architecteMock = spy(new Architecte(botliste));
+        roles.add(architecteMock);
         //roles.add(new Condottiere(botliste));
         bot.setOrdreChoixRole(1);
         botAleatoire.setOrdreChoixRole(2);
@@ -95,26 +92,30 @@ class BotRichardTest {
         botFocusRoi.setOrdreChoixRole(4);
         //CAS ou un bot avance qui peut prendre architecte
         botAleatoire.changerOr(70);
-        botAleatoire.ajoutQuartierMain(Quartier.OBSERVATOIRE);
-        botAleatoire.ajoutQuartierMain(Quartier.TEMPLE);
-        botAleatoire.ajoutQuartierMain(Quartier.CHATEAU);
-        botAleatoire.ajoutQuartierMain(Quartier.UNIVERSITE);
-        botAleatoire.ajoutQuartierMain(Quartier.MARCHE);
+        List<Quartier> quart = new ArrayList<>();
+        quart.add(Quartier.OBSERVATOIRE);
+        quart.add(Quartier.TEMPLE);
+        quart.add(Quartier.CHATEAU);
+        quart.add(Quartier.UNIVERSITE);
+        quart.add(Quartier.MARCHE);
+        botAleatoire.setQuartierConstruit(quart);
         botAleatoire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.TEMPLE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.CHATEAU);
-        botAleatoire.ajoutQuartierConstruit(Quartier.UNIVERSITE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.MARCHE);
-        System.out.println(botAleatoire.getQuartiersConstruits());
-        bot.setRole(roles.get(2));
-        tour.setRolesTemp(roles);
+
+        bot.setRole(roles.get(2));  //on lui donne un role pour l'acces à botliste
+        List<Role> roleTemp = new ArrayList<>(roles);
+        tour.setRolesTemp(roleTemp);
         bot.setNbTour(34);
         tour.distributionRoles();
         System.out.println(bot.getRole());
         assertTrue(bot.getRole() instanceof Assassin );
 
+        bot.faireActionSpecialRole();
+        verify(assassinMock).tuer(architecteMock);
+
+
     }
+
+
     @Test
     void testChoixRoleArchitecteAvance2(){
         List<Role> roles = new ArrayList<>();
@@ -132,18 +133,15 @@ class BotRichardTest {
         botFocusRoi.setOrdreChoixRole(4);
         //CAS ou un bot avance qui peut prendre architecte
         botAleatoire.changerOr(70);
-        botAleatoire.ajoutQuartierMain(Quartier.OBSERVATOIRE);
-        botAleatoire.ajoutQuartierMain(Quartier.TEMPLE);
-        botAleatoire.ajoutQuartierMain(Quartier.CHATEAU);
-        botAleatoire.ajoutQuartierMain(Quartier.UNIVERSITE);
-        botAleatoire.ajoutQuartierMain(Quartier.MARCHE);
+        List<Quartier> quart = new ArrayList<>();
+        quart.add(Quartier.OBSERVATOIRE);
+        quart.add(Quartier.TEMPLE);
+        quart.add(Quartier.CHATEAU);
+        quart.add(Quartier.UNIVERSITE);
+        quart.add(Quartier.MARCHE);
+        botAleatoire.setQuartierConstruit(quart);
         botAleatoire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.BIBLIOTHEQUE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.TEMPLE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.CHATEAU);
-        botAleatoire.ajoutQuartierConstruit(Quartier.UNIVERSITE);
-        botAleatoire.ajoutQuartierConstruit(Quartier.MARCHE);
-        System.out.println(botAleatoire.getQuartiersConstruits());
+
         bot.setRole(roles.get(2));
         tour.setRolesTemp(roles);
         bot.setNbTour(34);
@@ -153,5 +151,55 @@ class BotRichardTest {
     }
 
 
+    @Test
+    void testChoixRoleJoueurAvance(){
+        List<Role> roles = new ArrayList<>();
+        Assassin assassinMock = spy(new Assassin(botliste,roles));
+        roles.add(assassinMock);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        Roi roiMock = new Roi(botliste);
+        roles.add(roiMock);
+        roles.add(new Pretre(botliste));
+        roles.add(new Marchand(botliste));
+        Architecte architecteMock = spy(new Architecte(botliste));
+        roles.add(architecteMock);
+        Condottiere condottiereMock = spy(new Condottiere(botliste));
+        roles.add(condottiereMock);
+        bot.setOrdreChoixRole(1);
+        botAleatoire.setOrdreChoixRole(2);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        //CAS ou un bot avance qui peut prendre architecte
+        botAleatoire.changerOr(70);
+        List<Quartier> quart = new ArrayList<>();
+        quart.add(Quartier.OBSERVATOIRE);
+        quart.add(Quartier.TEMPLE);
+        quart.add(Quartier.CHATEAU);
+        quart.add(Quartier.UNIVERSITE);
+        quart.add(Quartier.MARCHE);
+        quart.add(Quartier.COMPTOIR);
+        botAleatoire.setQuartierConstruit(quart);
+        botAleatoire.ajoutQuartierMain(Quartier.BIBLIOTHEQUE);
+
+        bot.setRole(roles.get(2));  //on lui donne un role pour l'acces à botliste
+        List<Role> roleTemp = new ArrayList<>(roles);
+        roleTemp.remove(3);
+        roleTemp.remove(0);
+        tour.setRolesTemp(roleTemp);
+        bot.setNbTour(34);
+        tour.distributionRoles();
+        System.out.println(bot.getRole());
+        assertTrue(bot.getRole() instanceof Condottiere );
+
+        bot.faireActionSpecialRole();
+        verify(condottiereMock).destructionQuartier(bot, botAleatoire, Quartier.TEMPLE);
+
+
 
     }
+
+
+
+
+}

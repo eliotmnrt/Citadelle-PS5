@@ -29,6 +29,9 @@ public class Condottiere implements Role{
     }
 
     public void destructionQuartier(Bot bot,Bot botAdetruire,Quartier quartier){
+        if (bot == botAdetruire){   //on peut pas se détruire son propre batiment
+            throw new IllegalArgumentException();
+        }
         this.quartierAdetruire = quartier;
         if(botAdetruire.getQuartiersConstruits().size()<8){
             botAdetruire.getQuartiersConstruits().remove(quartier);
