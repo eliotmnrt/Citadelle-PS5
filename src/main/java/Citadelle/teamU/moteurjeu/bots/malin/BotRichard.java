@@ -28,6 +28,8 @@ public class BotRichard extends BotMalin{
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
+
+        //à enlever
         List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
         System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
 
@@ -35,36 +37,77 @@ public class BotRichard extends BotMalin{
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (nbTour>1 && architecteAvance()){
-            System.out.println("je suis la");
-            if (premierAChoisir){
-                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
-                    System.out.println("Assassin");
+        if (nbTour>1) {
+            if (architecteAvance()) {
+                System.out.println("je suis la");
+                if (premierAChoisir) {
+                    if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
+                        System.out.println("Assassin");
+                        return;
+                    }
+                    if (trouverRole(roles, "Architecte")) {
+                        System.out.println("Architecte");
+                        return;
+                    }
+                }
+            } else if (joueurAvance()) {
+                if (trouverRole(roles, "Roi")) {
                     return;
                 }
-                if (trouverRole(roles, "Architecte")){
-                    System.out.println("Architecte");
+                if (trouverRole(roles, "Assassin")) {
+                    System.out.println("assassin");
+                    return;
+                }
+                if (trouverRole(roles, "Condottiere")) {
+                    System.out.println("condottiere");
+                    return;
+                }
+                if (trouverRole(roles, "Pretre")) {
+                    System.out.println("pretre");
                     return;
                 }
             }
-        } else if (nbTour>1 && joueurAvance()){
-            if (trouverRole(roles, "Roi")){
-                return;
+        /*
+         Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
+         afin de construire son dernier quartier sans craindre le Condottiere.
+         */ joueurProcheFinir=joueurProcheFinir();
+            if (joueurProcheFinir) {
+                ordreChoix = getOrdreChoixRole(roles);
+            /*
+             Dans l e meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
+              prendre l’Assassin et tuer l’Evêque ou Condottiere.
+            */
+                if (joueursProchesDeFinirList.contains(this)) {
+                    if (this.ordreChoix == 2) {
+                        if (!(trouverRole(roles, "Pretre") && trouverRole(roles, "Condottiere"))) {
+                            trouverRole(roles, "Assassin");
+                            return;
+                            //pour tuer l'eveque ou le condottiere
+                        }
+                    }
+                    if ((this.ordreChoix == 1 || this.ordreChoix == 2)) {
+                        if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
+                            return;
+                        }
+                        if (trouverRole(roles, "Pretre")) { // j'ai privilégié le pretre au condott parce qu'il joue avant
+                            return;
+                        }
+                        if (trouverRole(roles, "Condottiere")) {
+                            return;
+                        }
+                    }
+                }
+            /*else{ //il s'agit d'un autre joueur en passe de gagner
+                for(Bot bot: joueursProchesDeFinirList){
+                    if(bot.getOrdreChoixRole()==3){
+                        if(this.getOrdreChoixRole(){
+                        }
+                    }
+                }
             }
-            if (trouverRole(roles, "Assassin")){
-                System.out.println("assassin");
-                return;
-            }
-            if (trouverRole(roles, "Condottiere")){
-                System.out.println("condottiere");
-                return;
-            }
-            if (trouverRole(roles, "Pretre")){
-                System.out.println("pretre");
-                return;
+        }*/
             }
         }
-
         //si on a bcp d'argent on prend l'architecte
         if (nbOr>=8 && trouverRole(roles, "Architecte")) return;
         //magicien interessant si peu de cartes
