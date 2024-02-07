@@ -1,7 +1,7 @@
 Simulations,Pourcentage de victoire,Pourcentage de défaite,Score moyen,Score moyen en cas de victoire
-Bot construit chère,39.35,60.65,25.33,33.28334
-Bot Richard,7.2,92.8,12.1695,23.756966
-Bot qui focus Roi,29.3,70.7,21.326,27.09492
-Bot aléatoire,20.05,79.95,19.448,29.153753
-Egalité,4.0,--,25.555763,25.555763
-Nombre de simulations,2000.0
+Bot qui focus le roi,27.933332,72.066666,21.270142,27.00589
+Bot qui construit chere,40.0,60.0,25.24818,33.326702
+Bot Richard,7.2,92.8,12.069247,24.000591
+Bot aleatoire,19.6,80.4,19.51747,29.208748
+Egalité,5.1666665,--,25.296188,25.296188
+Nombre de simulations,3000.0

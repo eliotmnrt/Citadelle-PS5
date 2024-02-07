@@ -179,6 +179,6 @@ public class BotAleatoire extends Bot{
     }
     @Override
     public String toString(){
-        return "Bot aléatoire";
+        return "Bot aleatoire";
     }
 }

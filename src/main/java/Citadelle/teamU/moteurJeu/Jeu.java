@@ -234,7 +234,7 @@ public class Jeu {
             reader = new CSVReader(new FileReader(file));
             List<String[]> allRows = reader.readAll();
             simulation1(nombre,true);
-            if(!(allRows.get(0)[0].equals(listeBot.get(0).toString())&& allRows.get(0)[1].equals(listeBot.get(1).toString()) && allRows.get(0)[2].equals(listeBot.get(2).toString()) && allRows.get(0)[3].equals(listeBot.get(3).toString()))){
+            if(!(allRows.get(1)[0].equals(listeBot.get(0).toString())&& allRows.get(2)[0].equals(listeBot.get(1).toString()) && allRows.get(3)[0].equals(listeBot.get(2).toString()) && allRows.get(4)[0].equals(listeBot.get(3).toString()))){
                 //Si un des nom de bot change on remet les données à 0
                 throw new IOException("changement fichier");
             }
@@ -301,60 +301,4 @@ public class Jeu {
         list.set(3,focusRoi);
         if(Null != 0) list.set(4,Null);
     }
-    /*
-    public static void simulationSoutenance(int nombre){
-        int i=1;
-        int cptConstruitChere=0;
-        int cptConstruitVite=0;
-        int cptAleatoire=0;
-        int cptQuiFocusRoi=0;
-        int cptNull = 0;
-        while(i<nombre){
-            Pioche pioche = new Pioche();
-            Bot bot1 = new BotFocusRoi(pioche);
-            Bot bot2 = new BotConstruitChere(pioche);
-            Bot bot3 = new BotConstruitVite(pioche);
-            Bot bot4 = new BotAleatoire(pioche);
-            //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-            JouerPartie(bot1,bot2,bot3,bot4);
-            Bot vainqueur = tour.getLeVainqueur();
-            remplirListe(moyennePoints,moyennePoints.get(0)+bot2.getScore(),moyennePoints.get(1)+bot3.getScore(),moyennePoints.get(2)+bot4.getScore(),moyennePoints.get(3)+bot1.getScore(),(float) 0);
-            if(vainqueur==null){
-                cptNull++;
-                int max = 0;
-                for (Bot bot : new ArrayList<Bot>(Arrays.asList(bot1,bot2,bot3,bot4))){
-                    if(bot.getScore()>max){
-                        max=bot.getScore();
-                    }
-                }
-                moyennePointsVictoire.set(4,moyennePointsVictoire.get(4)+max);
-                moyennePoints.set(4,moyennePoints.get(4)+max);
-            }
-            else if(vainqueur.toString().contains("BotConstruitChere")){
-                cptConstruitChere++;
-                moyennePointsVictoire.set(0,moyennePointsVictoire.get(0)+bot2.getScore());
-            }
-            else if(vainqueur.toString().contains("vite")){
-                cptConstruitVite++;
-                moyennePointsVictoire.set(1,moyennePointsVictoire.get(1)+bot3.getScore());
-            }
-            else if(vainqueur.toString().contains("BotAleatoire")){
-                cptAleatoire++;
-                moyennePointsVictoire.set(2,moyennePointsVictoire.get(2)+bot4.getScore());
-            }
-            else if(vainqueur.toString().contains("BotQuiFocusRoi")){
-                cptQuiFocusRoi++;
-                moyennePointsVictoire.set(3,moyennePointsVictoire.get(3)+bot1.getScore());
-            }
-            i++;
-        }
-        remplirListe(moyennePoints,moyennePoints.get(0)/nombre,moyennePoints.get(1)/nombre,moyennePoints.get(2)/nombre,moyennePoints.get(3)/nombre,moyennePoints.get(4)/cptNull);
-        remplirListe(moyennePointsVictoire,moyennePointsVictoire.get(0)/cptConstruitChere,moyennePointsVictoire.get(1)/cptConstruitVite,moyennePointsVictoire.get(2)/cptAleatoire,moyennePointsVictoire.get(3)/cptQuiFocusRoi,moyennePointsVictoire.get(4)/cptNull);
-        remplirListe(pourcentageVictoire,((float)cptConstruitChere/nombre)*100,((float)cptConstruitVite/nombre)*100,((float)cptAleatoire/nombre)*100,((float)cptQuiFocusRoi/nombre)*100,((float)cptNull/nombre)*100);
-        System.out.println("Comparaison des différents bots");
-        System.out.println( "Taux de victoire : BotConstruitChere: "+ pourcentageVictoire.get(0) +"% ,BotQuiFocusRoi: "+ pourcentageVictoire.get(3) +"% ,Bot_qui_construit_vite :"+ pourcentageVictoire.get(1) +"% ,BotAleatoire :"+ pourcentageVictoire.get(2) +"%");
-        System.out.println( "Taux de défaite : BotConstruitChere: "+ (100-pourcentageVictoire.get(0)) +"% ,BotQuiFocusRoi: "+ (100-pourcentageVictoire.get(3)) +"% ,Bot_qui_construit_vite :"+ (100-pourcentageVictoire.get(1)) +"% ,BotAleatoire :"+ (100-pourcentageVictoire.get(2)) +"%");
-        System.out.println( "Taux d'égalité : "+pourcentageVictoire.get(4)+"%");
-        System.out.println( "Score moyen : BotConstruitChere: "+ moyennePoints.get(0) +" ,BotQuiFocusRoi: "+ moyennePoints.get(3) +" ,Bot_qui_construit_vite :"+ moyennePoints.get(1) +" ,BotAleatoire :"+ moyennePoints.get(2) +" ,Egalité : "+moyennePoints.get(4));
-    }*/
 }
