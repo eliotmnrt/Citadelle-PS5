@@ -111,11 +111,6 @@ public class BotAleatoire extends Bot{
         return null;
     }
 
-    @Override
-    public String toString(){
-        return name;
-    }
-
     /**
      * echange toutes ses cartes aleatoire avec bot ou pioche
      * @param magicien Role magicien
@@ -181,5 +176,9 @@ public class BotAleatoire extends Bot{
     }
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
+    }
+    @Override
+    public String toString(){
+        return "Bot aleatoire";
     }
 }
