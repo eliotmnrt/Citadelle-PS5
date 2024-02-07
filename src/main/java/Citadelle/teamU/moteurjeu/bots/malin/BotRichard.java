@@ -14,10 +14,8 @@ import static java.util.Arrays.stream;
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitChere sauf pour les règles demandées
     private static int numDuBot = 1;
+    private boolean premierAChoisir = false;
     private boolean joueurAvance = false;
-    private boolean joueurProcheFinir=false;
-    int bcpCartes=4;
-    int bcpArgent=8;
     public BotRichard(Pioche pioche) {
         super(pioche);
         this.name = "Bot Richard_" + numDuBot;
