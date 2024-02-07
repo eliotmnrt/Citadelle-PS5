@@ -6,24 +6,24 @@ import Citadelle.teamU.moteurjeu.bots.Bot;
 import Citadelle.teamU.moteurjeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArchitecteTest {
-    private BotAleatoire bot;
+    private Bot bot;
     ArrayList<Bot> botliste;
+
     @BeforeEach
-    public void setBot(){
+    public void setBot() {
         Pioche pioche = new Pioche();
         bot = new BotAleatoire(pioche);
         botliste = new ArrayList<>();
         botliste.add(bot);
         bot.setRole(new Architecte(botliste));
     }
+
     @Test
-    void archiSpecialTest(){
+    void archiSpecialTest() {
         bot.changerOr(2); // 4 d'or au total (assez pour chateau)
         assertEquals(4, bot.getOr());
 

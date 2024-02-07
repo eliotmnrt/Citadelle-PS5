@@ -33,6 +33,10 @@ public class Architecte implements Role {
         bot.construire();
         bot.construire();
     }
+    public List<Quartier> getQuartiersSupplementaires(){
+        return quartiersSupplementaires;
+    }
+
 
     @Override
     public int getOrdre() {

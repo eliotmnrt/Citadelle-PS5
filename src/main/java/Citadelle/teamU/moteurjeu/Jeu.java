@@ -1,10 +1,7 @@
 package Citadelle.teamU.moteurjeu;
 
 import Citadelle.teamU.moteurjeu.bots.*;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
-import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
-import Citadelle.teamU.moteurjeu.bots.malin.BotRichard;
+import Citadelle.teamU.moteurjeu.bots.malin.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -195,7 +192,7 @@ public class Jeu {
         Bot bot1 = new BotFocusRoi(pioche);
         Bot bot2 = new BotConstruitChere(pioche);
         Bot bot3 = new BotRichard(pioche);
-        Bot bot4 = new BotAleatoire(pioche);
+        Bot bot4 = new BotFocusMarchand(pioche);
 
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
         JouerPartie(bot1,bot2,bot3,bot4);
