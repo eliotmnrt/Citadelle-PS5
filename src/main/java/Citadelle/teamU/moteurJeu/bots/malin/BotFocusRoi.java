@@ -14,6 +14,7 @@ import java.util.List;
 public class BotFocusRoi extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersJaunesConstruits = 0;
+    private boolean strat2 = false;
 
     public BotFocusRoi(Pioche pioche){
         //Bot qui monopolise le role de roi
@@ -48,16 +49,16 @@ public class BotFocusRoi extends BotMalin {
         }
 
         int aleat = randInt(3);
-        if(aleat == 0){                     //1 chances sur 3 de prendre de l'or
-            choixDeBase.add(null);
-            changerOr(2);
-            affichageJoueur.afficheChoixDeBase(choixDeBase);
-            return choixDeBase;
-        } else {                            // sinon on pioche
-            // piocher deux quartiers, et en choisir un des deux aléatoirement
-            // piocher deux quartiers, quartier1 et quartier 2
-            choixDeBase = piocheDeBase();
 
+        if(strat2){
+            if (aleat != 4){                     //3 chances sur 3 de prendre de l'or
+                choixDeBase.add(null);
+                changerOr(2);
+                affichageJoueur.afficheChoixDeBase(choixDeBase);
+                return choixDeBase;
+            }
+        } else {                            // sinon on pioche
+            choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -129,9 +130,10 @@ public class BotFocusRoi extends BotMalin {
     @Override
     public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (nbQuartiersJaunesConstruits <= 2){
+        if (nbQuartiersJaunesConstruits < 2){
             choisirRoleDebut(roles);
         } else {
+            strat2 = true;
             choisirRoleFin(roles);
         }
     }

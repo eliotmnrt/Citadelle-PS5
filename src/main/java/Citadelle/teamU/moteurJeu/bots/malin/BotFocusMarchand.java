@@ -11,6 +11,7 @@ import java.util.*;
 public class BotFocusMarchand extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersVertsConstruits = 0;
+    private boolean strat2 = false;
 
     public BotFocusMarchand(Pioche pioche) {
         //Bot qui monopolise le role de marchand
@@ -44,15 +45,13 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
 
-        int aleat = randInt(3);
-        if (aleat == 0) {
+        if(strat2){
             choixDeBase.add(null);
             changerOr(2);
             affichageJoueur.afficheChoixDeBase(choixDeBase);
             return choixDeBase;
-        } else {
+        } else {                            // sinon on pioche
             choixDeBase = piocheDeBase();
-
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
         }
         affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -68,6 +67,7 @@ public class BotFocusMarchand extends BotMalin {
         if (nbQuartiersVertsConstruits < 3) {
             choisirRoleDebut(roles);
         } else {
+            strat2 = true;
             choisirRoleFin(roles);
         }
     }
@@ -234,7 +234,7 @@ public class BotFocusMarchand extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui focus le marchant";
+        return "Bot qui focus le marchand";
     }
 }
 

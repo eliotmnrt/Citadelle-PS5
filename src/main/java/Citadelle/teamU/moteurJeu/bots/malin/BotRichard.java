@@ -221,7 +221,7 @@ public class BotRichard extends BotMalin{
         couleurs.put(VERT,0);
         couleurs.put(ROUGE,0);
         couleurs.put(JAUNE,0);
-        couleurs.put(BLEUE,0);        //ordre marchant, condottiere, roi, pretre
+        couleurs.put(BLEUE,0);        //ordre marchand, condottiere, roi, pretre
         HashMap<TypeQuartier,Role> roles = new HashMap<>();
         roles.put(VERT,new Marchand(role.getBotliste()));
         roles.put(ROUGE,new Condottiere(role.getBotliste()));
@@ -284,7 +284,7 @@ public class BotRichard extends BotMalin{
                 return new Magicien(role.getBotliste());
             }
         }
-        //Architeche : il a bcp de carte en main (a partir de 5)
+        //Architecte : il a bcp de carte en main (a partir de 5)
         if(botCible.getQuartierMain().size()>4&&!hasInstanceOf(rolesVisible,new Architecte(role.getBotliste()))){
             boolean pasArchi = true;
             for(Role restant : rolesRestants){

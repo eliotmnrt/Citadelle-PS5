@@ -23,7 +23,14 @@ public class BotConstruitChere extends BotMalin {
 
 
 
-
+    @Override
+    public void choisirRole(List<Role> roles){
+        if (orProchainTour >= 0) nbOr += orProchainTour;
+        if (trouverRole(roles, "Marchand")){return;} //on cherche le marchand pour generer des sous
+        int intAleatoire= randInt(roles.size());
+        setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
+    }
 
 
 
