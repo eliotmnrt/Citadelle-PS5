@@ -69,7 +69,7 @@ public class BotRichard extends BotMalin{
      * check si un joueur menace de finir en un tour avec architecte
      * @return true, false sinon
      */
-    private boolean architecteAvance(){
+    public boolean architecteAvance(){
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         return list.stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
@@ -79,12 +79,15 @@ public class BotRichard extends BotMalin{
      * check si un joueur à 6 quartiers
      * @return true, false sinon
      */
-    private boolean joueurAvance(){
+    public boolean joueurAvance(){
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         joueurAvance = list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==6);
         return joueurAvance;
     }
+
+    //pour les tests uniquement
+    public void setJoueurAvance(boolean joueurAvance) {this.joueurAvance = joueurAvance;}
 
     /**
      * assassine en fonction de l'état de la partie
@@ -94,9 +97,17 @@ public class BotRichard extends BotMalin{
     public void actionSpecialeAssassin(Assassin assassin){
         //si un joueur menace de finir
         if (joueurAvance){
-            Optional<Role> roleRoi = assassin.getRoles().stream().filter(Roi.class::isInstance).findFirst();
-            roleRoi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-            roleRoi.ifPresent(assassin::tuer);
+            List<Bot> list = new ArrayList<>(assassin.getBotliste());
+            list.remove(this);
+            Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
+            Role roleBotVise = null;
+            if (optionalBot.isPresent()){
+                roleBotVise =roleProbable(optionalBot.get());
+            } else {
+                throw new IllegalArgumentException();
+            }
+            affichageJoueur.afficheMeurtre(roleBotVise);
+            assassin.tuer(roleBotVise);
             return;
         }
 
@@ -197,13 +208,21 @@ public class BotRichard extends BotMalin{
                 if(!hasInstanceOf(rolesRestants,new Pretre(role.getBotliste()))&&!hasInstanceOf(rolesVisible,new Pretre(role.getBotliste()))) return new Pretre(role.getBotliste());
             }
         }
+        if(joueurAvance){
+            if(apres){
+                if(hasInstanceOf(rolesRestants,new Roi(role.getBotliste()))) return new Roi(role.getBotliste());
+            }else{
+                if(!hasInstanceOf(rolesRestants,new Roi(role.getBotliste()))&&!hasInstanceOf(rolesVisible,new Roi(role.getBotliste()))) return new Roi(role.getBotliste());
+            }
+        }
 
-        HashMap<TypeQuartier,Integer> couleurs = new HashMap<TypeQuartier,Integer>();
+
+        HashMap<TypeQuartier,Integer> couleurs = new HashMap<>();
         couleurs.put(VERT,0);
         couleurs.put(ROUGE,0);
         couleurs.put(JAUNE,0);
         couleurs.put(BLEUE,0);        //ordre marchant, condottiere, roi, pretre
-        HashMap<TypeQuartier,Role> roles = new HashMap<TypeQuartier,Role>();
+        HashMap<TypeQuartier,Role> roles = new HashMap<>();
         roles.put(VERT,new Marchand(role.getBotliste()));
         roles.put(ROUGE,new Condottiere(role.getBotliste()));
         roles.put(JAUNE,new Roi(role.getBotliste()));
