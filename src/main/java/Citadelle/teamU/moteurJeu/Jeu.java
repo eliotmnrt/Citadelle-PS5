@@ -71,7 +71,7 @@ public class Jeu {
             listeBot.set(0,new BotFocusRoi(pioche));
             listeBot.set(1,new BotConstruitChere(pioche));
             listeBot.set(2,new BotRichard(pioche));
-            listeBot.set(3,new BotAleatoire(pioche));
+            listeBot.set(3,new BotFocusMarchand(pioche));
             JouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
             Bot vainqueur=tour.getLeVainqueur();
             remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
