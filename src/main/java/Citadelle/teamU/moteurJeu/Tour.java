@@ -59,6 +59,7 @@ public class Tour {
         botListe.sort(Comparator.comparingInt(Bot::getOrdre));
         for (Bot bot: botListe) {
             if (!bot.estMort()) {
+                bot.setRolesVisible(rolesVisible);
                 bot.getAffichage().afficheBot();
                 bot.faireActionSpecialRole();
                 bot.faireActionDeBase();
