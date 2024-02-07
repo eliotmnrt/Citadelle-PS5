@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu.bots;
+package Citadelle.teamU.moteurJeu.bots;
 
 //modification pour test githubActions
 import Citadelle.teamU.cartes.Quartier;
@@ -7,14 +7,12 @@ import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.cartes.roles.Voleur;
-import Citadelle.teamU.moteurjeu.AffichageJoueur;
-import Citadelle.teamU.moteurjeu.Pioche;
+import Citadelle.teamU.moteurJeu.AffichageJoueur;
+import Citadelle.teamU.moteurJeu.Pioche;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 public abstract class Bot {
     protected int nbOr;

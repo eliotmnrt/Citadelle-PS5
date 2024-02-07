@@ -1,12 +1,11 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 

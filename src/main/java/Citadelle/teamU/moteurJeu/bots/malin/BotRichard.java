@@ -1,13 +1,11 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.*;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitVite sauf pour les règles demandées

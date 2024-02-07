@@ -1,10 +1,10 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
-import Citadelle.teamU.moteurjeu.bots.*;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitChere;
-import Citadelle.teamU.moteurjeu.bots.malin.BotConstruitVite;
-import Citadelle.teamU.moteurjeu.bots.malin.BotFocusRoi;
-import Citadelle.teamU.moteurjeu.bots.malin.BotRichard;
+import Citadelle.teamU.moteurJeu.bots.*;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitChere;
+import Citadelle.teamU.moteurJeu.bots.malin.BotConstruitVite;
+import Citadelle.teamU.moteurJeu.bots.malin.BotFocusRoi;
+import Citadelle.teamU.moteurJeu.bots.malin.BotRichard;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -92,7 +92,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>Citadelle.teamU.moteurjeu.Jeu</mainClass> <!-- CHANGE ME -->
+                    <mainClass>Citadelle.teamU.moteurJeu.Jeu</mainClass> <!-- CHANGE ME -->
                     <!--          <arguments>
                                 <argument>argument1</argument>
                               </arguments>

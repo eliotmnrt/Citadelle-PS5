@@ -1,10 +1,10 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
 import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.*;
 
