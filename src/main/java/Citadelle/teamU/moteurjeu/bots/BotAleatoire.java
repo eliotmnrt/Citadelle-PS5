@@ -160,4 +160,7 @@ public class BotAleatoire extends Bot{
             }
         }
     }
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 }

@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurjeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurjeu.Pioche;
 import Citadelle.teamU.moteurjeu.bots.Bot;
 
@@ -112,5 +113,7 @@ public class BotConstruitChere extends BotMalin {
             affichageJoueur.afficheNouvelleMainMagicien();
         }
     }
-
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 }
