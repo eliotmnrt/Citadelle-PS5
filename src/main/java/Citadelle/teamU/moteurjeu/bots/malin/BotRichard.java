@@ -30,22 +30,16 @@ public class BotRichard extends BotMalin{
     public void choisirRole(List<Role> roles){
         nbTour++;
         int ordreChoix=getOrdreChoixRole();
-        //à enlever
-        List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
-        System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
-
         assassinerMagicien = false;
-
         if (orProchainTour >= 0) nbOr += orProchainTour;
+        System.out.println(nbTour);
         if (nbTour>1) {
             if (architecteAvance()) {
                 if (ordreChoix==1) {
                     if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
-
                         return;
                     }
                     if (trouverRole(roles, "Architecte")) {
-
                         return;
                     }
                 }
@@ -70,16 +64,20 @@ public class BotRichard extends BotMalin{
          Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
          afin de construire son dernier quartier sans craindre le Condottiere.
          */ joueurProcheFinir=joueurProcheFinir();
+            System.out.println("dans choisir role  "+joueurProcheFinir);
+            //à enlever
+            List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
+            System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
             if (joueurProcheFinir) {
-
             /*
-             Dans l e meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
+             Dans le meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
               prendre l’Assassin et tuer l’Evêque ou Condottiere.
             */
                 if (joueursProchesDeFinirList.contains(this)) {
                     if (ordreChoix == 2) {
                         if (!(trouverRole(roles, "Pretre") && trouverRole(roles, "Condottiere"))) {
                             trouverRole(roles, "Assassin");
+                            System.out.println("what im supposed to see");
                             return;
                             //pour tuer l'eveque ou le condottiere
                         }
@@ -109,12 +107,9 @@ public class BotRichard extends BotMalin{
                         {
                         /* 1er cas.
  Il y a : Assassin, Evêque et Condottiere.
-
  Le premier à choisir ne doit pas prendre l’Assassin, il prend le Condottiere…
  Le deuxième prend l’Assassin et tue l’Evêque.*/
-
                             if (hasInstanceOf(roles, new Pretre(role.getBotliste()))) {
-
                                 if (ordreChoix == 1) {
                                     trouverRole(roles, "Condottiere");
                                     return;
@@ -137,7 +132,6 @@ public class BotRichard extends BotMalin{
                                     trouverRole(roles, "Condottiere");
                                     return;
                                 }
-
                             }
                         }
                         if(hasInstanceOf(roles, new Assassin(role.getBotliste(),roles))&& hasInstanceOf(roles, new Pretre(role.getBotliste())))
@@ -146,8 +140,6 @@ public class BotRichard extends BotMalin{
  Il manque : Le Condottiere
  Le premier prend l’Assassin et tue le Magicien, si le 2ème joueur a beaucoup de cartes et le joueur en position de gagner en a aucune, sinon il tue qui il veut.
  Le deuxième prend le Magicien (s'il n'a pas trop de cartes) et prends celles du joueur en position de gagner. */
-
-
                                 if (ordreChoix == 1) {
                                     trouverRole(roles, "Assassin"); //tue le magicien
                                     return;
@@ -157,10 +149,7 @@ public class BotRichard extends BotMalin{
                                         trouverRole(roles, "Magicien"); //Le deuxième prend le Magicien (s'il n'a pas trop de cartes) et prends celles du joueur en position de gagner.
                                         return;
                                     }
-
                                 }
-
-
                         }
                         if(hasInstanceOf(roles, new Condottiere(role.getBotliste()))&& hasInstanceOf(roles, new Pretre(role.getBotliste())))
                         {
@@ -168,8 +157,6 @@ public class BotRichard extends BotMalin{
                          Il n’y pas l’Assassin
                          Le premier prend le Condottiere.
                          Le deuxième prend l’Evêque. */
-
-
                             if (ordreChoix == 1) {
                                 trouverRole(roles, "Condottiere"); //detruit un quartier du joueur en passe en gagner
                                 return;
@@ -177,18 +164,12 @@ public class BotRichard extends BotMalin{
                             if (ordreChoix == 2) {
                                 trouverRole(roles, "Pretre");
                                 return;
-
-
                             }
-
-
                         }
-
-
                 }
             }
         }
-            }
+      }
         }
         //si on a bcp d'argent on prend l'architecte
         if (nbOr>=bcpArgent && trouverRole(roles, "Architecte")) return;
@@ -216,6 +197,8 @@ public class BotRichard extends BotMalin{
         if (trouverRole(roles, "Roi")) return;
 
         //sinon aleatoire
+
+        System.out.println(roles.size());
         int intAleatoire = randInt(roles.size());
         Role rolechoisi=roles.remove(intAleatoire);
         setRole(rolechoisi);

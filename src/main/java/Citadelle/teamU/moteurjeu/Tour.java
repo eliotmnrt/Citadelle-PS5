@@ -39,9 +39,7 @@ public class Tour {
     public void setRolesTemp(List<Role> roles){
         this.rolesTemp=roles;
     }
-    public void setNbTour(int nb){
-        nbTour=nb;
-    }
+
     public void prochainTour(){
         nbTour++;
         rolesTemp = new ArrayList<>(roles);

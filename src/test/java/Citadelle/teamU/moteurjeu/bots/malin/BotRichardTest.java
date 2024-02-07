@@ -168,6 +168,212 @@ class BotRichardTest {
 
 
     }
+    //tests du choix de roles pour bot richard dans le dernier tour en fonction du joueur qui a presque fini
+
+    @Test
+    void ChoixRoleBotPresqueFiniThisEstPremier(){
+        //cas ou c'est this le joueur qui a presque fini et que que il a l'ordre 1
+        //cas ou il y'a l'assassin, choisir l'assassin
+        List<Quartier> quart = new ArrayList<>();
+        quart.add(Quartier.OBSERVATOIRE);
+        quart.add(Quartier.TEMPLE);
+        quart.add(Quartier.CHATEAU);
+        quart.add(Quartier.UNIVERSITE);
+        quart.add(Quartier.MARCHE);
+        quart.add(Quartier.TERRAIN_DE_BATAILLE);
+        quart.add(Quartier.ECOLE_DE_MAGIE);
+        bot.setRole(new Pretre(botliste));
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(1);
+        botAleatoire.setOrdreChoixRole(2);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        List<Role> roles = new ArrayList<>();
+        Assassin assassin=new Assassin(botliste, roles);
+        Pretre pretre=new Pretre(botliste);
+        Condottiere condottiere=new Condottiere(botliste);
+        roles.add(assassin);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        //roles.add(new Roi(botliste));
+        roles.add(pretre);
+        //roles.add(new Marchand(botliste));
+        //roles.add(new Architecte(botliste));
+        roles.add(condottiere);
+        System.out.println(roles);
+        System.out.println(bot.getQuartiersConstruits().size());
+        System.out.println(bot.getOrdreChoixRole());
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==assassin);
+
+
+
+
+        roles.remove(0);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        roles.add(new Roi(botliste));
+        roles.add(condottiere);
+        roles.add(pretre);
+        //roles.add(new Marchand(botliste));
+        //roles.add(new Architecte(botliste));
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(1);
+        botAleatoire.setOrdreChoixRole(2);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot, atLeast(1)).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==pretre);
+
+        //cas ou il n'y a ni assassin ni pretre
+
+        roles.remove(0);
+        //roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        roles.add(new Roi(botliste));
+        //roles.add(pretre);
+        roles.add(new Marchand(botliste));
+        roles.add(new Architecte(botliste));
+        roles.add(condottiere);
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(1);
+        botAleatoire.setOrdreChoixRole(2);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot, atLeast(1)).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==condottiere);
+
+
+    }
+    @Test
+    void ChoixRoleBotPresqueFiniThisEstDeuxieme(){
+        /*
+        List<Role> roles = new ArrayList<>();
+        Assassin assassin=new Assassin(botliste, roles);
+        Pretre pretre=new Pretre(botliste);
+        Condottiere condottiere=new Condottiere(botliste);
+        roles.add(assassin);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        //roles.add(new Roi(botliste));
+        roles.add(pretre);
+        //roles.add(new Marchand(botliste));
+        //roles.add(new Architecte(botliste));
+        roles.add(condottiere);
+        //mm chose quand le bot est deuxième
+        List<Quartier> quart = new ArrayList<>();
+        quart.add(Quartier.OBSERVATOIRE);
+        quart.add(Quartier.TEMPLE);
+        quart.add(Quartier.CHATEAU);
+        quart.add(Quartier.UNIVERSITE);
+        quart.add(Quartier.MARCHE);
+        quart.add(Quartier.TERRAIN_DE_BATAILLE);
+        quart.add(Quartier.ECOLE_DE_MAGIE);
+        bot.setRole(new Pretre(botliste));
+        bot.setQuartierConstruit(quart);
+        // cas ou il peut choisir l'assassin
+        roles.remove(0);
+        roles.add(assassin);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        //roles.add(new Roi(botliste));
+        roles.add(pretre);
+        //roles.add(new Marchand(botliste));
+        //roles.add(new Architecte(botliste));
+        roles.add(condottiere);
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(2);
+        botAleatoire.setOrdreChoixRole(1);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot, atLeast(1)).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==assassin);
+
+
+
+        // il n'y a pas l'assassin -> choisir pretre
+        roles.remove(0);
+        roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        roles.add(new Roi(botliste));
+        roles.add(condottiere);
+        roles.add(pretre);
+        //roles.add(new Marchand(botliste));
+        //roles.add(new Architecte(botliste));
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(2);
+        botAleatoire.setOrdreChoixRole(1);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot, atLeast(1)).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==pretre);
+
+        //cas ou il n'y a ni assassin ni pretre
+        roles.remove(0);
+        //roles.add(new Voleur(botliste, roles));
+        roles.add(new Magicien(botliste));
+        roles.add(new Roi(botliste));
+        //roles.add(pretre);
+        roles.add(new Marchand(botliste));
+        roles.add(new Architecte(botliste));
+        roles.add(condottiere);
+        bot.setQuartierConstruit(quart);
+        bot.setOrdreChoixRole(2);
+        botAleatoire.setOrdreChoixRole(1);
+        botConstruitChere.setOrdreChoixRole(3);
+        botFocusRoi.setOrdreChoixRole(4);
+        tour.setRolesTemp(roles);
+        bot.setNbTour(10);
+        System.out.println(tour.getNbTour());
+        tour.distributionRoles();
+        System.out.println(roles);
+        System.out.println("role choisi par bot richard "+bot.getRole());
+        verify(bot, atLeast(1)).joueurProcheFinir();
+        assertFalse(bot.getJoueursProcheFinir().isEmpty());
+        assertTrue(bot.getJoueursProcheFinir().contains(bot));
+        assertTrue(bot.getRole()==condottiere);*/
+    }
 
 
 
