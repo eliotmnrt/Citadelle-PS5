@@ -190,7 +190,7 @@ public class Jeu {
             Path path = Paths.get("stats","gamestats.csv");
             updateCSV(path.toFile());
         }
-        Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
+        //Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
 
         Pioche pioche = new Pioche();
         Bot bot1 = new BotFocusRoi(pioche);

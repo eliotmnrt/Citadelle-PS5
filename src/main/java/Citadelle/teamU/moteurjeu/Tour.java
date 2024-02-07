@@ -147,7 +147,6 @@ public class Tour {
         }
         affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
-            System.out.println("avant de choisir: tour:"+nbTour+" "+rolesTemp);
             bot.choisirRole(rolesTemp);
         }
         return listeDistribution;

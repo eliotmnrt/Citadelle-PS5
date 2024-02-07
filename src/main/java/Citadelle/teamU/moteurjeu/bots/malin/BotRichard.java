@@ -29,40 +29,24 @@ public class BotRichard extends BotMalin{
     public void choisirRole(List<Role> roles){
         nbTour++;
         List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
-        System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
-
         assassinerMagicien = false;
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-            System.out.println("je suis la");
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
-                    System.out.println("Assassin");
                     return;
                 }
                 if (trouverRole(roles, "Architecte")){
-                    System.out.println("Architecte");
                     return;
                 }
             }
         } else if (nbTour>1 && joueurAvance()){
-            if (trouverRole(roles, "Roi")){
-                return;
-            }
-            if (trouverRole(roles, "Assassin")){
-                System.out.println("assassin");
-                return;
-            }
-            if (trouverRole(roles, "Condottiere")){
-                System.out.println("condottiere");
-                return;
-            }
-            if (trouverRole(roles, "Pretre")){
-                System.out.println("pretre");
-                return;
-            }
+            if (trouverRole(roles, "Roi")){return;}
+            if (trouverRole(roles, "Assassin")){return;}
+            if (trouverRole(roles, "Condottiere")){return;}
+            if (trouverRole(roles, "Pretre")){return;}
         }
 
         //si on a bcp d'argent on prend l'architecte
@@ -94,7 +78,6 @@ public class BotRichard extends BotMalin{
         int intAleatoire = randInt(roles.size());
         Role rolechoisi=roles.remove(intAleatoire);
         setRole(rolechoisi);
-        System.out.println(rolechoisi);
         rolesRestants = new ArrayList<>(roles);
     }
 
