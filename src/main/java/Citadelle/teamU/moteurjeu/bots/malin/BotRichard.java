@@ -100,8 +100,10 @@ public class BotRichard extends BotMalin{
                 for(Bot bot: joueursProchesDeFinirList){
                     /*
                      Si le joueur en passe de gagner est 3ème joueur, les deux premiers joueurs doivent jouer la combo !
+                      Si le joueur en passe de gagner est 4ème joueur (ou plus), les premiers joueurs doivent jouer la combo dans le même esprit que les cas précédents. Mais avec plus de chance de succès.
+                        L’idée est d’essayer de tuer le joueur en passe de gagner et(ou) de lui détruire un quartier.
                     */
-                    if(bot.getOrdreChoixRole()==3){
+                    if(bot.getOrdreChoixRole()==3 || bot.getOrdreChoixRole()==4){
 
                         if(hasInstanceOf(roles, new Assassin(role.getBotliste(),roles))&& hasInstanceOf(roles, new Condottiere(role.getBotliste())))
                         {
@@ -157,6 +159,27 @@ public class BotRichard extends BotMalin{
                                     }
 
                                 }
+
+
+                        }
+                        if(hasInstanceOf(roles, new Condottiere(role.getBotliste()))&& hasInstanceOf(roles, new Pretre(role.getBotliste())))
+                        {
+                        /*   4ème cas.
+                         Il n’y pas l’Assassin
+                         Le premier prend le Condottiere.
+                         Le deuxième prend l’Evêque. */
+
+
+                            if (ordreChoix == 1) {
+                                trouverRole(roles, "Condottiere"); //detruit un quartier du joueur en passe en gagner
+                                return;
+                            }
+                            if (ordreChoix == 2) {
+                                trouverRole(roles, "Pretre");
+                                return;
+
+
+                            }
 
 
                         }
