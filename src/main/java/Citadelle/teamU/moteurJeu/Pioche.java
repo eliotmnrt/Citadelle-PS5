@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 
 import Citadelle.teamU.cartes.Quartier;
 

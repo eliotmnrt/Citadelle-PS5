@@ -1,7 +1,7 @@
 package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.cartes.Quartier;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,10 @@ public class Architecte implements Role {
         bot.construire();
         bot.construire();
     }
+    public List<Quartier> getQuartiersSupplementaires(){
+        return quartiersSupplementaires;
+    }
+
 
     @Override
     public int getOrdre() {

@@ -1,4 +1,4 @@
-package Citadelle.teamU.moteurjeu;
+package Citadelle.teamU.moteurJeu;
 import com.beust.jcommander.Parameter;
 
 public class Args {

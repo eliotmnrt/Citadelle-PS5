@@ -1,10 +1,10 @@
-package Citadelle.teamU.moteurjeu.bots.malin;
+package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.TypeQuartier;
 import Citadelle.teamU.cartes.roles.*;
-import Citadelle.teamU.moteurjeu.Pioche;
-import Citadelle.teamU.moteurjeu.bots.Bot;
+import Citadelle.teamU.moteurJeu.Pioche;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,10 @@ public class BotFocusRoi extends BotMalin {
         numDuBotAleatoire++;
     }
 
-
+    /**
+     * fait action de base selon les quartiers jaunes
+     * @return liste de quartiers piochés et gardés
+     */
     @Override
     public List<Quartier> faireActionDeBase(){
         quartiersViolets();
@@ -61,6 +64,11 @@ public class BotFocusRoi extends BotMalin {
         return choixDeBase;
     }
 
+    /**
+     * choix de cartes entre celles piochées, objectif de garder les cartes jaunes constructibles
+     * @param quartierPioches liste de Quartiers piochés
+     * @return carte(s) gardée(s)
+     */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
@@ -114,10 +122,14 @@ public class BotFocusRoi extends BotMalin {
         }
     }
 
+    /**
+     * choisi le role selon l'avancement de la partie pour notre bot
+     * @param roles liste de Role
+     */
     @Override
     public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (nbQuartiersJaunesConstruits < 2){
+        if (nbQuartiersJaunesConstruits <= 2){
             choisirRoleDebut(roles);
         } else {
             choisirRoleFin(roles);
@@ -125,6 +137,10 @@ public class BotFocusRoi extends BotMalin {
     }
 
 
+    /**
+     * focus archi et magicien pour recup des cartes jaunes et les construire
+     * @param roles liste de Role
+     */
     public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (trouverRole(roles, "Architecte")){
@@ -142,12 +158,13 @@ public class BotFocusRoi extends BotMalin {
     }
 
     /**
-     * utilisé si on a 2 quartiers jaunes ou plus construits, cad si prendre le roi est rentable
+     * si 2 quartiers jaunes construits, ons e met a focus le roi
      * @param roles roles
      */
     public void choisirRoleFin(List<Role> roles){
         role = null;
         if (orProchainTour >= 0) nbOr += orProchainTour;
+<<<<<<< HEAD:src/main/java/Citadelle/teamU/moteurjeu/bots/malin/BotFocusRoi.java
         if (trouverRole(roles, "Roi")){
             return;
         }
@@ -160,13 +177,22 @@ public class BotFocusRoi extends BotMalin {
         if (trouverRole(roles, "Magicien")){
             return;
         }
+=======
+        if (trouverRole(roles, "Roi")){return;}
+        if (trouverRole(roles, "Architecte")){return;}
+        if (trouverRole(roles, "Magicien")){return;}
+
+>>>>>>> c4bc25d5159bdb483feb4fea86e560386300a589:src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotFocusRoi.java
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
 
 
-
+    /**
+     * si on a 1 quartier jaune, on le construit (on economise de l'argent s'il faut), sinon on construit le quartier le moins cher
+     * @return Quartier construit ou null
+     */
     @Override
     public Quartier construire(){
         List<Quartier> quartiersJaunes = new ArrayList<>();
@@ -200,8 +226,10 @@ public class BotFocusRoi extends BotMalin {
     }
 
 
-
-
+    /**
+     * effectue action du magicien en visant plutôt la pioche (ca lui permet de garder ses quartiers jaunes s'il le souhaite)
+     * @param magicien Role magicien
+     */
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
         //n'echange pas sa main des autres joueurs mais toutes ses cartes non nobles(jaune) avec la pioche, sauf s'il ne possede aucun quartier jaune
@@ -237,5 +265,12 @@ public class BotFocusRoi extends BotMalin {
         affichageJoueur.afficheActionSpecialeMagicienAvecPioche(quartiersAEchanger);
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
+    }
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
+    @Override
+    public String toString(){
+        return "Bot qui focus le roi";
     }
 }
