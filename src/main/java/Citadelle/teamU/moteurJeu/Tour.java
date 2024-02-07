@@ -15,6 +15,7 @@ public class Tour {
     private int nbTour = 0;
     private AffichageJeu affichageJeu;
     private List<Role> roles = new ArrayList<>();
+    private List<Role> rolesVisible;
     private SecureRandom random;
     private Bot mort;
 
@@ -24,6 +25,7 @@ public class Tour {
         random = new SecureRandom();
         affichageJeu = new AffichageJeu(this);
         this.botListe = botListe;
+        rolesVisible = new ArrayList<>();
 
         roles.add(new Assassin(botListe,roles));
         roles.add(new Voleur(botListe, roles));
@@ -48,7 +50,9 @@ public class Tour {
         nbTour++;
         rolesTemp = new ArrayList<>(roles);
         rolesTemp.remove(random.nextInt(rolesTemp.size()));
-        affichageJeu.afficheCartesVisible(rolesTemp.remove(random.nextInt(rolesTemp.size())),rolesTemp.remove(random.nextInt(rolesTemp.size())));
+        rolesVisible.add(rolesTemp.remove(random.nextInt(rolesTemp.size())));
+        rolesVisible.add(rolesTemp.remove(random.nextInt(rolesTemp.size())));
+        affichageJeu.afficheCartesVisible(rolesVisible);
         Bot premierFinir = null;
         distributionRoles();
         affichageJeu.affichageNbTour();

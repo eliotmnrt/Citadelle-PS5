@@ -2,8 +2,10 @@ package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
+import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
+import Citadelle.teamU.cartes.roles.Magicien;
 
 import java.util.*;
 
@@ -21,6 +23,14 @@ public class BotConstruitVite extends BotMalin {
         super(pioche);
         this.name = "Bot_qui_construit_vite" + numDuBot;
         numDuBot++;
+    }
+    @Override
+    public void choisirRole(List<Role> roles){
+        if (orProchainTour >= 0) nbOr += orProchainTour;
+        if (trouverRole(roles, "Architecte")){return;} //on cherche l architecte pour construire la max
+        int intAleatoire= randInt(roles.size());
+        setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
     }
 
 
@@ -50,5 +60,7 @@ public class BotConstruitVite extends BotMalin {
         }
     }
 
-
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 }

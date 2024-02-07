@@ -1,6 +1,9 @@
 package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Magicien;
+import Citadelle.teamU.cartes.roles.Role;
+import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.moteurJeu.Pioche;
 
 import java.util.ArrayList;
@@ -83,4 +86,9 @@ public class BotConstruitChere extends BotMalin {
             return quartierPioches;
         }
     }
+
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
+
 }
