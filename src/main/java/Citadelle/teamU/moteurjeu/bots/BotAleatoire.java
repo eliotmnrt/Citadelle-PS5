@@ -104,13 +104,6 @@ public class BotAleatoire extends Bot{
         }
         return null;
     }
-
-    @Override
-    public String toString(){
-        return name;
-    }
-
-
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
         int aleat = randInt(magicien.getBotliste().size() + 1);        // tire un chiffre aleatoire pour 4 bots et la pioche
@@ -162,5 +155,9 @@ public class BotAleatoire extends Bot{
     }
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
+    }
+    @Override
+    public String toString(){
+        return "Bot aléatoire";
     }
 }
