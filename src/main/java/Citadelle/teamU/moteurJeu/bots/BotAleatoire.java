@@ -20,7 +20,7 @@ public class BotAleatoire extends Bot{
 
     public BotAleatoire(Pioche pioche){
         super(pioche);
-        this.name = "BotAleatoire"+numDuBotAleatoire;
+        this.name = "Bot aleatoire_"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -179,6 +179,6 @@ public class BotAleatoire extends Bot{
     }
     @Override
     public String toString(){
-        return "Bot aleatoire";
+        return name;
     }
 }

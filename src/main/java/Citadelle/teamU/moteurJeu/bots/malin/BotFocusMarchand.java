@@ -20,7 +20,7 @@ public class BotFocusMarchand extends BotMalin {
         //pioche sinon
         //s'il ne peut pas avoir le marchand, il cherche magicien puis architecte pour renouveler ses cartes verts
         super(pioche);
-        this.name = "BotQuiFocusMarchand" + numDuBotAleatoire;
+        this.name = "Bot qui focus marchand_" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -234,7 +234,7 @@ public class BotFocusMarchand extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui focus le marchand";
+        return name;
     }
 }
 

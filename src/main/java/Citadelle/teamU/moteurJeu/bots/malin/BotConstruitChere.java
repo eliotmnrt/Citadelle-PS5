@@ -17,7 +17,7 @@ public class BotConstruitChere extends BotMalin {
 
     public BotConstruitChere(Pioche pioche){
         super(pioche);
-        this.name="BotConstruitChere"+numDuBotConstruitChere;
+        this.name="Bot qui construit chere_"+numDuBotConstruitChere;
         numDuBotConstruitChere++;
     }
 
@@ -61,6 +61,6 @@ public class BotConstruitChere extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui construit chere";
+        return name;
     }
 }
