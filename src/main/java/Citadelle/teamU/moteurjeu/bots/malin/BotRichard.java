@@ -28,25 +28,53 @@ public class BotRichard extends BotMalin{
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
+
+        //à enlever
         List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
         assassinerMagicien = false;
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (nbTour>1 && architecteAvance()){
-            if (premierAChoisir){
-                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
-                    return;
+        if (nbTour>1) {
+            if (architecteAvance()) {
+                if (premierAChoisir) {
+                    if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
+                        return;
+                    }
+                    if (trouverRole(roles, "Architecte")) {
+                        return;
+                    }
                 }
-                if (trouverRole(roles, "Architecte")){
-                    return;
+            } else if (joueurAvance()) {
+                if (trouverRole(roles, "Roi")) {return;}
+                if (trouverRole(roles, "Assassin")) {return;}
+                if (trouverRole(roles, "Condottiere")) {return;}
+                if (trouverRole(roles, "Pretre")) {return;}
+            }
+        /*
+         Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
+         afin de construire son dernier quartier sans craindre le Condottiere.
+         */ joueurProcheFinir=joueurProcheFinir();
+            if (joueurProcheFinir) {
+                ordreChoix = getOrdreChoixRole(roles);
+            /*
+             Dans l e meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
+              prendre l’Assassin et tuer l’Evêque ou Condottiere.
+            */
+                if (joueursProchesDeFinirList.contains(this)) {
+                    if (this.ordreChoix == 2 && (!(trouverRole(roles, "Pretre") && trouverRole(roles, "Condottiere")))) {
+                            trouverRole(roles, "Assassin");
+                            return;
+                            //pour tuer l'eveque ou le condottiere
+
+                    }
+                    if ((this.ordreChoix == 1 || this.ordreChoix == 2)) {
+                        if (trouverRole(roles, "Assassin")) return; //trouverRole chercher le role et le prendre
+                        if (trouverRole(roles, "Pretre")) return; // j'ai privilégié le pretre au condott parce qu'il joue avant
+                        if (trouverRole(roles, "Condottiere")) return;
+                    }
                 }
             }
-        } else if (nbTour>1 && joueurAvance()){
-            if (trouverRole(roles, "Roi")){return;}
-            if (trouverRole(roles, "Assassin")){return;}
-            if (trouverRole(roles, "Condottiere")){return;}
-            if (trouverRole(roles, "Pretre")){return;}
         }
 
         //si on a bcp d'argent on prend l'architecte
@@ -82,7 +110,8 @@ public class BotRichard extends BotMalin{
     }
 
     public boolean isPremierAChoisir(List<Role> roles){
-        return premierAChoisir = roles.size() == 5;
+        premierAChoisir = roles.size() == 5;
+        return premierAChoisir;
     }
 
     public boolean getPremierAChoisir() {
