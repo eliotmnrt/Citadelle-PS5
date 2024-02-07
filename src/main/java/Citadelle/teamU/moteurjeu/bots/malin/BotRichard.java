@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitVite sauf pour les règles demandées
@@ -20,6 +21,7 @@ public class BotRichard extends BotMalin{
     private boolean premierAChoisir = false;
     private boolean joueurAvance = false;
     private boolean assassinerMagicien = false;
+    private boolean joueurProcheFinir=false;
     public BotRichard(Pioche pioche) {
         super(pioche);
         this.name = "Bot_Richard" + numDuBot;
@@ -27,13 +29,20 @@ public class BotRichard extends BotMalin{
     }
 
     @Override
-    public void choisirRole(List<Role> roles){
+    public void choisirRole(List<Role> roles) {
+
         nbTour++;
+        List<Bot> joueursProchesDeFinirList = getJoueursProcheFinir(); //avec 7 quartiers construit
+        System.out.println("Joueurs proches de finir:" + joueursProchesDeFinirList);
+
         assassinerMagicien = false;
+
         isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
+
         if (nbTour>1 && architecteAvance()){
+
             System.out.println("je suis la");
             if (premierAChoisir){
                 if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
@@ -45,41 +54,82 @@ public class BotRichard extends BotMalin{
                     return;
                 }
             }
-        } else if (nbTour>1 && joueurAvance()){
-            if (trouverRole(roles, "Roi")){
-                System.out.println("roi");
+        } else if (nbTour > 1 && joueurAvance()) {
+            if (trouverRole(roles, "Roi")) {
                 return;
             }
-            if (trouverRole(roles, "Assassin")){
-                System.out.println("assassin");
+            if (trouverRole(roles, "Assassin")) {
                 return;
             }
-            if (trouverRole(roles, "Condottiere")){
-                System.out.println("condottiere");
+            if (trouverRole(roles, "Condottiere")) {
                 return;
             }
-            if (trouverRole(roles, "Pretre")){
-                System.out.println("pretre");
+            if (trouverRole(roles, "Pretre")) {
                 return;
-            }
-        }
-        //si on a bcp de cartes et que les autres non, on tue l'assassin
-        if (nbTour>1 && quartierMain.size()>=4){
-            List<Bot> list = new ArrayList<>(role.getBotliste());
-            list.remove(this);
-            if(list.stream().allMatch(bot -> bot.getQuartierMain().size()<=2) && (trouverRole(roles, "Assassin"))){
-                    assassinerMagicien = true;
-                    return;
             }
         }
 
-        //sinon aleatoire
-        int intAleatoire = randInt(roles.size());
-        Role rolechoisi=roles.remove(intAleatoire);
-        setRole(rolechoisi);
-        System.out.println(rolechoisi);
-        rolesRestants = new ArrayList<>(roles);
+        /*
+         Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
+         afin de construire son dernier quartier sans craindre le Condottiere.
+         */
+        else if (nbTour > 1 && joueurProcheFinir) {
+            ordreChoix = getOrdreChoixRole(roles);
+            /*
+             Dans l e meilleur des cas, il est 2ème joueur et il manque l’Evêque ou Condottiere : le premier joueur doit
+              prendre l’Assassin et tuer l’Evêque ou Condottiere.
+            */
+            if (joueursProchesDeFinirList.contains(this)) {
+                if (this.ordreChoix == 2) {
+                    if (!(trouverRole(roles, "Pretre") && trouverRole(roles, "Condottiere"))) {
+                        trouverRole(roles, "Assassin");
+                        return;
+                        //pour tuer l'eveque ou le condottiere
+                    }
+                }
+                if ((this.ordreChoix == 1 || this.ordreChoix == 2)) {
+                    if (trouverRole(roles, "Assassin")) { //trouverRole chercher le role et le prendre
+                        return;
+                    }
+                    if (trouverRole(roles, "Pretre")) { // j'ai privilégié le pretre au condott parce qu'il joue avant
+                        return;
+                    }
+                    if (trouverRole(roles, "Condottiere")) {
+                        return;
+                    }
+                }
+            }
+            /*else{ //il s'agit d'un autre joueur en passe de gagner
+                for(Bot bot: joueursProchesDeFinirList){
+                    if(bot.getOrdreChoixRole()==3){
+                        if(this.getOrdreChoixRole(){
+
+                        }
+                    }
+                }
+
+            }
+        }*/
+        }
+            //si on a bcp de cartes et que les autres non, on tue l'assassin?????
+            if (nbTour > 1 && quartierMain.size() >= 4) {
+                List<Bot> list = new ArrayList<>(role.getBotliste());
+                list.remove(this);
+                if (list.stream().allMatch(bot -> bot.getQuartierMain().size() <= 2) && (trouverRole(roles, "Assassin"))) {
+                    assassinerMagicien = true;
+                    return;
+                }
+            }
+
+
+            //sinon aleatoire
+            int intAleatoire = randInt(roles.size());
+            Role rolechoisi = roles.remove(intAleatoire);
+            setRole(rolechoisi);
+            rolesRestants = new ArrayList<>(roles);
+
     }
+
 
     public boolean isPremierAChoisir(List<Role> roles){
         return premierAChoisir = roles.size() == 5;
@@ -88,18 +138,32 @@ public class BotRichard extends BotMalin{
     public boolean getPremierAChoisir() {
         return premierAChoisir;
     }
-    private boolean architecteAvance(){
+    public boolean architecteAvance(){
         //joueur avance (meets conditions en dessous) et peut gagner en prenant l'architecte
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         return list.stream().anyMatch(bot -> bot.getOr()>=4 && !bot.getQuartierMain().isEmpty() && bot.getQuartiersConstruits().size()==5);
     }
-    private boolean joueurAvance(){
+    public boolean joueurAvance(){
         //joueur qui a 6 quartiers construits
         List<Bot> list = new ArrayList<>(role.getBotliste());
         list.remove(this);
         joueurAvance = list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==6);
         return joueurAvance;
+    }
+    public boolean joueurProcheFinir(){
+        //joueur qui a 7 quartiers construit
+        List<Bot> list = new ArrayList<>(role.getBotliste());
+        joueurProcheFinir=list.stream().anyMatch(bot -> bot.getQuartiersConstruits().size()==7);
+        return joueurProcheFinir;
+    }
+    public List<Bot> getJoueursProcheFinir(){
+        List<Bot> bots= new ArrayList<>();
+        if (joueurProcheFinir){
+            List<Bot> list = new ArrayList<>(role.getBotliste());
+            bots=list.stream().filter(bot -> bot.getQuartiersConstruits().size() == 7).collect(Collectors.toList());
+        }
+        return bots;
     }
 
 

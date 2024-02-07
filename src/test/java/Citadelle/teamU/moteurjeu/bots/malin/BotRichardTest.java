@@ -73,6 +73,7 @@ class BotRichardTest {
         botAleatoire.setOrdreChoixRole(2);
         botConstruitChere.setOrdreChoixRole(3);
         botFocusRoi.setOrdreChoixRole(4);
+
         tour.prochainTour();
         System.out.println(tour.getRolesTemp());
         assertTrue(bot.getPremierAChoisir());

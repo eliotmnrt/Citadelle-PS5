@@ -14,7 +14,7 @@ import java.util.*;
 public abstract class BotMalin extends Bot {
 
     protected List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
-
+    protected int ordreChoix;
     protected BotMalin(Pioche pioche){
         super(pioche);
         rolesRestants = new ArrayList<>();
@@ -180,6 +180,13 @@ public abstract class BotMalin extends Bot {
                 }
             }
         }
+    }
+    public int getOrdreChoixRole(List<Role> roles){ //get l'ordre avec lequel ils choisissent les roles
+        if(roles.size()==5) return ordreChoix=1;
+        if(roles.size()==4) return ordreChoix=2;
+        if(roles.size()==3) return ordreChoix=3;
+        return ordreChoix=4;
+
     }
 
 }

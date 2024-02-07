@@ -190,6 +190,7 @@ public class Jeu {
             Path path = Paths.get("stats","gamestats.csv");
             updateCSV(path.toFile());
         }
+        Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
 
         Pioche pioche = new Pioche();
         Bot bot1 = new BotFocusRoi(pioche);
@@ -203,7 +204,7 @@ public class Jeu {
 
 
 
-        //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
+
 
     }
 
