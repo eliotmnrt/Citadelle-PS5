@@ -24,6 +24,14 @@ public class BotConstruitVite extends BotMalin {
         this.name = "Bot_qui_construit_vite" + numDuBot;
         numDuBot++;
     }
+    @Override
+    public void choisirRole(List<Role> roles){
+        if (orProchainTour >= 0) nbOr += orProchainTour;
+        if (trouverRole(roles, "Architecte")){return;} //on cherche l architecte pour construire la max
+        int intAleatoire= randInt(roles.size());
+        setRole(roles.remove(intAleatoire));
+        rolesRestants = new ArrayList<>(roles);
+    }
 
     @Override
     public void actionSpecialeMagicien(Magicien magicien){
