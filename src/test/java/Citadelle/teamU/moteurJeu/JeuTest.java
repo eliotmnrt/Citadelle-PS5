@@ -54,6 +54,6 @@ class JeuTest {
         assertTrue(Jeu.isSimu2());
 
         Path path = Paths.get("stats","gamestats.csv");
-        Jeu.updateCSV(path.toFile());
+        Jeu.updateCSV(path.toFile(),1000);
     }
 }
