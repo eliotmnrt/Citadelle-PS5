@@ -29,7 +29,7 @@ class BotFocusMarchandTest {
     }
 
     @Test
-    void testChoixDeCartesJaunes(){
+    void testChoixDeCartesVertes(){
         doReturn(Quartier.TAVERNE, Quartier.PALAIS, Quartier.EGLISE).when(pioche).piocherQuartier();
         bot.setQuartierMain(new ArrayList<>()); // main vide
         doReturn(1).when(bot).randInt(3);       //on le force à piocher des quartiers

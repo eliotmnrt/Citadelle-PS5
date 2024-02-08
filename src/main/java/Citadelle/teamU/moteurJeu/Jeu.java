@@ -68,9 +68,9 @@ public class Jeu {
         int cptNull = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
-            listeBot.set(0,new BotRichard(pioche));
-            listeBot.set(1,new BotConstruitChere(pioche));
-            listeBot.set(2,new BotRichard(pioche));
+            listeBot.set(0,new BotConstruitVite(pioche));
+            listeBot.set(1,new BotFocusRoi(pioche));
+            listeBot.set(2,new BotAleatoire(pioche));
             listeBot.set(3,new BotFocusMarchand(pioche));
             JouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
             Bot vainqueur=tour.getLeVainqueur();
