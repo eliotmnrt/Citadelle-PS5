@@ -119,12 +119,11 @@ public class BotFocusRoi extends BotMalin {
         if (nbQuartiersJaunesConstruits < 2){
             choisirRoleDebut(roles);
         } else {
-            strat2 = true;
+            changementFocus = true;
             choisirRoleFin(roles);
         }
     }
 
-    //pour les tests
     public void setNbQuartiersJaunesConstruits(int nb){
         nbQuartiersJaunesConstruits = nb;
     }

@@ -85,7 +85,6 @@ public class BotRichard extends BotMalin{
         return joueurAvance;
     }
 
-    //pour les tests uniquement
     public void setJoueurAvance(boolean joueurAvance) {this.joueurAvance = joueurAvance;}
 
     /**

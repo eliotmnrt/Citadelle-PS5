@@ -134,6 +134,9 @@
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <sonar.coverage.exclusions>**/Jeu.java</sonar.coverage.exclusions>
+            </properties>
         </profile>
     </profiles>
 

@@ -1,8 +1,6 @@
 package Citadelle.teamU.moteurJeu.bots.malin;
 
-import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.moteurJeu.Pioche;
 
 import java.util.ArrayList;
@@ -12,7 +10,6 @@ import java.util.List;
  * La stratégie est de construit des quartier chère pour avoir un score haut
  */
 public class BotConstruitChere extends BotMalin {
-    private final int COUT_MINIMAL=4;
     private static int numDuBotConstruitChere=1;
 
     /** constructeur
@@ -41,7 +38,7 @@ public class BotConstruitChere extends BotMalin {
 
     /**
      * Roles visible au début du tour
-     * @param rolesVisible
+     * @param rolesVisible list<Role>
      */
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;

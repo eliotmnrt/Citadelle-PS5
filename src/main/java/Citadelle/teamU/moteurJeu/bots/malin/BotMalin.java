@@ -11,7 +11,7 @@ import java.util.*;
 public abstract class BotMalin extends Bot {
 //bot qui regroupe les methodes communes aux bots intelligents
     protected List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
-    protected boolean strat2 = false;     // pour la stratégie 2 de botfocusroi et botfocusmarchand
+    protected boolean changementFocus = false;     // pour la stratégie 2 de botfocusroi et botfocusmarchand
 
     protected BotMalin(Pioche pioche){
         super(pioche);
@@ -19,7 +19,6 @@ public abstract class BotMalin extends Bot {
     }
 
 
-    // utile pour les tests uniquement
     public void setRolesRestants(List<Role> rolesRestants){
         this.rolesRestants = rolesRestants;
     }
@@ -227,7 +226,7 @@ public abstract class BotMalin extends Bot {
 
     public List<Quartier> suite(List<Quartier> choixDeBase){
 
-        if(strat2){
+        if(changementFocus){
             choixDeBase.add(null);
             changerOr(2);
             affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -239,7 +238,6 @@ public abstract class BotMalin extends Bot {
         }
         affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
-
     }
 
 }
