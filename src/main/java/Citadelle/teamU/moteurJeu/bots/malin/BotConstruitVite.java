@@ -10,7 +10,7 @@ import Citadelle.teamU.moteurJeu.bots.Bot;
 import java.util.*;
 
 /**
- * La stratégie est de construit vite des quartier pas chère (< 3) pour essayer de finir en premier
+ * La stratégie est de construit vite des quartier pas chère (moins de 3) pour essayer de finir en premier
  */
 public class BotConstruitVite extends BotMalin {
     private static int numDuBot = 1;
