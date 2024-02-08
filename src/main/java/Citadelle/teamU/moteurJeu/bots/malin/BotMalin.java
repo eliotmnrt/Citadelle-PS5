@@ -90,7 +90,7 @@ public abstract class BotMalin extends Bot {
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
         Collections.reverse(quartiersTrie);
-        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()>=4 && quartiersTrie.get(0).getCout()<=nbOr && !quartiersConstruits.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             affichageJoueur.afficheConstruction(quartierConstruit);
             ajoutQuartierConstruit(quartierConstruit);
@@ -108,7 +108,7 @@ public abstract class BotMalin extends Bot {
     //méthode de originaire de botConstruitChere car utile pour botRichard aussi -> évite doublons
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));

@@ -43,7 +43,7 @@ public class BotConstruitVite extends BotMalin {
         //cherche si il a au moins 1 quartier qu'il a pas deja construit qui coute moins de 3
         boolean aQuartierPasChere = false;
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<4 && !quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<4 && !quartiersConstruits.contains(quartier)){
                 aQuartierPasChere = true;
                 break;
             }
@@ -66,7 +66,7 @@ public class BotConstruitVite extends BotMalin {
     public Quartier construire(){
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
         quartiersTrie.sort(Comparator.comparingInt(Quartier::getCout));
-        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartierConstruit.contains(quartiersTrie.get(0))){
+        if(!quartiersTrie.isEmpty() && quartiersTrie.get(0).getCout()<4 && quartiersTrie.get(0).getCout()<=nbOr && !quartiersConstruits.contains(quartiersTrie.get(0))){
             Quartier quartierConstruit = quartiersTrie.get(0);
             ajoutQuartierConstruit(quartierConstruit);
             affichageJoueur.afficheConstruction(quartierConstruit);
@@ -77,7 +77,7 @@ public class BotConstruitVite extends BotMalin {
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){
                 quartierPioches.remove(2);
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));

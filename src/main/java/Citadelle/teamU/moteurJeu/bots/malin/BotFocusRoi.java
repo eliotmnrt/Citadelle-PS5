@@ -40,7 +40,7 @@ public class BotFocusRoi extends BotMalin {
         List<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier jaune non construit
         for(Quartier quartier : quartierMain){
-            if (quartier.getCouleur() == TypeQuartier.JAUNE && quartier.getCout() >= nbOr && !quartierConstruit.contains(quartier)) {
+            if (quartier.getCouleur() == TypeQuartier.JAUNE && quartier.getCout() >= nbOr && !quartiersConstruits.contains(quartier)) {
                 choixDeBase.add(null);
                 changerOr(2);
                 affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -48,15 +48,12 @@ public class BotFocusRoi extends BotMalin {
             }
         }
 
-        int aleat = randInt(3);
-
         if(strat2){
-            if (aleat != 4){                     //3 chances sur 3 de prendre de l'or
-                choixDeBase.add(null);
-                changerOr(2);
-                affichageJoueur.afficheChoixDeBase(choixDeBase);
-                return choixDeBase;
-            }
+            choixDeBase.add(null);
+            changerOr(2);
+            affichageJoueur.afficheChoixDeBase(choixDeBase);
+            return choixDeBase;
+
         } else {                            // sinon on pioche
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
@@ -72,7 +69,7 @@ public class BotFocusRoi extends BotMalin {
      */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){        //on cherche le quartier jaune s'il y a
                 quartierPioches.remove(2);
                 if (quartierPioches.get(1).getCouleur() == TypeQuartier.JAUNE){
@@ -106,6 +103,7 @@ public class BotFocusRoi extends BotMalin {
                 }
                 return new ArrayList<>(Collections.singleton(quartierJaune));
             } else {
+                quartierPioches = new ArrayList<>(quartierPioches);
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
                 Collections.reverse((quartierPioches));
                 pioche.remettreDansPioche(quartierPioches.remove(0));
@@ -138,6 +136,11 @@ public class BotFocusRoi extends BotMalin {
         }
     }
 
+    //pour les tests
+    public void setNbQuartiersJaunesConstruits(int nb){
+        nbQuartiersJaunesConstruits = nb;
+    }
+
 
     /**
      * focus archi et magicien pour recup des cartes jaunes et les construire
@@ -145,15 +148,9 @@ public class BotFocusRoi extends BotMalin {
      */
     public void choisirRoleDebut(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (trouverRole(roles, "Architecte")){
-            return;
-        }
-        if (trouverRole(roles, "Magicien")){
-            return;
-        }
-        if (trouverRole(roles, "Roi")){
-            return;
-        }
+        if (trouverRole(roles, "Architecte")){ return; }
+        if (trouverRole(roles, "Magicien")){return;}
+        if (trouverRole(roles, "Roi")){return;}
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -185,16 +182,16 @@ public class BotFocusRoi extends BotMalin {
         List<Quartier> quartiersJaunes = new ArrayList<>();
         List<Quartier> quartiersAutreConstructibles = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if(quartier.getCouleur() == TypeQuartier.JAUNE && !quartierConstruit.contains(quartier)){
+            if(quartier.getCouleur() == TypeQuartier.JAUNE && !quartiersConstruits.contains(quartier)){
                 quartiersJaunes.add(quartier);
-            } else if (quartier.getCout() <= nbOr && !quartierConstruit.contains(quartier)){
+            } else if (quartier.getCout() <= nbOr && !quartiersConstruits.contains(quartier)){
                 quartiersAutreConstructibles.add(quartier);
             }
         }
         if(!quartiersJaunes.isEmpty()){       //construit en prio les quartiers jaunes le moins cher, s'il y en a
             quartiersJaunes.sort(Comparator.comparingInt(Quartier::getCout));  //on cherche le quartier jaune le plus cher possible
             for (int i=quartiersJaunes.size()-1; i>=0; i--){
-                if (quartiersJaunes.get(i).getCout() <= nbOr && !quartierConstruit.contains(quartiersJaunes.get(i))){                      //si on peut le construire tant mieux
+                if (quartiersJaunes.get(i).getCout() <= nbOr && !quartiersConstruits.contains(quartiersJaunes.get(i))){                      //si on peut le construire tant mieux
                     affichageJoueur.afficheConstruction(quartiersJaunes.get(i));
                     ajoutQuartierConstruit(quartiersJaunes.get(i));
                     this.nbQuartiersJaunesConstruits ++;
@@ -205,6 +202,7 @@ public class BotFocusRoi extends BotMalin {
         }
         if (!quartiersAutreConstructibles.isEmpty()){        //construit ensuite en prio le quartier le moins cher
             quartiersAutreConstructibles.sort(Comparator.comparingInt(Quartier::getCout));
+            Collections.reverse(quartiersAutreConstructibles);
             ajoutQuartierConstruit(quartiersAutreConstructibles.get(0));
             affichageJoueur.afficheConstruction(quartiersAutreConstructibles.get(0));
             return quartiersAutreConstructibles.get(0);
@@ -223,7 +221,7 @@ public class BotFocusRoi extends BotMalin {
         //si une carte jaune est deja construite il l'échange aussi
         int comp = 0;
         for (Quartier quartier : quartierMain){
-            if (quartier.getCouleur() == TypeQuartier.JAUNE && !quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() == TypeQuartier.JAUNE && !quartiersConstruits.contains(quartier)){
                 comp++;
             }
         }
@@ -245,7 +243,7 @@ public class BotFocusRoi extends BotMalin {
         }
         List<Quartier> quartiersAEchanger = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if (quartier.getCouleur() != TypeQuartier.JAUNE || quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() != TypeQuartier.JAUNE || quartiersConstruits.contains(quartier)){
                 quartiersAEchanger.add(quartier);
             }
         }

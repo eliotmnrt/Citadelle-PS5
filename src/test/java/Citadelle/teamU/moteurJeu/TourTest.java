@@ -101,7 +101,7 @@ class TourTest {
     @Test
     void bonusTest(){
         ArrayList<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE,Quartier.TAVERNE));
-        bot2.setQuartierConstruit(arrayList);
+        bot2.setQuartiersConstruits(arrayList);
         tour.bonus(bot1);
         assertEquals(4, bot1.getScore());
         assertEquals(2, bot2.getScore()); // Il a 8 quartiers mais n'a pas fini en premier
@@ -116,7 +116,7 @@ class TourTest {
     @Test
     void bonusCouleurTest(){
         List<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.MONASTERE,Quartier.CHATEAU,Quartier.PRISON,Quartier.DONJON));
-        bot2.setQuartierConstruit(arrayList);
+        bot2.setQuartiersConstruits(arrayList);
         tour.bonus(bot1);
         assertEquals(3, bot2.getScore()); //Il n'a pas 8 quartiers mais 5 couleurs donc il gagne 3 score en plus
     }
@@ -139,21 +139,21 @@ class TourTest {
     @Test
     void CourDesMiraclesTest(){
         ArrayList<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.MONASTERE,Quartier.CHATEAU,Quartier.COUR_DES_MIRACLES,Quartier.DONJON));
-        bot2.setQuartierConstruit(arrayList);
+        bot2.setQuartiersConstruits(arrayList);
         tour.bonus(bot1);
         assertEquals(bot2.getScore(),3); //Il a le bonus couleur en changeant de couleur
     }
     @Test
     void CourDesMiraclesPasCouleurTest(){
         ArrayList<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.MONASTERE,Quartier.CHATEAU,Quartier.COUR_DES_MIRACLES,Quartier.CHATEAU));
-        bot2.setQuartierConstruit(arrayList);
+        bot2.setQuartiersConstruits(arrayList);
         tour.bonus(bot1);
         assertEquals(bot2.getScore(),0); //Il n'a pas de bonus il manque 2 couleur
     }
     @Test
     void CourDesMiraclesCouleurNormalTest(){
         ArrayList<Quartier> arrayList = new ArrayList<>(Arrays.asList(Quartier.TAVERNE,Quartier.MONASTERE,Quartier.CHATEAU,Quartier.PRISON,Quartier.COUR_DES_MIRACLES));
-        bot2.setQuartierConstruit(arrayList);
+        bot2.setQuartiersConstruits(arrayList);
         tour.bonus(bot1);
         assertEquals(bot2.getScore(),3); //Il a le bonus sans changer de couleur
     }

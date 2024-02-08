@@ -139,14 +139,22 @@ public class BotRichard extends BotMalin{
         //sinon on tue n'importe qui sauf voleur et condott
         int rang;
         int comp = 0;
-        do{
-            comp++;
-            rang = randInt(rolesRestants.size());
-            if(comp >= 20) break;       //pour sortir boucle si uniquement voleur ou archi dans rolesrestants
-        }while(rolesRestants.get(rang) instanceof Voleur || rolesRestants.get(rang) instanceof Condottiere);
+        if (rolesRestants.size() > 1){
+            do{
+                comp++;
+                rang = randInt(rolesRestants.size());
+                if(comp >= 20) break;       //pour sortir boucle si uniquement voleur ou archi dans rolesrestants
+            }while(rolesRestants.get(rang) instanceof Voleur || rolesRestants.get(rang) instanceof Condottiere);
 
-        affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
-        assassin.tuer(rolesRestants.get(rang));
+            affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
+            assassin.tuer(rolesRestants.get(rang));
+        } else {
+            rang = randInt(7) + 1;
+            affichageJoueur.afficheMeurtre(assassin.getRoles().get(rang));
+            assassin.tuer(assassin.getRoles().get(rang));
+        }
+
+
 
     }
 
@@ -245,7 +253,7 @@ public class BotRichard extends BotMalin{
             if(!hasInstanceOf(rolesVisible,roles.get(i))&& (couleurs.get(i)>max&&couleurs.get(i)>1)&&(
                   rolesRestants.size()<2
                     ||(apres&&hasInstanceOf(rolesRestants,roles.get(i)))
-                     ||(!apres&&!hasInstanceOf(rolesRestants,roles.get(i))&&roles.get(i).toString() != role.toString()))){
+                     ||(!apres&&!hasInstanceOf(rolesRestants,roles.get(i))&&!roles.get(i).toString().equals(role.toString())))){
                 max=couleurs.get(i);
                 meilleure = roles.get(i);
             }

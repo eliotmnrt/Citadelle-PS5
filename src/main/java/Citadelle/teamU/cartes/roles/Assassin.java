@@ -21,7 +21,7 @@ public class Assassin implements Role {
     /**
      *  permet de tuer
      */
-    public void tuer( Role roleTue){
+    public void tuer(Role roleTue){
         for(Bot bot: botListe){
             if (bot.getRole()==roleTue){
                 bot.setMort(true);

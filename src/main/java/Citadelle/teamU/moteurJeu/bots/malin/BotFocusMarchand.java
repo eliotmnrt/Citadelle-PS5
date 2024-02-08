@@ -37,7 +37,7 @@ public class BotFocusMarchand extends BotMalin {
         List<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier jaune non construit
         for (Quartier quartier : quartierMain) {
-            if (quartier.getCouleur() == TypeQuartier.VERT && quartier.getCout() >= nbOr && !quartierConstruit.contains(quartier)) {
+            if (quartier.getCouleur() == TypeQuartier.VERT && quartier.getCout() >= nbOr && !quartiersConstruits.contains(quartier)) {
                 choixDeBase.add(null);
                 changerOr(2);
                 affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -108,7 +108,7 @@ public class BotFocusMarchand extends BotMalin {
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)) {
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)) {
             if (quartierPioches.get(2) == null) {        //on cherche la presence du quartier vert
                 quartierPioches.remove(2);
                 if (quartierPioches.get(1).getCouleur() == TypeQuartier.VERT) {
@@ -162,16 +162,16 @@ public class BotFocusMarchand extends BotMalin {
         List<Quartier> quartiersVerts = new ArrayList<>();
         List<Quartier> quartiersAutreConstructibles = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if(quartier.getCouleur() == TypeQuartier.VERT && !quartierConstruit.contains(quartier)){
+            if(quartier.getCouleur() == TypeQuartier.VERT && !quartiersConstruits.contains(quartier)){
                 quartiersVerts.add(quartier);
-            } else if (quartier.getCout() <= nbOr && !quartierConstruit.contains(quartier)){
+            } else if (quartier.getCout() <= nbOr && !quartiersConstruits.contains(quartier)){
                 quartiersAutreConstructibles.add(quartier);
             }
         }
         if(!quartiersVerts.isEmpty()){       //construit en prio les quartiers verts le moins cher, s'il y en a
             quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));  //on cherche le quartier vert le plus cher possible
             for (int i=quartiersVerts.size()-1; i>=0; i--){
-                if (quartiersVerts.get(i).getCout() <= nbOr && !quartierConstruit.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
+                if (quartiersVerts.get(i).getCout() <= nbOr && !quartiersConstruits.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
                     affichageJoueur.afficheConstruction(quartiersVerts.get(i));
                     ajoutQuartierConstruit(quartiersVerts.get(i));
                     this.nbQuartiersVertsConstruits ++;
@@ -198,7 +198,7 @@ public class BotFocusMarchand extends BotMalin {
         //si une carte verte est deja construite il l'échange aussi
         int comp = 0;
         for (Quartier quartier : quartierMain){
-            if (quartier.getCouleur() == TypeQuartier.VERT && !quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() == TypeQuartier.VERT && !quartiersConstruits.contains(quartier)){
                 comp++;
             }
         }
@@ -220,7 +220,7 @@ public class BotFocusMarchand extends BotMalin {
         }
         List<Quartier> quartiersAEchanger = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if (quartier.getCouleur() != TypeQuartier.VERT || quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() != TypeQuartier.VERT || quartiersConstruits.contains(quartier)){
                 quartiersAEchanger.add(quartier);
             }
         }

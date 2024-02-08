@@ -1,17 +1,25 @@
 package Citadelle.teamU.moteurJeu;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import Citadelle.teamU.moteurJeu.bots.Bot;
 import Citadelle.teamU.moteurJeu.bots.BotAleatoire;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 class JeuTest {
 
 
     Bot bot1, bot2, bot3, bot4;
+    Jeu game;
 
     @BeforeEach
     void setUp(){
@@ -20,10 +28,11 @@ class JeuTest {
         bot2 = new BotAleatoire(pioche);
         bot3 = new BotAleatoire(pioche);
         bot4 = new BotAleatoire(pioche);
+        game = new Jeu(bot1, bot2, bot3, bot4);
+
     }
     @Test
     void TestConditionsFinDePartie(){
-        Jeu game = new Jeu(bot1, bot2, bot3, bot4);
         game.start();
         int maxQuartiersConstruits = 0;
         for (Bot bot: game.getBotListe()){
@@ -32,5 +41,19 @@ class JeuTest {
             }
         }
         assertTrue(maxQuartiersConstruits>=8);
+    }
+
+    @Test
+    void testSimu(){
+        Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+
+        Jeu.simulation1(1000, false);
+        assertTrue(Jeu.isSimu1());
+
+        Jeu.simulation2(1000);
+        assertTrue(Jeu.isSimu2());
+
+        Path path = Paths.get("stats","gamestats.csv");
+        Jeu.updateCSV(path.toFile());
     }
 }
