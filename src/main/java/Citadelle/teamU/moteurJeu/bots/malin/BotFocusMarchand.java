@@ -18,9 +18,8 @@ public class BotFocusMarchand extends BotMalin {
         //Il construit ses quartiers verts en priorité
         //prend des piece si : il a des quartiers verts non construits
         //pioche sinon
-        //s'il ne peut pas avoir le marchand, il cherche magicien puis architecte pour renouveler ses cartes verts
         super(pioche);
-        this.name = "BotQuiFocusMarchand" + numDuBotAleatoire;
+        this.name = "Bot qui focus marchand_" + numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -35,7 +34,7 @@ public class BotFocusMarchand extends BotMalin {
         //en indice 0 et 1 les quartiers parmis lesquelles ils choisi
         //en indice 2 le quartier choisi parmis les deux
         List<Quartier> choixDeBase = new ArrayList<>();
-        //cherche si il a au moins 1 quartier jaune non construit
+        //cherche si il a au moins 1 quartier vert non construit
         for (Quartier quartier : quartierMain) {
             if (quartier.getCouleur() == TypeQuartier.VERT && quartier.getCout() >= nbOr && !quartiersConstruits.contains(quartier)) {
                 choixDeBase.add(null);
@@ -169,7 +168,7 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
         if(!quartiersVerts.isEmpty()){       //construit en prio les quartiers verts le moins cher, s'il y en a
-            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));  //on cherche le quartier vert le plus cher possible
+            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));  
             for (int i=quartiersVerts.size()-1; i>=0; i--){
                 if (quartiersVerts.get(i).getCout() <= nbOr && !quartiersConstruits.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
                     affichageJoueur.afficheConstruction(quartiersVerts.get(i));
@@ -234,7 +233,7 @@ public class BotFocusMarchand extends BotMalin {
     }
     @Override
     public String toString(){
-        return "Bot qui focus le marchand";
+        return name;
     }
 }
 

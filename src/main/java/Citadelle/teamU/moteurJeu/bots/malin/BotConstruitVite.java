@@ -2,36 +2,46 @@ package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
+import Citadelle.teamU.cartes.roles.Pretre;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
 
 import java.util.*;
 
+/**
+ * La stratégie est de construit vite des quartier pas chère (moins de 3) pour essayer de finir en premier
+ */
 public class BotConstruitVite extends BotMalin {
     private static int numDuBot = 1;
 
+    /**
+     * @param pioche
+     */
     public BotConstruitVite(Pioche pioche){
-        //Bot qui construit le plus vite possible
-        //Il construit des qu'il peut (le moins chere)
-        //prend des piece si : il a des quartier qui coute moins de 3
-        //pioche sinon
-        //Si il ne peut pas construire : il pioche jusqu'à avoir des carte qui coute moins de 3
-        //Si il a des cartes qui coute moins de 3 : il prend de l'or
-        //Il prend l'architecte si possible
         super(pioche);
-        this.name = "Bot_qui_construit_vite" + numDuBot;
+        this.name = "Bot qui construit vite_" + numDuBot;
         numDuBot++;
     }
+
+    /**
+     * Il vise de choisir l'Architecte pour construire le plus de quartiers possible rapidement
+     * @param roles
+     */
     @Override
     public void choisirRole(List<Role> roles){
         if (orProchainTour >= 0) nbOr += orProchainTour;
-        if (trouverRole(roles, "Architecte")){return;} //on cherche l architecte pour construire la max
+        if (trouverRole(roles, "Architecte")){return;}
         int intAleatoire= randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
 
+    /**
+     * Si il a des cartes qui coute moins de 3 : il prend de l'or
+     * Sinon il pioche et choisi la carte la moins chère
+     * @return
+     */
     @Override
     public List<Quartier> faireActionDeBase(){
         quartiersViolets();         //actions spéciales violettes
@@ -62,6 +72,10 @@ public class BotConstruitVite extends BotMalin {
         return choixDeBase;
     }
 
+    /**
+     * Construit le moins chère (qui doit couter moins de 3)
+     * @return
+     */
     @Override
     public Quartier construire(){
         List<Quartier> quartiersTrie = new ArrayList<>(quartierMain);
@@ -75,6 +89,11 @@ public class BotConstruitVite extends BotMalin {
         return null;
     }
 
+    /**
+     * @param quartierPioches liste de Quartiers piochés
+     * On choisit celui qui coute le moins chère
+     * @return
+     */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
@@ -103,14 +122,17 @@ public class BotConstruitVite extends BotMalin {
     }
 
 
+    /**
+     * detruit que le quartier le moins chère du bot qui a le plus de quartier construits
+     * @param condottiere Role condottiere
+     */
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
-        // detruit que le quartier le moins chère du bot qui a le plus de quartier construits
         List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
         botList.remove(this);
         Bot botMax = botList.get(0);
         for(Bot bot:botList){
-            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size() && bot.getQuartiersConstruits().size()<8){
+            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size() && bot.getQuartiersConstruits().size()<8 && !(bot.getRole() instanceof  Pretre)){
                 //pas un bot qui a 8 quartiers
                 botMax=bot;
             }
@@ -129,11 +151,19 @@ public class BotConstruitVite extends BotMalin {
         }
     }
 
+    /**
+     * Roles visible au début du tour
+     * @param rolesVisible
+     */
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
     }
+
+    /**
+     * @return Bot construit vite_son numéro
+     */
     @Override
     public String toString(){
-        return "Bot qui construit vite";
+        return name;
     }
 }

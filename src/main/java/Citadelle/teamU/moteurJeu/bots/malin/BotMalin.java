@@ -216,7 +216,7 @@ public abstract class BotMalin extends Bot {
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
-                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8){
+                if(quartier.getCout()==1 && !quartier.equals(Quartier.DONJON) && bot.getQuartiersConstruits().size()<8 && !(bot.getRole() instanceof Pretre)){
                     condottiere.destructionQuartier(this,bot, quartier);
                     return;
                 }

@@ -18,7 +18,7 @@ public class BotRichard extends BotMalin{
     private boolean joueurAvance = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
-        this.name = "Bot_Richard" + numDuBot;
+        this.name = "Bot Richard_" + numDuBot;
         numDuBot++;
     }
 
@@ -189,7 +189,7 @@ public class BotRichard extends BotMalin{
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
             if (optionalBot.isPresent()) {
                 Optional<Quartier> quartierMin = optionalBot.get().getQuartiersConstruits().stream().min(Comparator.comparingInt(Quartier::getCout));
-                if (quartierMin.isPresent() && quartierMin.get().getCout()-1 <= nbOr){
+                if (quartierMin.isPresent() && quartierMin.get().getCout()-1 <= nbOr && optionalBot.get().getQuartiersConstruits().size() < 8 &&!(optionalBot.get().getRole() instanceof Pretre)){
                     condottiere.destructionQuartier(this, optionalBot.get(), quartierMin.get());
                 }
                 return;
@@ -343,6 +343,6 @@ public class BotRichard extends BotMalin{
     }
     @Override
     public String toString(){
-        return "Bot Richard";
+        return name;
     }
 }

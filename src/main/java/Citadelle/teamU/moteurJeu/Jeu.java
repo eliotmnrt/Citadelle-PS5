@@ -96,19 +96,19 @@ public class Jeu {
                 moyennePointsVictoire.set(4,moyennePointsVictoire.get(4)+max);
                 moyennePoints.set(4,moyennePoints.get(4)+max);
             }
-            else if(vainqueur.toString().contains(listeBot.get(0).toString())){
+            else if(vainqueur==listeBot.get(0)){
                 cptBot0++;
                 moyennePointsVictoire.set(0,moyennePointsVictoire.get(0)+listeBot.get(0).getScore());
             }
-            else if(vainqueur.toString().contains(listeBot.get(1).toString())){
+            else if(vainqueur==listeBot.get(1)){
                 cptBot1++;
                 moyennePointsVictoire.set(1,moyennePointsVictoire.get(1)+listeBot.get(1).getScore());
             }
-            else if(vainqueur.toString().contains(listeBot.get(2).toString())){
+            else if(vainqueur==listeBot.get(2)){
                 cptBot2++;
                 moyennePointsVictoire.set(2,moyennePointsVictoire.get(2)+listeBot.get(2).getScore());
             }
-            else if(vainqueur.toString().contains(listeBot.get(3).toString())){
+            else if(vainqueur==listeBot.get(3)){
                 cptBot3++;
                 moyennePointsVictoire.set(3,moyennePointsVictoire.get(3)+listeBot.get(3).getScore());
             }
@@ -123,10 +123,10 @@ public class Jeu {
         }
         if(!csv){
             System.out.println("Comparaison des différents bots");
-            System.out.println( "Taux de victoire : "+listeBot.get(0)+": "+ pourcentageVictoire.get(0) +"% ,"+listeBot.get(1)+": "+ pourcentageVictoire.get(1) +"% ,"+listeBot.get(2)+" :"+ pourcentageVictoire.get(2) +"% ,"+listeBot.get(3)+" :"+ pourcentageVictoire.get(3) +"%");
-            System.out.println( "Taux de défaite : "+listeBot.get(0)+": "+ (100-pourcentageVictoire.get(0)) +"% ,"+listeBot.get(1)+": "+ (100-pourcentageVictoire.get(1)) +"% ,"+listeBot.get(2)+" :"+ (100-pourcentageVictoire.get(2)) +"% ,"+listeBot.get(3)+" :"+ (100-pourcentageVictoire.get(3)) +"%");
+            System.out.println( "Taux de victoire : "+listeBot.get(0).toString().split("_")[0]+": "+ pourcentageVictoire.get(0) +"% ,"+listeBot.get(1).toString().split("_")[0]+": "+ pourcentageVictoire.get(1) +"% ,"+listeBot.get(2).toString().split("_")[0]+" :"+ pourcentageVictoire.get(2) +"% ,"+listeBot.get(3).toString().split("_")[0]+" :"+ pourcentageVictoire.get(3) +"%");
+            System.out.println( "Taux de défaite : "+listeBot.get(0).toString().split("_")[0]+": "+ (100-pourcentageVictoire.get(0)) +"% ,"+listeBot.get(1).toString().split("_")[0]+": "+ (100-pourcentageVictoire.get(1)) +"% ,"+listeBot.get(2).toString().split("_")[0]+" :"+ (100-pourcentageVictoire.get(2)) +"% ,"+listeBot.get(3).toString().split("_")[0]+" :"+ (100-pourcentageVictoire.get(3)) +"%");
             System.out.println( "Taux d'égalité : "+pourcentageVictoire.get(4)+"%");
-            System.out.println( "Score moyen : "+listeBot.get(0)+": "+ moyennePoints.get(0) +" ,"+listeBot.get(1)+": "+ moyennePoints.get(1) +" ,"+listeBot.get(2)+" :"+ moyennePoints.get(2) +" ,"+listeBot.get(3)+" :"+ moyennePoints.get(3) +" ,Egalité : "+moyennePoints.get(4));
+            System.out.println( "Score moyen : "+listeBot.get(0).toString().split("_")[0]+": "+ moyennePoints.get(0) +" ,"+listeBot.get(1).toString().split("_")[0]+": "+ moyennePoints.get(1) +" ,"+listeBot.get(2).toString().split("_")[0]+" :"+ moyennePoints.get(2) +" ,"+listeBot.get(3).toString().split("_")[0]+" :"+ moyennePoints.get(3) +" ,Egalité : "+moyennePoints.get(4));
         }
         simu1 = true;
     }
@@ -175,10 +175,10 @@ public class Jeu {
         float pourcent4=(cptVictoire.get(3)/nombre)*100;
         float pourcentnull=(cptVictoire.get(4)/nombre)*100;
         System.out.println("\nSimulation de bot Roi");
-        System.out.println("Taux de victoire : "+listeBot.get(0).toString()+"1: "+pourcent1+"% ,"+listeBot.get(1).toString()+"2: "+pourcent2+"% ,"+listeBot.get(2).toString()+"3 :"+pourcent3+"% ,"+listeBot.get(3).toString()+"4 :"+pourcent4+"%");
-        System.out.println("Taux de défaite : "+listeBot.get(0).toString()+"1: "+(100-pourcent1)+"% ,"+listeBot.get(1).toString()+"2: "+(100-pourcent2)+"% ,"+listeBot.get(2).toString()+"3: "+(100-pourcent3)+"% ,"+listeBot.get(3).toString()+"4: "+(100-pourcent4)+"%");
+        System.out.println("Taux de victoire : "+listeBot.get(0).toString().split("_")[0]+" 1: "+pourcent1+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+pourcent2+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3 :"+pourcent3+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4 :"+pourcent4+"%");
+        System.out.println("Taux de défaite : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(100-pourcent1)+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(100-pourcent2)+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(100-pourcent3)+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(100-pourcent4)+"%");
         System.out.println("Taux d'égalité: "+pourcentnull+"%");
-        System.out.println("Score moyen : "+listeBot.get(0).toString()+"1: "+(cptPoints.get(0)/nombre)+" ,"+listeBot.get(1).toString()+"2: "+(cptPoints.get(1)/nombre)+" ,"+listeBot.get(2).toString()+"3: "+(cptPoints.get(2)/nombre)+" ,"+listeBot.get(3).toString()+"4: "+(cptPoints.get(3)/nombre)+" ,Egalité: "+(cptPoints.get(4)/cptVictoire.get(4)));
+        System.out.println("Score moyen : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(cptPoints.get(0)/nombre)+" ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(cptPoints.get(1)/nombre)+" ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(cptPoints.get(2)/nombre)+" ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(cptPoints.get(3)/nombre)+" ,Egalité: "+(cptPoints.get(4)/cptVictoire.get(4)));
         simu2 = true;
     }
 
@@ -244,7 +244,7 @@ public class Jeu {
             //On lis d'abord les valeurs actuels
             List<String[]> allRows = reader.readAll();
             simulation1(nombre,true);
-            if(!(allRows.get(1)[0].equals(listeBot.get(0).toString())&& allRows.get(2)[0].equals(listeBot.get(1).toString()) && allRows.get(3)[0].equals(listeBot.get(2).toString()) && allRows.get(4)[0].equals(listeBot.get(3).toString()))){
+            if(!(allRows.get(1)[0].equals(listeBot.get(0).toString().split("_")[0])&& allRows.get(2)[0].equals(listeBot.get(1).toString().split("_")[0]) && allRows.get(3)[0].equals(listeBot.get(2).toString().split("_")[0]) && allRows.get(4)[0].equals(listeBot.get(3).toString().split("_")[0]))){
                 //Si un des nom de bot change on remet les données à 0
                 throw new IOException("changement fichier");
             }
@@ -273,10 +273,10 @@ public class Jeu {
             CSVWriter writer = new CSVWriter(new FileWriter(file, StandardCharsets.UTF_8));
 
             writer.writeNext(new String[]{"Simulations", "Pourcentage de victoire","Pourcentage de défaite","Score moyen", "Score moyen en cas de victoire"},false);
-            writer.writeNext(new String[]{listeBot.get(0).toString(), pVBot0 +"",(100-pVBot0) +"",ptBot0+"",ptVBot0+""},false);
-            writer.writeNext(new String[]{listeBot.get(1).toString(), pVBot1 +"",(100-pVBot1) +"",ptBot1+"",ptVBot1+""},false);
-            writer.writeNext(new String[]{listeBot.get(2).toString(), pVBot2 +"",(100-pVBot2) +"",ptBot2+"",ptVBot2+""},false);
-            writer.writeNext(new String[]{listeBot.get(3).toString(), pVBot3 +"",(100-pVBot3) +"",ptBot3+"",ptVBot3+""},false);
+            writer.writeNext(new String[]{listeBot.get(0).toString().split("_")[0], pVBot0 +"",(100-pVBot0) +"",ptBot0+"",ptVBot0+""},false);
+            writer.writeNext(new String[]{listeBot.get(1).toString().split("_")[0], pVBot1 +"",(100-pVBot1) +"",ptBot1+"",ptVBot1+""},false);
+            writer.writeNext(new String[]{listeBot.get(2).toString().split("_")[0], pVBot2 +"",(100-pVBot2) +"",ptBot2+"",ptVBot2+""},false);
+            writer.writeNext(new String[]{listeBot.get(3).toString().split("_")[0], pVBot3 +"",(100-pVBot3) +"",ptBot3+"",ptVBot3+""},false);
             writer.writeNext(new String[]{"Egalité", pVNullUpdate +"","--",ptNullUpdate+"",ptVNullUpdate+""},false);
             writer.writeNext(new String[]{"Nombre de simulations",total+""},false);
             writer.close();
@@ -287,10 +287,10 @@ public class Jeu {
                 simulation1(nombre,true);
                 writer = new CSVWriter(new FileWriter(file,StandardCharsets.UTF_8));
                 writer.writeNext(new String[]{"Simulations", "Pourcentage de victoire","Pourcentage de défaite","Score moyen", "Score moyen en cas de victoire"},false);
-                writer.writeNext(new String[]{listeBot.get(0).toString(), pourcentageVictoire.get(0) +"",(100-pourcentageVictoire.get(0))+"",moyennePoints.get(0)+"",moyennePointsVictoire.get(0)+""},false);
-                writer.writeNext(new String[]{listeBot.get(1).toString(), pourcentageVictoire.get(1) +"",(100-pourcentageVictoire.get(1))+"",moyennePoints.get(1)+"",moyennePointsVictoire.get(1)+""},false);
-                writer.writeNext(new String[]{listeBot.get(2).toString(), pourcentageVictoire.get(2) +"",(100-pourcentageVictoire.get(2))+"",moyennePoints.get(2)+"",moyennePointsVictoire.get(2)+""},false);
-                writer.writeNext(new String[]{listeBot.get(3).toString(), pourcentageVictoire.get(3) +"",(100-pourcentageVictoire.get(3))+"",moyennePoints.get(3)+"",moyennePointsVictoire.get(3)+""},false);
+                writer.writeNext(new String[]{listeBot.get(0).toString().split("_")[0], pourcentageVictoire.get(0) +"",(100-pourcentageVictoire.get(0))+"",moyennePoints.get(0)+"",moyennePointsVictoire.get(0)+""},false);
+                writer.writeNext(new String[]{listeBot.get(1).toString().split("_")[0], pourcentageVictoire.get(1) +"",(100-pourcentageVictoire.get(1))+"",moyennePoints.get(1)+"",moyennePointsVictoire.get(1)+""},false);
+                writer.writeNext(new String[]{listeBot.get(2).toString().split("_")[0], pourcentageVictoire.get(2) +"",(100-pourcentageVictoire.get(2))+"",moyennePoints.get(2)+"",moyennePointsVictoire.get(2)+""},false);
+                writer.writeNext(new String[]{listeBot.get(3).toString().split("_")[0], pourcentageVictoire.get(3) +"",(100-pourcentageVictoire.get(3))+"",moyennePoints.get(3)+"",moyennePointsVictoire.get(3)+""},false);
                 writer.writeNext(new String[]{"Egalité", pourcentageVictoire.get(4) +"","--",moyennePoints.get(4)+"",moyennePointsVictoire.get(4)+""},false);
                 writer.writeNext(new String[]{"Nombre de simulations",nombre+""},false);
                 writer.close();
