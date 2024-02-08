@@ -30,7 +30,7 @@ jobs:
     - name: Execute Unit Tests
       run: mvn -B package --file pom.xml
     - name: demo
-      run: mvn exec:java
+      run: mvn exec:java -Dexec.args="--demo"
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
