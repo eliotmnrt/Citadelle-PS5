@@ -14,7 +14,6 @@ import java.util.List;
 public class BotFocusRoi extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersJaunesConstruits = 0;
-    private boolean strat2 = false;
 
     public BotFocusRoi(Pioche pioche){
         //Bot qui monopolise le role de roi
@@ -48,18 +47,7 @@ public class BotFocusRoi extends BotMalin {
             }
         }
 
-        if(strat2){
-            choixDeBase.add(null);
-            changerOr(2);
-            affichageJoueur.afficheChoixDeBase(choixDeBase);
-            return choixDeBase;
-
-        } else {                            // sinon on pioche
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
+        return suite(choixDeBase);
     }
 
     /**

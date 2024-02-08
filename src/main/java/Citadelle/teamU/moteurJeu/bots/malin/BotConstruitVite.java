@@ -128,7 +128,7 @@ public class BotConstruitVite extends BotMalin {
      */
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotliste());
         botList.remove(this);
         Bot botMax = botList.get(0);
         for(Bot bot:botList){

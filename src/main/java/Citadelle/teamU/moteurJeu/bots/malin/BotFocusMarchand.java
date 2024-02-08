@@ -44,17 +44,7 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
 
-        if(strat2){
-            choixDeBase.add(null);
-            changerOr(2);
-            affichageJoueur.afficheChoixDeBase(choixDeBase);
-            return choixDeBase;
-        } else {                            // sinon on pioche
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
+        return suite(choixDeBase);
     }
 
     /**

@@ -9,7 +9,6 @@ import Citadelle.teamU.moteurJeu.bots.Bot;
 import java.util.*;
 
 import static Citadelle.teamU.cartes.TypeQuartier.*;
-import static java.util.Arrays.stream;
 
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitChere sauf pour les règles demandées
@@ -29,13 +28,13 @@ public class BotRichard extends BotMalin{
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
-        isPremierAChoisir(roles);    //si il y a encore 5 roles a piocher c'est que l'on est premier
+        isPremierAChoisir(roles);
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
 
             if (premierAChoisir){
-                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prendre
+                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prend
                     return;
                 }
                 if (trouverRole(roles, "Architecte")){
