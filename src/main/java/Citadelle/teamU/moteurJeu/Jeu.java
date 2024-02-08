@@ -211,26 +211,42 @@ public class Jeu {
         if(arg.demo){
             //Faire une demo
             Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
-        }else if(arg.two){
+            Pioche pioche = new Pioche();
+            Bot bot1 = new BotFocusRoi(pioche);
+            Bot bot2 = new BotConstruitChere(pioche);
+            Bot bot3 = new BotRichard(pioche);
+            Bot bot4 = new BotFocusMarchand(pioche);
+
+            //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
+            JouerPartie(bot1,bot2,bot3,bot4);
+            //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
+
+        }if(arg.two){
             //faire 2 fois 1000 stats
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
             simulation1(1000,false);
             simulation2(1000);
-        }else if(arg.csv){
+        }if(arg.csv){
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
             Path path = Paths.get("stats","gamestats.csv");
-            updateCSV(path.toFile());
+            updateCSV(path.toFile(),1000);
+        }if(arg.csvG > 0){
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            Path path = Paths.get("stats","gamestats.csv");
+            updateCSV(path.toFile(), arg.csvG);
+        }else{
+            Pioche pioche = new Pioche();
+            Bot bot1 = new BotFocusRoi(pioche);
+            Bot bot2 = new BotConstruitChere(pioche);
+            Bot bot3 = new BotRichard(pioche);
+            Bot bot4 = new BotFocusMarchand(pioche);
+
+            //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
+            JouerPartie(bot1,bot2,bot3,bot4);
+            //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
+
         }
 
-        Pioche pioche = new Pioche();
-        Bot bot1 = new BotFocusRoi(pioche);
-        Bot bot2 = new BotConstruitChere(pioche);
-        Bot bot3 = new BotRichard(pioche);
-        Bot bot4 = new BotFocusMarchand(pioche);
-
-        //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-        JouerPartie(bot1,bot2,bot3,bot4);
-        //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
 
     }
 
@@ -238,8 +254,8 @@ public class Jeu {
      *permet d'update le csv avec les resultats des simulations
      * @param file fichier à update
      */
-    public static void updateCSV(File file) {
-        int nombre = 1000;
+    public static void updateCSV(File file,int nombre) {
+        //int nombre = 1000;
         try(CSVReader reader = new CSVReader(new FileReader(file))) {
             //On lis d'abord les valeurs actuels
             List<String[]> allRows = reader.readAll();
