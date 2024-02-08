@@ -67,11 +67,11 @@ public abstract class BotMalin extends Bot {
                 break;
             }
         }
+        changementFocus = false;
         if (piocher){
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        else{
+        } else{
             choixDeBase.add(null);
             changerOr(2);
         }
