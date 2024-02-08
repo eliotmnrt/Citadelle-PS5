@@ -181,7 +181,7 @@ public class BotRichard extends BotMalin{
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
             if (optionalBot.isPresent()) {
                 Optional<Quartier> quartierMin = optionalBot.get().getQuartiersConstruits().stream().min(Comparator.comparingInt(Quartier::getCout));
-                if (quartierMin.isPresent() && quartierMin.get().getCout()-1 <= nbOr){
+                if (quartierMin.isPresent() && quartierMin.get().getCout()-1 <= nbOr && optionalBot.get().getQuartiersConstruits().size() < 8 &&!(optionalBot.get().getRole() instanceof Pretre)){
                     condottiere.destructionQuartier(this, optionalBot.get(), quartierMin.get());
                 }
                 return;

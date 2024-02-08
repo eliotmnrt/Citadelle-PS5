@@ -30,7 +30,7 @@ public class Condottiere implements Role{
 
     public void destructionQuartier(Bot bot,Bot botAdetruire,Quartier quartier){
         this.quartierAdetruire = quartier;
-        if(botAdetruire.getQuartiersConstruits().size()<8){
+        if(botAdetruire.getQuartiersConstruits().size()<8&&!(botAdetruire.getRole() instanceof Pretre)){
             botAdetruire.getQuartiersConstruits().remove(quartier);
             bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
             if (bot.getOr() < 0){
@@ -38,6 +38,8 @@ public class Condottiere implements Role{
             }
             botAdetruire.setScore(botAdetruire.getScore() - quartier.getCout());
             bot.getAffichage().afficheActionSpecialeDestructionCondottiere(botAdetruire, quartierAdetruire);
+        }else{
+            throw new IllegalArgumentException("le bot visé n'est pas compatible");
         }
 
         List<Bot> autresBots = new ArrayList<>(botListe);

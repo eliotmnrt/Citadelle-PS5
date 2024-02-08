@@ -1,10 +1,6 @@
 package Citadelle.teamU.moteurJeu.bots;
 
-import Citadelle.teamU.cartes.roles.Assassin;
-import Citadelle.teamU.cartes.roles.Condottiere;
-import Citadelle.teamU.cartes.roles.Magicien;
-import Citadelle.teamU.cartes.roles.Role;
-import Citadelle.teamU.cartes.roles.Voleur;
+import Citadelle.teamU.cartes.roles.*;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.cartes.Quartier;
 
@@ -20,7 +16,7 @@ public class BotAleatoire extends Bot{
 
     public BotAleatoire(Pioche pioche){
         super(pioche);
-        this.name = "Bot aleatoire_"+numDuBotAleatoire;
+        this.name = "Bot aleatoire_,"+numDuBotAleatoire;
         numDuBotAleatoire++;
     }
 
@@ -165,7 +161,7 @@ public class BotAleatoire extends Bot{
         botList.remove(this);
         int indiceRandomBot = randInt(botList.size());
         Bot botADetruire = (botList.get(indiceRandomBot));
-        if(!botADetruire.getQuartiersConstruits().isEmpty()) {
+        if(!botADetruire.getQuartiersConstruits().isEmpty() && botADetruire.getQuartiersConstruits().size() < 8 &&!(botADetruire.getRole() instanceof Pretre)) {
             int indiceRandomQuartier = randInt(botADetruire.getQuartiersConstruits().size() );
             Quartier quartierAdetruire = botADetruire.getQuartiersConstruits().get(indiceRandomQuartier);
 
