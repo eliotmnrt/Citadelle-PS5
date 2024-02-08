@@ -219,7 +219,11 @@ public class Jeu {
         }else if(arg.csv){
             Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
             Path path = Paths.get("stats","gamestats.csv");
-            updateCSV(path.toFile());
+            updateCSV(path.toFile(),1000);
+        }else if(arg.csvG > 0){
+            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            Path path = Paths.get("stats","gamestats.csv");
+            updateCSV(path.toFile(), arg.csvG);
         }
 
         Pioche pioche = new Pioche();
@@ -238,8 +242,8 @@ public class Jeu {
      *permet d'update le csv avec les resultats des simulations
      * @param file fichier à update
      */
-    public static void updateCSV(File file) {
-        int nombre = 1000;
+    public static void updateCSV(File file,int nombre) {
+        //int nombre = 1000;
         try(CSVReader reader = new CSVReader(new FileReader(file))) {
             //On lis d'abord les valeurs actuels
             List<String[]> allRows = reader.readAll();

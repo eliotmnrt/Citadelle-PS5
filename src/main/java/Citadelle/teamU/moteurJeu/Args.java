@@ -9,4 +9,6 @@ public class Args {
 
     @Parameter(names = "--csv")
     public boolean csv = false;
+    @Parameter(names = "-csv")
+    public int csvG = -1;
 }
