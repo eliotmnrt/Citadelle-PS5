@@ -92,12 +92,7 @@ public class BotFocusRoi extends BotMalin {
                 return new ArrayList<>(Collections.singleton(quartierJaune));
             } else {
                 quartierPioches = new ArrayList<>(quartierPioches);
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((quartierPioches));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                return choisirCartePasImportante(quartierPioches);
             }
         } else {
             for (Quartier quartier: quartierPioches){
@@ -124,10 +119,6 @@ public class BotFocusRoi extends BotMalin {
         }
     }
 
-    public void setNbQuartiersJaunesConstruits(int nb){
-        nbQuartiersJaunesConstruits = nb;
-    }
-
 
     /**
      * focus archi et magicien pour recup des cartes jaunes et les construire
@@ -143,6 +134,11 @@ public class BotFocusRoi extends BotMalin {
         rolesRestants = new ArrayList<>(roles);
     }
 
+    public void setNbQuartiersJaunesConstruits(int nb){
+        nbQuartiersJaunesConstruits = nb;
+    }
+
+
     /**
      * si 2 quartiers jaunes construits, ons e met a focus le roi
      * @param roles roles
@@ -153,6 +149,7 @@ public class BotFocusRoi extends BotMalin {
         if (trouverRole(roles, "Roi")){return;}
         if (trouverRole(roles, "Architecte")){return;}
         if (trouverRole(roles, "Magicien")){return;}
+        if (trouverRole(roles, "Marchand")){return;}
 
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));

@@ -67,7 +67,6 @@ public abstract class BotMalin extends Bot {
                 break;
             }
         }
-        changementFocus = false;
         if (piocher){
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
@@ -239,6 +238,16 @@ public abstract class BotMalin extends Bot {
         affichageJoueur.afficheChoixDeBase(choixDeBase);
         return choixDeBase;
     }
+
+    public List<Quartier> choisirCartePasImportante(List<Quartier> quartierPioches){
+        quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+        Collections.reverse((quartierPioches));
+        pioche.remettreDansPioche(quartierPioches.remove(0));
+        pioche.remettreDansPioche(quartierPioches.remove(0));
+        ajoutQuartierMain(quartierPioches.get(0));
+        return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+    }
+
 
 }
 

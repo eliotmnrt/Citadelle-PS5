@@ -11,7 +11,6 @@ import java.util.*;
 public class BotFocusMarchand extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersVertsConstruits = 0;
-    private boolean strat2 = false;
 
     public BotFocusMarchand(Pioche pioche) {
         //Bot qui monopolise le role de marchand
@@ -56,7 +55,7 @@ public class BotFocusMarchand extends BotMalin {
         if (nbQuartiersVertsConstruits < 3) {
             choisirRoleDebut(roles);
         } else {
-            strat2 = true;
+            changementFocus = true;
             choisirRoleFin(roles);
         }
     }
@@ -130,12 +129,7 @@ public class BotFocusMarchand extends BotMalin {
                 }
                 return new ArrayList<>(Collections.singleton(quartierVert));
             } else {
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((quartierPioches));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                return choisirCartePasImportante(quartierPioches);
             }
         } else {
             for (Quartier quartier : quartierPioches) {
