@@ -65,7 +65,7 @@ public class BotAleatoire extends Bot{
      */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             int intAleatoire2 = randInt(2); // Choisi un int aléatoire 0 ou 1
             if (intAleatoire2 == 0) {
                 ajoutQuartierMain(quartierPioches.get(0));
@@ -93,7 +93,7 @@ public class BotAleatoire extends Bot{
     public Quartier construire(){
         List<Quartier> quartiersPossible = new ArrayList<>();
         for(Quartier quartier : quartierMain){
-            if(quartier.getCout()<=nbOr  &&  !quartierConstruit.contains(quartier)){
+            if(quartier.getCout()<=nbOr  &&  !quartiersConstruits.contains(quartier)){
                 quartiersPossible.add(quartier);
             }
         }

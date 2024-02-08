@@ -21,7 +21,7 @@ public abstract class Bot {
     protected Role role;
     protected Pioche pioche;
     protected boolean couronne;
-    protected List<Quartier> quartierConstruit;
+    protected List<Quartier> quartiersConstruits;
     protected List<Quartier> quartierMain;
     protected int orProchainTour = -1; //or vole par le voleur que l'on recupere au prochain tour
     protected SecureRandom random;
@@ -37,7 +37,7 @@ public abstract class Bot {
         this.pioche = pioche;
         this.affichageJoueur = new AffichageJoueur(this);
         nbOr = 2;
-        quartierConstruit = new ArrayList<>();
+        quartiersConstruits = new ArrayList<>();
         quartierMain = new ArrayList<>();
         score = 0;
         random = new SecureRandom();
@@ -100,8 +100,8 @@ public abstract class Bot {
      */
     public void ajoutQuartierConstruit(Quartier newQuartier){
         // verifier si les quartiers à construire sont dans la main, que le bot a assez d'or et qu'il a pas déjà construit un quartier avec le même nom
-        if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartierConstruit.contains(newQuartier)) {
-            quartierConstruit.add(newQuartier);
+        if(quartierMain.contains(newQuartier) && nbOr >= newQuartier.getCout() && !quartiersConstruits.contains(newQuartier)) {
+            quartiersConstruits.add(newQuartier);
             quartierMain.remove(newQuartier);
             changerOr(-newQuartier.getCout());
             score+= newQuartier.getCout();
@@ -125,10 +125,10 @@ public abstract class Bot {
     }
     public List<Quartier> getQuartierMain(){ return quartierMain;}
     public List<Quartier> getQuartiersConstruits(){
-        return this.quartierConstruit;
+        return this.quartiersConstruits;
     }
 
-    public int getNbQuartiersConstruits(){ return quartierConstruit.size(); }
+    public int getNbQuartiersConstruits(){ return quartiersConstruits.size(); }
     public int getScore(){
         return this.score;
     }
@@ -159,8 +159,8 @@ public abstract class Bot {
         return ordreChoixRole;
     }
 
-    public void setQuartierConstruit(List<Quartier> quartierConstruit) {
-        this.quartierConstruit = quartierConstruit;
+    public void setQuartiersConstruits(List<Quartier> quartiersConstruits) {
+        this.quartiersConstruits = quartiersConstruits;
     }
 
     public void setQuartierMain(List<Quartier> quartierMain) {
@@ -171,10 +171,10 @@ public abstract class Bot {
      * utilise certaines conditions pour déclencher des effets de cartes violettes
      */
     public void quartiersViolets(){
-        if (quartierConstruit.contains(Quartier.MANUFACTURE)){
+        if (quartiersConstruits.contains(Quartier.MANUFACTURE)){
             quartierManufacture();
         }
-        if(quartierConstruit.contains(Quartier.LABORATOIRE)){
+        if(quartiersConstruits.contains(Quartier.LABORATOIRE)){
             quartierLaboratoire();
         }
     }
@@ -200,7 +200,7 @@ public abstract class Bot {
      */
     public void quartierLaboratoire(){
         for (Quartier quartier: quartierMain){
-            if (quartierConstruit.contains(quartier)){
+            if (quartiersConstruits.contains(quartier)){
                 int rang = quartierMain.indexOf(quartier);
                 pioche.remettreDansPioche(quartierMain.remove(rang));
                 changerOr(1);
@@ -215,9 +215,9 @@ public abstract class Bot {
      * @param quartierDetruit Quartier detruit par le condottiere
      */
     public void quartierCimetiere(Quartier quartierDetruit){
-        if (nbOr >= 1 && !quartierConstruit.contains(quartierDetruit)){
+        if (nbOr >= 1 && !quartiersConstruits.contains(quartierDetruit)){
             changerOr(-1);
-            quartierConstruit.add(quartierDetruit);         //on utilise pas ajoutQuartierConstruit car on recup directement le quartier
+            quartiersConstruits.add(quartierDetruit);         //on utilise pas ajoutQuartierConstruit car on recup directement le quartier
             score+= quartierDetruit.getCout();
             affichageJoueur.afficheQuartierCimetiere(quartierDetruit);
         }
@@ -229,7 +229,7 @@ public abstract class Bot {
      */
     public List<Quartier> piocheDeBase(){
         List<Quartier> quartiersPioches = new ArrayList<>();
-        if (!quartierConstruit.contains(Quartier.OBSERVATOIRE)){
+        if (!quartiersConstruits.contains(Quartier.OBSERVATOIRE)){
             quartiersPioches.add(pioche.piocherQuartier());
             quartiersPioches.add(pioche.piocherQuartier());
             quartiersPioches.add(null);

@@ -1,6 +1,9 @@
 package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
+import Citadelle.teamU.cartes.roles.Assassin;
+import Citadelle.teamU.cartes.roles.Condottiere;
+import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,6 +82,48 @@ class BotFocusRoiTest {
         verify(bot).ajoutQuartierConstruit(Quartier.MANOIR);
         assertEquals(Quartier.MANOIR, bot.getQuartiersConstruits().get(0));
         assertEquals(4-3, bot.getOr());
+
+    }
+
+    @Test
+    void testChoisirCartes(){
+        bot.setQuartiersConstruits(List.of(Quartier.OBSERVATOIRE));
+        List<Quartier> choix = bot.choisirCarte(List.of(Quartier.TAVERNE, Quartier.PALAIS, Quartier.TERRAIN_DE_BATAILLE));
+        assertEquals(Quartier.PALAIS, choix.get(0));
+
+        List<Quartier> choix2 = bot.choisirCarte(List.of(Quartier.MANUFACTURE, Quartier.TAVERNE, Quartier.TERRAIN_DE_BATAILLE));
+        assertEquals(Quartier.TAVERNE, choix2.get(0));
+
+        bot.setQuartiersConstruits(List.of(Quartier.BIBLIOTHEQUE));
+        List<Quartier> choix3 = bot.choisirCarte(List.of(Quartier.TAVERNE, Quartier.MANUFACTURE, Quartier.TERRAIN_DE_BATAILLE));
+        assertEquals(List.of(Quartier.TAVERNE, Quartier.MANUFACTURE, Quartier.TERRAIN_DE_BATAILLE), choix3);
+    }
+
+    @Test
+    void testChoixRole(){
+        doReturn(0).when(bot).randInt(2);
+        bot.choisirRole(new ArrayList<>(List.of(new Assassin(botliste, new ArrayList<>()), new Condottiere(botliste))));
+        assertEquals(Assassin.class, bot.getRole().getClass());
+
+        bot.setNbQuartiersJaunesConstruits(2);
+        bot.choisirRole(new ArrayList<>(List.of(new Voleur(botliste, new ArrayList<>()), new Condottiere(botliste))));
+        assertEquals(Voleur.class, bot.getRole().getClass());
+    }
+
+    @Test
+    void testContruire(){
+        bot.changerOr(-4);
+        bot.setQuartierMain(new ArrayList<>(List.of(Quartier.PALAIS, Quartier.TAVERNE, Quartier.TERRAIN_DE_BATAILLE)));
+        Quartier quartier = bot.construire();
+        assertNull(quartier);
+        bot.changerOr(70);
+        quartier = bot.construire();
+        assertEquals(Quartier.PALAIS, quartier);
+
+        bot.setQuartierMain(new ArrayList<>(List.of(Quartier.OBSERVATOIRE, Quartier.TAVERNE, Quartier.TERRAIN_DE_BATAILLE)));
+        quartier = bot.construire();
+        assertEquals(Quartier.OBSERVATOIRE, quartier);
+
 
     }
 }

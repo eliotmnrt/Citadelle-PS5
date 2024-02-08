@@ -33,7 +33,7 @@ class BotAleatoireTest {
         bot.setRole(new Roi(botliste));
         bot.construire();
         assertTrue(bot.quartierMain.size()==6||bot.quartierMain.size()==7);
-        assertTrue(bot.quartierConstruit.isEmpty() ||bot.quartierConstruit.size()==1);
+        assertTrue(bot.quartiersConstruits.isEmpty() ||bot.quartiersConstruits.size()==1);
     }
 
     @Test

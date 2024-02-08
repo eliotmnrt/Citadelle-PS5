@@ -51,7 +51,7 @@ class CondottiereTest {
         botConstruitVite.setRole(new Pretre(botliste));
         ArrayList<Quartier> quart = new ArrayList<>();
         quart.add(Quartier.LABORATOIRE);
-        botAleatoire2.setQuartierConstruit(quart);
+        botAleatoire2.setQuartiersConstruits(quart);
         doReturn(0).when(botAleatoire).randInt(3);      //on force à viser de dernier bot aka
         botAleatoire.faireActionSpecialRole();
         verify(botAleatoire).actionSpecialeCondottiere(track);
@@ -227,12 +227,12 @@ class CondottiereTest {
 
         ArrayList<Quartier> construit = new ArrayList<>();
         construit.add(Quartier.TAVERNE);
-        botConstruitVite.setQuartierConstruit(construit);       //taverne pour botconstruitvite
+        botConstruitVite.setQuartiersConstruits(construit);       //taverne pour botconstruitvite
         assertEquals(1, botConstruitVite.getQuartiersConstruits().size());
 
         ArrayList<Quartier> cimetiere = new ArrayList<>();
         cimetiere.add(Quartier.CIMETIERE);
-        botAleatoire2.setQuartierConstruit(cimetiere);          // cimetiere pour aleatoire2
+        botAleatoire2.setQuartiersConstruits(cimetiere);          // cimetiere pour aleatoire2
         assertEquals(1, botAleatoire2.getQuartiersConstruits().size());
         int orAvant = botAleatoire2.getOr();
 

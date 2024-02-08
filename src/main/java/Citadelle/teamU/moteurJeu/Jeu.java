@@ -28,6 +28,9 @@ public class Jeu {
     static ArrayList<Float> moyennePoints= new ArrayList<>(Arrays.asList((float) 0, (float) 0, (float) 0, (float) 0, (float) 0));
     static ArrayList<Float> moyennePointsVictoire= new ArrayList<>(Arrays.asList((float) 0, (float) 0, (float) 0, (float) 0, (float) 0));
     static ArrayList<Bot> listeBot = new ArrayList<>(Arrays.asList(null,null,null,null));
+    private static boolean simu1 = false;
+    private static boolean simu2 = false;
+
     public Jeu(Bot...bots) {
         if(bots.length == 0){
             throw new IllegalArgumentException();
@@ -53,6 +56,12 @@ public class Jeu {
         return botListe;
     }
 
+    public static boolean isSimu1() {
+        return simu1;
+    }
+    public static boolean isSimu2() {
+        return simu1;
+    }
 
     /**
      * sert pour les simulations de jeux entre différents bots
@@ -60,6 +69,7 @@ public class Jeu {
      * @param csv booleen si ajout de stats au .csv
      */
     public static void simulation1(int nombre,boolean csv){
+        simu1 = false;
         int i=1;
         int cptBot0=0;
         int cptBot1=0;
@@ -73,7 +83,7 @@ public class Jeu {
             listeBot.set(2,new BotAleatoire(pioche));
             listeBot.set(3,new BotFocusMarchand(pioche));
             JouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
-            Bot vainqueur=tour.getLeVainqueur();
+            Bot vainqueur = tour.getLeVainqueur();
             remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
             if(vainqueur==null){
                 cptNull++;
@@ -104,9 +114,13 @@ public class Jeu {
             }
             i++;
         }
-        remplirListe(moyennePoints,moyennePoints.get(0)/nombre,moyennePoints.get(1)/nombre,moyennePoints.get(2)/nombre,moyennePoints.get(3)/nombre,moyennePoints.get(4)/cptNull);
-        remplirListe(moyennePointsVictoire,moyennePointsVictoire.get(0)/cptBot0,moyennePointsVictoire.get(1)/cptBot1,moyennePointsVictoire.get(2)/cptBot2,moyennePointsVictoire.get(3)/cptBot3,moyennePointsVictoire.get(4)/cptNull);
-        remplirListe(pourcentageVictoire,((float)cptBot0/nombre)*100,((float)cptBot1/nombre)*100,((float)cptBot2/nombre)*100,((float)cptBot3/nombre)*100,((float)cptNull/nombre)*100);
+        if(cptBot0 !=0 && cptBot1 !=0 && cptBot2 !=0 && cptBot3 !=0 ){
+            remplirListe(moyennePoints,moyennePoints.get(0)/nombre,moyennePoints.get(1)/nombre,moyennePoints.get(2)/nombre,moyennePoints.get(3)/nombre,moyennePoints.get(4)/cptNull);
+            remplirListe(moyennePointsVictoire,moyennePointsVictoire.get(0)/cptBot0,moyennePointsVictoire.get(1)/cptBot1,moyennePointsVictoire.get(2)/cptBot2,moyennePointsVictoire.get(3)/cptBot3,moyennePointsVictoire.get(4)/cptNull);
+            remplirListe(pourcentageVictoire,((float)cptBot0/nombre)*100,((float)cptBot1/nombre)*100,((float)cptBot2/nombre)*100,((float)cptBot3/nombre)*100,((float)cptNull/nombre)*100);
+        } else {
+            throw new RuntimeException();
+        }
         if(!csv){
             System.out.println("Comparaison des différents bots");
             System.out.println( "Taux de victoire : "+listeBot.get(0).toString().split("_")[0]+": "+ pourcentageVictoire.get(0) +"% ,"+listeBot.get(1).toString().split("_")[0]+": "+ pourcentageVictoire.get(1) +"% ,"+listeBot.get(2).toString().split("_")[0]+" :"+ pourcentageVictoire.get(2) +"% ,"+listeBot.get(3).toString().split("_")[0]+" :"+ pourcentageVictoire.get(3) +"%");
@@ -114,6 +128,7 @@ public class Jeu {
             System.out.println( "Taux d'égalité : "+pourcentageVictoire.get(4)+"%");
             System.out.println( "Score moyen : "+listeBot.get(0).toString().split("_")[0]+": "+ moyennePoints.get(0) +" ,"+listeBot.get(1).toString().split("_")[0]+": "+ moyennePoints.get(1) +" ,"+listeBot.get(2).toString().split("_")[0]+" :"+ moyennePoints.get(2) +" ,"+listeBot.get(3).toString().split("_")[0]+" :"+ moyennePoints.get(3) +" ,Egalité : "+moyennePoints.get(4));
         }
+        simu1 = true;
     }
 
     /**
@@ -121,6 +136,7 @@ public class Jeu {
      * @param nombre nombre de parties
      */
     public static void simulation2(int nombre){
+        simu2 = false;
         int i=1;
         ArrayList<Float> cptPoints = new ArrayList<>(Arrays.asList((float)0,(float)0,(float)0,(float)0,(float)0));
         ArrayList<Float> cptVictoire = new ArrayList<>(Arrays.asList((float)0,(float)0,(float)0,(float)0,(float)0));
@@ -163,6 +179,7 @@ public class Jeu {
         System.out.println("Taux de défaite : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(100-pourcent1)+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(100-pourcent2)+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(100-pourcent3)+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(100-pourcent4)+"%");
         System.out.println("Taux d'égalité: "+pourcentnull+"%");
         System.out.println("Score moyen : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(cptPoints.get(0)/nombre)+" ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(cptPoints.get(1)/nombre)+" ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(cptPoints.get(2)/nombre)+" ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(cptPoints.get(3)/nombre)+" ,Egalité: "+(cptPoints.get(4)/cptVictoire.get(4)));
+        simu2 = true;
     }
 
     // j'ai mis en static parce que ça me faisait une erreur
@@ -191,7 +208,6 @@ public class Jeu {
                 .addObject(arg)
                 .build()
                 .parse(args);
-
         if(arg.demo){
             //Faire une demo
             Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
@@ -214,10 +230,6 @@ public class Jeu {
 
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
         JouerPartie(bot1,bot2,bot3,bot4);
-
-
-
-
         //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
 
     }
@@ -226,12 +238,10 @@ public class Jeu {
      *permet d'update le csv avec les resultats des simulations
      * @param file fichier à update
      */
-    private static void updateCSV(File file) {
+    public static void updateCSV(File file) {
         int nombre = 1000;
-        try {
+        try(CSVReader reader = new CSVReader(new FileReader(file))) {
             //On lis d'abord les valeurs actuels
-            CSVReader reader;
-            reader = new CSVReader(new FileReader(file));
             List<String[]> allRows = reader.readAll();
             simulation1(nombre,true);
             if(!(allRows.get(1)[0].equals(listeBot.get(0).toString().split("_")[0])&& allRows.get(2)[0].equals(listeBot.get(1).toString().split("_")[0]) && allRows.get(3)[0].equals(listeBot.get(2).toString().split("_")[0]) && allRows.get(4)[0].equals(listeBot.get(3).toString().split("_")[0]))){
