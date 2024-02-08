@@ -2,6 +2,7 @@ package Citadelle.teamU.moteurJeu.bots.malin;
 
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Condottiere;
+import Citadelle.teamU.cartes.roles.Pretre;
 import Citadelle.teamU.cartes.roles.Role;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
@@ -110,7 +111,7 @@ public class BotConstruitVite extends BotMalin {
         botList.remove(this);
         Bot botMax = botList.get(0);
         for(Bot bot:botList){
-            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size() && bot.getQuartiersConstruits().size()<8){
+            if(botMax.getQuartiersConstruits().size() < bot.getQuartiersConstruits().size() && bot.getQuartiersConstruits().size()<8 && !(bot.getRole() instanceof  Pretre)){
                 //pas un bot qui a 8 quartiers
                 botMax=bot;
             }

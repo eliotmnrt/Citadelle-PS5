@@ -223,7 +223,7 @@ class CondottiereTest {
         botAleatoire.setRole(track);       //botAleatoire est le magicien
         botAleatoire2.setRole(new Roi(botliste));
         botConstruitChere.setRole(new Marchand(botliste));
-        botConstruitVite.setRole(new Pretre(botliste));
+        botConstruitVite.setRole(new Magicien(botliste));
 
         ArrayList<Quartier> construit = new ArrayList<>();
         construit.add(Quartier.TAVERNE);

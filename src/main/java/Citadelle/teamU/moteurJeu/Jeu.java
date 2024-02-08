@@ -68,7 +68,7 @@ public class Jeu {
         int cptNull = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
-            listeBot.set(0,new BotRichard(pioche));
+            listeBot.set(0,new BotFocusRoi(pioche));
             listeBot.set(1,new BotConstruitChere(pioche));
             listeBot.set(2,new BotRichard(pioche));
             listeBot.set(3,new BotFocusMarchand(pioche));
