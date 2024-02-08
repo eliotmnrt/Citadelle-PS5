@@ -36,7 +36,7 @@ public class BotFocusMarchand extends BotMalin {
         List<Quartier> choixDeBase = new ArrayList<>();
         //cherche si il a au moins 1 quartier vert non construit
         for (Quartier quartier : quartierMain) {
-            if (quartier.getCouleur() == TypeQuartier.VERT && quartier.getCout() >= nbOr && !quartierConstruit.contains(quartier)) {
+            if (quartier.getCouleur() == TypeQuartier.VERT && quartier.getCout() >= nbOr && !quartiersConstruits.contains(quartier)) {
                 choixDeBase.add(null);
                 changerOr(2);
                 affichageJoueur.afficheChoixDeBase(choixDeBase);
@@ -118,7 +118,7 @@ public class BotFocusMarchand extends BotMalin {
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartierConstruit.contains(Quartier.BIBLIOTHEQUE)){
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){        //on cherche la presence du quartier vert
                 quartierPioches.remove(2);
                 if (quartierPioches.get(1).getCouleur() == TypeQuartier.VERT){
@@ -136,21 +136,31 @@ public class BotFocusMarchand extends BotMalin {
                 return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
             }
 
-            Quartier quartierVerts = null;
+            List<Quartier> ListequartierVerts = new ArrayList<>();
             List<Quartier> autresQuartiers = new ArrayList<>();
             for (Quartier quartierPioch : quartierPioches) {
                 if (quartierPioch.getCouleur() == TypeQuartier.VERT) {
-                    quartierVerts = quartierPioch;
+                    ListequartierVerts.add(quartierPioch);
                 } else {
                     autresQuartiers.add(quartierPioch);
                 }
             }
-            if (quartierVerts != null){
-                ajoutQuartierMain(quartierVerts);
+            if (ListequartierVerts.size() != 0){
+                ListequartierVerts.sort(Comparator.comparingInt(Quartier::getCout));
+                Collections.reverse((ListequartierVerts));
+                int i;
+                for(i=0;i<ListequartierVerts.size();i=i+1){
+                    if(ListequartierVerts.get(i).getCout() <= this.nbOr){
+                        ajoutQuartierMain(ListequartierVerts.get(i));
+                        this.changerOr(-ListequartierVerts.get(i).getCout());
+                        break;
+                    }
+                }
+
                 for (Quartier quart: autresQuartiers){
                     pioche.remettreDansPioche(quart);
                 }
-                return new ArrayList<>(Collections.singleton(quartierVerts));
+                return new ArrayList<>(Collections.singleton(quartierMain.get(0)));
             } else {
                 quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
                 Collections.reverse((quartierPioches));
@@ -174,16 +184,16 @@ public class BotFocusMarchand extends BotMalin {
         List<Quartier> quartiersVerts = new ArrayList<>();
         List<Quartier> quartiersAutreConstructibles = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if(quartier.getCouleur() == TypeQuartier.VERT && !quartierConstruit.contains(quartier)){
+            if(quartier.getCouleur() == TypeQuartier.VERT && !quartiersConstruits.contains(quartier)){
                 quartiersVerts.add(quartier);
-            } else if (quartier.getCout() <= nbOr && !quartierConstruit.contains(quartier)){
+            } else if (quartier.getCout() <= nbOr && !quartiersConstruits.contains(quartier)){
                 quartiersAutreConstructibles.add(quartier);
             }
         }
         if(!quartiersVerts.isEmpty()){       //construit en prio les quartiers verts le moins cher, s'il y en a
-            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));  
+            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));
             for (int i=quartiersVerts.size()-1; i>=0; i--){
-                if (quartiersVerts.get(i).getCout() <= nbOr && !quartierConstruit.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
+                if (quartiersVerts.get(i).getCout() <= nbOr && !quartiersConstruits.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
                     affichageJoueur.afficheConstruction(quartiersVerts.get(i));
                     ajoutQuartierConstruit(quartiersVerts.get(i));
                     this.nbQuartiersVertsConstruits ++;
@@ -210,7 +220,7 @@ public class BotFocusMarchand extends BotMalin {
         //si une carte verte est deja construite il l'échange aussi
         int comp = 0;
         for (Quartier quartier : quartierMain){
-            if (quartier.getCouleur() == TypeQuartier.VERT && !quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() == TypeQuartier.VERT && !quartiersConstruits.contains(quartier)){
                 comp++;
             }
         }
@@ -232,7 +242,7 @@ public class BotFocusMarchand extends BotMalin {
         }
         List<Quartier> quartiersAEchanger = new ArrayList<>();
         for(Quartier quartier: quartierMain){
-            if (quartier.getCouleur() != TypeQuartier.VERT || quartierConstruit.contains(quartier)){
+            if (quartier.getCouleur() != TypeQuartier.VERT || quartiersConstruits.contains(quartier)){
                 quartiersAEchanger.add(quartier);
             }
         }
@@ -249,4 +259,3 @@ public class BotFocusMarchand extends BotMalin {
         return name;
     }
 }
-
