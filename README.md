@@ -1,7 +1,10 @@
 # Projet Citadelle - Equipe U
-Le but de ce projet est de reproduire un jeu de Citadelle avec 4 bots intelligent qui s'affrontent.
+Eliot Menoret, Hajar El Gholabzouri, Abdelouarite Ghilane El Hassani, Gwendolyne Bouchard
 
-## Sommaire
+## Résumé du projet
+Dans ce projet nous avons reproduit le jeu de société Citadelle en Java avec 4 bots intelligents qui s'affrontent.
+
+## Liens utiles
 * [Rapport](documentation/RAPPORT-U.md)
 * [Contributing](documentation/CONTRIBUTING.md)
 

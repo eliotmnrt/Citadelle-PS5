@@ -31,7 +31,7 @@ Si vous avez une question, verifiez sur Stack Overflow en utilisant
 Avant de créer une nouvelle issue, veuillez vérifier qu'une issue identique n'existe pas déjà.
 
 Une fois cette vérification faite, vous pouvez créer votre issue [ici](https://github.com/pns-si3-projects/projet2-ps-23-24-citadels-2024-u/issues). 
-N'oubliez pas mettre un nom cohérent ainsi qu'une description détaillée.
+N'oubliez pas mettre un nom cohérent ainsi qu'une description détaillée et de la relier à une milestone.
 Vous devez également créer une nouvelle branche où vous allez faire les changements pour implémenter les nouvelles fonctionnalités.
 
 #### Mise à jour Issue
