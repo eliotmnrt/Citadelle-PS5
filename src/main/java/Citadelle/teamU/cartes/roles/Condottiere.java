@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Condottiere implements Role{
-    private List<Bot> botListe;
-    private final int ordre = 8;
-    private Quartier quartierAdetruire;
+    private final List<Bot> botListe;
+
 
     public Condottiere(List<Bot> botListe){
         this.botListe = botListe;
@@ -29,7 +28,8 @@ public class Condottiere implements Role{
     }
 
     public void destructionQuartier(Bot bot,Bot botAdetruire,Quartier quartier){
-        this.quartierAdetruire = quartier;
+        Quartier quartierAdetruire;
+        quartierAdetruire = quartier;
         if(botAdetruire.getQuartiersConstruits().size()<8&&!(botAdetruire.getRole() instanceof Pretre)){
             botAdetruire.getQuartiersConstruits().remove(quartier);
             bot.changerOr(-(quartierAdetruire.getCout() - 1)); //perd l'argent a cause de la destruction de quartier
@@ -60,7 +60,7 @@ public class Condottiere implements Role{
     }
     @Override
     public int getOrdre() {
-        return ordre;
+        return 8;
     }
 
     @Override

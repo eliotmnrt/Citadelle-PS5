@@ -13,7 +13,6 @@ import static Citadelle.teamU.cartes.TypeQuartier.*;
 public class BotRichard extends BotMalin{
 //je suis parti du principe que ce bot agit comme botConstruitChere sauf pour les règles demandées
     private static int numDuBot = 1;
-    private boolean premierAChoisir = false;
     private boolean joueurAvance = false;
     public BotRichard(Pioche pioche) {
         super(pioche);
@@ -28,40 +27,28 @@ public class BotRichard extends BotMalin{
     @Override
     public void choisirRole(List<Role> roles){
         nbTour++;
-        isPremierAChoisir(roles);
+        isPremierAChoisir();
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1 && architecteAvance()){
-
-            if (premierAChoisir){
-                if (trouverRole(roles, "Assassin")){ //trouverRole chercher le role et le prend
-                    return;
-                }
-                if (trouverRole(roles, "Architecte")){
-                    return;
-                }
+            if (isPremierAChoisir()){
+                if (trouverRole(roles, "Assassin")){return;}
+                if (trouverRole(roles, "Architecte")){return;}
             }
         } else if (nbTour>1 && joueurAvance()){
-            if (trouverRole(roles, "Roi")){
-                return;
-            }
-            if (trouverRole(roles, "Assassin")){
-                return;
-            }
-            if (trouverRole(roles, "Condottiere")){
-                return;
-            }
-            if (trouverRole(roles, "Pretre")){
-                return;
-            }
+            if (trouverRole(roles, "Roi")){return;}
+            if (trouverRole(roles, "Assassin")){return;}
+            if (trouverRole(roles, "Condottiere")){return;}
+            if (trouverRole(roles, "Pretre")){return;}
         }
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
     }
 
-    public void isPremierAChoisir(List<Role> roles){
-        premierAChoisir = roles.size() == 5;
+
+    public boolean isPremierAChoisir(){
+        return getOrdreChoixRole() == 1;
     }
 
     /**
@@ -110,7 +97,7 @@ public class BotRichard extends BotMalin{
         }
 
         //si un joueur menace de finir en 1 tour avec l'architecte
-        if (premierAChoisir){
+        if (isPremierAChoisir()){
             Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
             roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
             roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
@@ -312,7 +299,7 @@ public class BotRichard extends BotMalin{
             choisi = randInt(rolesRestants.size());
             return rolesRestants.get(choisi);
         }
-        ArrayList<Role> listRoleReste = new ArrayList<Role>(Arrays.asList(new Assassin(role.getBotliste(),new ArrayList<>()),new Voleur(role.getBotliste(),new ArrayList<>()),new Magicien(role.getBotliste()),new Roi(role.getBotliste()),new Pretre(role.getBotliste()),new Marchand(role.getBotliste()),new Architecte(role.getBotliste()),new Condottiere(role.getBotliste())));
+        ArrayList<Role> listRoleReste = new ArrayList<>(Arrays.asList(new Assassin(role.getBotliste(),new ArrayList<>()),new Voleur(role.getBotliste(),new ArrayList<>()),new Magicien(role.getBotliste()),new Roi(role.getBotliste()),new Pretre(role.getBotliste()),new Marchand(role.getBotliste()),new Architecte(role.getBotliste()),new Condottiere(role.getBotliste())));
         ArrayList<Role> toRemove = new ArrayList<>();
         for(Role role : listRoleReste){
             if(role.toString().equals(this.getRole().toString())) toRemove.add(role);
@@ -338,9 +325,5 @@ public class BotRichard extends BotMalin{
     }
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
-    }
-    @Override
-    public String toString(){
-        return name;
     }
 }

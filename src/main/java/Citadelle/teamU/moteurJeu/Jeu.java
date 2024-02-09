@@ -22,7 +22,7 @@ import java.util.logging.Level;
 @SuppressWarnings("java:S106")
 public class Jeu {
 
-    private List<Bot> botListe;
+    private final List<Bot> botListe;
     private static Tour tour;
     //ordre dans la liste : 0: construit chere, 1: richard, 2: Aleatoire, 3: focus Roi, 4: égalité
     static  ArrayList<Float> pourcentageVictoire = new ArrayList<>(Arrays.asList((float) 0, (float) 0, (float) 0, (float) 0, (float) 0));

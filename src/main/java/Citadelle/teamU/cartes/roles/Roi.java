@@ -9,9 +9,7 @@ import java.util.Objects;
 
 public class Roi implements Role {
 
-    private List<Bot> botListe;
-
-    private final int ordre = 4;
+    private final List<Bot> botListe;
 
     public Roi(List<Bot> botListe){
         this.botListe = botListe;
@@ -45,7 +43,7 @@ public class Roi implements Role {
 
     @Override
     public int getOrdre() {
-        return ordre;
+        return 4;
     }
 
     @Override

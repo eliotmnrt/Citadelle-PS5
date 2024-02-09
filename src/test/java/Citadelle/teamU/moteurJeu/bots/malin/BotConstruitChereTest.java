@@ -68,6 +68,18 @@ class BotConstruitChereTest {
         assertEquals(2, bot.getQuartierMain().size());
 
     }
+
+    @Test
+    void testChoixCartesObservatoire(){
+        bot.setQuartierMain(new ArrayList<>());
+        bot.setQuartiersConstruits(new ArrayList<>(List.of(Quartier.OBSERVATOIRE)));
+        doReturn(Quartier.TEMPLE, Quartier.TERRAIN_DE_BATAILLE, Quartier.PALAIS).when(pioche).piocherQuartier();
+
+        bot.faireActionDeBase();
+
+        assertEquals(Quartier.PALAIS, bot.getQuartierMain().get(0));
+    }
+
     @Test
     void actionMagicienAvecBotTest(){
         //notre bot à 0 carte dans sa main

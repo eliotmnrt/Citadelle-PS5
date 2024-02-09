@@ -8,12 +8,11 @@ import java.util.logging.Logger;
 
 @SuppressWarnings("java:S106")
 public class AffichageJeu {
-    private Tour tour;
+    private final Tour tour;
     private static final Logger LOGGER = Logger.getLogger(AffichageJeu.class.getName());
 
     public AffichageJeu(Tour tour){
         this.tour = tour;
-        //LOGGER.setLevel(Level.OFF);
     }
 
     public void affichageNbTour(){

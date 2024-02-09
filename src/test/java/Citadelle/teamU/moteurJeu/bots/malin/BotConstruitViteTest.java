@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,18 +36,27 @@ class BotConstruitViteTest {
         bot.faireActionDeBase();
         assertEquals(4,bot.getOr());
     }
-    /**Test
-    public void prendreQuartier(){
-        //piocheMock = mockStatic(Pioche.class);
-        when(Pioche.piocherQuartier()).thenReturn(Quartier.CIMETIERE);
-        while(bot.getQuartierMain().size()!=0){
-            Pioche.remettreDansPioche(bot.getQuartierMain().remove(0));
-        } // main vide
-        bot.ajoutQuartierMain(Pioche.piocherQuartier());
+
+    @Test
+    void testChoixCartes(){
+        bot.setQuartierMain(new ArrayList<>());
+        doReturn(Quartier.PALAIS, Quartier.TERRAIN_DE_BATAILLE, Quartier.TEMPLE).when(pioche).piocherQuartier();
+
         bot.faireActionDeBase();
-        assertEquals(2,bot.getOr());
-        assertEquals(2,bot.getQuartierMain().size()); //Cimetiere et celui qu'il a piocher
-    }**/
+
+        assertEquals(Quartier.TERRAIN_DE_BATAILLE, bot.getQuartierMain().get(0));
+    }
+    @Test
+    void testChoixCartesObservatoire(){
+        bot.setQuartierMain(new ArrayList<>());
+        bot.setQuartiersConstruits(new ArrayList<>(List.of(Quartier.OBSERVATOIRE)));
+        doReturn(Quartier.PALAIS, Quartier.TERRAIN_DE_BATAILLE, Quartier.TEMPLE).when(pioche).piocherQuartier();
+
+        bot.faireActionDeBase();
+
+        assertEquals(Quartier.TEMPLE, bot.getQuartierMain().get(0));
+    }
+
     @Test
     void quartierMoinsChereTest(){
         bot.ajoutQuartierMain(Quartier.TEMPLE);

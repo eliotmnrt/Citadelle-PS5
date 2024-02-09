@@ -24,12 +24,11 @@ public abstract class BotMalin extends Bot {
     }
 
 
-
     /**
      * methode pour chercher un role précis et se l'approprier
-     * @param roles liste de roles dispos
-     * @param roleRecherche String dur role recherché
-     * @return true si trouvé, false sinon
+     * @param roles liste de Role
+     * @param roleRecherche Role que l'on cherche à viser
+     * @return true si l'on a trouvé le Role
      */
     public boolean trouverRole(List<Role> roles, String roleRecherche){
         Optional<Role> roleOptional = roles.stream().filter(role1 -> role1.toString().equals(roleRecherche)).findFirst();

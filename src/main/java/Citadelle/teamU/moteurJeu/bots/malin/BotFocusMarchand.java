@@ -76,8 +76,8 @@ public class BotFocusMarchand extends BotMalin {
     }
 
     /**
-     *
-     * @param roles
+     * Choisi le role en fin de partie
+     * @param roles liste de Role disponibles
      */
     public void choisirRoleFin(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
@@ -94,6 +94,11 @@ public class BotFocusMarchand extends BotMalin {
     }
 
 
+    /**
+     * Choisi les cartes à piocher et à garder
+     * @param quartierPioches liste de Quartiers piochés
+     * @return la/les carte(s) choisie(s)
+     */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
         if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)) {
@@ -214,10 +219,6 @@ public class BotFocusMarchand extends BotMalin {
 
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
-    }
-    @Override
-    public String toString(){
-        return name;
     }
 }
 

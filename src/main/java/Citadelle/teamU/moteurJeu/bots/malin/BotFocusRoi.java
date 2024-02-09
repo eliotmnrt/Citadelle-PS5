@@ -239,8 +239,4 @@ public class BotFocusRoi extends BotMalin {
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
     }
-    @Override
-    public String toString(){
-        return name;
-    }
 }

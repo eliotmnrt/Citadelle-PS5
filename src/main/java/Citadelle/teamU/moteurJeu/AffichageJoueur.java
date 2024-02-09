@@ -16,9 +16,7 @@ public class AffichageJoueur {
     private Bot bot;
     public AffichageJoueur(Bot bot){
         this.bot=bot;
-        //LOGGER.setLevel(Level.OFF);
-        //LOGGER.getParent().setLevel(Level.ALL);
-        //LOGGER.getParent().getHandlers()[0].setLevel(Level.ALL);
+
         for(Handler handler : LOGGER.getParent().getHandlers()){
             handler.setFormatter(new CustomFormatter());
         }

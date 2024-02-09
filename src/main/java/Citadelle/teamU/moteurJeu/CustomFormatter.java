@@ -5,7 +5,7 @@ public class CustomFormatter extends Formatter {
     public static final String ANSI_WHITE = "\033[0;37m";
 
     @Override
-    public String format(LogRecord record) {
-        return ANSI_WHITE+record.getMessage()+"\n";
+    public String format(LogRecord logRecord) {
+        return ANSI_WHITE+logRecord.getMessage()+"\n";
     }
 }

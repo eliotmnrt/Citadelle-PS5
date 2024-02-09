@@ -8,14 +8,14 @@ import java.util.Objects;
 
 public class Marchand implements Role {
 
-    private final int ordre = 6;
-    private int orGagneCapacite = 0;
-    private List<Bot> botliste;
+
+    private final List<Bot> botliste;
     public Marchand(List<Bot> botListe) {
         this.botliste = botListe;
     }
 
     public void orQuartierVert(Bot bot) {
+        int orGagneCapacite = 0;
         int comp = 0;
         for (Quartier quartier : bot.getQuartiersConstruits()) {
             if (Objects.equals(quartier.getCouleur(), TypeQuartier.VERT) || quartier.equals(Quartier.ECOLE_DE_MAGIE)) {
@@ -34,7 +34,7 @@ public class Marchand implements Role {
 
     @Override
     public int getOrdre() {
-        return ordre;
+        return 6;
     }
 
     @Override

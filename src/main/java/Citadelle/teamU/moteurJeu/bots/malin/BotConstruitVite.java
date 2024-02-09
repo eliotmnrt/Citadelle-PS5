@@ -15,8 +15,8 @@ import java.util.*;
 public class BotConstruitVite extends BotMalin {
     private static int numDuBot = 1;
 
-    /**
-     * @param pioche
+    /** constructeur
+     * @param pioche pioche commune
      */
     public BotConstruitVite(Pioche pioche){
         super(pioche);
@@ -26,7 +26,7 @@ public class BotConstruitVite extends BotMalin {
 
     /**
      * Il vise de choisir l'Architecte pour construire le plus de quartiers possible rapidement
-     * @param roles
+     * @param roles Roles disponibles
      */
     @Override
     public void choisirRole(List<Role> roles){
@@ -40,7 +40,7 @@ public class BotConstruitVite extends BotMalin {
     /**
      * Si il a des cartes qui coute moins de 3 : il prend de l'or
      * Sinon il pioche et choisi la carte la moins chère
-     * @return
+     * @return retourne une liste de quartiers piochés et choisis
      */
     @Override
     public List<Quartier> faireActionDeBase(){
@@ -74,7 +74,7 @@ public class BotConstruitVite extends BotMalin {
 
     /**
      * Construit le moins chère (qui doit couter moins de 3)
-     * @return
+     * @return le quartier construit ou null
      */
     @Override
     public Quartier construire(){
@@ -92,7 +92,7 @@ public class BotConstruitVite extends BotMalin {
     /**
      * @param quartierPioches liste de Quartiers piochés
      * On choisit celui qui coute le moins chère
-     * @return
+     * @return  la/les cartes choisies
      */
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
@@ -153,7 +153,7 @@ public class BotConstruitVite extends BotMalin {
 
     /**
      * Roles visible au début du tour
-     * @param rolesVisible
+     * @param rolesVisible list<Role> visibles
      */
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;

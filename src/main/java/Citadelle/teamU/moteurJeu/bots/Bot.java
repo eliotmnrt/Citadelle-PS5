@@ -87,7 +87,7 @@ public abstract class Bot {
     }
     public int randInt(int nb){return random.nextInt(nb);}
 
-    public int getOrProchainTour(){return orProchainTour;}  //utile pour les tests uniquemement
+    public int getOrProchainTour(){return orProchainTour;}
 
     @Override
     public String toString(){
@@ -137,7 +137,7 @@ public abstract class Bot {
     public void setScore(int score) { this.score = score; }
 
     /**
-     * Fait les actions qui sont différentes en fonction de chaque roles
+     * Fait les actions qui sont différentes en fonction de chaque role
      */
     public void faireActionSpecialRole(){
         role.actionSpeciale(this);
