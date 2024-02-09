@@ -389,10 +389,7 @@ class BotRichardTest {
         roles.add(assassin);
         roles.add(new Voleur(botliste, roles));
         roles.add(new Magicien(botliste));
-        //roles.add(new Roi(botliste));
         roles.add(pretre);
-        //roles.add(new Marchand(botliste));
-        //roles.add(new Architecte(botliste));
         roles.add(condottiere);
 
 
@@ -404,9 +401,9 @@ class BotRichardTest {
 
 
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==assassin);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), assassin);
 
 
 
@@ -418,8 +415,6 @@ class BotRichardTest {
         roles.add(new Roi(botliste));
         roles.add(condottiere);
         roles.add(pretre);
-        //roles.add(new Marchand(botliste));
-        //roles.add(new Architecte(botliste));
         bot.setQuartiersConstruits(quart);
         bot.setOrdreChoixRole(1);
         botAleatoire.setOrdreChoixRole(2);
@@ -432,9 +427,9 @@ class BotRichardTest {
 
 
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==pretre);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), pretre);
 
         //cas ou il n'y a ni assassin ni pretre
         //verifier qu'il choisit le condottiere
@@ -459,9 +454,9 @@ class BotRichardTest {
 
 
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==condottiere);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), condottiere);
 
 
     }
@@ -505,9 +500,9 @@ class BotRichardTest {
 
 
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==assassin);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), assassin);
 
 
 
@@ -534,9 +529,9 @@ class BotRichardTest {
 
 
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==pretre);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), pretre);
 
         //cas ou il n'y a ni assassin ni pretre
         //verifier qu'il choisit le condottiere
@@ -561,9 +556,9 @@ class BotRichardTest {
 
 
         verify(bot, atLeast(1)).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==bot);
-        assertTrue(bot.getRole()==condottiere);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), bot);
+        assertSame(bot.getRole(), condottiere);
 
 
 
@@ -611,9 +606,9 @@ class BotRichardTest {
 
 
         verify(bot).joueurProcheFinir();
-        assertFalse(bot.getJoueurProcheFinir()==null);
-        assertTrue(bot.getJoueurProcheFinir()==botFocusRoi);
-        assertTrue(bot.getRole()==assassin);
+        assertNotNull(bot.getJoueurProcheFinir());
+        assertSame(bot.getJoueurProcheFinir(), botFocusRoi);
+        assertSame(bot.getRole(), assassin);
         bot.faireActionSpecialRole();
         verify(assassin).tuer(any(Condottiere.class));
 
@@ -827,7 +822,7 @@ class BotRichardTest {
         assertNotNull(bot2.getJoueurProcheFinir());
         assertSame(bot2.getJoueurProcheFinir(), botFocusRoi);
         assertSame(bot.getRole(), condottiere);
-        assertTrue(bot2.getRole()==pretre);
+        assertSame(bot2.getRole(), pretre);
 
 
 

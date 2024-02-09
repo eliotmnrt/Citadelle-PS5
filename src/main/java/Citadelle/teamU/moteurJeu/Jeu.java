@@ -103,7 +103,7 @@ public class Jeu {
 
     public static void vainqueur(List<Bot> listeBot){
         Bot vainqueur = tour.getLeVainqueur();
-        remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
+        remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(), 0);
 
         if(vainqueur==null){
             cptNull++;
@@ -153,7 +153,7 @@ public class Jeu {
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             jouerPartie(listeBot.get(0),listeBot.get(1),listeBot.get(2),listeBot.get(3));
             Bot vainqueur=tour.getLeVainqueur();
-            remplirListe(cptPoints,cptPoints.get(0)+ listeBot.get(0).getScore(),cptPoints.get(1)+ listeBot.get(1).getScore(),cptPoints.get(2)+ listeBot.get(2).getScore(),cptPoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
+            remplirListe(cptPoints,cptPoints.get(0)+ listeBot.get(0).getScore(),cptPoints.get(1)+ listeBot.get(1).getScore(),cptPoints.get(2)+ listeBot.get(2).getScore(),cptPoints.get(3)+ listeBot.get(3).getScore(), 0);
             if (vainqueur!=null){
                 if (vainqueur==listeBot.get(0))cptVictoire.set(0,cptVictoire.get(0)+1);
                 if (vainqueur==listeBot.get(1))cptVictoire.set(1,cptVictoire.get(1)+1);

@@ -1,6 +1,7 @@
 # Rapport projet citadelle - Groupe U
 ## Point d’avancement
 ### 1. Fonctionnalités réalisées
+
 ### 2. Affichage 
 
 Nous avons 2 classes d’affichage. 

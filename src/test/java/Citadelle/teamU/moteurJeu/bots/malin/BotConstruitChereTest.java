@@ -19,14 +19,13 @@ import static org.mockito.Mockito.doReturn;
 
 class BotConstruitChereTest {
     private BotConstruitChere bot;
-    private List<Bot> botliste;
     private Pioche pioche;
     //Condottiere track;
     @BeforeEach
     public void setBot(){
         pioche = spy(new Pioche());
         bot = spy(new BotConstruitChere(pioche));
-        botliste = new ArrayList<>();
+        List<Bot> botliste = new ArrayList<>();
         botliste.add(bot);
         //track = Mockito.spy(new Condottiere(botliste));
     }

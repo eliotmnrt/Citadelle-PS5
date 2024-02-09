@@ -7,14 +7,12 @@ import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
-import Citadelle.teamU.moteurJeu.bots.malin.BotFocusMarchand;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
