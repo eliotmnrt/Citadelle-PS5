@@ -1,33 +1,33 @@
 # Rapport projet citadelle - Groupe U
 ## Point d’avancement
 ### 1. Fonctionnalités réalisées
-Nous avons réalisé la majorité du jeu Citadelle. Dans notre projet, nous avons 4 Bots (des joueurs) qui s’affrontent. 
+Nous avons réalisé la majorité du jeu Citadelle. Dans notre projet, nous avons 4 Bots (des joueurs) qui s’affrontent.
 * Nous avons implémenté la totalité des rôles du jeu sans extension. Soit : assassin, voleur, magicien, roi, prêtre, marchand, architecte, condottiere. Ainsi que leurs caractéristiques spécifiques.
-Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les stratégies sont les suivantes :
+  Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les stratégies sont les suivantes :
 * [Bot construit chère](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotConstruitChere.java) : Son but est d’avoir un score élevé.
   * Il cherche à piocher des quartiers qui coûtent cher (qui coûtent 4 pièces ou plus), et il construit uniquement les quartiers chers.
   * Il choisit le rôle du Marchand quand il peut, afin de pouvoir collecter plus de pièces.
-  * Quand il a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1, parce que ça ne lui coûte rien → il économise de l’argent.
-  * Quand il a le rôle de Magicien, il échange ses cartes avec le joueur qui a le plus de cartes, si c’est lui le joueur avec le plus de cartes, il échange avec la pioche.
+  * Quand il a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1, parce que ça ne lui coûte rien et il économise de l’argent.
+  * Quand il a le rôle de Magicien, il échange ses cartes avec le joueur qui a le plus de cartes. Si c’est lui le joueur avec le plus de cartes, il échange avec la pioche.
 * [Bot construit vite](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotConstruitVite.java) : Son but est de finir en premier en construisant 8 quartiers.
   * Il cherche à piocher des quartiers qui coûtent peu cher (qui coûtent moins de 4 pièces), et il construit uniquement les quartiers peu chers.
-  * Il choisit le rôle de l'Architecte quand il peut, afin de pouvoir construire jusqu’à 3 fois s’il peut.
+  * Il choisit le rôle de l'Architecte quand il peut, afin de pouvoir construire jusqu’à 3 quartiers s’il peut.
   * Quand il a le rôle du Condottière, il détruit le quartier le moins cher du bot qui a le plus de quartiers construits.
   * Quand il a le rôle de Magicien, il fait la même chose que Bot construit chère.
 * [Bot focus Marchand](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotFocusMarchand.java) : Son but est de choisir le rôle du Marchand et construire des quartiers verts pour gagner beaucoup d’argent
 * [Bot focus Roi](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotFocusRoi.java) : Son but est de monopoliser le rôle du Roi pour avoir la couronne et construire des quartiers jaunes pour gagner beaucoup d’argent
 
 * Fonctionnalités communes à Bot Focus Roi et Bot Focus Marchand :
-  * Au début de la partie, le bot a comme priorité de construire 2 quartiers de sa couleur. Pour cela, il cherche à choisir les rôles Architecte ou Magicien dans l’ordre, pour avoir plus de choix parmi les quartiers. Sinon il choisit Marchant pour botFocusMarchand ou Roi pour botFocusRoi ensuite Roi pour botFocusMarchand (pour choisir au premier au prochain tour) dans l’ordre, ou enfin aléatoirement parmi les rôles qui restent. 
-  * À partir du moment où le bot a construit 2 quartiers de sa couleur, il vise dans l’ordre les rôles Marchant pour BotFocusMarchand, Roi, Architecte, Magicien ou aléatoirement parmi les rôles qui restent.
+  * Au début de la partie, le bot a comme priorité de construire 2 quartiers de sa couleur. Pour cela, il cherche à choisir les rôles Architecte ou Magicien dans l’ordre, pour avoir plus de choix parmi les quartiers. Sinon il choisit Marchand pour botFocusMarchand ou Roi pour botFocusRoi ou enfin aléatoirement parmi les rôles qui restent.
+  * À partir du moment où le bot a construit 2 quartiers de sa couleur, il vise dans l’ordre les rôles Marchand pour BotFocusMarchand, Roi pour BotFocusRoi,  puis Architecte, Magicien ou aléatoirement parmi les rôles qui restent.
   * Pour construire : dès que le bot possède un quartier de sa couleur dans sa main, il économise des pièces pour le construire. S'il n’a pas de quartier de sa couleur,il construit le quartier le moins cher de sa main et pioche un quartier (de sa couleur si possible).
   * Quand le bot a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1 (qui ne lui coûte rien à détruire).
-  * Quand le bot a le rôle de Magicien, il échange ses cartes avec un joueur qui a 3 quartiers de plus que lui, sinon il échange avec la pioche uniquement les quartiers qui ne sont pas de sa couleur, ou ceux de sa couleur qu’il a déjà construit.
+  * Quand le bot a le rôle de Magicien, il échange ses cartes avec un joueur qui a au moins 3 quartiers de plus que lui, sinon il préfère échanger avec la pioche uniquement les quartiers qui ne sont pas de sa couleur, ou ceux de sa couleur mais qu’il a déjà construit.
 * Bot aléatoire : il fait tous ses choix en aléatoire, le choix des rôles, du ou des quartiers à construire, qui tuer, qui voler, etc.
 * Bot Richard avec la majorité de ses fonctionnalités (détaillées plus tard dans le rapport).
 
 
-Fonctionnalités commmunes pour tous les bots (hors Bot Richard) :
+Fonctionnalités commmunes pour tous les bots (hors BotAleatoire et BotRichard) :
 * Pour les rôles Assassin et Voleur, si le bot choisit en dernier son rôle, il tue ou vole aléatoirement parmi tous les rôles. Sinon, il effectue son action sur un rôle parmi les rôles restants après avoir choisi le sien.
 * Pour le rôle Architecte le bot construit 3 fois s'il peut.
 * Pour les rôles Roi et Prêtre, le bot ne fait rien de spécial à part jouer son tour.
@@ -44,7 +44,7 @@ Un Bot qui finit avec 8 quartiers ou plus (hors celui qui a fini en premier) gag
 Un Bot qui finit avec un quartier de chaque couleur (en prenant en compte la cour des miracles) gagne 3 points.
 
 * Nous avons également implémenté la possibilité de lancer notre jeu sous plusieurs modes en lancant la commande suivante :
-mvn exec:java -Dexec.args="--2thousands --demo --csv -csv 50", on peut lancer tous ou un argument à la fois.
+  mvn exec:java -Dexec.args="--2thousands --demo --csv -csv 50", on peut lancer tous ou un argument à la fois.
   * --2thousands : permet de voir des statistiques sur 1000 parties où 4 bots différents s'affrontent, et 1000 parties où 4 Bot identiques s'affrontent.
   * --demo : permet d’avoir la trace d’une partie entière avec 4 Bots différents.
   * --csv : permet de creer un fichier csv avec les statistiques sur 1000 parties ou 4 bots différents s'affrontent. Si le fichier existe déjà les statistiques sont améliorées.
@@ -56,13 +56,13 @@ mvn exec:java -Dexec.args="--2thousands --demo --csv -csv 50", on peut lancer to
   * mvn exec:java -Dexec.args="--demo" : compilation et exécution d'une démonstration d’une partie de jeu
 
 
-### 2. Affichage 
+### 2. Affichage
 
-Nous avons 2 classes d’affichage. 
-Une classe liée à un bot pour qu’il affiche ses propres actions et l’autre liée à Tour pour afficher des informations plus générales du jeu. 
-Tous les logs sont faits dans ces classes. 
-Pour les logs, ils sont activés par défaut. 
-Quand on exécute *mvn exec:java -Dexec.args='--2thousands'* ou *mvn exec:java -Dexec.args='csv'* ils sont désactivés. 
+Nous avons 2 classes d’affichage.
+Une classe liée à un bot pour qu’il affiche ses propres actions et l’autre liée à Tour pour afficher des informations plus générales du jeu.
+Tous les logs sont faits dans ces classes.
+Pour les logs, ils sont activés par défaut.
+Quand on exécute *mvn exec:java -Dexec.args='--2thousands'* ou *mvn exec:java -Dexec.args='csv'* ils sont désactivés.
 Nous avons modifié l’affichage qui était par défaut en rouge grâce à un Formatter.
 
 Nous affichons pour chaque tour de chaque Bot :
@@ -75,14 +75,14 @@ Nous affichons pour chaque tour de chaque Bot :
 
 ### 3. CSV
 
-L'exécution de *mvn exec:java -Dexec.args='--csv'* permet de mettre des statistiques sur 4 bots dans un fichier csv. 
+L'exécution de *mvn exec:java -Dexec.args='--csv'* permet de mettre des statistiques sur 4 bots dans un fichier csv.
 
-* Il est facilement possible de changer les bots qui s'affrontent, deux bots identiques peuvent s'affronter. 
+* Il est facilement possible de changer les bots qui s'affrontent, deux bots identiques peuvent s'affronter.
 
-* Si le fichier n’est pas déjà créé dans le dossier, il le crée. 
+* Si le fichier n’est pas déjà créé dans le dossier [stats](../stats), il le crée.
 
-* Quand le fichier est déjà créé et qu’on relance la commande (et les bots sont les mêmes) les valeurs sont mises à jour dans le fichier. 
-Le total des parties lancées augmente et les statistiques sont réévaluées en fonction du nombre de simulations qu’on avait et du nombre de nouvelles simulations. 
+* Quand le fichier est déjà créé et qu’on relance la commande (et les bots sont les mêmes) les valeurs sont mises à jour dans le fichier.
+  Le total des parties lancées augmente et les statistiques sont réévaluées en fonction du nombre de simulations qu’on avait et du nombre de nouvelles simulations.
 
 * Si on change les bots qui sont testés, le fichier est remis à 0 (seulement les nouvelles simulations sont prises en compte).
 
@@ -96,18 +96,19 @@ Nous avons implémenté quasiment toutes les fonctionnalités demandées pour le
   * Prendre l’assassin pour contrer un joueur qui menace de finir avec l’architecte en tuant l’Architecte
   * Prendre (dans l’ordre) le Roi, l’Assassin, le Condottiere et l'Évêque si un adversaire a 6 quartiers construits
 * Ciblage des Bots les plus avancés selon l’état de la partie
-  * Pour reprendre l’exemple ci-dessus, si un joueur a 6 quartiers construits et qu’on récupère le rôle d’assassin, Bot Richard va tuer le rôle le plus probable que l’adversaire ai choisi
+  * Pour reprendre l’exemple ci-dessus, si un joueur a 6 quartiers construits et qu’on récupère le rôle d’assassin, Bot Richard va tuer le rôle le plus probable que l’adversaire ait choisi
   * empêcher un joueur qui a 7 quartiers construits de finir la partie :
     * Si le joueur menaçant choisit son rôle en deuxième, le BotRichard choisit l’assassin et tue le prêtre ou le condottiere s'il peut.
     * Si le joueur menaçant choisit son rôle en 3ᵉ ou 4ᵉ, les premiers joueurs (1er et 2ᵉ et pas 3ᵉ) BotRichard vont le cibler. Par exemple, si le joueur en passe de gagner est 3ᵉ, le premier va choisir l’assassin et tuer le condottiere et le deuxième va choisir le prêtre.
 
+Pour estimer le role du bot le plus menaçant, nous avons notamment fait une fonction qui prend en paramètre un Bot donné et cette fonction détermine le rôle le plus probable que ce bot a pu prendre, en fonction de l’ordre dans lequel il a choisi son rôle (avant ou après nous), les cartes que notre Bot a vu en choisissant son rôle, les rôles visibles au début du tour, son nombre de cartes dans la main, son nombre de quartiers construits, le nombre de quartiers par couleur qu’il possède et le nombre d’or qu’il a.
+
+
 ### 5. Meilleur Bot
 
-Pour estimer le meilleur bot, nous avons notamment fait une fonction qui prend en paramètre un Bot donné et cette fonction détermine le rôle le plus probable que ce bot a pu prendre, en fonction de l’ordre dans lequel il a choisi son rôle (avant ou après nous), les cartes que notre Bot a vu en choisissant son rôle, les rôles visibles au début du tour, son nombre de cartes dans la main, son nombre de quartiers construits, le nombre de quartiers par couleur qu’il possède et le nombre d’or qu’il a.
+Lorsqu’on lance la simulation avec BotConstruitChere (6% de winrate), BotFocusRoi (58%), BotFocusMarchand (28%) et BotRichard (4%), ce dernier n’obtient que 4% de parties gagnées et a le plus bas score moyen des 4 Bots. En effet, il se base sur le comportement de BotConstruitChere pour ce qui concerne les actions de bases ainsi que la manière de construire ses quartiers, cependant puisqu’il “perd” du temps et de l’argent à contrer les bots qui ont pris de l’avance, le BotRichard devient moins efficace que le BotConstruitChere qui lui a 6% de winrate.
 
-Lorsqu’on lance la simulation avec BotConstruitChere (6%), BotFocusRoi (58%), BotFocusMarchand (28%) et BotRichard (4%), ce dernier n’obtient que 4% de parties gagnées et a le plus bas score moyen des 4 Bots. En effet, il se base sur le comportement de BotConstruitChere pour ce qui concerne les actions de bases ainsi que la manière de construire ses quartiers, cependant puisqu’il “perd” du temps et de l’argent à contrer les bots qui ont pris de l’avance, le BotRichard devient un tout petit moins efficace que le BotConstruitChere qui lui a 6% de winrate.
-
-Concernant notre meilleur Bot : en comparant des parties avec et sans le BotRichard, on peut s’apercevoir que le BotFocusMarchand perd beaucoup de parties à cause du BotRichard. On suppose que le BotFocusMarchand se fait viser et ralentir par le BotRichard, et cela permet au BotFocusRoi, qui est juste derrière BotFocusMarchand, de s’imposer plus souvent.
+Concernant notre meilleur Bot : en comparant des parties avec et sans le BotRichard, on peut s’apercevoir que le BotFocusMarchand perd beaucoup de parties à cause du BotRichard. On suppose que le BotFocusMarchand se fait viser et ralentir par le BotRichard, et cela permet au BotFocusRoi, qui est juste derrière BotFocusMarchand, de s’imposer plus souvent. Cela permet au BotFocusRoi d'être le meilleur Bot de tous ceux que l'on a crée.
 
 
 ### 6. Fonctionnalités non réalisées
@@ -135,38 +136,38 @@ Toutes les informations nécessaires pour contribuer à notre projet se situent 
 En plus de cela, nous avons réalisé une [javaDoc](javaDoc) qui restitue toute l’architecture de notre projet ainsi que le détail de chaque classe et chaque méthode.
 
 ### 3. Points positifs
-Le code implémenté permet de simuler une partie complète de Citadelles, avec toutes les règles, tous les quartiers, tous les effets des quartiers violets, avec des Bots qui jouent selon différentes stratégies assez claires.
-Les responsabilités des choix au cours d’une partie sont bien faites par les Bots en fonction de leur stratégie.
-La couverture du code est assez efficace, nous avons mis beaucoup d'énergie afin de maintenir ce niveau de couverture tout au long du projet.
-Nous avons également mis en place des tests unitaires pour chaque classe, et des tests d’intégration pour les classes qui en avaient besoin.
+* Le code implémenté permet de simuler une partie complète de Citadelles, avec toutes les règles, tous les quartiers, tous les effets des quartiers violets, avec des Bots qui jouent selon différentes stratégies assez claires.
+* Les responsabilités des choix au cours d’une partie sont bien faites par les Bots en fonction de leur stratégie.
+* La couverture du code est assez efficace, nous avons mis beaucoup d'énergie afin de maintenir ce niveau de couverture tout au long du projet.
+* Nous avons également mis en place des tests unitaires pour chaque classe, et des tests d’intégration pour les classes qui en avaient besoin.
 
 
 ### 4. Améliorations effectuées grâce à Sonarlint/Sonarqube
-Ces 2 outils nous ont permis de cibler certaines parties du code à améliorer. Par exemple l’ouverture du .csv était relevé en bug dans Sonarqube, mais pas repéré par Sonarlint. Nous avons donc modifié l’ouverture du fichier en try-with-resources.
+* Ces 2 outils nous ont permis de cibler certaines parties du code à améliorer. Par exemple l’ouverture du .csv était relevé en bug dans Sonarqube, mais pas repéré par Sonarlint. Nous avons donc modifié l’ouverture du fichier en try-with-resources.
 
-Nous avons pu cibler certaines parties du code qui était dupliquées dans plusieurs endroits du code. De même pour le refactoring de certains éléments, ce qui nous a permis de rendre le code plus clair, plus lisible.
+* Nous avons pu cibler certaines parties du code qui était dupliquées dans plusieurs endroits du code. De même pour le refactoring de certains éléments, ce qui nous a permis de rendre le code plus clair, plus lisible.
 
 ### 5. Améliorations possibles
 
 
 Si on avait plus de temps, nous aurions aimé :
-* Améliorer les méthodes avec une grande complexité cognitive, notamment dans la classe [Bot Richard](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotRichard.java) où on a des méthodes qui traitent plusieurs cas avec beaucoup de conditions imbriqués et des noms de variables qui ne sont pas toujours clair.
+* Améliorer les méthodes avec une grande complexité cognitive, notamment dans la classe [Bot Richard](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotRichard.java) où on a des méthodes qui traitent plusieurs cas avec beaucoup de conditions imbriquées et des noms de variables qui ne sont pas toujours clairs.
 * Actuellement, nous avons mis en place plusieurs méthodes void qui devrait retourner des objets, notamment dans la classe [Bot](../src/main/java/Citadelle/teamU/moteurJeu/bots/Bot.java) les méthodes d’actions spéciales des rôles. Par exemple la fonction void actionSpecialeAssassin devrait renvoyer le rôle qui s’est fait tuer, afin d’avoir un code plus cohérent, mais également pour les tests, car on pourrait mocker plus facilement les actions.
 * Refactoring de la classe [Tour](../src/main/java/Citadelle/teamU/moteurJeu/Tour.java) parce qu’elle est instanciée une seule fois, au lieu de reinstancier un Tour à chaque début de tour, on appelle la fonction void prochainTour().
 * Amélioration des noms des branches de fonctionnalités pour que ce soit plus clair
 * Mettre en place du versionning en posant un tag à la fin de chaque milestone.
 
 
-## Processus 
+## Processus
 ### 1. Répartition du travail
 Pour la réparation du travail, nous avons décidé de nous attribuer des tâches différentes chaque semaine. Nous faisions 1 milestone par semaine (hors sprint final où nous faisions 1 milestone par jour) avec des issues (liée à cette milestone) que nous répartissions.
 
-Nos milestones sont verticales. 
+Nos milestones sont verticales.
 Quand nous ajoutons un nouveau rôle, nous adaptons aussi toutes les stratégies des Bots pour ce rôle dans la même milestone.
 
-Chacun de nous a fait au moins un rôle et un bot (une stratégie spécifique) durant le projet pour permettre une compréhension globale du projet par tout le monde. 
+Chacun de nous a fait au moins un rôle et un bot (une stratégie spécifique) durant le projet pour permettre une compréhension globale du projet par tout le monde.
 La personne qui produit un code fait les tests pour ce qu’il a fait.
 
 ### 2. Utilisation de Git
-Nous suivons la stratégie github flow qui correspondait le plus à notre mode de fonctionnement. 
+Nous suivons la stratégie github flow qui correspondait le plus à notre mode de fonctionnement.
 Voir plus de détails [ici](CONTRIBUTING.md)
