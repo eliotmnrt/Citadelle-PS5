@@ -24,14 +24,6 @@ public abstract class BotMalin extends Bot {
     }
 
 
-    @Override
-    public void choisirRole(List<Role> roles){
-        role = null;
-        if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
-        int intAleatoire= randInt(roles.size());
-        setRole(roles.remove(intAleatoire));
-        rolesRestants = new ArrayList<>(roles);
-    }
 
     /**
      * methode pour chercher un role précis et se l'approprier
