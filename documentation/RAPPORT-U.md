@@ -103,7 +103,7 @@ Nous avons implémenté quasiment toutes les fonctionnalités demandées pour le
 
 ### 5. Meilleur Bot
 
-Pour estimer cela, nous avons notamment fait une fonction qui prend en paramètre un Bot donné et cette fonction détermine le rôle le plus probable que ce bot a pu prendre, en fonction de l’ordre dans lequel il a choisi son rôle (avant ou après nous), les cartes que notre Bot a vu en choisissant son rôle, les rôles visibles au début du tour, son nombre de cartes dans la main, son nombre de quartiers construits, le nombre de quartiers par couleur qu’il possède et le nombre d’or qu’il a.
+Pour estimer le meilleur bot, nous avons notamment fait une fonction qui prend en paramètre un Bot donné et cette fonction détermine le rôle le plus probable que ce bot a pu prendre, en fonction de l’ordre dans lequel il a choisi son rôle (avant ou après nous), les cartes que notre Bot a vu en choisissant son rôle, les rôles visibles au début du tour, son nombre de cartes dans la main, son nombre de quartiers construits, le nombre de quartiers par couleur qu’il possède et le nombre d’or qu’il a.
 
 Lorsqu’on lance la simulation avec BotConstruitChere (6%), BotFocusRoi (58%), BotFocusMarchand (28%) et BotRichard (4%), ce dernier n’obtient que 4% de parties gagnées et a le plus bas score moyen des 4 Bots. En effet, il se base sur le comportement de BotConstruitChere pour ce qui concerne les actions de bases ainsi que la manière de construire ses quartiers, cependant puisqu’il “perd” du temps et de l’argent à contrer les bots qui ont pris de l’avance, le BotRichard devient un tout petit moins efficace que le BotConstruitChere qui lui a 6% de winrate.
 
@@ -113,8 +113,7 @@ Concernant notre meilleur Bot : en comparant des parties avec et sans le BotRich
 ### 6. Fonctionnalités non réalisées
 Nous n’avons pas mis en place:
 * Un maximum d’or disponible durant une partie.
-* Dans les fonctionnalités du BotRichard, nous n’avons pas implémenté dans les spécifications du dernier tour (celui où un bot menace de finir avec 7 quartiers construits) le cas où le joueur en passe de gagner choisit son rôle en 4ème et qu’il y a un bot richard qui choisit son rôle en troisième.
-* Dans Bot Richard, le cas spécifique où le joueur menaçant de gagner choisit son rôle en 4ᵉ, si le Bot Richard est en 3ᵉ il ne va pas cibler le joueur en passe de gagner.
+* Dans Bot Richard, le cas spécifique où le joueur menaçant de gagner (ayant construit 7 quartiers) choisit son rôle en 4ᵉ, si le Bot Richard est en 3ᵉ il ne va pas cibler le joueur en passe de gagner.
 
 ## Architecture et qualité
 
@@ -160,11 +159,13 @@ Si on avait plus de temps, nous aurions aimé :
 
 ## Processus 
 ### 1. Répartition du travail
-Pour la réparation du travail, nous avons décidé de nous attribuer des tâches différentes chaque semaine. Nous faisions 1 milestone par semaine (hors sprint final où nous faisions 1 milestone par jour) avec des issues (liée à cette mistone) que nous répartissions.
+Pour la réparation du travail, nous avons décidé de nous attribuer des tâches différentes chaque semaine. Nous faisions 1 milestone par semaine (hors sprint final où nous faisions 1 milestone par jour) avec des issues (liée à cette milestone) que nous répartissions.
 
-Nos milestones sont verticales, quand nous ajoutons un nouveau rôle, nous adaptons aussi toutes les stratégies des Bots pour ce rôle dans la même milestone. Le but est d’avancer sur notre ou nos issues pour la semaine prochaine.
+Nos milestones sont verticales. 
+Quand nous ajoutons un nouveau rôle, nous adaptons aussi toutes les stratégies des Bots pour ce rôle dans la même milestone.
 
-Chacun a fait au moins un rôle et un bot (une stratégie spécifique) durant le projet pour permettre une compréhension globale du projet par tout le monde. La personne qui produit un code fait les tests pour ce qu’il a fait.
+Chacun de nous a fait au moins un rôle et un bot (une stratégie spécifique) durant le projet pour permettre une compréhension globale du projet par tout le monde. 
+La personne qui produit un code fait les tests pour ce qu’il a fait.
 
 ### 2. Utilisation de Git
 Nous suivons la stratégie github flow qui correspondait le plus à notre mode de fonctionnement. 

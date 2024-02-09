@@ -62,6 +62,6 @@ Cependant, veillez à ne pas accepter ou rejeter les PR au pire si vous êtes un
 
 Nous suivons la stratégie [github flow](https://docs.github.com/fr/get-started/using-github/github-flow). 
 Notre branche master est la branche avec uniquement des versions stable de notre code. 
-Pour chaque nouvelle fonctionnalité nous avons créé une branche dans laquelle on travaille. 
+Pour chaque nouvelle fonctionnalité nous avons créé une branche sur laquelle on développe et test notre fonctionnalité. 
 Cela nous permettait de garder un version stable du projet et en même temps de pouvoir avancer chacun a son rythme. 
 Une fois notre branche stable, testé et fonctionnel nous faisions des pull request.
