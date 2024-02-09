@@ -23,9 +23,6 @@ public class Roi implements Role {
             bot.setCouronne(false);
         }
         notreBot.setCouronne(true);
-        if (notreBot.isCouronne()){
-            //notreBot.getAffichage().afficheCouronne();
-        }
     }
 
     public void orQuartierJaune(Bot bot){

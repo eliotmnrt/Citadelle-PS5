@@ -119,6 +119,9 @@ public class BotFocusRoi extends BotMalin {
         }
     }
 
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
+    }
 
     /**
      * focus archi et magicien pour recup des cartes jaunes et les construire
@@ -214,10 +217,11 @@ public class BotFocusRoi extends BotMalin {
             int nbQuartierMain = this.getQuartierMain().size();
             Bot botAvecQuiEchanger = null;
             for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
-                if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 3){
+                if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 4){
                     botAvecQuiEchanger = botAdverse;
                 }
             }
+
             if(botAvecQuiEchanger != null){ // si un bot a 3 cartes de plus que nous, on échange avec lui
                 affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
                 magicien.changeAvecBot(this, botAvecQuiEchanger);
@@ -234,9 +238,6 @@ public class BotFocusRoi extends BotMalin {
         affichageJoueur.afficheActionSpecialeMagicienAvecPioche(quartiersAEchanger);
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
-    }
-    public void setRolesVisible(List<Role> rolesVisible) {
-        this.rolesVisible = rolesVisible;
     }
     @Override
     public String toString(){
