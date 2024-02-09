@@ -19,6 +19,7 @@ import com.opencsv.exceptions.CsvException;
 
 import java.util.logging.Level;
 
+@SuppressWarnings("java:S106")
 public class Jeu {
 
     private List<Bot> botListe;
@@ -28,8 +29,12 @@ public class Jeu {
     static ArrayList<Float> moyennePoints= new ArrayList<>(Arrays.asList((float) 0, (float) 0, (float) 0, (float) 0, (float) 0));
     static ArrayList<Float> moyennePointsVictoire= new ArrayList<>(Arrays.asList((float) 0, (float) 0, (float) 0, (float) 0, (float) 0));
     static ArrayList<Bot> listeBot = new ArrayList<>(Arrays.asList(null,null,null,null));
-    private static boolean simu1 = false;
-    private static boolean simu2 = false;
+    static int cptBot0=0;
+    static int cptBot1=0;
+    static int cptBot2=0;
+    static int cptBot3=0;
+    static int cptNull = 0;
+
 
     public Jeu(Bot...bots) {
         if(bots.length == 0){
@@ -56,12 +61,6 @@ public class Jeu {
         return botListe;
     }
 
-    public static boolean isSimu1() {
-        return simu1;
-    }
-    public static boolean isSimu2() {
-        return simu1;
-    }
 
     /**
      * sert pour les simulations de jeux entre différents bots
@@ -69,49 +68,21 @@ public class Jeu {
      * @param csv booleen si ajout de stats au .csv
      */
     public static void simulation1(int nombre,boolean csv){
-        simu1 = false;
         int i=1;
-        int cptBot0=0;
-        int cptBot1=0;
-        int cptBot2=0;
-        int cptBot3=0;
-        int cptNull = 0;
+        cptBot0 = 0;
+        cptBot1 = 0;
+        cptBot2 = 0;
+        cptBot3 = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
-            listeBot.set(0,new BotFocusRoi(pioche));
-            listeBot.set(1,new BotConstruitChere(pioche));
-            listeBot.set(2,new BotRichard(pioche));
+            listeBot.set(0,new BotConstruitVite(pioche));
+            listeBot.set(1,new BotFocusRoi(pioche));
+            listeBot.set(2,new BotAleatoire(pioche));
             listeBot.set(3,new BotFocusMarchand(pioche));
-            JouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
-            Bot vainqueur = tour.getLeVainqueur();
-            remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
-            if(vainqueur==null){
-                cptNull++;
-                int max = 0;
-                for (Bot bot : new ArrayList<Bot>(Arrays.asList(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3)))){
-                    if(bot.getScore()>max){
-                        max=bot.getScore();
-                    }
-                }
-                moyennePointsVictoire.set(4,moyennePointsVictoire.get(4)+max);
-                moyennePoints.set(4,moyennePoints.get(4)+max);
-            }
-            else if(vainqueur==listeBot.get(0)){
-                cptBot0++;
-                moyennePointsVictoire.set(0,moyennePointsVictoire.get(0)+listeBot.get(0).getScore());
-            }
-            else if(vainqueur==listeBot.get(1)){
-                cptBot1++;
-                moyennePointsVictoire.set(1,moyennePointsVictoire.get(1)+listeBot.get(1).getScore());
-            }
-            else if(vainqueur==listeBot.get(2)){
-                cptBot2++;
-                moyennePointsVictoire.set(2,moyennePointsVictoire.get(2)+listeBot.get(2).getScore());
-            }
-            else if(vainqueur==listeBot.get(3)){
-                cptBot3++;
-                moyennePointsVictoire.set(3,moyennePointsVictoire.get(3)+listeBot.get(3).getScore());
-            }
+            jouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
+
+            vainqueur(listeBot);
+
             i++;
         }
         if(cptBot0 !=0 && cptBot1 !=0 && cptBot2 !=0 && cptBot3 !=0 ){
@@ -119,7 +90,7 @@ public class Jeu {
             remplirListe(moyennePointsVictoire,moyennePointsVictoire.get(0)/cptBot0,moyennePointsVictoire.get(1)/cptBot1,moyennePointsVictoire.get(2)/cptBot2,moyennePointsVictoire.get(3)/cptBot3,moyennePointsVictoire.get(4)/cptNull);
             remplirListe(pourcentageVictoire,((float)cptBot0/nombre)*100,((float)cptBot1/nombre)*100,((float)cptBot2/nombre)*100,((float)cptBot3/nombre)*100,((float)cptNull/nombre)*100);
         } else {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("division par 0");
         }
         if(!csv){
             System.out.println("Comparaison des différents bots");
@@ -128,15 +99,47 @@ public class Jeu {
             System.out.println( "Taux d'égalité : "+pourcentageVictoire.get(4)+"%");
             System.out.println( "Score moyen : "+listeBot.get(0).toString().split("_")[0]+": "+ moyennePoints.get(0) +" ,"+listeBot.get(1).toString().split("_")[0]+": "+ moyennePoints.get(1) +" ,"+listeBot.get(2).toString().split("_")[0]+" :"+ moyennePoints.get(2) +" ,"+listeBot.get(3).toString().split("_")[0]+" :"+ moyennePoints.get(3) +" ,Egalité : "+moyennePoints.get(4));
         }
-        simu1 = true;
     }
+
+    public static void vainqueur(List<Bot> listeBot){
+        Bot vainqueur = tour.getLeVainqueur();
+        remplirListe(moyennePoints,moyennePoints.get(0)+ listeBot.get(0).getScore(),moyennePoints.get(1)+ listeBot.get(1).getScore(),moyennePoints.get(2)+ listeBot.get(2).getScore(),moyennePoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
+
+        if(vainqueur==null){
+            cptNull++;
+            int max = 0;
+            for (Bot bot : new ArrayList<Bot>(Arrays.asList(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3)))){
+                if(bot.getScore()>max){
+                    max=bot.getScore();
+                }
+            }
+            moyennePointsVictoire.set(4,moyennePointsVictoire.get(4)+max);
+            moyennePoints.set(4,moyennePoints.get(4)+max);
+        }
+        else if(vainqueur==listeBot.get(0)){
+            cptBot0++;
+            moyennePointsVictoire.set(0,moyennePointsVictoire.get(0)+listeBot.get(0).getScore());
+        }
+        else if(vainqueur==listeBot.get(1)){
+            cptBot1++;
+            moyennePointsVictoire.set(1,moyennePointsVictoire.get(1)+listeBot.get(1).getScore());
+        }
+        else if(vainqueur==listeBot.get(2)){
+            cptBot2++;
+            moyennePointsVictoire.set(2,moyennePointsVictoire.get(2)+listeBot.get(2).getScore());
+        }
+        else if(vainqueur==listeBot.get(3)){
+            cptBot3++;
+            moyennePointsVictoire.set(3,moyennePointsVictoire.get(3)+listeBot.get(3).getScore());
+        }
+    }
+
 
     /**
      * sert pour les simulations de jeux entre les botFocusRoi
      * @param nombre nombre de parties
      */
     public static void simulation2(int nombre){
-        simu2 = false;
         int i=1;
         ArrayList<Float> cptPoints = new ArrayList<>(Arrays.asList((float)0,(float)0,(float)0,(float)0,(float)0));
         ArrayList<Float> cptVictoire = new ArrayList<>(Arrays.asList((float)0,(float)0,(float)0,(float)0,(float)0));
@@ -148,7 +151,7 @@ public class Jeu {
             listeBot.set(2,new BotFocusRoi(pioche));
             listeBot.set(3,new BotFocusRoi(pioche));
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-            JouerPartie(listeBot.get(0),listeBot.get(1),listeBot.get(2),listeBot.get(3));
+            jouerPartie(listeBot.get(0),listeBot.get(1),listeBot.get(2),listeBot.get(3));
             Bot vainqueur=tour.getLeVainqueur();
             remplirListe(cptPoints,cptPoints.get(0)+ listeBot.get(0).getScore(),cptPoints.get(1)+ listeBot.get(1).getScore(),cptPoints.get(2)+ listeBot.get(2).getScore(),cptPoints.get(3)+ listeBot.get(3).getScore(),(float) 0);
             if (vainqueur!=null){
@@ -179,7 +182,6 @@ public class Jeu {
         System.out.println("Taux de défaite : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(100-pourcent1)+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(100-pourcent2)+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(100-pourcent3)+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(100-pourcent4)+"%");
         System.out.println("Taux d'égalité: "+pourcentnull+"%");
         System.out.println("Score moyen : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(cptPoints.get(0)/nombre)+" ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(cptPoints.get(1)/nombre)+" ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(cptPoints.get(2)/nombre)+" ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(cptPoints.get(3)/nombre)+" ,Egalité: "+(cptPoints.get(4)/cptVictoire.get(4)));
-        simu2 = true;
     }
 
     // j'ai mis en static parce que ça me faisait une erreur
@@ -191,7 +193,7 @@ public class Jeu {
      * @param bot3  Bot
      * @param bot4  Bot
      */
-    public static void JouerPartie(Bot bot1, Bot bot2, Bot bot3, Bot bot4){
+    public static void jouerPartie(Bot bot1, Bot bot2, Bot bot3, Bot bot4){
         bot1.setOrdreChoixRole(1);
         bot2.setOrdreChoixRole(2);
         bot3.setOrdreChoixRole(3);
@@ -208,24 +210,38 @@ public class Jeu {
                 .addObject(arg)
                 .build()
                 .parse(args);
+        String log = "LOGGER";
+        boolean rien = true;
         if(arg.demo){
             //Faire une demo
-            Logger.getLogger("LOGGER").getParent().setLevel(Level.ALL);
-        }else if(arg.two){
+            Logger.getLogger(log).getParent().setLevel(Level.ALL);
+            rien = false;
+            gameStart();
+        }
+        if(arg.two){
             //faire 2 fois 1000 stats
-            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
+            Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             simulation1(1000,false);
             simulation2(1000);
-        }else if(arg.csv){
-            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
-            Path path = Paths.get("stats","gamestats.csv");
+        }
+        Path path = Paths.get("stats", "gamestats.csv");
+        if(arg.csv){
+            Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             updateCSV(path.toFile(),1000);
-        }else if(arg.csvG > 0){
-            Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
-            Path path = Paths.get("stats","gamestats.csv");
+        }
+        if(arg.csvG > 0){
+            Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             updateCSV(path.toFile(), arg.csvG);
         }
+        if(rien){
+            gameStart();
+        }
+    }
 
+    public static void gameStart(){
         Pioche pioche = new Pioche();
         Bot bot1 = new BotFocusRoi(pioche);
         Bot bot2 = new BotConstruitChere(pioche);
@@ -233,9 +249,7 @@ public class Jeu {
         Bot bot4 = new BotFocusMarchand(pioche);
 
         //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
-        JouerPartie(bot1,bot2,bot3,bot4);
-        //JouerPartie(bot1,bot2,bot3,bot4); // je pouvais pas l'appeler dans main sans mettre en static
-
+        jouerPartie(bot1,bot2,bot3,bot4);
     }
 
     /**
@@ -243,7 +257,6 @@ public class Jeu {
      * @param file fichier à update
      */
     public static void updateCSV(File file,int nombre) {
-        //int nombre = 1000;
         try(CSVReader reader = new CSVReader(new FileReader(file))) {
             //On lis d'abord les valeurs actuels
             List<String[]> allRows = reader.readAll();
@@ -299,20 +312,19 @@ public class Jeu {
                 writer.writeNext(new String[]{"Nombre de simulations",nombre+""},false);
                 writer.close();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw new IllegalArgumentException(ex);
             }
         } catch (CsvException e) {
-            throw new RuntimeException("probleme CSV");
+            throw new IllegalArgumentException("probleme CSV");
         }
     }
 
 
-    private static void remplirListe(ArrayList<Float> list, float construitChere, float richard, float aleatoire, float focusRoi, float Null) {
-        //list.clear();
+    private static void remplirListe(ArrayList<Float> list, float construitChere, float richard, float aleatoire, float focusRoi, float nullable) {
         list.set(0,construitChere);
         list.set(1,richard);
         list.set(2,aleatoire);
         list.set(3,focusRoi);
-        if(Null != 0) list.set(4,Null);
+        if(nullable != 0) list.set(4,nullable);
     }
 }

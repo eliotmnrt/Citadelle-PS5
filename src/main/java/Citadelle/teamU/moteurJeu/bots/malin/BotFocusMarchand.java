@@ -11,7 +11,6 @@ import java.util.*;
 public class BotFocusMarchand extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersVertsConstruits = 0;
-    private boolean strat2 = false;
 
     public BotFocusMarchand(Pioche pioche) {
         //Bot qui monopolise le role de marchand
@@ -44,17 +43,7 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
 
-        if(strat2){
-            choixDeBase.add(null);
-            changerOr(2);
-            affichageJoueur.afficheChoixDeBase(choixDeBase);
-            return choixDeBase;
-        } else {                            // sinon on pioche
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
+        return suite(choixDeBase);
     }
 
     /**
@@ -63,10 +52,11 @@ public class BotFocusMarchand extends BotMalin {
      */
     @Override
     public void choisirRole(List<Role> roles) {
-        if (nbQuartiersVertsConstruits < 3) {
+        if (orProchainTour >= 0) nbOr += orProchainTour;
+        if (nbQuartiersVertsConstruits < 2) {
             choisirRoleDebut(roles);
         } else {
-            strat2 = true;
+            changementFocus = true;
             choisirRoleFin(roles);
         }
     }
@@ -110,9 +100,15 @@ public class BotFocusMarchand extends BotMalin {
         if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)) {
             if (quartierPioches.get(2) == null) {        //on cherche la presence du quartier vert
                 quartierPioches.remove(2);
-                if (quartierPioches.get(1).getCouleur() == TypeQuartier.VERT) {
-                    ajoutQuartierMain(quartierPioches.get(1));
-                    pioche.remettreDansPioche(quartierPioches.remove(0));
+                if (quartierPioches.get(0).getCouleur() == TypeQuartier.VERT && quartierPioches.get(1).getCouleur() == TypeQuartier.VERT) {
+                    if(quartierPioches.get(0).getCout()<=quartierPioches.get(1).getCout()){
+                        ajoutQuartierMain(quartierPioches.get(1));
+                        pioche.remettreDansPioche(quartierPioches.remove(0));
+                    }
+                    else{
+                        ajoutQuartierMain(quartierPioches.get(0));
+                        pioche.remettreDansPioche(quartierPioches.remove(1));
+                    }
                 } else if (quartierPioches.get(0).getCouleur() == TypeQuartier.VERT) {
                     ajoutQuartierMain(quartierPioches.get(0));
                     pioche.remettreDansPioche(quartierPioches.remove(1));
@@ -140,12 +136,7 @@ public class BotFocusMarchand extends BotMalin {
                 }
                 return new ArrayList<>(Collections.singleton(quartierVert));
             } else {
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((quartierPioches));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                return choisirCartePasImportante(quartierPioches);
             }
         } else {
             for (Quartier quartier : quartierPioches) {
@@ -156,6 +147,7 @@ public class BotFocusMarchand extends BotMalin {
             return quartierPioches;
         }
     }
+
     @Override
     public Quartier construire(){
         List<Quartier> quartiersVerts = new ArrayList<>();
@@ -168,7 +160,7 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
         if(!quartiersVerts.isEmpty()){       //construit en prio les quartiers verts le moins cher, s'il y en a
-            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));  
+            quartiersVerts.sort(Comparator.comparingInt(Quartier::getCout));
             for (int i=quartiersVerts.size()-1; i>=0; i--){
                 if (quartiersVerts.get(i).getCout() <= nbOr && !quartiersConstruits.contains(quartiersVerts.get(i))){                      //si on peut le construire tant mieux
                     affichageJoueur.afficheConstruction(quartiersVerts.get(i));

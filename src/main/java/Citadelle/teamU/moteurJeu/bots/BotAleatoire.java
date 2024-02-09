@@ -157,7 +157,7 @@ public class BotAleatoire extends Bot{
      */
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere) {
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotliste());
         botList.remove(this);
         int indiceRandomBot = randInt(botList.size());
         Bot botADetruire = (botList.get(indiceRandomBot));

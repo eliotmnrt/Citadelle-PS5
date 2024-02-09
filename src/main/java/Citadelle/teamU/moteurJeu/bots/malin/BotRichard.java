@@ -9,7 +9,6 @@ import Citadelle.teamU.moteurJeu.bots.Bot;
 import java.util.*;
 
 import static Citadelle.teamU.cartes.TypeQuartier.*;
-import static java.util.Arrays.stream;
 
 public class BotRichard extends BotMalin{
     //je suis parti du principe que ce bot agit comme botConstruitChere sauf pour les règles demandées
@@ -320,8 +319,8 @@ public class BotRichard extends BotMalin{
             Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
             roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
             roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
-                return;
-            }
+            return;
+        }
 
 
             //si on a bientot fini on tue le condottiere pour éviter la destruction de nos quartiers

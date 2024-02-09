@@ -14,7 +14,6 @@ import java.util.List;
 public class BotFocusRoi extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersJaunesConstruits = 0;
-    private boolean strat2 = false;
 
     public BotFocusRoi(Pioche pioche){
         //Bot qui monopolise le role de roi
@@ -48,18 +47,7 @@ public class BotFocusRoi extends BotMalin {
             }
         }
 
-        if(strat2){
-            choixDeBase.add(null);
-            changerOr(2);
-            affichageJoueur.afficheChoixDeBase(choixDeBase);
-            return choixDeBase;
-
-        } else {                            // sinon on pioche
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
+        return suite(choixDeBase);
     }
 
     /**
@@ -104,12 +92,7 @@ public class BotFocusRoi extends BotMalin {
                 return new ArrayList<>(Collections.singleton(quartierJaune));
             } else {
                 quartierPioches = new ArrayList<>(quartierPioches);
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((quartierPioches));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                return choisirCartePasImportante(quartierPioches);
             }
         } else {
             for (Quartier quartier: quartierPioches){
@@ -131,16 +114,14 @@ public class BotFocusRoi extends BotMalin {
         if (nbQuartiersJaunesConstruits < 2){
             choisirRoleDebut(roles);
         } else {
-            strat2 = true;
+            changementFocus = true;
             choisirRoleFin(roles);
         }
     }
 
-    //pour les tests
-    public void setNbQuartiersJaunesConstruits(int nb){
-        nbQuartiersJaunesConstruits = nb;
+    public void setRolesVisible(List<Role> rolesVisible) {
+        this.rolesVisible = rolesVisible;
     }
-
 
     /**
      * focus archi et magicien pour recup des cartes jaunes et les construire
@@ -156,6 +137,11 @@ public class BotFocusRoi extends BotMalin {
         rolesRestants = new ArrayList<>(roles);
     }
 
+    public void setNbQuartiersJaunesConstruits(int nb){
+        nbQuartiersJaunesConstruits = nb;
+    }
+
+
     /**
      * si 2 quartiers jaunes construits, ons e met a focus le roi
      * @param roles roles
@@ -166,6 +152,7 @@ public class BotFocusRoi extends BotMalin {
         if (trouverRole(roles, "Roi")){return;}
         if (trouverRole(roles, "Architecte")){return;}
         if (trouverRole(roles, "Magicien")){return;}
+        if (trouverRole(roles, "Marchand")){return;}
 
         int intAleatoire= randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
@@ -230,10 +217,11 @@ public class BotFocusRoi extends BotMalin {
             int nbQuartierMain = this.getQuartierMain().size();
             Bot botAvecQuiEchanger = null;
             for (Bot botAdverse: magicien.getBotliste()){  //on regarde qui a le plus de cartes dans sa main
-                if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 3){
+                if(botAdverse.getQuartierMain().size() >= nbQuartierMain + 4){
                     botAvecQuiEchanger = botAdverse;
                 }
             }
+
             if(botAvecQuiEchanger != null){ // si un bot a 3 cartes de plus que nous, on échange avec lui
                 affichageJoueur.afficheActionSpecialeMagicienAvecBot(botAvecQuiEchanger);
                 magicien.changeAvecBot(this, botAvecQuiEchanger);
@@ -250,9 +238,6 @@ public class BotFocusRoi extends BotMalin {
         affichageJoueur.afficheActionSpecialeMagicienAvecPioche(quartiersAEchanger);
         magicien.changeAvecPioche(this, quartiersAEchanger);
         affichageJoueur.afficheNouvelleMainMagicien();
-    }
-    public void setRolesVisible(List<Role> rolesVisible) {
-        this.rolesVisible = rolesVisible;
     }
     @Override
     public String toString(){

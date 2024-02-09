@@ -11,6 +11,7 @@ import java.util.*;
 public abstract class BotMalin extends Bot {
 //bot qui regroupe les methodes communes aux bots intelligents
     protected List<Role> rolesRestants;  // garde en memoire les roles suivants pour les voler/assassiner
+    protected boolean changementFocus = false;     // pour la stratégie 2 de botfocusroi et botfocusmarchand
 
     protected BotMalin(Pioche pioche){
         super(pioche);
@@ -18,20 +19,11 @@ public abstract class BotMalin extends Bot {
     }
 
 
-    // utile pour les tests uniquement
     public void setRolesRestants(List<Role> rolesRestants){
         this.rolesRestants = rolesRestants;
     }
 
 
-    @Override
-    public void choisirRole(List<Role> roles){
-        role = null;
-        if (orProchainTour >= 0) nbOr += orProchainTour;        //on recupere l'or du vol
-        int intAleatoire= randInt(roles.size());
-        setRole(roles.remove(intAleatoire));
-        rolesRestants = new ArrayList<>(roles);
-    }
 
     /**
      * methode pour chercher un role précis et se l'approprier
@@ -70,8 +62,7 @@ public abstract class BotMalin extends Bot {
         if (piocher){
             choixDeBase = piocheDeBase();
             choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        else{
+        } else{
             choixDeBase.add(null);
             changerOr(2);
         }
@@ -212,7 +203,7 @@ public abstract class BotMalin extends Bot {
     @Override
     public void actionSpecialeCondottiere(Condottiere condottiere){
         // détruit que un quartier qui coute 1
-        List<Bot> botList = new ArrayList<>(condottiere.getBotListe());
+        List<Bot> botList = new ArrayList<>(condottiere.getBotliste());
         botList.remove(this);
         for(Bot bot:botList){
             for(Quartier quartier: bot.getQuartiersConstruits()){
@@ -223,6 +214,32 @@ public abstract class BotMalin extends Bot {
             }
         }
     }
+
+    public List<Quartier> suite(List<Quartier> choixDeBase){
+
+        if(changementFocus){
+            choixDeBase.add(null);
+            changerOr(2);
+            affichageJoueur.afficheChoixDeBase(choixDeBase);
+            return choixDeBase;
+
+        } else {                            // sinon on pioche
+            choixDeBase = piocheDeBase();
+            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
+        }
+        affichageJoueur.afficheChoixDeBase(choixDeBase);
+        return choixDeBase;
+    }
+
+    public List<Quartier> choisirCartePasImportante(List<Quartier> quartierPioches){
+        quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+        Collections.reverse((quartierPioches));
+        pioche.remettreDansPioche(quartierPioches.remove(0));
+        pioche.remettreDansPioche(quartierPioches.remove(0));
+        ajoutQuartierMain(quartierPioches.get(0));
+        return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+    }
+
 
 }
 
