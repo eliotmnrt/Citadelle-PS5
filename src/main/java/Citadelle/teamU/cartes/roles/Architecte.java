@@ -8,9 +8,8 @@ import java.util.List;
 
 public class Architecte implements Role {
 
-    private final int ordre = 7;
-    private List<Bot> botListe;
-    private List<Quartier> quartiersSupplementaires;
+    private final List<Bot> botListe;
+    private final List<Quartier> quartiersSupplementaires;
 
 
 
@@ -33,14 +32,10 @@ public class Architecte implements Role {
         bot.construire();
         bot.construire();
     }
-    public List<Quartier> getQuartiersSupplementaires(){
-        return quartiersSupplementaires;
-    }
-
 
     @Override
     public int getOrdre() {
-        return ordre;
+        return 7;
     }
 
     @Override

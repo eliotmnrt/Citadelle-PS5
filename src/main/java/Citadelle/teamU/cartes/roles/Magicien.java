@@ -10,8 +10,7 @@ public class Magicien implements Role {
 
     // on part du principe que si on choisit le magicien, on VEUT changer ses cartes
 
-    private List<Bot> botListe;
-    private final int ordre = 3;
+    private final List<Bot> botListe;
 
 
     public Magicien(List<Bot> botListe){
@@ -59,7 +58,7 @@ public class Magicien implements Role {
 
     @Override
     public int getOrdre() {
-        return ordre;
+        return 3;
     }
 
     @Override

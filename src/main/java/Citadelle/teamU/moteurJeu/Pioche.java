@@ -8,7 +8,7 @@ import java.util.List;
 import static java.util.Collections.shuffle;
 
 public class Pioche {
-    private List<Quartier> laPioche;
+    private final List<Quartier> laPioche;
 
     public Pioche(){
         laPioche = new ArrayList<>();

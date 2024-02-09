@@ -9,8 +9,7 @@ import java.util.Objects;
 
 public class Pretre implements Role {
 
-    private final int ordre = 5;
-    private List<Bot> botliste;
+    private final List<Bot> botliste;
 
     public Pretre(List<Bot> botliste){
         this.botliste = botliste;
@@ -31,7 +30,7 @@ public class Pretre implements Role {
 
     @Override
     public int getOrdre() {
-        return ordre;
+        return 5;
     }
 
     @Override

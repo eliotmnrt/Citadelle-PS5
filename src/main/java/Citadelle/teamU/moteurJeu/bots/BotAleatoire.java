@@ -12,7 +12,6 @@ import java.util.List;
 public class BotAleatoire extends Bot{
 
     private static int numDuBotAleatoire = 1;
-    private String name;
 
     public BotAleatoire(Pioche pioche){
         super(pioche);
@@ -130,7 +129,7 @@ public class BotAleatoire extends Bot{
 
     /**
      * tue un role au hasard
-     * @param assassin
+     * @param assassin Role assassin
      */
     @Override
     public void actionSpecialeAssassin(Assassin assassin) {
@@ -172,9 +171,5 @@ public class BotAleatoire extends Bot{
     }
     public void setRolesVisible(List<Role> rolesVisible) {
         this.rolesVisible = rolesVisible;
-    }
-    @Override
-    public String toString(){
-        return name;
     }
 }

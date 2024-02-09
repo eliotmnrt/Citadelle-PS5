@@ -11,12 +11,12 @@ import java.util.*;
 
 public class Tour {
     //génerer aléatoirement une liste de nombre de BOT +1
-    private List<Bot> botListe;
+    private final List<Bot> botListe;
     private int nbTour = 0;
-    private AffichageJeu affichageJeu;
-    private List<Role> roles = new ArrayList<>();
+    private final AffichageJeu affichageJeu;
+    private final List<Role> roles = new ArrayList<>();
     private List<Role> rolesVisible;
-    private SecureRandom random;
+    private final SecureRandom random;
     private Bot mort;
 
     private List<Role> rolesTemp = new ArrayList<>();
@@ -35,12 +35,6 @@ public class Tour {
         roles.add(new Marchand(botListe));
         roles.add(new Architecte(botListe));
         roles.add(new Condottiere(botListe));
-    }
-    public List<Role> getRolesTemp(){
-        return rolesTemp;
-    }
-    public void setRolesTemp(List<Role> roles){
-        this.rolesTemp=roles;
     }
 
     /**
@@ -186,5 +180,9 @@ public class Tour {
 
     public int getNbTour() {
         return nbTour;
+    }
+
+    public void setRolesTemp(List<Role> rolesTemp) {
+        this.rolesTemp = rolesTemp;
     }
 }

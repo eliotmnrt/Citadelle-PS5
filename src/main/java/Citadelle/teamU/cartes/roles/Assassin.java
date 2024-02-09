@@ -3,15 +3,13 @@ package Citadelle.teamU.cartes.roles;
 
 import Citadelle.teamU.moteurJeu.bots.Bot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Assassin implements Role {
 
 
-    private List<Bot> botListe;
-    private final int ordre = 1;
-    private List<Role> roles = new ArrayList<>();
+    private final List<Bot> botListe;
+    private final List<Role> roles;
 
     public Assassin(List<Bot> botListe,List<Role> roles){
         this.botListe = botListe;
@@ -36,7 +34,7 @@ public class Assassin implements Role {
 
 
     public int getOrdre() {
-        return ordre;
+        return 1;
     }
 
     @Override
