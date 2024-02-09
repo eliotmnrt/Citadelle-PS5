@@ -172,7 +172,9 @@ public class Tour {
         }
         affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
+
             bot.choisirRole(rolesTemp);
+
         }
         return listeDistribution;
     }
