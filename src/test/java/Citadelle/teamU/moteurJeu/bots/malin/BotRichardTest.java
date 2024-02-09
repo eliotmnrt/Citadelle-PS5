@@ -378,6 +378,7 @@ class BotRichardTest {
         bot.setRole(new Pretre(botliste));
         bot.setQuartiersConstruits(quart);
         bot.setOrdreChoixRole(1);
+        System.out.println("ordre choix role"+bot.getOrdreChoixRole());
         botAleatoire.setOrdreChoixRole(2);
         botConstruitChere.setOrdreChoixRole(3);
         botFocusRoi.setOrdreChoixRole(4);
@@ -393,6 +394,7 @@ class BotRichardTest {
         //roles.add(new Marchand(botliste));
         //roles.add(new Architecte(botliste));
         roles.add(condottiere);
+
         System.out.println(roles);
         System.out.println(bot.getQuartiersConstruits().size());
         System.out.println(bot.getOrdreChoixRole());

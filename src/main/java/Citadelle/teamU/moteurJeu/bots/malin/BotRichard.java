@@ -35,6 +35,7 @@ public class BotRichard extends BotMalin{
 
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (nbTour>1) {
+            System.out.println("considere que tour>1");
             if (architecteAvance()) {
 
                 if (ordreChoix == 1) {
@@ -58,10 +59,14 @@ public class BotRichard extends BotMalin{
                 if (trouverRole(roles, "Pretre")) {
                     return;
                 }
+            }
                  /*
          Si le joueur en passe de gagner est 1er ou 2ème joueur, il n’y a pas grand-chose à faire car il va choisir : l’Assassin s’il est disponible (seule perso intouchable) ou l’Evêque ou le Condottiere
          afin de construire son dernier quartier sans craindre le Condottiere.
-         */ joueurProcheFinir=joueurProcheFinir();
+
+         */
+                System.out.println("avant de chercher joueur proche de finir");
+                joueurProcheFinir=joueurProcheFinir();
                 System.out.println("dans choisir role  "+joueurProcheFinir);
                 Bot botProcheDeFinir = this.getJoueurProcheFinir();//avec 7 quartiers construit
                 System.out.println("Joueurs proches de finir:" +botProcheDeFinir );
@@ -155,9 +160,9 @@ public class BotRichard extends BotMalin{
                         }
                     }
                 }
-            }
-        }
 
+        }
+        System.out.println("choisis aléatoirement");
         int intAleatoire = randInt(roles.size());
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
