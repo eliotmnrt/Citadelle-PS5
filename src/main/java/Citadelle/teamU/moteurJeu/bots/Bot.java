@@ -162,6 +162,9 @@ public abstract class Bot {
     public void setQuartiersConstruits(List<Quartier> quartiersConstruits) {
         this.quartiersConstruits = quartiersConstruits;
     }
+    public void setNbTour(int nbTour) {
+        this.nbTour = nbTour;
+    }
 
     public void setQuartierMain(List<Quartier> quartierMain) {
         this.quartierMain = quartierMain;
