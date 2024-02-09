@@ -354,6 +354,7 @@ public class BotRichard extends BotMalin{
                 optionalBot.ifPresent(bot -> affichageJoueur.afficheNouvelleMainMagicien());
                 return;
             }
+            joueurProcheFinir=joueurProcheFinir();
             if (joueurProcheFinir) {
                 Bot botProcheFinir = getJoueurProcheFinir();
 
