@@ -1,7 +1,7 @@
 Simulations,Pourcentage de victoire,Pourcentage de défaite,Score moyen,Score moyen en cas de victoire
-Bot Qui Focus Roi,74.3,25.699997,25.968027,23.934137
-Bot qui construit chere,35.65,64.35,23.769657,25.760773
-Bot Richard,6.6,93.4,18.5258,23.765028
-Bot qui focus marchand,25.7,74.3,19.99209,20.914883
-Egalité,7.6,--,20.885973,20.885973
-Nombre de simulations,2000.0
+Bot Qui Focus Roi,50.285713,49.714287,26.221142,32.219116
+Bot qui construit chere,25.142857,74.85715,23.725607,33.5075
+Bot Richard,4.4761906,95.52381,18.39502,32.97119
+Bot qui focus marchand,15.904762,84.09524,19.784145,27.929108
+Egalité,17.714285,--,11.811549,11.811549
+Nombre de simulations,2100.0
