@@ -69,6 +69,10 @@ public class Jeu {
      */
     public static void simulation1(int nombre,boolean csv){
         int i=1;
+        cptBot0 = 0;
+        cptBot1 = 0;
+        cptBot2 = 0;
+        cptBot3 = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
             listeBot.set(0,new BotFocusRoi(pioche));
