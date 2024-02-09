@@ -75,9 +75,9 @@ public class Jeu {
         cptBot3 = 0;
         while(i<nombre){
             Pioche pioche = new Pioche();
-            listeBot.set(0,new BotFocusRoi(pioche));
-            listeBot.set(1,new BotConstruitChere(pioche));
-            listeBot.set(2,new BotRichard(pioche));
+            listeBot.set(0,new BotConstruitVite(pioche));
+            listeBot.set(1,new BotFocusRoi(pioche));
+            listeBot.set(2,new BotAleatoire(pioche));
             listeBot.set(3,new BotFocusMarchand(pioche));
             jouerPartie(listeBot.get(0), listeBot.get(1), listeBot.get(2), listeBot.get(3));
 
@@ -146,10 +146,10 @@ public class Jeu {
 
         while(i<=nombre){
             Pioche pioche = new Pioche();
-            listeBot.set(0,new BotFocusRoi(pioche));
-            listeBot.set(1,new BotFocusRoi(pioche));
-            listeBot.set(2,new BotFocusRoi(pioche));
-            listeBot.set(3,new BotFocusRoi(pioche));
+            listeBot.set(0,new BotFocusMarchand(pioche));
+            listeBot.set(1,new BotFocusMarchand(pioche));
+            listeBot.set(2,new BotFocusMarchand(pioche));
+            listeBot.set(3,new BotFocusMarchand(pioche));
             //On donne l'ordre dans lequel ils jouent 1->2->3->4->1...
             jouerPartie(listeBot.get(0),listeBot.get(1),listeBot.get(2),listeBot.get(3));
             Bot vainqueur=tour.getLeVainqueur();
@@ -176,15 +176,14 @@ public class Jeu {
         float pourcent2=(cptVictoire.get(1)/nombre)*100;
         float pourcent3=(cptVictoire.get(2)/nombre)*100;
         float pourcent4=(cptVictoire.get(3)/nombre)*100;
-        float pourcentnull=(cptVictoire.get(4)/nombre)*100;
+        float pourcentNull=(cptVictoire.get(4)/nombre)*100;
         System.out.println("\nSimulation de bot Roi");
         System.out.println("Taux de victoire : "+listeBot.get(0).toString().split("_")[0]+" 1: "+pourcent1+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+pourcent2+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3 :"+pourcent3+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4 :"+pourcent4+"%");
         System.out.println("Taux de défaite : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(100-pourcent1)+"% ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(100-pourcent2)+"% ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(100-pourcent3)+"% ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(100-pourcent4)+"%");
-        System.out.println("Taux d'égalité: "+pourcentnull+"%");
+        System.out.println("Taux d'égalité: "+pourcentNull+"%");
         System.out.println("Score moyen : "+listeBot.get(0).toString().split("_")[0]+" 1: "+(cptPoints.get(0)/nombre)+" ,"+listeBot.get(1).toString().split("_")[0]+" 2: "+(cptPoints.get(1)/nombre)+" ,"+listeBot.get(2).toString().split("_")[0]+" 3: "+(cptPoints.get(2)/nombre)+" ,"+listeBot.get(3).toString().split("_")[0]+" 4: "+(cptPoints.get(3)/nombre)+" ,Egalité: "+(cptPoints.get(4)/cptVictoire.get(4)));
     }
 
-    // j'ai mis en static parce que ça me faisait une erreur
 
     /**
      * pour lancer une partie entre 4 bots

@@ -166,7 +166,9 @@ public class Tour {
         }
         affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
+
             bot.choisirRole(rolesTemp);
+
         }
         return listeDistribution;
     }
@@ -178,5 +180,9 @@ public class Tour {
 
     public int getNbTour() {
         return nbTour;
+    }
+
+    public void setRolesTemp(List<Role> rolesTemp) {
+        this.rolesTemp = rolesTemp;
     }
 }
