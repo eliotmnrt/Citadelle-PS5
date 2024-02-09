@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,6 +60,17 @@ class BotFocusMarchandTest {
         bot.faireActionDeBase();        //il pioche 2 quartier
         assertEquals(1, bot.getQuartierMain().size());
         assertEquals(Quartier.TAVERNE, bot.getQuartierMain().get(0));    //il garde la taverne et pas le palais ni l eglise
+    }
+    @Test
+    void testEntreCartesVertes(){
+        doReturn(Quartier.MARCHE, Quartier.COMPTOIR, Quartier.TAVERNE).when(pioche).piocherQuartier();
+        bot.setQuartierMain(new ArrayList<>()); // main vide
+        doReturn(1).when(bot).randInt(3);       //on le force à piocher des quartiers
+
+        bot.changerOr(6);
+        bot.faireActionDeBase();        //il pioche 2 quartier
+        assertEquals(1, bot.getQuartierMain().size());
+        assertEquals(Quartier.COMPTOIR, bot.getQuartierMain().get(0));    //il garde la taverne et pas le palais ni l eglise
     }
 
     @Test

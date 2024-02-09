@@ -121,6 +121,16 @@ public class BotFocusMarchand extends BotMalin {
         if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
             if (quartierPioches.get(2) == null){        //on cherche la presence du quartier vert
                 quartierPioches.remove(2);
+                List<Quartier> ListequartierVerts = new ArrayList<>();
+                List<Quartier> autresQuartiers = new ArrayList<>();
+                for (Quartier quartierPioch : quartierPioches) {
+                    if (quartierPioch.getCouleur() == TypeQuartier.VERT) {
+                        ListequartierVerts.add(quartierPioch);
+                    } else {
+                        autresQuartiers.add(quartierPioch);
+                    }
+                }
+
                 if (quartierPioches.get(1).getCouleur() == TypeQuartier.VERT){
                     ajoutQuartierMain(quartierPioches.get(1));
                     pioche.remettreDansPioche(quartierPioches.remove(0));
@@ -144,14 +154,44 @@ public class BotFocusMarchand extends BotMalin {
                 } else {
                     autresQuartiers.add(quartierPioch);
                 }
+                if (ListequartierVerts.size() != 0){
+                    ListequartierVerts.sort(Comparator.comparingInt(Quartier::getCout));
+                    Collections.reverse((ListequartierVerts));
+
+                    int i;
+                    for(i=0;i<ListequartierVerts.size();i=i+1){
+                        if(ListequartierVerts.get(i).getCout() <= this.nbOr){
+                            ajoutQuartierMain(ListequartierVerts.get(i));
+
+                            this.changerOr(-ListequartierVerts.get(i).getCout());
+                            break;
+                        }
+                    }
+
+                    for (Quartier quart: autresQuartiers){
+                        pioche.remettreDansPioche(quart);
+                    }
+                    return new ArrayList<>(Collections.singleton(quartierMain.get(0)));
+                } else {
+                    quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
+                    Collections.reverse((quartierPioches));
+                    pioche.remettreDansPioche(quartierPioches.remove(0));
+                    pioche.remettreDansPioche(quartierPioches.remove(0));
+                    ajoutQuartierMain(quartierPioches.get(0));
+                    return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                }
+
+
             }
             if (ListequartierVerts.size() != 0){
                 ListequartierVerts.sort(Comparator.comparingInt(Quartier::getCout));
                 Collections.reverse((ListequartierVerts));
+
                 int i;
                 for(i=0;i<ListequartierVerts.size();i=i+1){
                     if(ListequartierVerts.get(i).getCout() <= this.nbOr){
                         ajoutQuartierMain(ListequartierVerts.get(i));
+
                         this.changerOr(-ListequartierVerts.get(i).getCout());
                         break;
                     }

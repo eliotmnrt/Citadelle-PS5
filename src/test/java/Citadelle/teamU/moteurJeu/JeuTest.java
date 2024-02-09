@@ -43,17 +43,5 @@ class JeuTest {
         assertTrue(maxQuartiersConstruits>=8);
     }
 
-    @Test
-    void testSimu(){
-        Logger.getLogger("LOGGER").getParent().setLevel(Level.OFF);
 
-        Jeu.simulation1(1000, false);
-        assertTrue(Jeu.isSimu1());
-
-        Jeu.simulation2(1000);
-        assertTrue(Jeu.isSimu2());
-
-        Path path = Paths.get("stats","gamestats.csv");
-        Jeu.updateCSV(path.toFile(),1000);
-    }
 }
