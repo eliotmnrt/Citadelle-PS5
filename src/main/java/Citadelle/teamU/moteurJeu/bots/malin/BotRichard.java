@@ -213,16 +213,16 @@ public class BotRichard extends BotMalin{
      * @param assassin Role Assassin
      */
     @Override
-    public void actionSpecialeAssassin(Assassin assassin){
+    public void actionSpecialeAssassin(Assassin assassin) {
         //si un joueur menace de finir
-        if (joueurAvance){
-            //System.out.println("pourquoi t'es là?");
+        if (joueurAvance) {
+
             List<Bot> list = new ArrayList<>(assassin.getBotliste());
             list.remove(this);
             Optional<Bot> optionalBot = list.stream().max(Comparator.comparingInt(Bot::getNbQuartiersConstruits));
             Role roleBotVise = null;
-            if (optionalBot.isPresent()){
-                roleBotVise =roleProbable(optionalBot.get());
+            if (optionalBot.isPresent()) {
+                roleBotVise = roleProbable(optionalBot.get());
             } else {
                 throw new IllegalArgumentException();
             }
@@ -232,28 +232,35 @@ public class BotRichard extends BotMalin{
         }
 
         //si un joueur menace de finir en 1 tour avec l'architecte
-        if (getOrdreChoixRole()==1){
-            if (joueurProcheFinir) {
-                Bot botProcheFinir = getJoueurProcheFinir();
+
+        if (joueurProcheFinir) {
+            Bot botProcheFinir = getJoueurProcheFinir();
                 /*
                  cas ou ou le joueur en passe de finir est 2ème joueur et il manque l’Evêque ou Condottiere :
                  le premier joueur doit prendre l’Assassin et tuer l’Evêque ou Condottiere.
                 */
-                if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole() == 2) {
-                    System.out.println("bonne boucle");
-                    Optional<Role> rolePretre = assassin.getRoles().stream().filter(Pretre.class::isInstance).findFirst();
-                    Optional<Role> roleCondott = assassin.getRoles().stream().filter(Condottiere.class::isInstance).findFirst();
-                    if (rolePretre.isPresent() ^ roleCondott.isPresent()) {
-                        System.out.println("je tue soit condottiere soit pretre");
-                        rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-                        rolePretre.ifPresent(assassin::tuer);
-                        roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-                        rolePretre.ifPresent(assassin::tuer);
-                        return;
-                    }
+
+            if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole() == 2 && getOrdreChoixRole() == 1) {
+
+                System.out.println("LES ROLES" + rolesRestants);
+                System.out.println("ASSASSIN.GETROLES" + assassin.getRoles());
+                Optional<Role> rolePretre = rolesRestants.stream().filter(Pretre.class::isInstance).findFirst();
+                Optional<Role> roleCondott = rolesRestants.stream().filter(Condottiere.class::isInstance).findFirst();
+
+                if (rolePretre.isPresent() ^ roleCondott.isPresent()) {
+                    System.out.println("je tue soit condottiere soit pretre");
+                    rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                    rolePretre.ifPresent(assassin::tuer);
+                    roleCondott.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                    roleCondott.ifPresent(assassin::tuer);
+                    return;
                 }
-                if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole() == 3) {
-                    System.out.println("?");
+            }
+
+            System.out.println("bot proche de finir n'est pas this" + !botProcheFinir.equals(this));
+            System.out.println("bot proche de finir est bien 3ème:" + botProcheFinir.getOrdreChoixRole());
+            if (!botProcheFinir.equals(this) && botProcheFinir.getOrdreChoixRole() == 3) {
+                System.out.println("bonne boucle");
                     /*
                      Si le joueur en passe de gagner est 3ème joueur, les deux premiers joueurs doivent jouer la combo
                      1er cas:
@@ -261,52 +268,60 @@ public class BotRichard extends BotMalin{
                      Le premier à choisir ne doit pas prendre l’Assassin, il prend le Condottiere…
                      Le deuxième prend l’Assassin et tue l’Evêque.
                     */
-                    Optional<Role> rolePretre = assassin.getRoles().stream().filter(Pretre.class::isInstance).findFirst();
-                    Optional<Role> roleCondott = assassin.getRoles().stream().filter(Condottiere.class::isInstance).findFirst();
-                    if (rolePretre.isPresent() && this.getOrdreChoixRole() == 2) {
-                        rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-                        rolePretre.ifPresent(assassin::tuer);
-                        return;
-                    }
+                Optional<Role> rolePretre = rolesRestants.stream().filter(Pretre.class::isInstance).findFirst();
+                Optional<Role> roleCondott = rolesRestants.stream().filter(Condottiere.class::isInstance).findFirst();
+                System.out.println("role pretre est present " + rolePretre.isPresent());
+                System.out.println("role condott est present " + roleCondott.isPresent());
+                System.out.println(this.getOrdreChoixRole());
+
+                if (rolePretre.isPresent() && this.getOrdreChoixRole() == 2) {
+                    System.out.println("je suis là");
+                    rolePretre.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                    rolePretre.ifPresent(assassin::tuer);
+                    return;
+                }
                     /*
                      2ème cas.
                     Il manque : l’Evêque
                     Le premier prend l’Assassin et tue qui il veut sauf le Condottiere.
                             */
-                    if (roleCondott.isPresent() && !rolePretre.isPresent() && this.getOrdreChoixRole() == 1) {
-                        int rang;
-                        do{
-                            rang = randInt(rolesRestants.size());
-                        }while(rolesRestants.get(rang) instanceof Condottiere );
-                        affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
-                        assassin.tuer(rolesRestants.get(rang));
-                        //roleCondott.ifPresent(assassin::tuer);
-                        return;
-                    }
-                    Optional<Bot> bot2 = assassin.getBotliste().stream().filter(bot -> bot.getOrdreChoixRole() == 2).findFirst();
-                    if (rolePretre.isPresent() && this.getOrdreChoixRole() == 1) {
+                if (roleCondott.isPresent() && !rolePretre.isPresent() && this.getOrdreChoixRole() == 1) {
+                    int rang;
+                    do {
+                        rang = randInt(rolesRestants.size());
+                    } while (rolesRestants.get(rang) instanceof Condottiere);
+                    affichageJoueur.afficheMeurtre(rolesRestants.get(rang));
+                    assassin.tuer(rolesRestants.get(rang));
+                    //roleCondott.ifPresent(assassin::tuer);
+                    return;
+                }
+                Optional<Bot> bot2 = assassin.getBotliste().stream().filter(bot -> bot.getOrdreChoixRole() == 2).findFirst();
+                if (rolePretre.isPresent() && this.getOrdreChoixRole() == 1) {
                          /*
                     3ème cas.
  Il manque : Le Condottiere
  Le premier prend l’Assassin et tue le Magicien, si le 2ème joueur a beaucoup de
  cartes et le joueur en position de gagner en a aucune, sinon il tue qui il veut.
                             */
-                        if (bot2.isPresent()) {
-                            if (botProcheFinir.getQuartierMain().size() == 0 && bot2.get().getQuartierMain().size() >= bcpCartes) {
-                                Optional<Role> roleMagicien = assassin.getRoles().stream().filter(Magicien.class::isInstance).findFirst();
-                                roleMagicien.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-                                roleMagicien.ifPresent(assassin::tuer);
-                                return;
-                            }
+                    if (bot2.isPresent()) {
+                        if (botProcheFinir.getQuartierMain().size() == 0 && bot2.get().getQuartierMain().size() >= bcpCartes) {
+                            Optional<Role> roleMagicien = rolesRestants.stream().filter(Magicien.class::isInstance).findFirst();
+                            roleMagicien.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+                            roleMagicien.ifPresent(assassin::tuer);
+                            return;
                         }
                     }
                 }
             }
-                Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
-                roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
-                roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
+        }
+            if (getOrdreChoixRole() == 1){
+             System.out.println("je suis là");
+            Optional<Role> roleArchi = assassin.getRoles().stream().filter(Architecte.class::isInstance).findFirst();
+            roleArchi.ifPresent(value -> affichageJoueur.afficheMeurtre(value));
+            roleArchi.ifPresent(assassin::tuer); //assassin.tuer(roleArchi)
                 return;
             }
+
 
             //si on a bientot fini on tue le condottiere pour éviter la destruction de nos quartiers
             if (this.getQuartiersConstruits().size() >= 6){

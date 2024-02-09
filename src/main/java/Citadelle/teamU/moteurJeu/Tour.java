@@ -172,9 +172,9 @@ public class Tour {
         }
         affichageJeu.affichageOrdre(listeDistribution);
         for (Bot bot: listeDistribution){
-            System.out.println("avant de choisir"+rolesTemp);
+            //System.out.println("avant de choisir"+rolesTemp);
             bot.choisirRole(rolesTemp);
-            System.out.println("apres choisir"+rolesTemp);
+            //System.out.println("apres choisir"+rolesTemp);
         }
         return listeDistribution;
     }
