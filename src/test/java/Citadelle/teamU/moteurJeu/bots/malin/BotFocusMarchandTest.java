@@ -3,6 +3,7 @@ package Citadelle.teamU.moteurJeu.bots.malin;
 import Citadelle.teamU.cartes.Quartier;
 import Citadelle.teamU.cartes.roles.Assassin;
 import Citadelle.teamU.cartes.roles.Condottiere;
+import Citadelle.teamU.cartes.roles.Magicien;
 import Citadelle.teamU.cartes.roles.Voleur;
 import Citadelle.teamU.moteurJeu.Pioche;
 import Citadelle.teamU.moteurJeu.bots.Bot;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -139,6 +141,26 @@ class BotFocusMarchandTest {
         bot.setQuartiersConstruits(List.of(Quartier.BIBLIOTHEQUE));
         List<Quartier> choix3 = bot.choisirCarte(List.of(Quartier.TAVERNE, Quartier.MANUFACTURE, Quartier.TERRAIN_DE_BATAILLE));
         assertEquals(List.of(Quartier.TAVERNE, Quartier.MANUFACTURE, Quartier.TERRAIN_DE_BATAILLE), choix3);
+    }
+
+    @Test
+    void actionSpecialeMagicienQueVertTest(){
+        bot.setRole(new Magicien(botliste));
+        ArrayList<Quartier> queVert = new ArrayList<>(Arrays.asList(Quartier.HOTEL_DE_VILLE,Quartier.COMPTOIR,Quartier.MARCHE));
+        bot.setQuartierMain(queVert);
+        bot.faireActionSpecialRole();
+        assertEquals(bot.getQuartierMain(),queVert);
+    }
+    @Test
+    void actionSpecialeMagicienPiocheTest(){
+        bot.setRole(new Magicien(botliste));
+        doReturn(Quartier.CIMETIERE).when(pioche).piocherQuartier();
+        ArrayList<Quartier> pasqueVert = new ArrayList<>(Arrays.asList(Quartier.HOTEL_DE_VILLE,Quartier.COMPTOIR,Quartier.MARCHE));
+        bot.setQuartierMain(pasqueVert);
+        bot.faireActionSpecialRole();
+        pasqueVert.remove(Quartier.MARCHE);
+        pasqueVert.add(Quartier.CIMETIERE);
+        assertEquals(bot.getQuartierMain(),pasqueVert);
     }
 
 }
