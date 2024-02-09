@@ -11,7 +11,6 @@ import java.util.*;
 public class BotFocusMarchand extends BotMalin {
     private static int numDuBotAleatoire = 1;
     private int nbQuartiersVertsConstruits = 0;
-    private boolean strat2 = false;
 
     public BotFocusMarchand(Pioche pioche) {
         //Bot qui monopolise le role de marchand
@@ -44,21 +43,7 @@ public class BotFocusMarchand extends BotMalin {
             }
         }
 
-        int al = randInt(3);
-
-        if(strat2){
-            if (al != 4){                     //3 chances sur 3 de prendre de l'or
-                choixDeBase.add(null);
-                changerOr(2);
-                affichageJoueur.afficheChoixDeBase(choixDeBase);
-                return choixDeBase;
-            }
-        } else {                            // sinon on pioche
-            choixDeBase = piocheDeBase();
-            choixDeBase.addAll(choisirCarte(new ArrayList<>(choixDeBase)));
-        }
-        affichageJoueur.afficheChoixDeBase(choixDeBase);
-        return choixDeBase;
+        return suite(choixDeBase);
     }
 
     /**
@@ -71,7 +56,7 @@ public class BotFocusMarchand extends BotMalin {
         if (nbQuartiersVertsConstruits < 2) {
             choisirRoleDebut(roles);
         } else {
-            strat2 = true;
+            changementFocus = true;
             choisirRoleFin(roles);
         }
     }
@@ -83,13 +68,8 @@ public class BotFocusMarchand extends BotMalin {
     public void choisirRoleDebut(List<Role> roles) {
         if (orProchainTour >= 0) nbOr += orProchainTour;
         if (trouverRole(roles, "Architecte")){return;}
-
         if (trouverRole(roles, "Magicien")){return;}
-
-
         if (trouverRole(roles, "Marchand")){return;}
-        if (trouverRole(roles, "Roi")){return;}
-
 
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
@@ -109,7 +89,6 @@ public class BotFocusMarchand extends BotMalin {
         if (trouverRole(roles, "Architecte")){return;}
         if (trouverRole(roles, "Magicien")){return;}
 
-
         int intAleatoire = randInt(roles.size());    //sinon aleatoire
         setRole(roles.remove(intAleatoire));
         rolesRestants = new ArrayList<>(roles);
@@ -118,24 +97,19 @@ public class BotFocusMarchand extends BotMalin {
 
     @Override
     public List<Quartier> choisirCarte(List<Quartier> quartierPioches) {
-        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)){
-            if (quartierPioches.get(2) == null){        //on cherche la presence du quartier vert
+        if (!quartiersConstruits.contains(Quartier.BIBLIOTHEQUE)) {
+            if (quartierPioches.get(2) == null) {        //on cherche la presence du quartier vert
                 quartierPioches.remove(2);
-                List<Quartier> ListequartierVerts = new ArrayList<>();
-                List<Quartier> autresQuartiers = new ArrayList<>();
-                for (Quartier quartierPioch : quartierPioches) {
-                    if (quartierPioch.getCouleur() == TypeQuartier.VERT) {
-                        ListequartierVerts.add(quartierPioch);
-                    } else {
-                        autresQuartiers.add(quartierPioch);
+                if (quartierPioches.get(0).getCouleur() == TypeQuartier.VERT && quartierPioches.get(1).getCouleur() == TypeQuartier.VERT) {
+                    if(quartierPioches.get(0).getCout()<=quartierPioches.get(1).getCout()){
+                        ajoutQuartierMain(quartierPioches.get(1));
+                        pioche.remettreDansPioche(quartierPioches.remove(0));
                     }
-                }
-
-                if (quartierPioches.get(1).getCouleur() == TypeQuartier.VERT){
-                    ajoutQuartierMain(quartierPioches.get(1));
-                    pioche.remettreDansPioche(quartierPioches.remove(0));
-                }
-                else if(quartierPioches.get(0).getCouleur() == TypeQuartier.VERT){
+                    else{
+                        ajoutQuartierMain(quartierPioches.get(0));
+                        pioche.remettreDansPioche(quartierPioches.remove(1));
+                    }
+                } else if (quartierPioches.get(0).getCouleur() == TypeQuartier.VERT) {
                     ajoutQuartierMain(quartierPioches.get(0));
                     pioche.remettreDansPioche(quartierPioches.remove(1));
                 } else {
@@ -146,72 +120,27 @@ public class BotFocusMarchand extends BotMalin {
                 return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
             }
 
-            List<Quartier> ListequartierVerts = new ArrayList<>();
+            Quartier quartierVert = null;
             List<Quartier> autresQuartiers = new ArrayList<>();
             for (Quartier quartierPioch : quartierPioches) {
                 if (quartierPioch.getCouleur() == TypeQuartier.VERT) {
-                    ListequartierVerts.add(quartierPioch);
+                    quartierVert = quartierPioch;
                 } else {
                     autresQuartiers.add(quartierPioch);
                 }
-                if (ListequartierVerts.size() != 0){
-                    ListequartierVerts.sort(Comparator.comparingInt(Quartier::getCout));
-                    Collections.reverse((ListequartierVerts));
-
-                    int i;
-                    for(i=0;i<ListequartierVerts.size();i=i+1){
-                        if(ListequartierVerts.get(i).getCout() <= this.nbOr){
-                            ajoutQuartierMain(ListequartierVerts.get(i));
-
-                            this.changerOr(-ListequartierVerts.get(i).getCout());
-                            break;
-                        }
-                    }
-
-                    for (Quartier quart: autresQuartiers){
-                        pioche.remettreDansPioche(quart);
-                    }
-                    return new ArrayList<>(Collections.singleton(quartierMain.get(0)));
-                } else {
-                    quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                    Collections.reverse((quartierPioches));
-                    pioche.remettreDansPioche(quartierPioches.remove(0));
-                    pioche.remettreDansPioche(quartierPioches.remove(0));
-                    ajoutQuartierMain(quartierPioches.get(0));
-                    return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
-                }
-
-
             }
-            if (ListequartierVerts.size() != 0){
-                ListequartierVerts.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((ListequartierVerts));
-
-                int i;
-                for(i=0;i<ListequartierVerts.size();i=i+1){
-                    if(ListequartierVerts.get(i).getCout() <= this.nbOr){
-                        ajoutQuartierMain(ListequartierVerts.get(i));
-
-                        this.changerOr(-ListequartierVerts.get(i).getCout());
-                        break;
-                    }
-                }
-
-                for (Quartier quart: autresQuartiers){
+            if (quartierVert != null) {
+                ajoutQuartierMain(quartierVert);
+                for (Quartier quart : autresQuartiers) {
                     pioche.remettreDansPioche(quart);
                 }
-                return new ArrayList<>(Collections.singleton(quartierMain.get(0)));
+                return new ArrayList<>(Collections.singleton(quartierVert));
             } else {
-                quartierPioches.sort(Comparator.comparingInt(Quartier::getCout));
-                Collections.reverse((quartierPioches));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                pioche.remettreDansPioche(quartierPioches.remove(0));
-                ajoutQuartierMain(quartierPioches.get(0));
-                return new ArrayList<>(Collections.singleton(quartierPioches.get(0)));
+                return choisirCartePasImportante(quartierPioches);
             }
         } else {
-            for (Quartier quartier: quartierPioches){
-                if (quartier != null){
+            for (Quartier quartier : quartierPioches) {
+                if (quartier != null) {
                     ajoutQuartierMain(quartier);
                 }
             }
@@ -299,3 +228,4 @@ public class BotFocusMarchand extends BotMalin {
         return name;
     }
 }
+

@@ -68,9 +68,6 @@ public class Condottiere implements Role{
         return botListe;
     }
 
-    public List<Bot> getBotListe() {
-        return botListe;
-    }
     @Override
     public String toString(){
         return "Condottiere";

@@ -42,6 +42,4 @@ class JeuTest {
         }
         assertTrue(maxQuartiersConstruits>=8);
     }
-
-
 }
