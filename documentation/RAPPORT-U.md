@@ -7,7 +7,7 @@ Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les 
 * [Bot construit chère](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotConstruitChere.java) : Son but est d’avoir un score élevé.
   * Il cherche à piocher des quartiers qui coûtent cher (qui coûtent 4 pièces ou plus), et il construit uniquement les quartiers chers.
   * Il choisit le rôle du Marchand quand il peut, afin de pouvoir collecter plus de pièces.
-  * Quand il a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1, parce que ça ne lui coûte rien → il économise de l’argent.
+  * Quand il a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1, parce que ça ne lui coûte rien et il économise de l’argent.
   * Quand il a le rôle de Magicien, il échange ses cartes avec le joueur qui a le plus de cartes, si c’est lui le joueur avec le plus de cartes, il échange avec la pioche.
 * [Bot construit vite](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotConstruitVite.java) : Son but est de finir en premier en construisant 8 quartiers.
   * Il cherche à piocher des quartiers qui coûtent peu cher (qui coûtent moins de 4 pièces), et il construit uniquement les quartiers peu chers.
