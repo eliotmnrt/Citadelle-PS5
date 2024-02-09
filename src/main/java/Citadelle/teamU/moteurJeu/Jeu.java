@@ -207,32 +207,34 @@ public class Jeu {
                 .build()
                 .parse(args);
         String log = "LOGGER";
+        boolean rien = true;
         if(arg.demo){
             //Faire une demo
             Logger.getLogger(log).getParent().setLevel(Level.ALL);
-
+            rien = false;
             gameStart();
-
         }
         if(arg.two){
             //faire 2 fois 1000 stats
             Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             simulation1(1000,false);
             simulation2(1000);
         }
         Path path = Paths.get("stats", "gamestats.csv");
         if(arg.csv){
             Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             updateCSV(path.toFile(),1000);
         }
         if(arg.csvG > 0){
             Logger.getLogger(log).getParent().setLevel(Level.OFF);
+            rien = false;
             updateCSV(path.toFile(), arg.csvG);
-        }else{
+        }
+        if(rien){
             gameStart();
         }
-
-
     }
 
     public static void gameStart(){
