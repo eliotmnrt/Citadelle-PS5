@@ -1,6 +1,55 @@
 # Rapport projet citadelle - Groupe U
 ## Point d’avancement
 ### 1. Fonctionnalités réalisées
+Nous avons réalisé la majorité du jeu Citadelle. Dans notre projet nous avons 4 Bots (des joueurs) qui s’affrontent. Nous avons implémenté la totalité des rôles du jeu sans extension. Soit : assassin, voleur, magicien, roi, prêtre, marchand, architecte, condottiere. Ainsi que leurs caractéristiques spécifiques.
+Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les stratégies sont les suivantes :
+* Bot construit chère : Son but est d’avoir un score élevé.
+  * Il cherche à piocher des quartiers qui coûtent chers (qui coûtent 4 pièces ou plus), et il construit uniquement les quartiers chers.
+  * Il choisit le rôle du Marchand quand il peut, afin de pouvoir collecter plus de pièces.
+  * Quand il a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1, parce que ça ne lui coûte rien → il économise de l’argent.
+  * Quand il a le rôle de Magicien, il échange ses cartes avec le joueur qui a le plus de cartes, si c’est lui le joueur avec le plus de cartes il échange avec la pioche.
+* Bot construit vite : Son but est de finir en premier en construisant 8 quartiers.
+  * Il cherche à piocher des quartiers qui coûtent peu chers ( qui coûtent moins de 4 pièces), et il construit uniquement les quartiers peu chers.
+  * Il choisit le rôle de l'Architecte quand il peut, afin de pouvoir construire jusqu’à 3 fois s’il peut.
+  * Quand il a le rôle du Condottière, il détruit le quartier le moins cher du bot qui a le plus de quartiers construits.
+  * Quand il a le rôle de Magicien, il fait la même chose que Bot construit chère.
+* Bot focus Marchand : Son but est de choisir le rôle du Marchand et construire des quartiers verts pour gagner beaucoup d’argent
+* Bot focus Roi : Son but est de monopoliser le rôle du Roi pour avoir la couronne et construire des quartiers jaune pour gagner beaucoup d’argent
+
+* Fonctionnalités communes à Bot Focus Roi et Bot Focus Marchand:
+  * Au début de la partie, le bot a comme priorité de construire 2 quartiers de sa couleur. Pour cela, il cherche à choisir les rôles Architecte ou Magicien dans l’ordre, pour avoir plus de choix parmi les quartiers. Sinon il choisit Marchant pour botFocusMarchand ou Roi pour botFocusRoi ensuite Roi pour botFocusMarchand (pour choisir au premier au prochain tour) dans l’ordre, ou enfin aléatoirement parmi les rôles qui restent. 
+  * A partir du moment où le bot a construit 2 quartiers de sa couleur, il vise dans l’ordre les rôles Marchant pour BotFocusMarchand, Roi, Architecte, Magicien ou aléatoirement parmi les rôles qui restent.
+  * Pour construire : dès que le bot possède un quartier de sa couleur dans sa main il économise des pièces pour le construire. Si il n’a pas de quartier de sa couleur,il construit le quartier le moins cher de sa main et pioche un quartier (de sa couleur si possible).
+  * Quand le bot a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1 (qui ne lui coûte rien à détruire).
+  * Quand le bot a le rôle de Magicien, il échange ses cartes avec un joueur qui a 3 quartiers de plus que lui, sinon il échange avec la pioche uniquement les quartiers qui ne sont pas de sa couleur, ou ceux de sa couleur qu’il a déjà construit.
+* Bot aléatoire : il fait tous ses choix en aléatoire, le choix du rôles, du ou des quartiers à construire, qui tuer, qui voler, etc…
+
+
+Fonctionnalités commmunes pour tous les bots (hors Bot Richard):
+* Pour les rôles Assassin et Voleur,si le bot choisit en dernier son rôle, il tue ou vole aléatoirement parmi tous les rôles. Sinon il effectue son action sur un rôle parmi les rôles restants après avoir choisi le sien.
+* Pour le rôle Architecte le bot construit 3 fois si il peut.
+* Pour les rôles Roi et Prêtre, le bot ne fait rien de spécial à part jouer son tour.
+
+
+Nous avons également décidé que si la pioche était vide, nous en ferions une nouvelle.
+L’ordre de jeux est également pris en compte, l’ordre dans lequel les bots sont donnés au début est gardé et respecté par la suite. Le premier commencera à choisir son rôle puis le deuxième, etc... Une fois la couronne prise par un Bot, il choisira en premier au tour d’après, puis celui après lui (si le bot qui a la couronne est 4ème dans l’ordre d’origine, c’est le 1er qui joue après lui).
+Le dernier tour est le tour où un bot construit 8 quartiers ou plus en premier. Une fois qu’un Bot a construit 8 quartiers il ne peut plus être visé par le Condottière.
+Les scores de chaque Bot sont mis à jour et affichés à chaque tour.
+Nous avons également fait tous les quartiers violets, pour les quartiers université et dracoport la valeur ajouté a leur score est affiché à la fin de la partie.
+Les bonus sont affichés à la fin de la partie, nous avons réalisés les bonus suivants :
+Le Bot qui a fini en premier gagne 4 points
+Un Bot qui finit avec 8 quartiers ou plus (hors celui qui a fini en premier) gagne 2 points.
+Un Bot qui finit avec un quartier de chaque couleur (en prenant en compte la cours des miracles) gagne 3 points.
+
+Nous avons également implémenté la possibilité de lancer notre jeu sous plusieurs modes :
+–2thousands, qui permet de voir des statistiques sur 1000 parties où 4 bots différents d'affronter, et 1000 parties où 4 Bot identiques s'affrontent.
+–demo, permet d’avoir la trace d’une partie entière avec 4 Bots différents.
+
+Nous avons également mis en place le github action.
+à chaque fois qu’il y’a un push ou une pull request sur la branche master, un build qui  exécute les commandes suivantes est lancé:
+mvn -B package --file pom.xml : qui compile et exécute tous les tests unitaires du projet
+mvn exec:java -Dexec.args="--demo" : qui compile et exécute une démonstration d’une partie de jeu
+
 
 ### 2. Affichage 
 
@@ -86,7 +135,15 @@ Ces 2 outils nous ont permis de cibler certaines parties du code à améliorer. 
 Nous avons pu cibler certaines parties du code qui était dupliquées dans plusieurs endroits du code. De même pour le refactoring de certains éléments, ce qui nous a permis de rendre le code plus clair, plus lisible.
 
 ### 5. Améliorations possibles
-[Bot Richard](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotRichard.java)
+
+
+Si on avait plus de temps, nous aurions aimer:
+* Améliorer les méthodes avec une grande complexité cognitive, notamment dans la classe [Bot Richard](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotRichard.java) où on a des méthodes qui traitent plusieurs cas avec beaucoup de conditions imbriqués et des nom de variables qui sont pas toujours clair.
+* Actuellement, nous avons mis en place plusieurs méthodes void qui devrait retourner des objets, notamment dans la classe [Bot](../src/main/java/Citadelle/teamU/moteurJeu/bots/Bot.java) les méthodes d’actions spéciales des rôles. Par exemple la fonction void actionSpecialeAssassin devrait renvoyer le rôle qui s’est fait tué, afin d’avoir un code plus cohérent mais également pour les tests, car on pourrait mocker plus facilement les actions.
+* Refactoring de la classe [Tour](../src/main/java/Citadelle/teamU/moteurJeu/Tour.java) parce qu’elle est instanciée une seule fois, au lieu de reinstancier un Tour à chaque début de tour, on appelle la fonction void prochainTour().
+* Amélioration des nom des branches de fonctionnalités pour que ce soit plus clair
+* Mettre en place du versionning en posant un tag à la fin de chaque milestone.
+
 
 ## Processus 
 ### 1. Répartition du travail
