@@ -1,7 +1,8 @@
 # Rapport projet citadelle - Groupe U
 ## Point d’avancement
 ### 1. Fonctionnalités réalisées
-Nous avons réalisé la majorité du jeu Citadelle. Dans notre projet nous avons 4 Bots (des joueurs) qui s’affrontent. Nous avons implémenté la totalité des rôles du jeu sans extension. Soit : assassin, voleur, magicien, roi, prêtre, marchand, architecte, condottiere. Ainsi que leurs caractéristiques spécifiques.
+Nous avons réalisé la majorité du jeu Citadelle. Dans notre projet nous avons 4 Bots (des joueurs) qui s’affrontent. 
+* Nous avons implémenté la totalité des rôles du jeu sans extension. Soit : assassin, voleur, magicien, roi, prêtre, marchand, architecte, condottiere. Ainsi que leurs caractéristiques spécifiques.
 Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les stratégies sont les suivantes :
 * [Bot construit chère](../src/main/java/Citadelle/teamU/moteurJeu/bots/malin/BotConstruitChere.java) : Son but est d’avoir un score élevé.
   * Il cherche à piocher des quartiers qui coûtent chers (qui coûtent 4 pièces ou plus), et il construit uniquement les quartiers chers.
@@ -22,7 +23,8 @@ Chaque Bot a une stratégie parmi les 6 stratégies que nous avons codées. Les 
   * Pour construire : dès que le bot possède un quartier de sa couleur dans sa main, il économise des pièces pour le construire. Si il n’a pas de quartier de sa couleur,il construit le quartier le moins cher de sa main et pioche un quartier (de sa couleur si possible).
   * Quand le bot a le rôle du Condottière, il détruit uniquement les quartiers qui valent 1 (qui ne lui coûte rien à détruire).
   * Quand le bot a le rôle de Magicien, il échange ses cartes avec un joueur qui a 3 quartiers de plus que lui, sinon il échange avec la pioche uniquement les quartiers qui ne sont pas de sa couleur, ou ceux de sa couleur qu’il a déjà construit.
-* Bot aléatoire : il fait tous ses choix en aléatoire, le choix du rôle, du ou des quartiers à construire, qui tuer, qui voler, etc…
+* Bot aléatoire : il fait tous ses choix en aléatoire, le choix du rôles, du ou des quartiers à construire, qui tuer, qui voler, etc…
+* Bot Richard avec la majorité de ses fonctionnalités (détaillées plus tard dans le rapport).
 
 
 Fonctionnalités commmunes pour tous les bots (hors Bot Richard) :
@@ -41,14 +43,17 @@ Le Bot qui a fini en premier gagne 4 points
 Un Bot qui finit avec 8 quartiers ou plus (hors celui qui a fini en premier) gagne 2 points.
 Un Bot qui finit avec un quartier de chaque couleur (en prenant en compte la cour des miracles) gagne 3 points.
 
-Nous avons également implémenté la possibilité de lancer notre jeu sous plusieurs modes :
-–2thousands, qui permet de voir des statistiques sur 1000 parties où 4 bots différents d'affronter, et 1000 parties où 4 Bot identiques s'affrontent.
-–demo, permet d’avoir la trace d’une partie entière avec 4 Bots différents.
+* Nous avons également implémenté la possibilité de lancer notre jeu sous plusieurs modes en lancant la commande suivante:
+mvn exec:java -Dexec.args="--2thousands --demo --csv -csv 50", on peut lancer tous ou un argument à la fois.
+  * --2thousands: permet de voir des statistiques sur 1000 parties où 4 bots différents d'affrontent, et 1000 parties où 4 Bot identiques s'affrontent.
+  * --demo: permet d’avoir la trace d’une partie entière avec 4 Bots différents.
+  * --csv: permet de creer un fichier csv avec les statistiques sur 1000 parties ou 4 bots différents s'affrontent. Si le fichier existe déjà les statisques sont améliorées.
+  * -csv [nombre] : permet de faire la même chose que --csv mais avec autant de simulation que le [nombre] indique
 
-Nous avons également mis en place le github action.
-à chaque fois qu’il y a un push ou une pull request sur la branche master, un build qui  exécute les commandes suivantes est lancé:
-mvn -B package --file pom.xml : qui compile et exécute tous les tests unitaires du projet
-mvn exec:java -Dexec.args="--demo" : qui compile et exécute une démonstration d’une partie de jeu
+* Nous avons également mis en place le github action dans le fichier [CI.yml](../.github/workflows/CI.yml).
+  * à chaque fois qu’il y’a un push ou une pull request sur la branche master, un build qui exécute les commandes suivantes est lancé:
+  * mvn -B package --file pom.xml : compilation et exécution de tous les tests unitaires du projet
+  * mvn exec:java -Dexec.args="--demo" : compilation et exécution d'une démonstration d’une partie de jeu
 
 
 ### 2. Affichage 
@@ -72,31 +77,32 @@ Nous affichons pour chaque tour de chaque Bot :
 
 L'exécution de *mvn exec:java -Dexec.args='--csv'* permet de mettre des statistiques sur 4 bots dans un fichier csv. 
 
-Il est facilement possible de changer les bots qui s'affrontent, deux bots identiques peuvent s'affronter. 
+* Il est facilement possible de changer les bots qui s'affrontent, deux bots identiques peuvent s'affronter. 
 
-Si le fichier n’est pas déjà créé dans le dossier, il le crée. 
+* Si le fichier n’est pas déjà créé dans le dossier, il le crée. 
 
-Quand le fichier est déjà créé et qu’on relance la commande (et les bots sont les mêmes) les valeurs sont mises à jour dans le fichier. 
+* Quand le fichier est déjà créé et qu’on relance la commande (et les bots sont les mêmes) les valeurs sont mises à jour dans le fichier. 
 Le total des parties lancées augmente et les statistiques sont réévaluées en fonction du nombre de simulations qu’on avait et du nombre de nouvelles simulations. 
 
-Si on change les bots qui sont testés, le fichier est remis à 0 (seulement les nouvelles simulations sont prises en compte).
+* Si on change les bots qui sont testés, le fichier est remis à 0 (seulement les nouvelles simulations sont prises en compte).
 
-Il est également possible d'exécuter *mvn exec:java -Dexec.args='-csv 50'*, cela permet d’améliorer le fichier csv avec un nombre de nouvelles simulations données (ici 50), si le nombre n’est pas valide (négatif) l’option n’est pas prise en compte, une partie normale est lancée.
+* Il est également possible d'exécuter *mvn exec:java -Dexec.args='-csv 50'*, cela permet d’améliorer le fichier csv avec un nombre de nouvelles simulations données (ici 50), si le nombre n’est pas valide (négatif) l’option n’est pas prise en compte, une partie normale est lancée.
 
 ### 4. Bot Richard
 
 Nous avons implémenté quasiment toutes les fonctionnalités demandées pour le BotRichard:
 
-* concernant le choix du rôle en fonction de l’état de la partie, selon si des joueurs menacent de finir en fonction de leur rôle potentiel, de leur nombre de quartiers construits et de leur ordre dans le choix des rôles
-  * prendre l’assassin pour contrer un joueur qui menace de finir avec l’architecte en tuant l’Architecte
-  * prendre (dans l’ordre) le Roi, l’Assassin, le Condottiere et l'Évêque si un adversaire a 6 quartiers construits
-* ciblage des Bots les plus avancés selon l’état de la partie
-  * pour reprendre l’exemple juste au-dessus, si un joueur a 6 quartiers construits et qu’on récupère le rôle d’assassin, on va tuer le rôle le plus probable que l’adversaire ai choisi
-  * empêcher un joueur qui a 7 quartiers construits de finir la partie :
-    * Si le joueur menaçant choisit son rôle en deuxième, le BotRichard choisit l’assassin et tue le prêtre ou le condottiere s'il peut.
-    * Si le joueur menaçant choisit son rôle en 3ᵉ ou 4ᵉ, les premiers joueurs (1er et 2ᵉ et pas 3ᵉ) BotRichard vont le cibler. Par exemple, si le joueur en passe de gagner est 3ᵉ, le premier va choisir l’assassin et tuer le condottiere et le deuxième va choisir le prêtre.
+* Le choix du rôle en fonction de l’état de la partie, selon si des joueurs menacent de finir en fonction de leur rôle potentiel, de leur nombre de quartiers construits et de leur ordre dans le choix des rôles
+  * Prendre l’assassin pour contrer un joueur qui menace de finir avec l’architecte en tuant l’Architecte
+  * Prendre (dans l’ordre) le Roi, l’Assassin, le Condottiere et l'Évêque si un adversaire a 6 quartiers construits
+* Ciblage des Bots les plus avancés selon l’état de la partie
+  * Pour reprendre l’exemple ci-dessus, si un joueur a 6 quartiers construits et qu’on récupère le rôle d’assassin, Bot Richard va tuer le rôle le plus probable que l’adversaire ai choisi
+  * empêcher un joueur qui a 7 quartiers construits de finir la partie:
+    * Si le joueur menaçant choisit son rôle en deuxième, le BotRichard choisit l’assassin et tue le prêtre ou le condottiere si il peut.
+    * Si le joueur menaçant choisit son rôle en 3ème ou 4ème, les premiers joueurs (1er et 2ème et pas 3ème)  BotRichard vont le cibler. Par exemple, si le joueur en passe de gagner est 3ème, le premier va choisir l’assassin et tuer le condottiere et le deuxième va choisir le prêtre.
 
 ### 5. Meilleur Bot
+
 Pour estimer cela, nous avons notamment fait une fonction qui prend en paramètre un Bot donné et cette fonction détermine le rôle le plus probable que ce bot a pu prendre, en fonction de l’ordre dans lequel il a choisi son rôle (avant ou après nous), les cartes que notre Bot a vu en choisissant son rôle, les rôles visible au début du tour, son nombre de carte dans la main, son nombre de quartier construit, le nombre de quartier par couleur qu’il possède et le nombre d’or qu’il a.
 
 Lorsqu’on lance la simulation avec BotConstruitChere (6%), BotFocusRoi (58%), BotFocusMarchand (28%) et BotRichard (4%), ce dernier n’obtient que 4% de parties gagnées et a le plus bas score moyen des 4 Bots. En effet il se base sur le comportement de BotConstruitChere pour ce qui concerne les actions de bases ainsi que la manière de construire ses quartiers, cependant puisqu’il “perd” du temps et de l’argent à contrer les bots qui ont pris de l’avance, le BotRichard devient un tout petit moins efficace que le BotConstruitChere qui lui a 6% de winrate.
