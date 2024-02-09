@@ -383,7 +383,7 @@ class BotRichardTest {
         botConstruitChere.setOrdreChoixRole(3);
         botFocusRoi.setOrdreChoixRole(4);
         List<Role> roles = new ArrayList<>();
-        Assassin assassin=new Assassin(botliste, roles);
+        //Assassin assassin=new Assassin(botliste, roles);
         Pretre pretre=new Pretre(botliste);
         Condottiere condottiere=new Condottiere(botliste);
         roles.add(assassin);
@@ -412,6 +412,7 @@ class BotRichardTest {
 
 
 
+        // CAS ou il n'y a pas l'assassin, verifier qu'il choisit le pretre
 
         roles.remove(0);
         roles.add(new Voleur(botliste, roles));
@@ -438,6 +439,7 @@ class BotRichardTest {
         assertTrue(bot.getRole()==pretre);
 
         //cas ou il n'y a ni assassin ni pretre
+        //verifier qu'il choisit le condottiere
 
         roles.remove(0);
         //roles.add(new Voleur(botliste, roles));
@@ -467,7 +469,6 @@ class BotRichardTest {
     }
     @Test
     void ChoixRoleBotPresqueFiniThisEstDeuxieme(){
-        //cas particulier
         //cas ou c'est this le joueur qui a presque fini et que que il a l'ordre 1
         //cas ou il y'a l'assassin, choisir l'assassin
         List<Quartier> quart = new ArrayList<>();
@@ -485,7 +486,7 @@ class BotRichardTest {
         botConstruitChere.setOrdreChoixRole(3);
         botFocusRoi.setOrdreChoixRole(1);
         List<Role> roles = new ArrayList<>();
-        Assassin assassin=new Assassin(botliste, roles);
+        //Assassin assassin=new Assassin(botliste, roles);
         Pretre pretre=new Pretre(botliste);
         Condottiere condottiere=new Condottiere(botliste);
         roles.add(assassin);
@@ -510,6 +511,11 @@ class BotRichardTest {
         assertTrue(bot.getJoueurProcheFinir()==bot);
         assertTrue(bot.getRole()==assassin);
 
+
+
+
+        // cas ou il n'y a pas l'assassin mais qu'il y a pretre et condottiere
+        //verifier qu'il choisit le pretre
         roles.remove(0);
         roles.add(new Voleur(botliste, roles));
         roles.add(new Magicien(botliste));
@@ -535,6 +541,7 @@ class BotRichardTest {
         assertTrue(bot.getRole()==pretre);
 
         //cas ou il n'y a ni assassin ni pretre
+        //verifier qu'il choisit le condottiere
 
         roles.remove(0);
         //roles.add(new Voleur(botliste, roles));
@@ -561,9 +568,14 @@ class BotRichardTest {
         assertTrue(bot.getRole()==condottiere);
 
 
+
+
     }
     @Test
-    void ChoixRoleBotPresqueFiniBotEstDeuxieme(){
+    void ChoixRoleBotPresqueFinirBotEstDeuxieme(){
+        // cas particulier ou le joueur en passe de finir est deuxieme
+        // verifier que si il y'a assassin et soit condottiere soit pretre
+        // le bot richard choisit l'assassin et tue le condottiere ou le pretre
         List<Quartier> quart = new ArrayList<>();
         quart.add(Quartier.OBSERVATOIRE);
         quart.add(Quartier.TEMPLE);
@@ -579,15 +591,15 @@ class BotRichardTest {
         botConstruitChere.setOrdreChoixRole(3);
         bot.setOrdreChoixRole(1);
         List<Role> roles = new ArrayList<>();
-        Assassin assassin=new Assassin(botliste, roles);
+        //Assassin assassin=new Assassin(botliste, roles);
         Pretre pretre=new Pretre(botliste);
         Condottiere condottiere=new Condottiere(botliste);
         roles.add(assassin);
         roles.add(new Voleur(botliste, roles));
         //roles.add(new Magicien(botliste));
         //roles.add(new Roi(botliste));
-        roles.add(pretre);
-        //roles.add(new Marchand(botliste));
+        //roles.add(pretre);
+        roles.add(new Marchand(botliste));
         roles.add(new Architecte(botliste));
         roles.add(condottiere);
         System.out.println(roles);
@@ -603,11 +615,15 @@ class BotRichardTest {
         assertFalse(bot.getJoueurProcheFinir()==null);
         assertTrue(bot.getJoueurProcheFinir()==botFocusRoi);
         assertTrue(bot.getRole()==assassin);
+        bot.faireActionSpecialRole();
+        verify(assassin).tuer(any(Condottiere.class));
+
 
     }
     @Test
     void ChoixRoleBotPresqueFiniBotEstTroisiemeEtThisEstPremierOuDeuxieme(){
-
+        // cas ou il y'a assassin pretre et condottiere
+        //verifier que bot1 choisis condottiere et bot2 choisis assassin
         List<Bot> botliste2 = new ArrayList<>();
         Tour tour2= new Tour(botliste2);
         bot2=new BotRichard(pioche);
@@ -659,6 +675,8 @@ class BotRichardTest {
         assertTrue(bot.getJoueurProcheFinir()==botFocusRoi);
         assertTrue(bot.getRole()==condottiere);
         assertTrue(bot2.getRole()==assassin);
+
+        bot2.actionSpecialeAssassin(assassin);
 
 
     }
