@@ -129,6 +129,12 @@ Toutes les informations nécessaires pour contribuer à notre projet se situent 
 En plus de cela, nous avons réalisé une [javaDoc](javaDoc) qui restitue toute l’architecture de notre projet ainsi que le détail de chaque classe et chaque méthode.
 
 ### 3. Points positifs
+Le code implémenté permet de simuler une partie complète de Citadelles, avec toutes les règles, tous les quartiers, tous les effets des quartiers violets, avec des Bots qui jouent selon différentes stratégies assez claires.
+Les responsabilités des choix au cours d’une partie sont bien faites par les Bots en fonction de leur stratégie.
+La couverture du code est assez efficace, nous avons mis beaucoup d'énergie afin de maintenir ce niveau de couverture tout au long du projet.
+Nous avons également mis en place des tests unitaires pour chaque classe, et des tests d’intégration pour les classes qui en avaient besoin.
+
+
 ### 4. Améliorations effectuées grâce à Sonarlint/Sonarqube
 Ces 2 outils nous ont permis de cibler certaines parties du code à améliorer. Par exemple l’ouverture du .csv était relevé en bug dans Sonarqube, mais pas repéré par Sonarlint. Nous avons donc modifié l’ouverture du fichier en try-with-resources.
 
