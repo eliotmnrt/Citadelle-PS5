@@ -13,7 +13,8 @@ import java.util.List;
 
 public class AffichageJoueur {
     private static final Logger LOGGER = Logger.getLogger(AffichageJoueur.class.getName());
-    private Bot bot;
+    private static final String WIN = " a gagné ";
+    private final Bot bot;
     public AffichageJoueur(Bot bot){
         this.bot=bot;
 
@@ -84,20 +85,20 @@ public class AffichageJoueur {
         bot.setOrVole(-1);
     }
     public void afficheGainVoleur(int orGagne){
-        LOGGER.info("Le " + bot.toString() +" a gagné " + orGagne + " or(s) grâce à son role de Voleur au tour précédent");
+        LOGGER.info("Le " + bot.toString() + WIN + orGagne + " or(s) grâce à son role de Voleur au tour précédent");
         bot.setOrProchainTour(-1);
     }
 
     public void afficheActionSpecialeRoi(int or){
-        LOGGER.info("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de roi");
+        LOGGER.info("Le " + bot.toString() + WIN + or + " or(s) grâce à sa capacité de roi");
     }
 
     public void afficheActionSpecialePretre(int or) {
-        LOGGER.info("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de prêtre");
+        LOGGER.info("Le " + bot.toString() + WIN + or + " or(s) grâce à sa capacité de prêtre");
     }
 
     public void afficheActionSpecialeMarchand(int or) {
-        LOGGER.info("Le " + bot.toString() + " a gagné " + or + " or(s) grâce à sa capacité de marchand");
+        LOGGER.info("Le " + bot.toString() + WIN + or + " or(s) grâce à sa capacité de marchand");
     }
 
     public void afficheActionSpecialeArchitecte(List<Quartier> quartiersSupp) {
@@ -105,7 +106,7 @@ public class AffichageJoueur {
     }
 
     public void afficheActionSpecialeOrCondottiere(int nbOr) {
-        LOGGER.info("Le " + bot.toString() + " a gagné " + nbOr + " or(s) grâce à sa capacité de condottière");
+        LOGGER.info("Le " + bot.toString() + WIN + nbOr + " or(s) grâce à sa capacité de condottière");
     }
     public void afficheActionSpecialeDestructionCondottiere(Bot botVise, Quartier quartierDetruit) {
         LOGGER.info("Le " + bot.toString() + " a detruit " + quartierDetruit + " du " + botVise);
